@@ -10,10 +10,10 @@
 
     <ImageView
         android:id="@+id/toolbar_centered_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/image_toolbar"
+        android:layout_width="@dimen/image_toolbar_width"
+        android:layout_height="@dimen/image_toolbar_height"
         android:layout_gravity="center_horizontal"
-        tools:src="@drawable/logo_ezytopupcopy"
+        android:background="@drawable/logo_ezytopupcopy"
         android:visibility="visible"/>
 
     <TextView
