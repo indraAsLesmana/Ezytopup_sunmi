@@ -20,9 +20,10 @@ import com.ezytopup.salesapp.R;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static void start(Activity caller, int initialTabPos) {
+    public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
-
+        caller.startActivity(intent);
+        caller.finish();
     }
 
     @Override
