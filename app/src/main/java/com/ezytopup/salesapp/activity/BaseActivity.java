@@ -1,7 +1,10 @@
 package com.ezytopup.salesapp.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
@@ -17,22 +20,27 @@ import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 public abstract class BaseActivity extends AppCompatActivity implements ActivityInterface{
 
-    private ImageView toolbar_centerImage;
+    ImageView toolbar_centerImage;
     Toolbar toolbar;
+    ActionBar actionBar;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+
         configureToolbar();
+        initSharedPreference();
     }
 
     private void configureToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            if (getSupportActionBar() != null){
-                getSupportActionBar().setDisplayShowTitleEnabled(false);
+            actionBar = getSupportActionBar();
+            if (actionBar != null){
+                actionBar.setDisplayShowTitleEnabled(false);
 
                 toolbar_centerImage = (ImageView) findViewById(R.id.toolbar_centered_logo);
                 Glide.with(this)
@@ -42,8 +50,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
                         .into(toolbar_centerImage);
             }
         }
+
+
     }
 
+    private void initSharedPreference() {
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
 
-
+    }
 }
