@@ -28,10 +28,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.Authrequest;
+import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
 
     private static final int REQUEST_READ_CONTACTS = 0;
 
@@ -58,7 +60,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -276,6 +277,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView.setAdapter(adapter);
     }
 
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public int getLayout() {
+        return R.layout.activity_login;
+    }
+
 
     private interface ProfileQuery {
         String[] PROJECTION = {
@@ -297,7 +308,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 showProgress(false);
+                PreferenceUtils.setStoreDetail(LoginActivity.this,
+                        response.body().getUser().getFirst_name(),
+                        response.body().getUser().getStore_logo());
+
+                Toast.makeText(LoginActivity.this, response.body().getUser().getAccess_token(),
+                        Toast.LENGTH_SHORT).show();
+
                 MainActivity.start(LoginActivity.this);
+
             }
 
             @Override

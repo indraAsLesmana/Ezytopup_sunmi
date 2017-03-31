@@ -28,4 +28,24 @@
     <string name="logout_fb">Logout From Facebook</string>
     <string name="signup">Sign up</string>
 
+
+    <string name="store_setting">Store Setting</string>
+    <string name="store_logo_path">file:///</string>
+
+
+    <!--Preference Configuration-->
+
+    <!-- Store name -->
+    <string name="settings_def_storename_label">Store Name</string>
+    <string name="settings_def_storename_key" translatable="false">def_store_name</string>
+    <string name="settings_def_storename_default" translatable="false">@string/app_name</string>
+    <!-- Store logo -->
+    <string name="settings_def_storelogo_label">Store Logo</string>
+    <string name="settings_def_storelogo_key" translatable="false">def_store_logo</string>
+    <string name="settings_def_storelogo_default" translatable="false">@string/store_logo_path</string>
+
+
+    <string name="print">Print</string>
+    <string name="action_print_invoice">Print invoice</string>
+
 </resources>
