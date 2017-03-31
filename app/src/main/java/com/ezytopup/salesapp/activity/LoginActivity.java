@@ -1,4 +1,4 @@
-package com.ezytopup.salesapp;
+package com.ezytopup.salesapp.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -29,7 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.ezytopup.salesapp.activity.MainActivity;
+import com.ezytopup.salesapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
