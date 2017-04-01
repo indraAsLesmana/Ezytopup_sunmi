@@ -18,7 +18,7 @@ import com.ezytopup.salesapp.utility.PreferenceUtils;
  * Created by indraaguslesmana on 3/31/17.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements ActivityInterface{
+public abstract class BaseActivity extends AppCompatActivity implements ActivityInterface {
 
     ImageView toolbar_centerImage;
     Toolbar toolbar;
@@ -59,4 +59,5 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
                 PreferenceManager.getDefaultSharedPreferences(this);
 
     }
+
 }

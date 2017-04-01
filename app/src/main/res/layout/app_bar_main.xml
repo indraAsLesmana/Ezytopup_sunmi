@@ -7,8 +7,15 @@
     android:orientation="vertical"
     tools:context="com.ezytopup.salesapp.activity.MainActivity">
 
-    <include layout="@layout/inc_toolbar"/>
-    <include layout="@layout/content_main"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/inc_toolbar"/>
+        <include layout="@layout/content_main"/>
+
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

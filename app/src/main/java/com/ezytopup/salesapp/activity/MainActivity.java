@@ -2,26 +2,21 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.R;
-import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,6 +51,24 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        initTabMenu();
+
+    }
+
+    private void initTabMenu(){
+        ViewPager mMain_Pagger = (ViewPager) findViewById(R.id.main_pagger);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+
+        RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
+                getSupportFragmentManager(), this);
+
+        mMain_Pagger.setAdapter(adapter);
+
+        // Give the TabLayout the ViewPager
+        tabLayout.setupWithViewPager(mMain_Pagger);
+
     }
 
     @Override
