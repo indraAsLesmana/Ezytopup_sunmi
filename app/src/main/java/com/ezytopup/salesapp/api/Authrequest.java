@@ -6,17 +6,18 @@ package com.ezytopup.salesapp.api;
 
 public class Authrequest {
 
+    private String token;
     //POST request
     private String provider;
-    private String token;
-    private String send_email;
+    private String email;
     private String password;
+    private String device_id;
     private User user;
 
-    public Authrequest(String provider, String token, String send_email, String password) {
+    public Authrequest(String provider, String email, String password, String device_id) {
         this.provider = provider;
-        this.token = token;
-        this.send_email = send_email;
+        this.email = email;
+        this.device_id = device_id;
         this.password = password;
     }
 

@@ -33,6 +33,8 @@ import android.widget.Toast;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.Authrequest;
+import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.util.ArrayList;
@@ -301,7 +303,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private void loginUser(String mEmail, String mPassword){
 
         Authrequest auth = new Authrequest
-                ("email", null, mEmail, mPassword);
+                (Constant.LOGIN_PROVIDER_EMAIL, mEmail, mPassword, Helper.deviceId());
 
         Call<Authrequest> call = Eztytopup.getsAPIService().login_request(auth);
         call.enqueue(new Callback<Authrequest>() {
