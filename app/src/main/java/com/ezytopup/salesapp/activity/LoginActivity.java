@@ -314,14 +314,16 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 showProgress(false);
 
-                Log.i(TAG, "onResponse: ===>" + response.toString());
+                Log.i(TAG, "onResponse: " + response.raw().toString());
 
                 PreferenceUtils.setStoreDetail(LoginActivity.this,
+                        response.body().getUser().getId(),
                         response.body().getUser().getFirst_name(),
-                        response.body().getUser().getStore_logo());
-
-                Toast.makeText(LoginActivity.this, response.body().getUser().getAccess_token(),
-                        Toast.LENGTH_SHORT).show();
+                        response.body().getUser().getLast_name(),
+                        response.body().getUser().getEmail(),
+                        response.body().getUser().getPhone_number(),
+                        response.body().getUser().getAccess_token(),
+                        response.body().getUser().getImage_user());
 
                 MainActivity.start(LoginActivity.this);
 

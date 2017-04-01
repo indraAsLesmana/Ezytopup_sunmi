@@ -44,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
 
                 toolbar_centerImage = (ImageView) findViewById(R.id.toolbar_centered_logo);
                 Glide.with(this)
-                        .load(PreferenceUtils.getSinglePrefrence(this,
+                        .load(PreferenceUtils.getSinglePrefrenceString(this,
                                 R.string.settings_def_storelogo_key))
                         .crossFade()
                         .into(toolbar_centerImage);
