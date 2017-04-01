@@ -44,6 +44,10 @@
     <string name="settings_def_storelogo_key" translatable="false">def_store_logo</string>
     <string name="settings_def_storelogo_default" translatable="false">@string/store_logo_path</string>
 
+    <!-- Store user id -->
+    <string name="settings_def_storeid_label">ID</string>
+    <string name="settings_def_storeid_key" translatable="false">def_store_id</string>
+    <string name="settings_def_storeid_default" translatable="false">0</string>
     <!-- Store user firstname -->
     <string name="settings_def_storefirst_name_label">First Name</string>
     <string name="settings_def_storefirst_name_key" translatable="false">def_first_name</string>
