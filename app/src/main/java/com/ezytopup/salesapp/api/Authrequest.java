@@ -26,14 +26,17 @@ public class Authrequest {
     }
 
     public static class User{
+
         //Response
         private int id;
-        private String email;
         private String first_name;
         private String last_name;
-        private String access_token;
-        private String token_generated_at;
+        private String email;
         private String phone_number;
+        private String access_token;
+        private String image_user;
+
+        private String token_generated_at;
         private String last_login_at;
         private String saldo;
         private String store_logo;
@@ -55,20 +58,24 @@ public class Authrequest {
             return last_name;
         }
 
-        public String getAccess_token() {
-            return access_token;
-        }
-
-        public String getToken_generated_at() {
-            return token_generated_at;
-        }
-
         public String getPhone_number() {
             return phone_number;
         }
 
+        public String getAccess_token() {
+            return access_token;
+        }
+
+        public String getImage_user() {
+            return image_user;
+        }
+
         public String getLast_login_at() {
             return last_login_at;
+        }
+
+        public String getToken_generated_at() {
+            return token_generated_at;
         }
 
         public String getSaldo() {

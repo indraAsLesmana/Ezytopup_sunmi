@@ -44,6 +44,31 @@
     <string name="settings_def_storelogo_key" translatable="false">def_store_logo</string>
     <string name="settings_def_storelogo_default" translatable="false">@string/store_logo_path</string>
 
+    <!-- Store user firstname -->
+    <string name="settings_def_storefirst_name_label">First Name</string>
+    <string name="settings_def_storefirst_name_key" translatable="false">def_first_name</string>
+    <string name="settings_def_storefirst_name_default">Guest</string>
+    <!-- Store user last_name-->
+    <string name="settings_def_storelast_name_label">Last Name</string>
+    <string name="settings_def_storelast_name_key" translatable="false">def_last_name</string>
+    <string name="settings_def_storelast_name_default">guest</string>
+    <!-- Store email -->
+    <string name="settings_def_storeemail_label">E-mail</string>
+    <string name="settings_def_storeemail_key" translatable="false">def_email</string>
+    <string name="settings_def_storeemail_default" translatable="false">youremailis@null.com</string>
+    <!-- Store phone_number -->
+    <string name="settings_def_storephone_number_label">Phone Number</string>
+    <string name="settings_def_storephone_number_key" translatable="false">def_phone_number</string>
+    <string name="settings_def_storephone_number_default" translatable="false">-</string>
+    <!-- Store access_token -->
+    <string name="settings_def_storeaccess_token_label">Access token</string>
+    <string name="settings_def_storeaccess_token_key" translatable="false">def_access_token</string>
+    <string name="settings_def_storeaccess_token_default" translatable="false">-</string>
+    <!-- Store image_user -->
+    <string name="settings_def_storeimage_user_label">User Image</string>
+    <string name="settings_def_storeimage_user_key" translatable="false">def_image_user</string>
+    <string name="settings_def_storeimage_user_default" translatable="false">-</string>
+
 
     <string name="print">Print</string>
     <string name="action_print_invoice">Print invoice</string>

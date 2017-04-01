@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +51,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
+
+    private static final String TAG = "LoginActivity";
 
     private static final int REQUEST_READ_CONTACTS = 0;
 
@@ -310,6 +313,9 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             @Override
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 showProgress(false);
+
+                Log.i(TAG, "onResponse: ===>" + response.toString());
+
                 PreferenceUtils.setStoreDetail(LoginActivity.this,
                         response.body().getUser().getFirst_name(),
                         response.body().getUser().getStore_logo());

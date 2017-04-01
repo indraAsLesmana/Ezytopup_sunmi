@@ -17,10 +17,20 @@ public class PreferenceUtils {
 
     public static void setStoreDetail (Context context, String storeName, String logoUrl){
         SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
+        editor.putString()
+
         editor.putString(context.getString(R.string.settings_def_storename_key), storeName);
         editor.putString(context.getString(R.string.settings_def_storelogo_key), logoUrl);
         editor.apply();
     }
+
+    private int id;
+    private String first_name;
+    private String last_name;
+    private String email;
+    private String phone_number;
+    private String access_token;
+    private String image_user;
 
     public static String getSinglePrefrence (Context context, int prefereceKeyName){
         String result = null;
