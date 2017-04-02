@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,13 +15,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
+import com.ezytopup.salesapp.api.ProductResponse;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivity";
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
@@ -52,11 +63,33 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         initTabMenu();
 
+        getProduct();
     }
 
+    private void getProduct() {
+
+        Call<ProductResponse> call = Eztytopup.getsAPIService().getProduct();
+        call.enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                if (response.isSuccessful()){
+                    List <ProductResponse.Result> result = response.body().getResult();
+                    List <ProductResponse.Product> product = result.get(0).getProducts();
+
+                    Toast.makeText(MainActivity.this, product.get(0).getProductName(), Toast.LENGTH_SHORT).show();
+
+                }
+                Log.i(TAG, "onResponse: " + response.message());
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
     private void initTabMenu(){
         ViewPager mMain_Pagger = (ViewPager) findViewById(R.id.main_pagger);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
