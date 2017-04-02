@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.ezytopup.salesapp.activity.LoginActivity">
+    tools:context="com.ezytopup.salesapp.activity.Login">
 
     <include layout="@layout/inc_toolbar"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -6,20 +6,17 @@ import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +34,13 @@ import com.ezytopup.salesapp.api.Authrequest;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +54,9 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
+public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "Login";
 
     private static final int REQUEST_READ_CONTACTS = 0;
 
@@ -93,7 +97,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         mEmailSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.start(LoginActivity.this);
+                MainActivity.start(Login.this);
             }
         });
 
@@ -276,7 +280,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(Login.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -314,18 +318,19 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 showProgress(false);
 
-                Log.i(TAG, "onResponse: " + response.raw().toString());
+                Toast.makeText(Login.this,
+                        response.body().getUser().getFirstName(), Toast.LENGTH_SHORT).show();
 
-                PreferenceUtils.setStoreDetail(LoginActivity.this,
+                PreferenceUtils.setStoreDetail(Login.this,
                         response.body().getUser().getId(),
-                        response.body().getUser().getFirst_name(),
-                        response.body().getUser().getLast_name(),
+                        response.body().getUser().getFirstName(),
+                        response.body().getUser().getLastName(),
                         response.body().getUser().getEmail(),
-                        response.body().getUser().getPhone_number(),
-                        response.body().getUser().getAccess_token(),
-                        response.body().getUser().getImage_user());
+                        response.body().getUser().getPhoneNumber(),
+                        response.body().getUser().getAccessToken(),
+                        response.body().getUser().getImageUser());
 
-                MainActivity.start(LoginActivity.this);
+                MainActivity.start(Login.this);
 
             }
 

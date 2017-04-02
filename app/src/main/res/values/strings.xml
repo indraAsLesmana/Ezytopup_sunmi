@@ -3,6 +3,7 @@
 
     <!-- id -->
     <string name="facebook_app_id" translatable="false">1116354245082432</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1116354245082432</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
