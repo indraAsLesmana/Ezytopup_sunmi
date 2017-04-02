@@ -28,6 +28,17 @@ public class PreferenceUtils {
         editor.putString(context.getString(R.string.settings_def_storeimage_user_key), image_user);
         editor.apply();
     }
+    public static void destroyUserSession(Context context) {
+        SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
+        editor.remove(context.getString(R.string.settings_def_storeid_key));
+        editor.remove(context.getString(R.string.settings_def_storefirst_name_key));
+        editor.remove(context.getString(R.string.settings_def_storelast_name_key));
+        editor.remove(context.getString(R.string.settings_def_storeemail_key));
+        editor.remove(context.getString(R.string.settings_def_storeemail_key));
+        editor.remove(context.getString(R.string.settings_def_storeaccess_token_key));
+        editor.remove(context.getString(R.string.settings_def_storeimage_user_key));
+        editor.apply();
+    }
 
     public static String getSinglePrefrenceString(Context context, int prefereceKeyName){
         String result = null;

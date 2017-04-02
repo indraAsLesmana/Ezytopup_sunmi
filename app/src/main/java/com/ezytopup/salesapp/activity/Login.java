@@ -3,6 +3,8 @@ package com.ezytopup.salesapp.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -65,6 +67,12 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    public static void start(Activity caller) {
+        Intent intent = new Intent(caller, Login.class);
+        caller.startActivity(intent);
+        caller.finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

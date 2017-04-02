@@ -2,6 +2,7 @@ package com.ezytopup.salesapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.ezytopup.salesapp.api.EzytopupAPI;
 import com.ezytopup.salesapp.utility.Constant;
@@ -31,7 +32,6 @@ public class Eztytopup extends Application {
     public void onCreate() {
         super.onCreate();
         sPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-
 
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
