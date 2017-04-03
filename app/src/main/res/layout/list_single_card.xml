@@ -26,7 +26,7 @@
             android:layout_marginTop="0dp" />
 
         <TextView
-            android:id="@+id/title_item"
+            android:id="@+id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
@@ -47,8 +47,8 @@
             android:layout_marginLeft="0dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@+id/title_item"
-            app:layout_constraintTop_toBottomOf="@+id/title_item"
+            app:layout_constraintLeft_toLeftOf="@+id/item_title"
+            app:layout_constraintTop_toBottomOf="@+id/item_title"
             tools:text="@string/dummy_price1" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
