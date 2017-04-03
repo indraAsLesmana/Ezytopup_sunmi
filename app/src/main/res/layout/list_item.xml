@@ -9,7 +9,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="2dp">
+        android:padding="2dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true">
 
         <TextView
             android:id="@+id/category_title"
@@ -20,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_toLeftOf="@+id/btn_more"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primary_text"
             android:textSize="16sp"
             android:typeface="sans"
             tools:text="Sample title" />
