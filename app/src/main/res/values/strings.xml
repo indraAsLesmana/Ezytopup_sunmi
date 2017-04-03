@@ -80,6 +80,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="more">More</string>
+    <string name="dummy_titlecard">Steam wallet IDR 600,000 (Digital)</string>
+    <string name="dummy_price1">Rp 718,000</string>
 
     <string-array name="dummy_data">
         <item>One</item>
