@@ -1,6 +1,7 @@
 package com.ezytopup.salesapp.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
     private ArrayList<ProductResponse.Product> itemsList;
     private Context mContext;
 
-    public SectionListDataAdapter(ArrayList<ProductResponse.Product> itemsList, Context mContext) {
+    public SectionListDataAdapter(Context mContext, ArrayList<ProductResponse.Product> itemsList) {
         this.itemsList = itemsList;
         this.mContext = mContext;
     }
@@ -43,16 +44,21 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
         holder.itemTitle.setText(singleItem.getProductName());
         holder.itemPrice.setText(singleItem.getHargaToko());
 
-        Glide.with(mContext)
-                .load(singleItem.getImageUrl())
-                .error(R.drawable.com_facebook_profile_picture_blank_square)
-                .crossFade()
-                .into(holder.itemImage);
+        if (singleItem.getImageUrl() != null){
+            Glide.with(mContext)
+                    .load(singleItem.getImageUrl())
+                    .error(R.drawable.com_facebook_profile_picture_blank_square)
+                    .crossFade()
+                    .into(holder.itemImage);
+        }else {
+            holder.itemImage.setImageDrawable(ContextCompat.getDrawable(mContext,
+                    R.drawable.com_facebook_profile_picture_blank_square ));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return (null != itemsList ? itemsList.size() : 0);
     }
 
     public class SingleItemHolde extends RecyclerView.ViewHolder {

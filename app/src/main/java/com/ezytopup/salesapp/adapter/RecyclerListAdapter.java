@@ -44,7 +44,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerListAdapt
         holder.categoryTitle.setText(sectionName);
 
         SectionListDataAdapter itemListDataAdapter =
-                new SectionListDataAdapter(singleSectionItems, mContext);
+                new SectionListDataAdapter(mContext, singleSectionItems);
 
         holder.recycler_view_list.setHasFixedSize(true);
         holder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext,

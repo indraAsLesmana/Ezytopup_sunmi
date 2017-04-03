@@ -61,6 +61,8 @@ public class HomeFragment extends Fragment {
         adapter = new RecyclerListAdapter(getContext(), allProductdata);
         my_recycler_view.setAdapter(adapter);
 
+//        createDummyData();
+
         getProduct();
         return rootView;
     }
@@ -72,7 +74,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                 if (response.isSuccessful()){
-                    allProductdata = (ArrayList<ProductResponse.Result>) response.body().getResult();
+                    allProductdata = response.body().getResult();
                     adapter.notifyDataSetChanged();
                 }
                 Log.i(TAG, "onResponse: " + response.message());
@@ -83,5 +85,24 @@ public class HomeFragment extends Fragment {
                 Log.i(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    public void createDummyData() {
+        for (int i = 1; i <= 5; i++) {
+
+            ProductResponse.Result dm = new ProductResponse.Result();
+
+            dm.setCategoryId("1");
+            dm.setCategoryName("Section " + i);
+
+            ArrayList<ProductResponse.Product> singleItem = new ArrayList<>();
+            for (int j = 0; j <= 5; j++) {
+                singleItem.add(new ProductResponse.Product("1", "Steam Wallet IDR", "Rp 700.000", "aaa", "sss"));
+            }
+            dm.setProducts(singleItem);
+            allProductdata.add(dm);
+
+        }
+        adapter.notifyDataSetChanged();
     }
 }

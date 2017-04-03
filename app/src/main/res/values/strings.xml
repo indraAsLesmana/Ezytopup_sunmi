@@ -83,6 +83,7 @@
     <string name="more">More</string>
     <string name="dummy_titlecard">Steam wallet IDR 600,000 (Digital)</string>
     <string name="dummy_price1">Rp 718,000</string>
+    <string name="max_lines_item_titles" translatable="false">3</string>
 
     <string-array name="dummy_data">
         <item>One</item>

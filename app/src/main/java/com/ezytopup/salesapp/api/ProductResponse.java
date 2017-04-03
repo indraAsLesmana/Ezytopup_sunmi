@@ -3,6 +3,7 @@ package com.ezytopup.salesapp.api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,9 +14,9 @@ public class ProductResponse {
 
     @SerializedName("result")
     @Expose
-    private List<Result> result = null;
+    private ArrayList<Result> result = null;
 
-    public List<Result> getResult() {
+    public ArrayList<Result> getResult() {
         return result;
     }
 
@@ -29,7 +30,7 @@ public class ProductResponse {
         private String categoryName;
         @SerializedName("products")
         @Expose
-        private List<Product> products = null;
+        private ArrayList<Product> products = null;
 
         public String getCategoryId() {
             return categoryId;
@@ -39,9 +40,23 @@ public class ProductResponse {
             return categoryName;
         }
 
-        public List<Product> getProducts() {
+        public ArrayList<Product> getProducts() {
             return products;
         }
+
+        public void setCategoryId(String categoryId) {
+            this.categoryId = categoryId;
+        }
+
+        public void setCategoryName(String categoryName) {
+            this.categoryName = categoryName;
+        }
+
+        public void setProducts(ArrayList<Product> products) {
+            this.products = products;
+        }
+
+
     }
 
     public static class Product {
@@ -80,6 +95,14 @@ public class ProductResponse {
 
         public String getBackgroundImageUrl() {
             return backgroundImageUrl;
+        }
+
+        public Product(String productId, String productName, String hargaToko, String imageUrl, String backgroundImageUrl) {
+            this.productId = productId;
+            this.productName = productName;
+            this.hargaToko = hargaToko;
+            this.imageUrl = imageUrl;
+            this.backgroundImageUrl = backgroundImageUrl;
         }
     }
 
