@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="5dp"
     tools:context="com.ezytopup.salesapp.fragment.HomeFragment">
@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_toLeftOf="@+id/btn_more"
-            android:text="Sample title"
+            tools:text="Sample title"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -31,15 +31,16 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="more"
-            android:textColor="#FFF" />
+            android:text="@string/more"
+            android:background="@android:color/transparent"
+            android:textColor="@color/colorAccent" />
 
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/data_list"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal" />
 
