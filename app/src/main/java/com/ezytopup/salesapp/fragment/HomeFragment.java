@@ -61,8 +61,6 @@ public class HomeFragment extends Fragment {
         adapter = new RecyclerListAdapter(getContext(), allProductdata);
         my_recycler_view.setAdapter(adapter);
 
-//        createDummyData();
-
         getProduct();
         return rootView;
     }
