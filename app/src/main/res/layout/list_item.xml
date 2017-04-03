@@ -20,20 +20,22 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_toLeftOf="@+id/btn_more"
-            tools:text="Sample title"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:typeface="sans"
+            tools:text="Sample title" />
 
         <Button
             android:id="@+id/btn_more"
             android:layout_width="wrap_content"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="@string/more"
             android:background="@android:color/transparent"
-            android:textColor="@color/colorAccent" />
+            android:text="@string/more"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 

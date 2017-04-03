@@ -13,7 +13,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabIndicatorColor">@color/primary_light</item>
         <item name="tabTextAppearance">@style/MyCustomTextAppearance</item> <!--make default All caps change-->
         <item name="tabBackground">@color/colorPrimary</item>
         <item name="tabSelectedTextColor">@android:color/white</item> <!--change text color if selected-->
