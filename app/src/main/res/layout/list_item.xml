@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="2dp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true">
 
@@ -23,21 +24,23 @@
             android:layout_gravity="center_vertical"
             android:layout_toLeftOf="@+id/btn_more"
             android:textColor="@color/primary_text"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:textSize="16sp"
             android:typeface="sans"
             tools:text="Sample title" />
 
-        <Button
+        <TextView
             android:id="@+id/btn_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
             android:background="@android:color/transparent"
             android:text="@string/more"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

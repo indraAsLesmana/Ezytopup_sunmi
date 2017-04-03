@@ -13,7 +13,7 @@
         android:layout_width="@dimen/image_toolbar_width"
         android:layout_height="@dimen/image_toolbar_height"
         android:layout_gravity="center_horizontal"
-        tools:background="@drawable/logo_ezytopupcopy"
+        android:background="@drawable/logo_ezytopupcopy"
         android:visibility="visible"/>
 
     <TextView

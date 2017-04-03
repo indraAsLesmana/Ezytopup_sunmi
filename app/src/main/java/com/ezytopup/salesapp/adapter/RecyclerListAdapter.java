@@ -65,15 +65,14 @@ public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerListAdapt
     }
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
-        private TextView categoryTitle;
+        private TextView categoryTitle, btnMore;
         private RecyclerView recycler_view_list;
-        private Button btnMore;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
             this.categoryTitle = (TextView) itemView.findViewById(R.id.category_title);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.data_list);
-            this.btnMore = (Button) itemView.findViewById(R.id.btn_more);
+            this.btnMore = (TextView) itemView.findViewById(R.id.btn_more);
         }
     }
 }
