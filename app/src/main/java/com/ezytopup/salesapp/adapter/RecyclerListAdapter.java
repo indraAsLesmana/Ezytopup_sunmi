@@ -110,12 +110,13 @@ public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerView.View
         }
     }
 
+
     class VHHeader extends RecyclerView.ViewHolder{
         private SliderLayout sliderLayout;
 
         public VHHeader(View itemView) {
             super(itemView);
-            sliderLayout = (SliderLayout)itemView.findViewById(R.id.slider);
+            sliderLayout = (SliderLayout) itemView.findViewById(R.id.slider);
         }
     }
 

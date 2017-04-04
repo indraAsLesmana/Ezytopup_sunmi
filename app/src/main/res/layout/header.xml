@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.daimajia.slider.library.SliderLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/slider"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp">
-</com.daimajia.slider.library.SliderLayout>
+
+    <com.daimajia.slider.library.SliderLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+    </com.daimajia.slider.library.SliderLayout>
+
+</FrameLayout>

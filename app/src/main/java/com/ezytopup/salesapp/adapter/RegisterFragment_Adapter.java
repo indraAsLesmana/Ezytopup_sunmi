@@ -20,10 +20,10 @@ public class RegisterFragment_Adapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[]{"Home", "Favorite", "History", "Search"};
     private Context mContext;
 
-    private static final int SIGN = 0;
-    private static final int REGISTER = 1;
-    private static final int A = 2;
-    private static final int B = 3;
+    private static final int HOME = 0;
+    private static final int FAVORITE = 1;
+    private static final int HISTORY = 2;
+    private static final int SEARCH = 3;
 
     public RegisterFragment_Adapter(FragmentManager fm, Context context) {
         super(fm);
@@ -33,16 +33,16 @@ public class RegisterFragment_Adapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case SIGN:
+            case HOME:
                 return new HomeFragment();
-            case REGISTER:
-                return new FavoriteFragment();
-            case A:
-                return new FavoriteFragment();
-            case B:
-                return new FavoriteFragment();
+            case FAVORITE:
+                return new HomeFragment();
+            case HISTORY:
+                return new HomeFragment();
+            case SEARCH:
+                return new HomeFragment();
             default:
-                return new FavoriteFragment();
+                return new HomeFragment();
         }
     }
 

@@ -76,10 +76,8 @@ public class MainActivity extends BaseActivity
         RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
                 getSupportFragmentManager(), this);
 
-        mMain_Pagger.setOffscreenPageLimit(4); //
+//        mMain_Pagger.setOffscreenPageLimit(4); destroy view pagger
         mMain_Pagger.setAdapter(adapter);
-
-        // Give the TabLayout the ViewPager
         tabLayout.setupWithViewPager(mMain_Pagger);
 
     }
@@ -96,16 +94,12 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
