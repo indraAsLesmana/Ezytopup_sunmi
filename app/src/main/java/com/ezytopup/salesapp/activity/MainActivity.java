@@ -2,14 +2,13 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,20 +16,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
-import com.ezytopup.salesapp.adapter.RecyclerListAdapter;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
-import com.ezytopup.salesapp.api.ProductResponse;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
+import com.ezytopup.salesapp.utility.Constant;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,7 +67,6 @@ public class MainActivity extends BaseActivity
         RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
                 getSupportFragmentManager(), this);
 
-//        mMain_Pagger.setOffscreenPageLimit(4); destroy view pagger
         mMain_Pagger.setAdapter(adapter);
         tabLayout.setupWithViewPager(mMain_Pagger);
 
@@ -113,22 +103,55 @@ public class MainActivity extends BaseActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        /*if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch (item.getItemId()){
+            case R.id.nav_print:
+                ThreadPoolManager.getInstance().executeTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        if( Eztytopup.getmBitmap() == null ){
+                        /*Change store logo, here...*/
+                            Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
+                                    R.raw.ezy_for_print));
+                        }
+                        try {
+                            String[] text = new String[4];// 4 = set total column
+                            for (int i = 0; i < 4; i++) { // 4 = set total looping content buy
+                                if (i == 0){
+                                /*logo*/
+                                    Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
+                                    Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(), Eztytopup.getCallback());
+                                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                                    Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
+                                /*header*/
+                                    text[0] = Constant.ROW_NAME;
+                                    text[1] = Constant.ROW_QUANTITY;
+                                    text[2] = Constant.ROW_PRICE;
+                                    text[3] = Constant.ROW_TOTAL_PRICE;
+                                /*print*/
+                                    Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
+                                            Constant.align_header, Eztytopup.getCallback());
+                                }else {
+                                    text[0] = "Steam IDR" + i;
+                                    text[1] = "1";
+                                    text[2] = "72.00";
+                                    text[3] = "48.00";
+                                    Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
+                                            Constant.align, Eztytopup.getCallback());
+                                }
 
-        } else if (id == R.id.nav_slideshow) {
+                            }
+                        /* make space*/
+                            Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
+                        } catch (RemoteException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                });
+             break;
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
