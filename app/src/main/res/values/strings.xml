@@ -84,6 +84,12 @@
     <string name="dummy_titlecard">Steam wallet IDR 600,000 (Digital) Gameschool</string>
     <string name="dummy_price1">Rp 718,000</string>
     <string name="max_lines_item_titles" translatable="false">2</string>
+    <string name="inbox">Inbox</string>
+    <string name="faq">Faq</string>
+    <string name="term_and_condition">Term and condition</string>
+    <string name="ezytopup_guide">Ezytopup guide</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="contactus">Contact us</string>
 
     <string-array name="dummy_data">
         <item>One</item>

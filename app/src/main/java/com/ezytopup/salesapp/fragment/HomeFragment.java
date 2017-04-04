@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_home, container, false);
 
-        headerImages = (SliderLayout) rootView.findViewById(R.id.slider);
+//        headerImages = (SliderLayout) rootView.findViewById(R.id.slider);
         my_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         my_recycler_view.setHasFixedSize(true);
         my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
