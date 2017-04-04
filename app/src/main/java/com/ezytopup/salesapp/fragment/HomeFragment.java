@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daimajia.slider.library.SliderLayout;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.activity.MainActivity;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView my_recycler_view;
     private RecyclerListAdapter adapter;
     private static final String TAG = "HomeFragment";
+    private SliderLayout headerImages;
 
 
     public HomeFragment() {
@@ -55,6 +57,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_home, container, false);
 
+        headerImages = (SliderLayout) rootView.findViewById(R.id.slider);
         my_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         my_recycler_view.setHasFixedSize(true);
         my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -85,22 +88,5 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void createDummyData() {
-        for (int i = 1; i <= 5; i++) {
 
-            ProductResponse.Result dm = new ProductResponse.Result();
-
-            dm.setCategoryId("1");
-            dm.setCategoryName("Section " + i);
-
-            ArrayList<ProductResponse.Product> singleItem = new ArrayList<>();
-            for (int j = 0; j <= 5; j++) {
-                singleItem.add(new ProductResponse.Product("1", "Steam Wallet IDR", "Rp 700.000", "aaa", "sss"));
-            }
-            dm.setProducts(singleItem);
-            allProductdata.add(dm);
-
-        }
-        adapter.notifyDataSetChanged();
-    }
 }
