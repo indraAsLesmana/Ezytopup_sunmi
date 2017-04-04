@@ -1,14 +1,21 @@
 package com.ezytopup.salesapp.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.daimajia.slider.library.Indicators.PagerIndicator;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.ProductResponse;
 
@@ -19,10 +26,13 @@ import java.util.List;
  * Created by indraaguslesmana on 4/3/17.
  */
 
-public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerListAdapter.ItemRowHolder>{
+public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder>{
 
     private ArrayList<ProductResponse.Result> dataList;
     private Context mContext;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
+    private static final String TAG = "RecyclerListAdapter";
 
     public RecyclerListAdapter(Context mContext, ArrayList<ProductResponse.Result> dataList) {
         this.dataList = dataList;
@@ -30,29 +40,65 @@ public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerListAdapt
     }
 
     @Override
-    public ItemRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, null);
-        ItemRowHolder mh = new ItemRowHolder(v);
-        return mh;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER ){
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.header, null);
+            return new VHHeader(v);
+
+        }else if (viewType == TYPE_ITEM){
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, null);
+            return new RecyclerListAdapter.ItemRowHolder(v);
+        }
+        throw new RuntimeException("No match " + viewType + ".");
     }
 
     @Override
-    public void onBindViewHolder(ItemRowHolder holder, int position) {
-        final String sectionName = dataList.get(position).getCategoryName();
-        ArrayList singleSectionItems = (ArrayList) dataList.get(position).getProducts();
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch (holder.getItemViewType()){
+            case TYPE_HEADER:
 
-        holder.categoryTitle.setText(sectionName);
+                VHHeader vhHeader = (VHHeader) holder;
+                TextSliderView textSliderView = new TextSliderView(mContext);
 
-        SectionListDataAdapter itemListDataAdapter =
-                new SectionListDataAdapter(mContext, singleSectionItems);
+                textSliderView
+                        .image(R.drawable.header1)
+                        .setScaleType(BaseSliderView.ScaleType.Fit);
+                vhHeader.sliderLayout.addSlider(textSliderView);
+                vhHeader.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                vhHeader.sliderLayout.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
+                vhHeader.sliderLayout.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
 
-        holder.recycler_view_list.setHasFixedSize(true);
-        holder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext,
-                LinearLayoutManager.HORIZONTAL, false));
-        holder.recycler_view_list.setAdapter(itemListDataAdapter);
+                break;
+
+            case TYPE_ITEM:
+
+                String sectionName = dataList.get(position).getCategoryName();
+                ArrayList singleSectionItems = (ArrayList) dataList.get(position).getProducts();
+                SectionListDataAdapter itemListDataAdapter =
+                        new SectionListDataAdapter(mContext, singleSectionItems);
+                ItemRowHolder itemRowHolder = (ItemRowHolder) holder;
+                itemRowHolder.categoryTitle.setText(sectionName);
+
+                itemRowHolder.recycler_view_list.setHasFixedSize(true);
+                itemRowHolder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext,
+                        LinearLayoutManager.HORIZONTAL, false));
+                itemRowHolder.recycler_view_list.setAdapter(itemListDataAdapter);
+                itemRowHolder.recycler_view_list.setNestedScrollingEnabled(false);
+
+                break;
+
+        }
+    }
 
 
-        holder.recycler_view_list.setNestedScrollingEnabled(false);
+    private boolean isPositionHeader(int position) {
+        return position == 0;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(isPositionHeader(position)) return TYPE_HEADER;
+        return TYPE_ITEM;
     }
 
     @Override
@@ -61,6 +107,15 @@ public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerListAdapt
             return dataList.size();
         } else {
             return 0;
+        }
+    }
+
+    class VHHeader extends RecyclerView.ViewHolder{
+        private SliderLayout sliderLayout;
+
+        public VHHeader(View itemView) {
+            super(itemView);
+            sliderLayout = (SliderLayout)itemView.findViewById(R.id.slider);
         }
     }
 

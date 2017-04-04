@@ -76,6 +76,7 @@ public class MainActivity extends BaseActivity
         RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
                 getSupportFragmentManager(), this);
 
+        mMain_Pagger.setOffscreenPageLimit(4); //
         mMain_Pagger.setAdapter(adapter);
 
         // Give the TabLayout the ViewPager

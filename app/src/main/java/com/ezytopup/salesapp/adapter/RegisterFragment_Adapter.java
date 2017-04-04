@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.text.Spannable;
 import android.text.SpannableString;
 
+import com.ezytopup.salesapp.fragment.FavoriteFragment;
 import com.ezytopup.salesapp.fragment.HomeFragment;
 
 
@@ -35,13 +36,13 @@ public class RegisterFragment_Adapter extends FragmentPagerAdapter {
             case SIGN:
                 return new HomeFragment();
             case REGISTER:
-                return new HomeFragment();
+                return new FavoriteFragment();
             case A:
-                return new HomeFragment();
+                return new FavoriteFragment();
             case B:
-                return new HomeFragment();
+                return new FavoriteFragment();
             default:
-                return new HomeFragment();
+                return new FavoriteFragment();
         }
     }
 
