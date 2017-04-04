@@ -12,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.activity.MainActivity;
@@ -57,14 +60,16 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_home, container, false);
 
-//        headerImages = (SliderLayout) rootView.findViewById(R.id.slider);
+        headerImages = (SliderLayout) rootView.findViewById(R.id.slider);
         my_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         my_recycler_view.setHasFixedSize(true);
         my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         adapter = new RecyclerListAdapter(getContext(), allProductdata);
         my_recycler_view.setAdapter(adapter);
 
+        if (getImage()) headerImages.setVisibility(View.VISIBLE);
         getProduct();
+
         return rootView;
     }
 
@@ -86,6 +91,30 @@ public class HomeFragment extends Fragment {
                 Log.i(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private boolean getImage() {
+
+        TextSliderView textSliderView = new TextSliderView(getActivity());
+        // initialize a SliderLayout
+        textSliderView
+                .description("")
+                .image(R.drawable.header1)
+                .setScaleType(BaseSliderView.ScaleType.Fit);
+
+        //add your extra information
+        textSliderView.bundle(new Bundle());
+        textSliderView.getBundle()
+                .putString("extra", "12");
+
+        headerImages.addSlider(textSliderView);
+
+        headerImages.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        headerImages.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        headerImages.setCustomAnimation(new DescriptionAnimation());
+        headerImages.setDuration(3000);
+        headerImages.setPresetTransformer("ZoomOut");
+        return true;
     }
 
 
