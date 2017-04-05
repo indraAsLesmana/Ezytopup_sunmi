@@ -43,6 +43,8 @@ public class Eztytopup extends Application {
     private static IWoyouService woyouService;
     private static ICallback callback = null;
 
+    private final String HEADER_KEY1 = "application_id";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -59,7 +61,7 @@ public class Eztytopup extends Application {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request request = chain.request().newBuilder()
-                                .addHeader("application_id", "Ezy_Apps_WGS")
+                                .addHeader(HEADER_KEY1, "Ezy_Apps_WGS")
                                 .build();
                         return chain.proceed(request);
                     }
