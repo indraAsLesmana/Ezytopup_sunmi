@@ -11,6 +11,9 @@ import java.util.Random;
 
 public class Helper {
 
+    /**
+     * this method require to complete API parameter, from another developer
+     * */
     public static String deviceId(){
         //register device_id
         DateFormat dateFormatter = new SimpleDateFormat("yyyyMMddhhmmss");

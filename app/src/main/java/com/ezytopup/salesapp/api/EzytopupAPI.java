@@ -23,15 +23,21 @@ public interface EzytopupAPI {
     /**
      * Live version
      * */
-    @POST("WGS_API_login.php?" + Constant.API_URL_PARAM1 + Constant.API_URL_PARAM1_VALUE + "&" + Constant.API_URL_PARAM2 + Constant.API_URL_PARAM2_VALUE)
+    /*@POST("WGS_API_login.php?" + Constant.API_URL_PARAM1 + Constant.API_URL_PARAM1_VALUE + "&" + Constant.API_URL_PARAM2 + Constant.API_URL_PARAM2_VALUE)
+    Call<Authrequest> login_request (@Body Authrequest authrequest);*/
+
+    @POST("WGS_API_login.php?" + Constant.API_URL_GENERALUSAGE)
     Call<Authrequest> login_request (@Body Authrequest authrequest);
 
-    @GET("WGS_API_products.php?" + Constant.API_URL_PARAM1 + Constant.API_URL_PARAM1_VALUE + "&" + Constant.API_URL_PARAM2 + Constant.API_URL_PARAM2_VALUE)
+    @GET("WGS_API_products.php?" + Constant.API_URL_GENERALUSAGE)
     Call<ProductResponse> getProduct();
 
-    @GET("WGS_API_getHeaderImages.php?" + Constant.API_URL_PARAM1 + Constant.API_URL_PARAM1_VALUE + "&" + Constant.API_URL_PARAM2 + Constant.API_URL_PARAM2_VALUE)
+    @GET("WGS_API_getHeaderImages.php?" + Constant.API_URL_GENERALUSAGE)
     Call<HeaderimageResponse> getImageHeader();
 
-    @GET("WGS_API_best_seller_products.php?" + Constant.API_URL_PARAM1 + Constant.API_URL_PARAM1_VALUE + "&" + Constant.API_URL_PARAM2 + Constant.API_URL_PARAM2_VALUE)
+    @GET("WGS_API_best_seller_products.php?" + Constant.API_URL_GENERALUSAGE)
     Call<BestSellerResponse> getBestSeller();
+
+    @GET("WGS_API_search_products.php" + Constant.API_URL_GENERALUSAGE)
+    Call<SearchResponse> getSearch();
 }
