@@ -1,17 +1,13 @@
 package com.ezytopup.salesapp.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -20,7 +16,6 @@ import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.ProductResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by indraaguslesmana on 4/3/17.
@@ -46,7 +41,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerView.View
             return new VHHeader(v);
 
         }else if (viewType == TYPE_ITEM){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, null);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_home, null);
             return new RecyclerListAdapter.ItemRowHolder(v);
         }
         throw new RuntimeException("No match " + viewType + ".");

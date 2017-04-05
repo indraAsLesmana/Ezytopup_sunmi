@@ -90,6 +90,9 @@
     <string name="ezytopup_guide">Ezytopup guide</string>
     <string name="tutorial">Tutorial</string>
     <string name="contactus">Contact us</string>
+    <string name="category">Category</string>
+    <string name="price">Price</string>
+    <string name="dummy_category">Playstation network</string>
 
     <string-array name="dummy_data">
         <item>One</item>

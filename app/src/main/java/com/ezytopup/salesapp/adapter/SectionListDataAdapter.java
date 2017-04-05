@@ -3,7 +3,6 @@ package com.ezytopup.salesapp.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.daimajia.slider.library.Indicators.PagerIndicator;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.ProductResponse;
 
@@ -39,7 +34,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
 
     @Override
     public SingleItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_single_card, null);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_singlecard_home, null);
         return new SingleItemHolder(v);
     }
 
