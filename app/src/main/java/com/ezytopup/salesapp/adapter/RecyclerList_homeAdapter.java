@@ -21,15 +21,15 @@ import java.util.ArrayList;
  * Created by indraaguslesmana on 4/3/17.
  */
 
-public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder>{
+public class RecyclerList_homeAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder>{
 
     private ArrayList<ProductResponse.Result> dataList;
     private Context mContext;
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
-    private static final String TAG = "RecyclerListAdapter";
+    private static final String TAG = "RecyclerList_homeAdapter";
 
-    public RecyclerListAdapter(Context mContext, ArrayList<ProductResponse.Result> dataList) {
+    public RecyclerList_homeAdapter(Context mContext, ArrayList<ProductResponse.Result> dataList) {
         this.dataList = dataList;
         this.mContext = mContext;
     }
@@ -42,7 +42,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter <RecyclerView.View
 
         }else if (viewType == TYPE_ITEM){
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_home, null);
-            return new RecyclerListAdapter.ItemRowHolder(v);
+            return new RecyclerList_homeAdapter.ItemRowHolder(v);
         }
         throw new RuntimeException("No match " + viewType + ".");
     }

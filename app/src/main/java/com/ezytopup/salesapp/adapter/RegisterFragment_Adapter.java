@@ -36,7 +36,7 @@ public class RegisterFragment_Adapter extends FragmentPagerAdapter {
             case HOME:
                 return new HomeFragment();
             case FAVORITE:
-                return new HomeFragment();
+                return new FavoriteFragment();
             case HISTORY:
                 return new HomeFragment();
             case SEARCH:

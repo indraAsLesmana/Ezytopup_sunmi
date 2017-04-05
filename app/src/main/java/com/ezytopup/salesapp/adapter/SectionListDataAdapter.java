@@ -51,9 +51,6 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
                     .error(R.drawable.com_facebook_profile_picture_blank_square)
                     .crossFade()
                     .into(holder.itemImage);
-        }else {
-            holder.itemImage.setImageDrawable(ContextCompat.getDrawable(mContext,
-                    R.drawable.com_facebook_profile_picture_blank_square ));
         }
     }
 

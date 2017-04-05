@@ -1,7 +1,5 @@
 package com.ezytopup.salesapp.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,17 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
 
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
-import com.ezytopup.salesapp.activity.MainActivity;
-import com.ezytopup.salesapp.adapter.RecyclerListAdapter;
+import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
 import com.ezytopup.salesapp.api.ProductResponse;
 
 import java.util.ArrayList;
@@ -40,7 +35,7 @@ public class HomeFragment extends Fragment {
 
     private ArrayList<ProductResponse.Result> allProductdata;
     private RecyclerView my_recycler_view;
-    private RecyclerListAdapter adapter;
+    private RecyclerList_homeAdapter adapter;
     private static final String TAG = "HomeFragment";
     private SliderLayout headerImages;
 
@@ -67,7 +62,7 @@ public class HomeFragment extends Fragment {
         my_recycler_view.setHasFixedSize(true);
         my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        adapter = new RecyclerListAdapter(getContext(), allProductdata);
+        adapter = new RecyclerList_homeAdapter(getContext(), allProductdata);
         my_recycler_view.setAdapter(adapter);
 
         headerImages = (SliderLayout) rootView.findViewById(R.id.slider);
