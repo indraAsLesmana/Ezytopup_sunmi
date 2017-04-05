@@ -21,12 +21,26 @@
                 android:id="@+id/slider"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:visibility="visible">
+                android:layout_marginTop="?attr/actionBarSize">
             </com.daimajia.slider.library.SliderLayout>
 
-            <include
-                layout="@layout/inc_toolbar"
-                app:layout_collapseMode="parallax" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:elevation="@dimen/toolbar_elevation"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin">
+
+                <ImageView
+                    android:id="@+id/toolbar_centered_logo"
+                    android:layout_width="@dimen/image_toolbar_width"
+                    android:layout_height="@dimen/image_toolbar_height"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/logo_ezytopupcopy"/>
+
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
