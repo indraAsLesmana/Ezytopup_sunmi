@@ -65,10 +65,6 @@ public class HomeFragment extends Fragment {
         adapter = new RecyclerList_homeAdapter(getContext(), allProductdata);
         my_recycler_view.setAdapter(adapter);
 
-        headerImages = (SliderLayout) rootView.findViewById(R.id.slider);
-
-
-//        if (getImage()) headerImages.setVisibility(View.VISIBLE);
         return rootView;
     }
 
@@ -90,22 +86,6 @@ public class HomeFragment extends Fragment {
                 Log.i(TAG, "onFailure: " + t.getMessage());
             }
         });
-    }
-
-    private boolean getImage() {
-
-        TextSliderView textSliderView = new TextSliderView(getActivity());
-        // initialize a SliderLayout
-        textSliderView
-                .image(R.drawable.header1)
-                .setScaleType(BaseSliderView.ScaleType.Fit);
-        headerImages.addSlider(textSliderView);
-
-        headerImages.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        headerImages.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
-        headerImages.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
-
-        return true;
     }
 
 

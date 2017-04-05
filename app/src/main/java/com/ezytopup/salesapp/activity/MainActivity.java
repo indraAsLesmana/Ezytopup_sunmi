@@ -17,6 +17,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.daimajia.slider.library.Indicators.PagerIndicator;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
@@ -27,6 +31,8 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
+    private SliderLayout headerImages;
+
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
@@ -57,7 +63,25 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        headerImages = (SliderLayout) findViewById(R.id.slider);
+        getImage();
+
         initTabMenu();
+    }
+
+    private void getImage() {
+
+        TextSliderView textSliderView = new TextSliderView(this);
+        // initialize a SliderLayout
+        textSliderView
+                .image(R.drawable.header1)
+                .setScaleType(BaseSliderView.ScaleType.Fit);
+        headerImages.addSlider(textSliderView);
+
+        headerImages.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        headerImages.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
+        headerImages.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
+
     }
 
     private void initTabMenu(){
