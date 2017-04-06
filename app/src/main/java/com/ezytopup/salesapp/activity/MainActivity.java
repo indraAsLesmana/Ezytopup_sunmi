@@ -47,15 +47,6 @@ public class MainActivity extends BaseActivity
         actionBar.setElevation(0);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -92,7 +83,7 @@ public class MainActivity extends BaseActivity
 
         RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
                 getSupportFragmentManager(), this);
-
+//        mMain_Pagger.setOffscreenPageLimit(4);
         mMain_Pagger.setAdapter(adapter);
         tabLayout.setupWithViewPager(mMain_Pagger);
 
@@ -119,7 +110,7 @@ public class MainActivity extends BaseActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_settings);
         item.setEnabled(true);
-//        item.getIcon().setAlpha(0);
+        item.getIcon().setAlpha(0);
         return super.onPrepareOptionsMenu(menu);
 
     }
