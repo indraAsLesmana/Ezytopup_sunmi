@@ -3,6 +3,7 @@ package com.ezytopup.salesapp.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,8 @@ public class FavoriteFragment extends Fragment {
     private RecyclerView my_recycler_view;
     private RecyclerList_favoriteAdapter adapter;
     private static final String TAG = "FavoriteFragment";
+    private View rootView;
+
 
     public FavoriteFragment() {
         // Required empty public constructor
@@ -50,7 +53,7 @@ public class FavoriteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.fragment_favorite, container, false);
+        rootView = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         my_recycler_view = (RecyclerView) rootView.findViewById(R.id.rc_favorite_recycle);
         my_recycler_view.setHasFixedSize(true);
@@ -78,6 +81,13 @@ public class FavoriteFragment extends Fragment {
             @Override
             public void onFailure(Call<BestSellerResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure: " + t.getMessage());
+                final Snackbar snackbar = Snackbar.make(rootView, t.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                }).show();
             }
         });
     }

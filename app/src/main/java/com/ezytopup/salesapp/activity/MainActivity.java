@@ -30,6 +30,7 @@ import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.ProductResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
 
 import java.util.ArrayList;
 
@@ -66,8 +67,19 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerImages = (SliderLayout) findViewById(R.id.slider);
-        getImage();
 
+        TextSliderView textSliderView = new TextSliderView(MainActivity.this);
+        textSliderView
+                .image(R.drawable.header1)
+                .setScaleType(BaseSliderView.ScaleType.Fit);
+
+        headerImages.addSlider(textSliderView);
+        headerImages.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        headerImages.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
+        headerImages.setDuration(Constant.HEADER_DURATION);
+        headerImages.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
+
+        getImage();
         initTabMenu();
     }
 
@@ -99,18 +111,9 @@ public class MainActivity extends BaseActivity
 
             @Override
             public void onFailure(Call<HeaderimageResponse> call, Throwable t) {
-                TextSliderView textSliderView = new TextSliderView(MainActivity.this);
-                textSliderView
-                        .image(R.drawable.header1)
-                        .setScaleType(BaseSliderView.ScaleType.Fit);
-                headerImages.addSlider(textSliderView);
+
             }
         });
-
-        headerImages.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        headerImages.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
-        headerImages.setDuration(Constant.HEADER_DURATION);
-        headerImages.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
     }
 
     private void initTabMenu(){

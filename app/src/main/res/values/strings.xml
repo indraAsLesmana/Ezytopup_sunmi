@@ -94,6 +94,8 @@
     <string name="price">Price</string>
     <string name="dummy_category">Playstation network</string>
     <string name="add_tocart">Add to cart</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="progress_title_default">Please wait...</string>
 
     <string-array name="dummy_data">
         <item>One</item>
