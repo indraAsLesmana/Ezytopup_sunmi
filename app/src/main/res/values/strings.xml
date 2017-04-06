@@ -93,6 +93,7 @@
     <string name="category">Category</string>
     <string name="price">Price</string>
     <string name="dummy_category">Playstation network</string>
+    <string name="add_tocart">Add to cart</string>
 
     <string-array name="dummy_data">
         <item>One</item>

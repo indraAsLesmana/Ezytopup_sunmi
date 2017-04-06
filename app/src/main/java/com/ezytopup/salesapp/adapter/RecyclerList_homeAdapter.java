@@ -21,12 +21,10 @@ import java.util.ArrayList;
  * Created by indraaguslesmana on 4/3/17.
  */
 
-public class RecyclerList_homeAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder>{
+public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_homeAdapter.ItemRowHolder> {
 
     private ArrayList<ProductResponse.Result> dataList;
     private Context mContext;
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_ITEM = 1;
     private static final String TAG = "RecyclerList_homeAdapter";
 
     public RecyclerList_homeAdapter(Context mContext, ArrayList<ProductResponse.Result> dataList) {
@@ -35,85 +33,37 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter <RecyclerView
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER ){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.header, null);
-            return new VHHeader(v);
-
-        }else if (viewType == TYPE_ITEM){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_home, null);
-            return new RecyclerList_homeAdapter.ItemRowHolder(v);
-        }
-        throw new RuntimeException("No match " + viewType + ".");
+    public ItemRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_home, null);
+        return new RecyclerList_homeAdapter.ItemRowHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()){
-            case TYPE_HEADER:
+    public void onBindViewHolder(ItemRowHolder holder, int position) {
+        String sectionName = dataList.get(position).getCategoryName();
+        ArrayList singleSectionItems = (ArrayList) dataList.get(position).getProducts();
+        SectionListDataAdapter itemListDataAdapter =
+                new SectionListDataAdapter(mContext, singleSectionItems);
 
-                VHHeader vhHeader = (VHHeader) holder;
-                TextSliderView textSliderView = new TextSliderView(mContext);
+        holder.categoryTitle.setText(sectionName);
 
-                textSliderView
-                        .image(R.drawable.header1)
-                        .setScaleType(BaseSliderView.ScaleType.Fit);
-                vhHeader.sliderLayout.addSlider(textSliderView);
-                vhHeader.sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-                vhHeader.sliderLayout.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
-                vhHeader.sliderLayout.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
-
-                break;
-
-            case TYPE_ITEM:
-
-                String sectionName = dataList.get(position).getCategoryName();
-                ArrayList singleSectionItems = (ArrayList) dataList.get(position).getProducts();
-                SectionListDataAdapter itemListDataAdapter =
-                        new SectionListDataAdapter(mContext, singleSectionItems);
-                ItemRowHolder itemRowHolder = (ItemRowHolder) holder;
-                itemRowHolder.categoryTitle.setText(sectionName);
-
-                itemRowHolder.recycler_view_list.setHasFixedSize(true);
-                itemRowHolder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext,
-                        LinearLayoutManager.HORIZONTAL, false));
-                itemRowHolder.recycler_view_list.setAdapter(itemListDataAdapter);
-                itemRowHolder.recycler_view_list.setNestedScrollingEnabled(false);
-
-                break;
-
-        }
+        holder.recycler_view_list.setHasFixedSize(true);
+        holder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext,
+                LinearLayoutManager.HORIZONTAL, false));
+        holder.recycler_view_list.setAdapter(itemListDataAdapter);
+        holder.recycler_view_list.setNestedScrollingEnabled(false);
     }
 
-
-    private boolean isPositionHeader(int position) {
-        return position == 0;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if(isPositionHeader(position)) return TYPE_HEADER;
-        return TYPE_ITEM;
-    }
 
     @Override
     public int getItemCount() {
-        if (null != dataList){
+        if (null != dataList) {
             return dataList.size();
         } else {
             return 0;
         }
     }
 
-
-    class VHHeader extends RecyclerView.ViewHolder{
-        private SliderLayout sliderLayout;
-
-        public VHHeader(View itemView) {
-            super(itemView);
-            sliderLayout = (SliderLayout) itemView.findViewById(R.id.slider);
-        }
-    }
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
         private TextView categoryTitle, btnMore;
