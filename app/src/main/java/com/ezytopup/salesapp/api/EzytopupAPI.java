@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by indraaguslesmana on 3/31/17.
@@ -40,4 +41,7 @@ public interface EzytopupAPI {
 
     @GET("WGS_API_search_products.php" + Constant.API_URL_GENERALUSAGE)
     Call<SearchResponse> getSearch();
+
+    @GET("https://www.gsshop.co.id/WGS_API_get_detail_products.php" + Constant.API_URL_GENERALUSAGE)
+    Call<DetailProductResponse> getDetailProduct(@Query("id") String productid);
 }
