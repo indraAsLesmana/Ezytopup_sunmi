@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -25,15 +26,23 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
+import com.ezytopup.salesapp.api.HeaderimageResponse;
+import com.ezytopup.salesapp.api.ProductResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
     private SliderLayout headerImages;
-
+    private ArrayList<HeaderimageResponse.Result> headerImage;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
@@ -46,6 +55,7 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         actionBar.setElevation(0);
         actionBar.setDisplayShowTitleEnabled(false);
+        headerImage = new ArrayList<>();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -55,7 +65,6 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         headerImages = (SliderLayout) findViewById(R.id.slider);
         getImage();
 
@@ -64,17 +73,46 @@ public class MainActivity extends BaseActivity
 
     private void getImage() {
 
-        TextSliderView textSliderView = new TextSliderView(this);
-        // initialize a SliderLayout
-        textSliderView
-                .image(R.drawable.header1)
-                .setScaleType(BaseSliderView.ScaleType.Fit);
-        headerImages.addSlider(textSliderView);
+
+
+        Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeader();
+        call.enqueue(new Callback<HeaderimageResponse>() {
+            @Override
+            public void onResponse(Call<HeaderimageResponse> call, Response<HeaderimageResponse> response) {
+                if (response.isSuccessful()) {
+                    headerImage.addAll(response.body().result);
+                    // initialize a SliderLayout
+                    for (int i = 0; i < headerImage.size(); i++) {
+                        TextSliderView textSliderView = new TextSliderView(MainActivity.this);
+                        textSliderView
+                                .image(headerImage.get(i).getImageUrl())
+                                .setScaleType(BaseSliderView.ScaleType.Fit);
+
+                        //add your extra information
+                        textSliderView.bundle(new Bundle());
+                        textSliderView.getBundle()
+                                .putString("extra", headerImage.get(i).getShortDescription());
+
+                        headerImages.addSlider(textSliderView);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<HeaderimageResponse> call, Throwable t) {
+                TextSliderView textSliderView = new TextSliderView(MainActivity.this);
+                textSliderView
+                        .image(R.drawable.header1)
+                        .setScaleType(BaseSliderView.ScaleType.Fit);
+                headerImages.addSlider(textSliderView);
+            }
+        });
 
         headerImages.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        headerImages.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
         headerImages.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
-
+        headerImages.setDuration(Constant.HEADER_DURATION);
+        headerImages.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
     }
 
     private void initTabMenu(){
@@ -83,7 +121,7 @@ public class MainActivity extends BaseActivity
 
         RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
                 getSupportFragmentManager(), this);
-//        mMain_Pagger.setOffscreenPageLimit(4);
+        mMain_Pagger.setOffscreenPageLimit(4);
         mMain_Pagger.setAdapter(adapter);
         tabLayout.setupWithViewPager(mMain_Pagger);
 

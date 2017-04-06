@@ -18,7 +18,7 @@ public class HeaderimageResponse {
     @Expose
     public Status status;
 
-    public class Result {
+    public static class Result {
 
         @SerializedName("id")
         @Expose

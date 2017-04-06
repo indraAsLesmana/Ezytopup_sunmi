@@ -17,6 +17,7 @@ public class Constant {
 
     private static final int name_width = 12;
     private static final int quanity_width = 3;
+    public static final long HEADER_DURATION = 6000;
     private static int price_width = 6;
     private static final int total_width = 9;
 
