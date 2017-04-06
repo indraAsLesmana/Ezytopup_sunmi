@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_settings"
-        android:title="@string/signup"
-        android:icon="@drawable/ic_shopping_24dp"
+        android:title="@string/add_tocart"
+        android:icon="@drawable/ic_shopping_cart_black_28dp"
         app:showAsAction="always" />
 </menu>
