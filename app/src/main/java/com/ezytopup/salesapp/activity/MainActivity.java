@@ -73,8 +73,6 @@ public class MainActivity extends BaseActivity
 
     private void getImage() {
 
-
-
         Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeader();
         call.enqueue(new Callback<HeaderimageResponse>() {
             @Override
