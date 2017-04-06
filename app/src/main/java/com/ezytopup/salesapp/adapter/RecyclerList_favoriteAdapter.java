@@ -31,7 +31,7 @@ public class RecyclerList_favoriteAdapter extends RecyclerView.Adapter
 
     @Override
     public SingleItemFavHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_singlecard_favorite, null);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_singlecard_favorite, parent, false);
         return new SingleItemFavHolder(v);
     }
 

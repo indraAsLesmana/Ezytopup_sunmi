@@ -5,85 +5,110 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    app:cardUseCompatPadding="true">
+    android:layout_marginBottom="0.5dp"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-
-        <TextView
-            android:id="@+id/fav_price_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/fav_price"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintLeft_toRightOf="@+id/fav_price"
-            app:layout_constraintRight_toRightOf="@+id/fav_itemtitle"
-            tools:text="@string/dummy_price1" />
-
-        <TextView
-            android:id="@+id/fav_category_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/fav_category"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="@+id/fav_price_value"
-            app:layout_constraintRight_toRightOf="@+id/fav_price_value"
-            tools:text="@string/dummy_category" />
-
-        <TextView
-            android:id="@+id/fav_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
+        <RelativeLayout
+            android:id="@+id/title_best"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/category"
-            app:layout_constraintLeft_toLeftOf="@+id/fav_price"
-            app:layout_constraintTop_toBottomOf="@+id/fav_price" />
+            app:layout_constraintLeft_toRightOf="@+id/fav_image"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/fav_itemtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:maxLines="2"
+                android:textColor="@color/primary_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="136dp"
+                tools:layout_editor_absoluteY="54dp"
+                tools:text="@string/dummy_titlecard" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/fav_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
-        <TextView
-            android:id="@+id/fav_itemtitle"
-            android:layout_width="250dp"
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:maxLines="2"
-            android:textColor="@color/primary_text"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.097"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
             app:layout_constraintLeft_toRightOf="@+id/fav_image"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/dummy_titlecard" />
+            app:layout_constraintTop_toBottomOf="@+id/title_best">
 
-        <TextView
-            android:id="@+id/fav_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/price"
-            app:layout_constraintLeft_toLeftOf="@+id/fav_itemtitle"
-            app:layout_constraintTop_toBottomOf="@+id/fav_itemtitle" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fav_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/price" />
+
+                <TextView
+                    android:id="@+id/fav_price_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:maxLines="1"
+                    tools:text="@string/dummy_price1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fav_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/category" />
+
+                <TextView
+                    android:id="@+id/fav_category_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="@string/dummy_category" />
+
+            </LinearLayout>
+        </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
+
 </android.support.v7.widget.CardView>
