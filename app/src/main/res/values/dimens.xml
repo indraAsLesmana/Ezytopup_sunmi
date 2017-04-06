@@ -11,6 +11,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="imageslider">200dp</dimen>
 
-    <dimen name="image_contenthigh">100dp</dimen>
-    <dimen name="image_contenthwidth">100dp</dimen>
+    <dimen name="image_contenthigh">110dp</dimen>
+    <dimen name="image_contenthwidth">110dp</dimen>
 </resources>

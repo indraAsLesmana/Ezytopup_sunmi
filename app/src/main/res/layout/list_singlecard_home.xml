@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="5dp"
     app:cardUseCompatPadding="true"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:foreground="@drawable/ripple_custom"
     android:clickable="true">
 
 
@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/item_title"
-            android:layout_width="100dp"
+            android:layout_width="@dimen/image_contenthwidth"
             android:layout_height="30dp"
             android:paddingLeft="2dp"
             android:paddingRight="2dp"
