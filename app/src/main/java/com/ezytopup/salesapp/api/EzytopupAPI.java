@@ -24,8 +24,6 @@ public interface EzytopupAPI {
     /**
      * Live version
      * */
-    /*@POST("WGS_API_login.php?" + Constant.API_URL_PARAM1 + Constant.API_URL_PARAM1_VALUE + "&" + Constant.API_URL_PARAM2 + Constant.API_URL_PARAM2_VALUE)
-    Call<Authrequest> login_request (@Body Authrequest authrequest);*/
 
     @POST("WGS_API_login.php?" + Constant.API_URL_GENERALUSAGE)
     Call<Authrequest> login_request (@Body Authrequest authrequest);
@@ -44,4 +42,7 @@ public interface EzytopupAPI {
 
     @GET("https://www.gsshop.co.id/WGS_API_get_detail_products.php" + Constant.API_URL_GENERALUSAGE)
     Call<DetailProductResponse> getDetailProduct(@Query("id") String productid);
+
+    @GET("https://www.gsshop.co.id/WGS_API_panduan_awal.php" + Constant.API_URL_GENERALUSAGE)
+    Call<TutorialResponse> getTutorial();
 }
