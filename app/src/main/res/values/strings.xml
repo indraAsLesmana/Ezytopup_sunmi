@@ -96,6 +96,8 @@
     <string name="add_tocart">Add to cart</string>
     <string name="dismiss">Dismiss</string>
     <string name="progress_title_default">Please wait...</string>
+    <string name="section_error">Section product list null</string>
+
 
     <string-array name="dummy_data">
         <item>One</item>

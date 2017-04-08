@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.daimajia.slider.library.Indicators.PagerIndicator;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.ProductResponse;
+import com.ezytopup.salesapp.fragment.HomeFragment;
+import com.ezytopup.salesapp.utility.Helper;
 
 import java.util.ArrayList;
 
@@ -42,11 +40,15 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
     public void onBindViewHolder(ItemRowHolder holder, int position) {
         String sectionName = dataList.get(position).getCategoryName();
         ArrayList singleSectionItems = (ArrayList) dataList.get(position).getProducts();
-        SectionListDataAdapter itemListDataAdapter =
-                new SectionListDataAdapter(mContext, singleSectionItems);
+
+        SectionList_homeAdapter itemListDataAdapter = null;
+        if (!singleSectionItems.isEmpty()){
+            itemListDataAdapter = new SectionList_homeAdapter(mContext, singleSectionItems);
+        }else {
+            Helper.showToast(mContext, R.string.section_error, true);
+        }
 
         holder.categoryTitle.setText(sectionName);
-
         holder.recycler_view_list.setHasFixedSize(true);
         holder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext,
                 LinearLayoutManager.HORIZONTAL, false));
@@ -74,6 +76,7 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
             this.categoryTitle = (TextView) itemView.findViewById(R.id.category_title);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.data_list);
             this.btnMore = (TextView) itemView.findViewById(R.id.btn_more);
+
         }
     }
 }

@@ -12,7 +12,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/card_container">
 
         <ImageView
             android:id="@+id/item_image"

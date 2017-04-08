@@ -148,7 +148,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_settings);
-        item.setEnabled(true);
+        item.setEnabled(false);
         item.getIcon().setAlpha(0);
         return super.onPrepareOptionsMenu(menu);
 

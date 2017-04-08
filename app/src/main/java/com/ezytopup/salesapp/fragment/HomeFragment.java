@@ -1,7 +1,7 @@
 package com.ezytopup.salesapp.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -11,14 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
+import com.ezytopup.salesapp.adapter.SectionList_homeAdapter;
 import com.ezytopup.salesapp.api.ProductResponse;
 import com.ezytopup.salesapp.utility.Helper;
 
@@ -33,15 +32,17 @@ import retrofit2.Response;
  * Activities that contain this fragment must implement the
  * to handle interaction events.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements
+        SectionList_homeAdapter.SectionListDataAdapterListener{
 
 
     private ArrayList<ProductResponse.Result> allProductdata;
-    private RecyclerView my_recycler_view;
     private RecyclerList_homeAdapter adapter;
     private static final String TAG = "HomeFragment";
     private SliderLayout headerImages;
     private View rootView;
+    private SectionList_homeAdapter sectionAdapter;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,7 +62,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        my_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
+        RecyclerView my_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         my_recycler_view.setHasFixedSize(true);
         my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
@@ -69,6 +70,11 @@ public class HomeFragment extends Fragment {
         my_recycler_view.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     private void getProduct() {
@@ -101,4 +107,8 @@ public class HomeFragment extends Fragment {
     }
 
 
+    @Override
+    public void onCardClick(ProductResponse.Product singleProduct) {
+        Helper.showToast(getContext(), singleProduct.getHargaToko(), false);
+    }
 }

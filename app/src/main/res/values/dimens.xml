@@ -10,7 +10,9 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="imageslider">200dp</dimen>
+    <dimen name="toast_text_size">12sp</dimen>
 
-    <dimen name="image_contenthigh">110dp</dimen>
-    <dimen name="image_contenthwidth">110dp</dimen>
+
+    <dimen name="image_contenthigh">100dp</dimen>
+    <dimen name="image_contenthwidth">100dp</dimen>
 </resources>
