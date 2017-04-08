@@ -44,6 +44,7 @@ public class Eztytopup extends Application {
     private static ICallback callback = null;
 
     private final String HEADER_KEY1 = "application_id";
+    private final String HEADER_KEY2 = "Authorize";
 
     @Override
     public void onCreate() {

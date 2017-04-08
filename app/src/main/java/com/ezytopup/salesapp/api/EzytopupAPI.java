@@ -37,12 +37,12 @@ public interface EzytopupAPI {
     @GET("WGS_API_best_seller_products.php?" + Constant.API_URL_GENERALUSAGE)
     Call<BestSellerResponse> getBestSeller();
 
-    @GET("WGS_API_search_products.php" + Constant.API_URL_GENERALUSAGE)
+    @GET("WGS_API_search_products.php?" + Constant.API_URL_GENERALUSAGE)
     Call<SearchResponse> getSearch();
 
-    @GET("https://www.gsshop.co.id/WGS_API_get_detail_products.php" + Constant.API_URL_GENERALUSAGE)
+    @GET("WGS_API_get_detail_products.php?" + Constant.API_URL_GENERALUSAGE)
     Call<DetailProductResponse> getDetailProduct(@Query("id") String productid);
 
-    @GET("https://www.gsshop.co.id/WGS_API_panduan_awal.php" + Constant.API_URL_GENERALUSAGE)
+    @GET("WGS_API_panduan_awal.php?" + Constant.API_URL_GENERALUSAGE)
     Call<TutorialResponse> getTutorial();
 }

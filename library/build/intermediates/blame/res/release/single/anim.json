@@ -1,0 +1,58 @@
+[
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_slide_in_top.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_slide_in_top.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/fab_out.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/38e3fedf5137e205d9c2198ee35f2801283f7d16/output/res/anim/fab_out.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_slide_out_top.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_slide_out_top.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_popup_enter.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_popup_enter.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/snackbar_out.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/38e3fedf5137e205d9c2198ee35f2801283f7d16/output/res/anim/snackbar_out.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_popup_exit.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_popup_exit.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_fade_in.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_fade_in.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/snackbar_in.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/38e3fedf5137e205d9c2198ee35f2801283f7d16/output/res/anim/snackbar_in.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/fab_in.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/38e3fedf5137e205d9c2198ee35f2801283f7d16/output/res/anim/fab_in.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_fade_out.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_fade_out.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/release/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/anim/abc_slide_in_bottom.xml"
+    }
+]

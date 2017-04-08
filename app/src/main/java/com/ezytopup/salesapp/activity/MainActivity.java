@@ -1,6 +1,7 @@
 package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
@@ -28,6 +32,7 @@ import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.ProductResponse;
+import com.ezytopup.salesapp.api.TutorialResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
@@ -44,6 +49,7 @@ public class MainActivity extends BaseActivity
     private static final String TAG = "MainActivity";
     private SliderLayout headerImages;
     private ArrayList<HeaderimageResponse.Result> headerImage;
+    private ArrayList<TutorialResponse.Result> tutorialImage;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
@@ -57,6 +63,7 @@ public class MainActivity extends BaseActivity
         actionBar.setElevation(0);
         actionBar.setDisplayShowTitleEnabled(false);
         headerImage = new ArrayList<>();
+        tutorialImage = new ArrayList<>();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -98,7 +105,6 @@ public class MainActivity extends BaseActivity
                                 .image(headerImage.get(i).getImageUrl())
                                 .setScaleType(BaseSliderView.ScaleType.Fit);
 
-                        //add your extra information
                         textSliderView.bundle(new Bundle());
                         textSliderView.getBundle()
                                 .putString("extra", headerImage.get(i).getShortDescription());
@@ -172,6 +178,49 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+            case R.id.nav_tutorial:
+
+                final Dialog dialog = new Dialog(this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_tutorial);
+
+                final SliderLayout slider_tutorial = (SliderLayout)
+                        dialog.findViewById(R.id.slider_tutorial);
+
+                if (tutorialImage.isEmpty()){
+                    Call<TutorialResponse> tutorial = Eztytopup.getsAPIService().getTutorial();
+                    tutorial.enqueue(new Callback<TutorialResponse>() {
+                        @Override
+                        public void onResponse(Call<TutorialResponse> call, Response<TutorialResponse> response) {
+                            if (response.isSuccessful()) {
+                                tutorialImage.addAll(response.body().result);
+
+                                initSlider(slider_tutorial, tutorialImage);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<TutorialResponse> call, Throwable t) {
+                            Log.i(TAG, "onFailure: " + t.getMessage());
+                        }
+                    });
+                }else {
+                    initSlider(slider_tutorial, tutorialImage);
+                }
+
+                slider_tutorial.setDuration(Constant.TUTORIAL_DURATION);
+                slider_tutorial.setPresetTransformer(SliderLayout.Transformer.Default);
+                TextView tvClose = (TextView) dialog.findViewById(R.id.tvClose);
+                tvClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
+                break;
+
             case R.id.nav_print:
                 ThreadPoolManager.getInstance().executeTask(new Runnable() {
                     @Override
@@ -234,5 +283,28 @@ public class MainActivity extends BaseActivity
     @Override
     public int getLayout() {
         return R.layout.activity_main;
+    }
+
+    private TextSliderView initSlider(SliderLayout slider,
+                                      ArrayList<TutorialResponse.Result> result) {
+        TextSliderView textSliderView = null;
+        for (int i = 0; i < result.size(); i++) {
+            textSliderView = new TextSliderView(MainActivity.this);
+            String description = result.get(i).judul;
+            String image = result.get(i).image;
+
+            textSliderView
+                    .description(description)
+                    .image(image)
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
+
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("extra", description);
+
+            slider.addSlider(textSliderView);
+
+        }
+        return textSliderView;
     }
 }
