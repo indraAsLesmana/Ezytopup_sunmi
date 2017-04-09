@@ -53,7 +53,7 @@ public class Constant {
     /**
      * slider option
      * */
-    public static final long HEADER_DURATION = 7000;
-    public static final long TUTORIAL_DURATION = 10000;
+    public static final long HEADER_DURATION = 5000;
+    public static final long TUTORIAL_DURATION = 8000;
 
 }
