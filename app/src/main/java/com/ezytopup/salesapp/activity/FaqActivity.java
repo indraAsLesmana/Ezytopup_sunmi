@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
@@ -41,6 +42,23 @@ public class FaqActivity extends BaseActivity {
         adapter = new RecyclerList_FaqAdapter(FaqActivity.this, results);
         recyclerView.setAdapter(adapter);
         getQuestion();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     private void getQuestion(){

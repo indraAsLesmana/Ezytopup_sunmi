@@ -48,13 +48,7 @@
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.FaqActivity"
-            android:parentActivityName=".activity.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
-        </activity>
+            android:name=".activity.FaqActivity"/>
     </application>
 
 </manifest>
