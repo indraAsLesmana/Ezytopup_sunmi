@@ -23,7 +23,7 @@
         android:ems="10"
         android:gravity="start"
         android:textColor="@color/secondary_text"
-        android:textSize="12sp"
+        android:textSize="14sp"
         tools:text="@string/dummy_text" />
 
     <View
