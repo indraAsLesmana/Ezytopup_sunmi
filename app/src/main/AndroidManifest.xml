@@ -48,7 +48,8 @@
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.FaqActivity" />
-        <activity android:name=".activity.TermActivity"></activity>
+        <activity android:name=".activity.TermActivity" />
+        <activity android:name=".activity.CategoryActivity"></activity>
     </application>
 
 </manifest>

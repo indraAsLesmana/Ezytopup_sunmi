@@ -18,6 +18,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.activity.CategoryActivity;
 import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
 import com.ezytopup.salesapp.api.ProductResponse;
 import com.ezytopup.salesapp.utility.Helper;
@@ -33,7 +34,8 @@ import retrofit2.Response;
  * Activities that contain this fragment must implement the
  * to handle interaction events.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements
+        RecyclerList_homeAdapter.RecyclerList_homeAdapterListener {
 
 
     private ArrayList<ProductResponse.Result> allProductdata;
@@ -65,7 +67,7 @@ public class HomeFragment extends Fragment {
         my_recycler_view.setHasFixedSize(true);
         my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        adapter = new RecyclerList_homeAdapter(getContext(), allProductdata);
+        adapter = new RecyclerList_homeAdapter(getContext(), allProductdata, this);
         my_recycler_view.setAdapter(adapter);
 
         return rootView;
@@ -101,4 +103,8 @@ public class HomeFragment extends Fragment {
     }
 
 
+    @Override
+    public void onMoreClick(String categoryName, String categoryId) {
+        CategoryActivity.start(getActivity(), categoryName, categoryId); //TODO this jump to FaqActivity
+    }
 }

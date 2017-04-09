@@ -52,4 +52,7 @@ public interface EzytopupAPI {
     @GET("WGS_API_getTerm.php?" + Constant.API_URL_GENERALUSAGE)
     Call<TermResponse> getTerm();
 
+    @GET("WGS_API_categorized_products.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<CategoryResponse> getCategery(@Query("category_id") String productId);
+
 }

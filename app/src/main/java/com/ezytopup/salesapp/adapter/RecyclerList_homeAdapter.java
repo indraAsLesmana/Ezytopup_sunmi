@@ -6,12 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.daimajia.slider.library.Indicators.PagerIndicator;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.ProductResponse;
 
@@ -26,10 +23,13 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
     private ArrayList<ProductResponse.Result> dataList;
     private Context mContext;
     private static final String TAG = "RecyclerList_homeAdapter";
+    private RecyclerList_homeAdapterListener mListener;
 
-    public RecyclerList_homeAdapter(Context mContext, ArrayList<ProductResponse.Result> dataList) {
+    public RecyclerList_homeAdapter(Context mContext, ArrayList<ProductResponse.Result> dataList,
+                                    RecyclerList_homeAdapterListener listener) {
         this.dataList = dataList;
         this.mContext = mContext;
+        this.mListener = listener;
     }
 
     @Override
@@ -40,18 +40,26 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
 
     @Override
     public void onBindViewHolder(ItemRowHolder holder, int position) {
-        String sectionName = dataList.get(position).getCategoryName();
+        final String categoryName = dataList.get(position).getCategoryName();
+        final String categoryId = dataList.get(position).getCategoryId();
         ArrayList singleSectionItems = (ArrayList) dataList.get(position).getProducts();
         SectionListDataAdapter itemListDataAdapter =
                 new SectionListDataAdapter(mContext, singleSectionItems);
 
-        holder.categoryTitle.setText(sectionName);
+        holder.categoryTitle.setText(categoryName);
 
         holder.recycler_view_list.setHasFixedSize(true);
         holder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext,
                 LinearLayoutManager.HORIZONTAL, false));
         holder.recycler_view_list.setAdapter(itemListDataAdapter);
         holder.recycler_view_list.setNestedScrollingEnabled(false);
+
+        holder.category_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onMoreClick(categoryName, categoryId);
+            }
+        });
     }
 
 
@@ -65,15 +73,19 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
     }
 
 
-    public class ItemRowHolder extends RecyclerView.ViewHolder {
-        private TextView categoryTitle, btnMore;
+    class ItemRowHolder extends RecyclerView.ViewHolder {
+        private TextView categoryTitle;
         private RecyclerView recycler_view_list;
+        private RelativeLayout category_more;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
             this.categoryTitle = (TextView) itemView.findViewById(R.id.category_title);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.data_list);
-            this.btnMore = (TextView) itemView.findViewById(R.id.btn_more);
+            this.category_more = (RelativeLayout) itemView.findViewById(R.id.container_more);
         }
+    }
+    public interface RecyclerList_homeAdapterListener{
+        void onMoreClick(String categoryName, String categoryId);
     }
 }
