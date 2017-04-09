@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="cardview_horizontal_margin">8dp</dimen>
+    <dimen name="standart_margin">8dp</dimen>
     <dimen name="image_toolbar_height">32dp</dimen>
     <dimen name="toolbar_elevation">5dp</dimen>
     <dimen name="image_toolbar_width">156dp</dimen>

@@ -45,4 +45,7 @@ public interface EzytopupAPI {
 
     @GET("WGS_API_panduan_awal.php?" + Constant.API_URL_GENERALUSAGE)
     Call<TutorialResponse> getTutorial();
+
+    @GET("WGS_API_getFaq.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<FaqResponse> getFaq();
 }

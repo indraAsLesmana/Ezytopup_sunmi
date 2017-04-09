@@ -220,7 +220,10 @@ public class MainActivity extends BaseActivity
                 dialog.show();
 
                 break;
+            case R.id.nav_faq:
+                FaqActivity.start(MainActivity.this);
 
+                break;
             case R.id.nav_print:
                 ThreadPoolManager.getInstance().executeTask(new Runnable() {
                     @Override

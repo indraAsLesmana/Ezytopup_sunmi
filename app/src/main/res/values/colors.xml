@@ -7,7 +7,7 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#212121</color>
-    <color name="divider">#BDBDBD</color>
+    <color name="divider">#bdbdbd</color>
     <color name="rippleeffect">#5ae1bd4f</color>
 </resources>
 

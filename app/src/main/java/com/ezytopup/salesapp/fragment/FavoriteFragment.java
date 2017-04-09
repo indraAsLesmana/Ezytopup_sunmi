@@ -15,9 +15,7 @@ import android.view.ViewGroup;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RecyclerList_favoriteAdapter;
-import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
 import com.ezytopup.salesapp.api.BestSellerResponse;
-import com.ezytopup.salesapp.api.ProductResponse;
 
 import java.util.ArrayList;
 

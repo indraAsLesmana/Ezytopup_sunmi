@@ -62,7 +62,6 @@ public class RecyclerList_favoriteAdapter extends RecyclerView.Adapter
     public class SingleItemFavHolder extends RecyclerView.ViewHolder {
         private TextView fav_title, fav_category_value, fav_price_value;
         private ImageView fav_image;
-        private RecyclerView recycler_view_list;
 
         public SingleItemFavHolder(View itemView) {
             super(itemView);
@@ -70,7 +69,6 @@ public class RecyclerList_favoriteAdapter extends RecyclerView.Adapter
             fav_category_value = (TextView) itemView.findViewById(R.id.fav_category_value);
             fav_price_value = (TextView) itemView.findViewById(R.id.fav_price_value);
             fav_image = (ImageView) itemView.findViewById(R.id.fav_image);
-            recycler_view_list = (RecyclerView) itemView.findViewById(R.id.rc_favorite_recycle);
         }
     }
 }
