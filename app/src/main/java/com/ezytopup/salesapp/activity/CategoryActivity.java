@@ -34,7 +34,6 @@ public class CategoryActivity extends BaseActivity {
 
     private String mCategoryId;
 
-
     public static void start(Activity caller, String categoryName, String categoryId) {
         Intent intent = new Intent(caller, CategoryActivity.class);
         intent.putExtra(CATEGORY_NAME, categoryName);

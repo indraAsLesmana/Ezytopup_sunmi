@@ -54,7 +54,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
             }
         }
 
-
     }
 
     private void initSharedPreference() {

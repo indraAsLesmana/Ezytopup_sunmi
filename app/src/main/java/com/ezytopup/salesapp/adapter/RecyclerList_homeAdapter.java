@@ -65,11 +65,8 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
 
     @Override
     public int getItemCount() {
-        if (null != dataList) {
-            return dataList.size();
-        } else {
-            return 0;
-        }
+        if (null != dataList) return dataList.size();
+        else return 0;
     }
 
 

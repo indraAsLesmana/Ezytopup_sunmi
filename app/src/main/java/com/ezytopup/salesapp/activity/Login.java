@@ -117,7 +117,6 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
         if (!mayRequestContacts()) {
             return;
         }
-
         getLoaderManager().initLoader(0, null, this);
     }
 

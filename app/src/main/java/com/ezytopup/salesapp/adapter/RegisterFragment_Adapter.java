@@ -21,7 +21,7 @@ public class RegisterFragment_Adapter extends FragmentPagerAdapter {
     private Context mContext;
 
     private static final int HOME = 0;
-    private static final int FAVORITE = 1;
+    private static final int POPULAR = 1;
     private static final int HISTORY = 2;
     private static final int SEARCH = 3;
 
@@ -35,7 +35,7 @@ public class RegisterFragment_Adapter extends FragmentPagerAdapter {
         switch (position) {
             case HOME:
                 return new HomeFragment();
-            case FAVORITE:
+            case POPULAR:
                 return new FavoriteFragment();
             case HISTORY:
                 return new HomeFragment();

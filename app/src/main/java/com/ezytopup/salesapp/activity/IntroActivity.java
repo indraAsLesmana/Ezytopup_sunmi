@@ -34,7 +34,6 @@ public class IntroActivity extends AppCompatActivity{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -45,7 +44,6 @@ public class IntroActivity extends AppCompatActivity{
         @Override
         protected SharedPreferences doInBackground(SharedPreferences... params) {
             SharedPreferences preferences = params[0];
-
             return preferences;
         }
 
