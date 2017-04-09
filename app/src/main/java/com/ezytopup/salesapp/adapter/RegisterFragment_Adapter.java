@@ -17,7 +17,7 @@ import com.ezytopup.salesapp.fragment.HomeFragment;
 
 public class RegisterFragment_Adapter extends FragmentPagerAdapter {
     private static final int PAGE_COUNT = 4;
-    private String tabTitles[] = new String[]{"Home", "Favorite", "History", "Search"};
+    private String tabTitles[] = new String[]{"Home", "Popular", "History", "Search"}; //TODO temporary hardcode
     private Context mContext;
 
     private static final int HOME = 0;

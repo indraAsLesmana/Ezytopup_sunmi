@@ -26,11 +26,6 @@
         android:textSize="14sp"
         tools:text="@string/dummy_text" />
 
-    <View
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/devider_height_general"
-        android:background="@color/divider"
-        />
+    <include layout="@layout/inc_devider"/>
 
 </LinearLayout>

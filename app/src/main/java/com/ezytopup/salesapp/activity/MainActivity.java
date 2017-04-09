@@ -178,7 +178,7 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.nav_tutorial:
+            case R.id.nav_guide:
 
                 final Dialog dialog = new Dialog(this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
