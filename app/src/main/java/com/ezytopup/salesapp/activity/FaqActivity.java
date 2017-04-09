@@ -26,7 +26,6 @@ public class FaqActivity extends BaseActivity {
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, FaqActivity.class);
         caller.startActivity(intent);
-        caller.finish();
     }
 
     @Override
