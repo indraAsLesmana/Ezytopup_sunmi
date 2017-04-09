@@ -5,11 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.FaqResponse;
+import com.ezytopup.salesapp.api.TermResponse;
 
 import java.util.ArrayList;
 
@@ -17,14 +17,14 @@ import java.util.ArrayList;
  * Created by indraaguslesmana on 4/8/17.
  */
 
-public class RecyclerList_FaqAdapter extends RecyclerView.Adapter
-        <RecyclerList_FaqAdapter.QuestionHolder> {
+public class RecyclerList_TermAdapter extends RecyclerView.Adapter
+        <RecyclerList_TermAdapter.QuestionHolder> {
 
-    private ArrayList<FaqResponse.Result> dataList;
+    private ArrayList<TermResponse.Result> dataList;
     private Context mContext;
     private static final String TAG = "RecyclerList_FaqAdapter";
 
-    public RecyclerList_FaqAdapter(Context mContext, ArrayList<FaqResponse.Result> dataList) {
+    public RecyclerList_TermAdapter(Context mContext, ArrayList<TermResponse.Result> dataList) {
         this.mContext = mContext;
         this.dataList = dataList;
     }
@@ -37,10 +37,8 @@ public class RecyclerList_FaqAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(QuestionHolder holder, int position) {
-        holder.quetionTitle.setVisibility(View.VISIBLE);
-
-        holder.quetionTitle.setText(dataList.get(position).question);
-        holder.quetionAnswer.setText(dataList.get(position).answer);
+        holder.quetionTitle.setVisibility(View.GONE);
+        holder.quetionAnswer.setText(dataList.get(position).term);
     }
 
     @Override

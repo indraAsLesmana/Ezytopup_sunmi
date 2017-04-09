@@ -224,6 +224,10 @@ public class MainActivity extends BaseActivity
                 FaqActivity.start(MainActivity.this);
 
                 break;
+            case R.id.nav_term:
+                TermActivity.start(MainActivity.this);
+
+                break;
             case R.id.nav_print:
                 ThreadPoolManager.getInstance().executeTask(new Runnable() {
                     @Override

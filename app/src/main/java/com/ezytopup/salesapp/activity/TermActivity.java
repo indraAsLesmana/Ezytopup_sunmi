@@ -8,12 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
-import com.ezytopup.salesapp.adapter.RecyclerList_FaqAdapter;
-import com.ezytopup.salesapp.api.FaqResponse;
+import com.ezytopup.salesapp.adapter.RecyclerList_TermAdapter;
+import com.ezytopup.salesapp.api.TermResponse;
 
 import java.util.ArrayList;
 
@@ -21,13 +20,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FaqActivity extends BaseActivity {
+public class TermActivity extends BaseActivity {
 
-    private RecyclerList_FaqAdapter adapter;
-    private ArrayList<FaqResponse.Result> results;
+    private RecyclerList_TermAdapter adapter;
+    private ArrayList<TermResponse.Result> results;
 
     public static void start(Activity caller) {
-        Intent intent = new Intent(caller, FaqActivity.class);
+        Intent intent = new Intent(caller, TermActivity.class);
         caller.startActivity(intent);
     }
 
@@ -37,17 +36,17 @@ public class FaqActivity extends BaseActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         TextView titleText = (TextView) findViewById(R.id.faq_titlequetion);
-        titleText.setVisibility(View.VISIBLE);
+        titleText.setVisibility(View.GONE);
 
         results = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.faq_mainrecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-        adapter = new RecyclerList_FaqAdapter(FaqActivity.this, results);
+        adapter = new RecyclerList_TermAdapter(TermActivity.this, results);
         recyclerView.setAdapter(adapter);
 
-        if (results.isEmpty() || results.size() == 0) getQuestion(); //TODO not work, still load on internet
+        if (results.isEmpty() || results.size() == 0) getTerm(); //TODO not work, still load on internet
     }
 
     @Override
@@ -61,11 +60,11 @@ public class FaqActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getQuestion() {
-        Call<FaqResponse> faq = Eztytopup.getsAPIService().getFaq();
-        faq.enqueue(new Callback<FaqResponse>() {
+    private void getTerm() {
+        Call<TermResponse> term = Eztytopup.getsAPIService().getTerm();
+        term.enqueue(new Callback<TermResponse>() {
             @Override
-            public void onResponse(Call<FaqResponse> call, Response<FaqResponse> response) {
+            public void onResponse(Call<TermResponse> call, Response<TermResponse> response) {
                 if (response.isSuccessful()) {
                     results.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
@@ -73,8 +72,8 @@ public class FaqActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<FaqResponse> call, Throwable t) {
-                Toast.makeText(FaqActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<TermResponse> call, Throwable t) {
+
             }
         });
     }

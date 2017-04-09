@@ -48,4 +48,8 @@ public interface EzytopupAPI {
 
     @GET("WGS_API_getFaq.php?" + Constant.API_URL_GENERALUSAGE)
     Call<FaqResponse> getFaq();
+
+    @GET("WGS_API_getTerm.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<TermResponse> getTerm();
+
 }
