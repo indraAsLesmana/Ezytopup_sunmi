@@ -11,6 +11,8 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="imageslider">200dp</dimen>
+    <dimen name="devider_height_general">0.5dp</dimen>
+
 
     <dimen name="image_contenthigh">110dp</dimen>
     <dimen name="image_contenthwidth">110dp</dimen>

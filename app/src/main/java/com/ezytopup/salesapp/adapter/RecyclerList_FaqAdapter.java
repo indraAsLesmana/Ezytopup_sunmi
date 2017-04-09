@@ -50,12 +50,12 @@ public class RecyclerList_FaqAdapter extends RecyclerView.Adapter
 
     class QuestionHolder extends RecyclerView.ViewHolder {
         private TextView quetionTitle;
-        private EditText quetionAnswer;
+        private TextView quetionAnswer;
 
         QuestionHolder(View itemView) {
             super(itemView);
             quetionTitle = (TextView) itemView.findViewById(R.id.faq_titlequestion);
-            quetionAnswer = (EditText) itemView.findViewById(R.id.editText);
+            quetionAnswer = (TextView) itemView.findViewById(R.id.faq_answer);
         }
     }
 }
