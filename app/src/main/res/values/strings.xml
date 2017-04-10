@@ -107,6 +107,8 @@
     <string name="enter_emailaddress">Enter your email address here</string>
     <string name="select_payment">Select payment</string>
     <string name="my_email">My email</string>
+    <string name="detail_product">Detail product</string>
+    <string name="share">Share</string>
 
     <string-array name="dummy_data">
         <item>One</item>
