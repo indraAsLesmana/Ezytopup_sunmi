@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
@@ -36,6 +37,7 @@ import com.ezytopup.salesapp.api.TutorialResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
+import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.util.ArrayList;
 
@@ -85,6 +87,9 @@ public class MainActivity extends BaseActivity
         headerImages.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
         headerImages.setDuration(Constant.HEADER_DURATION);
         headerImages.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
+
+        Toast.makeText(this, PreferenceUtils.getSinglePrefrenceString(this, R.string.settings_def_storeaccess_token_key),
+                Toast.LENGTH_SHORT).show();
 
         getImage();
         initTabMenu();

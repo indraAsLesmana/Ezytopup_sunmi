@@ -19,6 +19,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.activity.CategoryActivity;
 import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
 import com.ezytopup.salesapp.adapter.SectionListDataAdapter;
@@ -109,6 +110,6 @@ public class HomeFragment extends Fragment implements
 
     @Override
     public void onCardClick(ProductResponse.Product itemProduct) {
-        Toast.makeText(getContext(), itemProduct.getProductName(), Toast.LENGTH_SHORT).show();
+        BuyProductActivity.start(getActivity(), itemProduct.getProductId());
     }
 }

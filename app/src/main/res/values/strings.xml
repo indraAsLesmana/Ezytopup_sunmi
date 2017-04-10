@@ -99,6 +99,14 @@
     <string name="close">Close</string>
     <string name="faq_1">Frequently asked questions</string>
     <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</string>
+    <string name="transaction_summary">Transaction Summary</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="addminfee">Admin fee</string>
+    <string name="total">Total</string>
+    <string name="fill_information">Fill the information</string>
+    <string name="enter_emailaddress">Enter your email address here</string>
+    <string name="select_payment">Select payment</string>
+    <string name="my_email">My email</string>
 
     <string-array name="dummy_data">
         <item>One</item>
