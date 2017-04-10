@@ -326,9 +326,6 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 showProgress(false);
                 if (response.isSuccessful()){
-                    Toast.makeText(Login.this,
-                            response.body().getUser().getFirstName(), Toast.LENGTH_SHORT).show();
-
                     Log.i(TAG, "onResponse token: " + response.body().getUser().getAccessToken());
                     PreferenceUtils.setStoreDetail(Login.this,
                             response.body().getUser().getId(),

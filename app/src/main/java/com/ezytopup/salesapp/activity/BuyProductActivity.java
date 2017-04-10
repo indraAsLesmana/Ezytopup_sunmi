@@ -13,6 +13,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.api.ProductResponse;
+import com.ezytopup.salesapp.utility.Constant;
 
 import java.util.ArrayList;
 
@@ -46,7 +47,7 @@ public class BuyProductActivity extends BaseActivity {
         }
         results = new ArrayList<>();
         mBackgroundProduct = (ImageView) findViewById(R.id.buy_bgimage);
-        mProductImage = (ImageView) findViewById(R.id.buy_productimage);
+        mProductImage = (ImageView) findViewById(R.id.buy_productimages);
         mProductTitle = (TextView) findViewById(R.id.buy_producttitle);
         mProductPrice = (TextView) findViewById(R.id.buy_productprice);
         mTotal = (TextView) findViewById(R.id.buy_total);
@@ -63,6 +64,7 @@ public class BuyProductActivity extends BaseActivity {
                 .load(mProduct.getBackgroundImageUrl()).centerCrop()
                 .crossFade()
                 .into(mBackgroundProduct);
+        mBackgroundProduct.setImageAlpha(Constant.DEF_BGALPHA);
 
         Glide.with(BuyProductActivity.this)
                 .load(mProduct.getImageUrl()).centerCrop()
