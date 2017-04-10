@@ -21,6 +21,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.activity.CategoryActivity;
 import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
+import com.ezytopup.salesapp.adapter.SectionListDataAdapter;
 import com.ezytopup.salesapp.api.ProductResponse;
 import com.ezytopup.salesapp.utility.Helper;
 
@@ -36,14 +37,13 @@ import retrofit2.Response;
  * to handle interaction events.
  */
 public class HomeFragment extends Fragment implements
-        RecyclerList_homeAdapter.RecyclerList_homeAdapterListener {
+        RecyclerList_homeAdapter.RecyclerList_homeAdapterListener, SectionListDataAdapter.SectionListDataAdapterListener {
 
     private ArrayList<ProductResponse.Result> allProductdata;
     private RecyclerView my_recycler_view;
     private RecyclerList_homeAdapter adapter;
     private static final String TAG = "HomeFragment";
     private View rootView;
-    public static ProductResponse.Product singleItem;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment implements
         my_recycler_view.setHasFixedSize(true);
         my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        adapter = new RecyclerList_homeAdapter(getContext(), allProductdata, this);
+        adapter = new RecyclerList_homeAdapter(getContext(), allProductdata, this, this);
         my_recycler_view.setAdapter(adapter);
 
         return rootView;
@@ -107,11 +107,8 @@ public class HomeFragment extends Fragment implements
         CategoryActivity.start(getActivity(), categoryName, categoryId);
     }
 
-    public static void setSingleItem(ProductResponse.Product singleItem) {
-        HomeFragment.singleItem = singleItem;
-    }
-
-    public static ProductResponse.Product getSingleItem() {
-        return singleItem;
+    @Override
+    public void onCardClick(ProductResponse.Product itemProduct) {
+        Toast.makeText(getContext(), itemProduct.getProductName(), Toast.LENGTH_SHORT).show();
     }
 }

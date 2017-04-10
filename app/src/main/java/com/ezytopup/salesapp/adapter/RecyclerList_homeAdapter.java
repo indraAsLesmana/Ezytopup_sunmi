@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -19,20 +18,22 @@ import java.util.ArrayList;
  * Created by indraaguslesmana on 4/3/17.
  */
 
-public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_homeAdapter.ItemRowHolder> {
+public class RecyclerList_homeAdapter extends RecyclerView.Adapter
+        <RecyclerList_homeAdapter.ItemRowHolder> {
 
     private ArrayList<ProductResponse.Result> dataList;
     private Context mContext;
     private static final String TAG = "RecyclerList_homeAdapter";
     private RecyclerList_homeAdapterListener mListener;
-    private ArrayList singleSectionItems;
-
+    private SectionListDataAdapter.SectionListDataAdapterListener mItemListener;
 
     public RecyclerList_homeAdapter(Context mContext, ArrayList<ProductResponse.Result> dataList,
-                                    RecyclerList_homeAdapterListener listener) {
+                                    RecyclerList_homeAdapterListener listener,
+                                    SectionListDataAdapter.SectionListDataAdapterListener listenerSection) {
         this.dataList = dataList;
         this.mContext = mContext;
         this.mListener = listener;
+        this.mItemListener = listenerSection;
     }
 
     @Override
@@ -45,10 +46,10 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
     public void onBindViewHolder(ItemRowHolder holder, final int position) {
         final String categoryName = dataList.get(position).getCategoryName();
         final String categoryId = dataList.get(position).getCategoryId();
-        singleSectionItems = dataList.get(position).getProducts();
+        ArrayList singleSectionItems = dataList.get(position).getProducts();
         holder.categoryTitle.setText(categoryName);
         SectionListDataAdapter itemListDataAdapter =
-                new SectionListDataAdapter(mContext, singleSectionItems);
+                new SectionListDataAdapter(mContext, singleSectionItems, mItemListener);
         holder.recycler_view_list.setHasFixedSize(true);
         holder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext,
                 LinearLayoutManager.HORIZONTAL, false));
@@ -63,13 +64,11 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
         });
     }
 
-
     @Override
     public int getItemCount() {
         if (null != dataList) return dataList.size();
         else return 0;
     }
-
 
     class ItemRowHolder extends RecyclerView.ViewHolder {
         private TextView categoryTitle;

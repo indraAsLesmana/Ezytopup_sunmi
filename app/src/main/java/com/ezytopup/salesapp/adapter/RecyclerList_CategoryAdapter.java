@@ -25,19 +25,23 @@ public class RecyclerList_CategoryAdapter extends RecyclerView.Adapter
     private Context mContext;
     private static final String TAG = "RecyclerList_CategoryAdapter";
 
-    public RecyclerList_CategoryAdapter(Context mContext, ArrayList<CategoryResponse.Product> itemList) {
+    public RecyclerList_CategoryAdapter(Context mContext,
+                                        ArrayList<CategoryResponse.Product> itemList) {
         this.mContext = mContext;
         this.itemList = itemList;
     }
 
     @Override
-    public RecyclerList_CategoryAdapter.ItemProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_singlecard_favorite, parent, false);
+    public RecyclerList_CategoryAdapter.ItemProductHolder
+    onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).
+                inflate(R.layout.list_singlecard_favorite, parent, false);
         return new ItemProductHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerList_CategoryAdapter.ItemProductHolder holder, int position) {
+    public void onBindViewHolder(RecyclerList_CategoryAdapter.
+                                             ItemProductHolder holder, int position) {
         CategoryResponse.Product singleItem = itemList.get(position);
         if (singleItem != null){
             holder.cat_title.setText(singleItem.getProductName());

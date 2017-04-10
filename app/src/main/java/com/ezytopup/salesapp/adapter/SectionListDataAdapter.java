@@ -28,10 +28,13 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
     private ArrayList<ProductResponse.Product> itemsList;
     private Context mContext;
     private static final String TAG = "SectionListDataAdapter";
+    private SectionListDataAdapterListener mListener;
 
-    public SectionListDataAdapter(Context mContext, ArrayList<ProductResponse.Product> itemsList) {
+    public SectionListDataAdapter(Context mContext, ArrayList<ProductResponse.Product> itemsList,
+                                  SectionListDataAdapterListener listener) {
         this.itemsList = itemsList;
         this.mContext = mContext;
+        this.mListener = listener;
     }
 
     @Override
@@ -57,10 +60,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
         holder.container_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeFragment.setSingleItem(singleItem);
-                Toast.makeText(mContext, HomeFragment.getSingleItem().getProductName(),
-                        Toast.LENGTH_SHORT).show();
-                //TODO just jump to detail activity
+                mListener.onCardClick(singleItem);
             }
         });
     }
@@ -84,4 +84,8 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
             container_card = (ConstraintLayout) itemView.findViewById(R.id.cn_cardview);
         }
     }
+    public interface SectionListDataAdapterListener{
+        void onCardClick(ProductResponse.Product itemProduct);
+    }
+
 }
