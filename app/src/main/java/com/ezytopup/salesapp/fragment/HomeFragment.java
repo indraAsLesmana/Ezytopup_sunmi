@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -44,6 +45,7 @@ public class HomeFragment extends Fragment implements
     private static final String TAG = "HomeFragment";
     private SliderLayout headerImages;
     private View rootView;
+    public static ProductResponse.Product singleItem;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -105,6 +107,14 @@ public class HomeFragment extends Fragment implements
 
     @Override
     public void onMoreClick(String categoryName, String categoryId) {
-        CategoryActivity.start(getActivity(), categoryName, categoryId); //TODO this jump to FaqActivity
+        CategoryActivity.start(getActivity(), categoryName, categoryId);
+    }
+
+    public static void setSingleItem(ProductResponse.Product singleItem) {
+        HomeFragment.singleItem = singleItem;
+    }
+
+    public static ProductResponse.Product getSingleItem() {
+        return singleItem;
     }
 }

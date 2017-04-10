@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -24,6 +25,8 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
     private Context mContext;
     private static final String TAG = "RecyclerList_homeAdapter";
     private RecyclerList_homeAdapterListener mListener;
+    private ArrayList singleSectionItems;
+
 
     public RecyclerList_homeAdapter(Context mContext, ArrayList<ProductResponse.Result> dataList,
                                     RecyclerList_homeAdapterListener listener) {
@@ -39,15 +42,13 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter<RecyclerList_
     }
 
     @Override
-    public void onBindViewHolder(ItemRowHolder holder, int position) {
+    public void onBindViewHolder(ItemRowHolder holder, final int position) {
         final String categoryName = dataList.get(position).getCategoryName();
         final String categoryId = dataList.get(position).getCategoryId();
-        ArrayList singleSectionItems = (ArrayList) dataList.get(position).getProducts();
+        singleSectionItems = dataList.get(position).getProducts();
+        holder.categoryTitle.setText(categoryName);
         SectionListDataAdapter itemListDataAdapter =
                 new SectionListDataAdapter(mContext, singleSectionItems);
-
-        holder.categoryTitle.setText(categoryName);
-
         holder.recycler_view_list.setHasFixedSize(true);
         holder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext,
                 LinearLayoutManager.HORIZONTAL, false));
