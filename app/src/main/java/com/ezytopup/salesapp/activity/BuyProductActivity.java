@@ -25,8 +25,8 @@ public class BuyProductActivity extends BaseActivity {
     private static final String PRODUCT = "BuyProductActivity::productid";
     private ProductResponse.Product mProduct;
     private ArrayList<DetailProductResponse.Result> results;
-    private TextView mSubtotal, mAdminFee, mTotal;
-    private ImageView mBackgroundProduct;
+    private TextView mSubtotal, mAdminFee, mTotal, mProductTitle, mProductPrice;
+    private ImageView mBackgroundProduct, mProductImage;
     private static final String TAG = "BuyProductActivity";
 
     public static void start(Activity caller, ProductResponse.Product product) {
@@ -45,13 +45,30 @@ public class BuyProductActivity extends BaseActivity {
             return;
         }
         results = new ArrayList<>();
-        mBackgroundProduct = (ImageView) findViewById(R.id.buy_bgproduct);
+        mBackgroundProduct = (ImageView) findViewById(R.id.buy_bgimage);
+        mProductImage = (ImageView) findViewById(R.id.buy_productimage);
+        mProductTitle = (TextView) findViewById(R.id.buy_producttitle);
+        mProductPrice = (TextView) findViewById(R.id.buy_productprice);
         mTotal = (TextView) findViewById(R.id.buy_total);
         mSubtotal = (TextView) findViewById(R.id.buy_subtotal);
         mAdminFee = (TextView) findViewById(R.id.buy_adminfee);
 
         mProduct = (ProductResponse.Product)getIntent().
                 getSerializableExtra(BuyProductActivity.PRODUCT);
+
+        mProductTitle.setText(mProduct.getProductName());
+        mProductPrice.setText(mProduct.getHargaToko());
+
+        Glide.with(BuyProductActivity.this)
+                .load(mProduct.getBackgroundImageUrl()).centerCrop()
+                .crossFade()
+                .into(mBackgroundProduct);
+
+        Glide.with(BuyProductActivity.this)
+                .load(mProduct.getImageUrl()).centerCrop()
+                .crossFade()
+                .into(mProductImage);
+
         getDetailProduct();
     }
 
@@ -80,12 +97,6 @@ public class BuyProductActivity extends BaseActivity {
                     // tidak ada Array. toh yg dikirim satu object
                     mTotal.setText(r.getHargaToko());
                     mSubtotal.setText(r.getHargaToko());
-
-                    Glide.with(BuyProductActivity.this)
-                            .load(mProduct.getBackgroundImageUrl()).centerCrop()
-                            .crossFade()
-                            .into(mBackgroundProduct);
-
                 }
             }
             @Override
