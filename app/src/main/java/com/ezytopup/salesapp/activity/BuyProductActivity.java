@@ -76,14 +76,15 @@ public class BuyProductActivity extends BaseActivity {
                 if (response.isSuccessful()){
                     results.addAll(response.body().result);
                     DetailProductResponse.Result r = results.get(0);
-                    //note API harusnya bentuknya langsung Object, bukan Array. toh yg dikirim satu object
+                    // note API harusnya bentuknya langsung Object,
+                    // tidak ada Array. toh yg dikirim satu object
                     mTotal.setText(r.getHargaToko());
                     mSubtotal.setText(r.getHargaToko());
 
                     Glide.with(BuyProductActivity.this)
                             .load(mProduct.getBackgroundImageUrl()).centerCrop()
+                            .crossFade()
                             .into(mBackgroundProduct);
-
 
                 }
             }

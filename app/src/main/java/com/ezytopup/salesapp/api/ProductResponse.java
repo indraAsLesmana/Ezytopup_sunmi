@@ -97,14 +97,6 @@ public class ProductResponse {
         public String getBackgroundImageUrl() {
             return backgroundImageUrl;
         }
-
-        public Product(String productId, String productName, String hargaToko, String imageUrl, String backgroundImageUrl) {
-            this.productId = productId;
-            this.productName = productName;
-            this.hargaToko = hargaToko;
-            this.imageUrl = imageUrl;
-            this.backgroundImageUrl = backgroundImageUrl;
-        }
     }
 
 }
