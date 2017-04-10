@@ -65,14 +65,14 @@
             android:layout_marginStart="8dp" />
 
         <TextView
-            android:id="@+id/buy_productprice"
+            android:id="@+id/buy_subtotal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
             app:layout_constraintRight_toRightOf="parent"
-            tools:text="@string/dummy_price1"
-            android:layout_marginEnd="8dp" />
+            tools:text="@string/dummy_price1" />
 
         <TextView
             android:id="@+id/textView5"
@@ -82,7 +82,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:text="@string/addminfee"
+            android:text="@string/addminfee"
             android:layout_marginStart="8dp" />
 
         <TextView
@@ -92,7 +92,7 @@
             android:layout_marginRight="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
             app:layout_constraintRight_toRightOf="parent"
-            tools:text="@string/dummy_price1"
+            android:text="0"
             android:layout_marginEnd="8dp" />
 
         <include

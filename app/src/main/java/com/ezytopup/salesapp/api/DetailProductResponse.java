@@ -45,6 +45,37 @@ public class DetailProductResponse {
         @Expose
         public String description;
 
+        public String getProductName() {
+            return productName;
+        }
+
+        public String getReviewUrl() {
+            return reviewUrl;
+        }
+
+        public String getShareUrl() {
+            return shareUrl;
+        }
+
+        public String getHargaToko() {
+            return hargaToko;
+        }
+
+        public String getInfo1() {
+            return info1;
+        }
+
+        public String getInfo2() {
+            return info2;
+        }
+
+        public String getInfo3() {
+            return info3;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
 
     public static class Status {

@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -324,20 +325,22 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
             @Override
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 showProgress(false);
+                if (response.isSuccessful()){
+                    Toast.makeText(Login.this,
+                            response.body().getUser().getFirstName(), Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(Login.this,
-                        response.body().getUser().getFirstName(), Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onResponse token: " + response.body().getUser().getAccessToken());
+                    PreferenceUtils.setStoreDetail(Login.this,
+                            response.body().getUser().getId(),
+                            response.body().getUser().getFirstName(),
+                            response.body().getUser().getLastName(),
+                            response.body().getUser().getEmail(),
+                            response.body().getUser().getPhoneNumber(),
+                            response.body().getUser().getAccessToken(),
+                            response.body().getUser().getImageUser());
 
-                PreferenceUtils.setStoreDetail(Login.this,
-                        response.body().getUser().getId(),
-                        response.body().getUser().getFirstName(),
-                        response.body().getUser().getLastName(),
-                        response.body().getUser().getEmail(),
-                        response.body().getUser().getPhoneNumber(),
-                        response.body().getUser().getAccessToken(),
-                        response.body().getUser().getImageUser());
-
-                MainActivity.start(Login.this);
+                    MainActivity.start(Login.this);
+                }
 
             }
 
