@@ -38,19 +38,16 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment implements
         RecyclerList_homeAdapter.RecyclerList_homeAdapterListener {
 
-
     private ArrayList<ProductResponse.Result> allProductdata;
     private RecyclerView my_recycler_view;
     private RecyclerList_homeAdapter adapter;
     private static final String TAG = "HomeFragment";
-    private SliderLayout headerImages;
     private View rootView;
     public static ProductResponse.Product singleItem;
 
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,11 +73,11 @@ public class HomeFragment extends Fragment implements
     }
 
     private void getProduct() {
-
         Call<ProductResponse> call = Eztytopup.getsAPIService().getProduct();
         call.enqueue(new Callback<ProductResponse>() {
             @Override
-            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+            public void onResponse(Call<ProductResponse> call,
+                                   Response<ProductResponse> response) {
                 if (response.isSuccessful()){
                     allProductdata.addAll(response.body().getResult());
                     adapter.notifyDataSetChanged();
@@ -92,7 +89,8 @@ public class HomeFragment extends Fragment implements
             public void onFailure(Call<ProductResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure: " + t.getMessage());
 
-                final Snackbar snackbar = Snackbar.make(rootView, t.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                final Snackbar snackbar = Snackbar.make(rootView, t.getMessage(),
+                        Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -103,7 +101,6 @@ public class HomeFragment extends Fragment implements
             }
         });
     }
-
 
     @Override
     public void onMoreClick(String categoryName, String categoryId) {
