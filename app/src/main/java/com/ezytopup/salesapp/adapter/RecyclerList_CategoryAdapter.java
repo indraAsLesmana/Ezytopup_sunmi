@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.CategoryResponse;
+import com.ezytopup.salesapp.utility.Constant;
 
 import java.util.ArrayList;
 
@@ -56,7 +57,8 @@ public class RecyclerList_CategoryAdapter extends RecyclerView.Adapter
                 Glide.with(mContext)
                         .load(singleItem.getReviewUrl()).centerCrop()
                         .error(R.drawable.com_facebook_profile_picture_blank_square)
-                        .crossFade()
+                        .crossFade(Constant.ITEM_CROSSFADEDURATION)
+
                         .into(holder.cat_image);
             }
             holder.card_container.setOnClickListener(new View.OnClickListener() {

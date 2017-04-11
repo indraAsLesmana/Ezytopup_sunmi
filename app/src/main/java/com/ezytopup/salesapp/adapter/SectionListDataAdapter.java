@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.ProductResponse;
 import com.ezytopup.salesapp.fragment.HomeFragment;
+import com.ezytopup.salesapp.utility.Constant;
 
 import java.util.ArrayList;
 
@@ -54,7 +55,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
             Glide.with(mContext)
                     .load(singleItem.getImageUrl()).centerCrop()
                     .error(R.drawable.com_facebook_profile_picture_blank_square)
-                    .crossFade()
+                    .crossFade(Constant.ITEM_CROSSFADEDURATION)
                     .into(holder.itemImage);
         }
         holder.container_card.setOnClickListener(new View.OnClickListener() {

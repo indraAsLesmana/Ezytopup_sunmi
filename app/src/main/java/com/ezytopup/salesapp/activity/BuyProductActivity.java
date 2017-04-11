@@ -58,6 +58,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             finish();
             return;
         }
+
         results = new ArrayList<>();
         ImageView mBackgroundProduct = (ImageView) findViewById(R.id.buy_bgimage);
         ImageView mProductImage = (ImageView) findViewById(R.id.buy_productimages);
@@ -78,13 +79,13 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
         Glide.with(BuyProductActivity.this)
                 .load(productBackground).centerCrop()
-                .crossFade()
+                .crossFade(Constant.ITEM_CROSSFADEDURATION)
                 .into(mBackgroundProduct);
         mBackgroundProduct.setImageAlpha(Constant.DEF_BGALPHA);
 
         Glide.with(BuyProductActivity.this)
                 .load(productImage).centerCrop()
-                .crossFade()
+                .crossFade(Constant.ITEM_CROSSFADEDURATION)
                 .into(mProductImage);
 
         getDetailProduct();

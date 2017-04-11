@@ -56,6 +56,6 @@ public class Constant {
     public static final long HEADER_DURATION = 5000;
     public static final long TUTORIAL_DURATION = 8000;
     public static final int DEF_BGALPHA = 230;
-
+    public static final int ITEM_CROSSFADEDURATION = 600;
 
 }
