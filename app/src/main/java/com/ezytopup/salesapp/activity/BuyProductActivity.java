@@ -23,16 +23,24 @@ import retrofit2.Response;
 
 public class BuyProductActivity extends BaseActivity {
 
-    private static final String PRODUCT = "BuyProductActivity::productid";
-    private ProductResponse.Product mProduct;
+    private static final String PRODUCT_ID = "BuyProductActivity::productid";
+    private static final String PRODUCT_NAME = "BuyProductActivity::productname";
+    private static final String PRODUCT_IMAGE = "BuyProductActivity::productimage";
+    private static final String PRODUCT_BG = "BuyProductActivity::productbackground";
+    private static final String PRODUCT_PRICE = "BuyProductActivity::productprice";
     private ArrayList<DetailProductResponse.Result> results;
-    private TextView mSubtotal, mAdminFee, mTotal, mProductTitle, mProductPrice;
-    private ImageView mBackgroundProduct, mProductImage;
+    private TextView mSubtotal;
+    private TextView mTotal;
     private static final String TAG = "BuyProductActivity";
+    private String productId;
 
-    public static void start(Activity caller, ProductResponse.Product product) {
+    public static void start(Activity caller, String id, String name, String image, String bg, String price) {
         Intent intent = new Intent(caller, BuyProductActivity.class);
-        intent.putExtra(PRODUCT, product);
+        intent.putExtra(PRODUCT_ID, id);
+        intent.putExtra(PRODUCT_NAME, name);
+        intent.putExtra(PRODUCT_IMAGE, image);
+        intent.putExtra(PRODUCT_BG, bg);
+        intent.putExtra(PRODUCT_PRICE, price);
         caller.startActivity(intent);
     }
 
@@ -41,33 +49,40 @@ public class BuyProductActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if (getIntent().getSerializableExtra(BuyProductActivity.PRODUCT) == null){
+        if (getIntent().getStringExtra(BuyProductActivity.PRODUCT_ID) == null||
+                getIntent().getStringExtra(BuyProductActivity.PRODUCT_NAME) == null||
+                getIntent().getStringExtra(BuyProductActivity.PRODUCT_IMAGE) == null||
+                getIntent().getStringExtra(BuyProductActivity.PRODUCT_BG) == null||
+                getIntent().getStringExtra(BuyProductActivity.PRODUCT_PRICE) == null){
             finish();
             return;
         }
         results = new ArrayList<>();
-        mBackgroundProduct = (ImageView) findViewById(R.id.buy_bgimage);
-        mProductImage = (ImageView) findViewById(R.id.buy_productimages);
-        mProductTitle = (TextView) findViewById(R.id.buy_producttitle);
-        mProductPrice = (TextView) findViewById(R.id.buy_productprice);
+        ImageView mBackgroundProduct = (ImageView) findViewById(R.id.buy_bgimage);
+        ImageView mProductImage = (ImageView) findViewById(R.id.buy_productimages);
+        TextView mProductTitle = (TextView) findViewById(R.id.buy_producttitle);
+        TextView mProductPrice = (TextView) findViewById(R.id.buy_productprice);
         mTotal = (TextView) findViewById(R.id.buy_total);
         mSubtotal = (TextView) findViewById(R.id.buy_subtotal);
-        mAdminFee = (TextView) findViewById(R.id.buy_adminfee);
+        TextView mAdminFee = (TextView) findViewById(R.id.buy_adminfee);
 
-        mProduct = (ProductResponse.Product)getIntent().
-                getSerializableExtra(BuyProductActivity.PRODUCT);
+        productId = getIntent().getStringExtra(BuyProductActivity.PRODUCT_ID);
+        String productName = getIntent().getStringExtra(BuyProductActivity.PRODUCT_NAME);
+        String productImage = getIntent().getStringExtra(BuyProductActivity.PRODUCT_IMAGE);
+        String productBackground = getIntent().getStringExtra(BuyProductActivity.PRODUCT_BG);
+        String productPrice = getIntent().getStringExtra(BuyProductActivity.PRODUCT_PRICE);
 
-        mProductTitle.setText(mProduct.getProductName());
-        mProductPrice.setText(mProduct.getHargaToko());
+        mProductTitle.setText(productName);
+        mProductPrice.setText(productPrice);
 
         Glide.with(BuyProductActivity.this)
-                .load(mProduct.getBackgroundImageUrl()).centerCrop()
+                .load(productBackground).centerCrop()
                 .crossFade()
                 .into(mBackgroundProduct);
         mBackgroundProduct.setImageAlpha(Constant.DEF_BGALPHA);
 
         Glide.with(BuyProductActivity.this)
-                .load(mProduct.getImageUrl()).centerCrop()
+                .load(productImage).centerCrop()
                 .crossFade()
                 .into(mProductImage);
 
@@ -87,7 +102,7 @@ public class BuyProductActivity extends BaseActivity {
 
     private void getDetailProduct(){
         Call<DetailProductResponse> product = Eztytopup.getsAPIService().
-                getDetailProduct(mProduct.getProductId());
+                getDetailProduct(productId);
         product.enqueue(new Callback<DetailProductResponse>() {
             @Override
             public void onResponse(Call<DetailProductResponse> call,

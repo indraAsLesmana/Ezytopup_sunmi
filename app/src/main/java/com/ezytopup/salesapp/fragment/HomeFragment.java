@@ -110,6 +110,11 @@ public class HomeFragment extends Fragment implements
 
     @Override
     public void onCardClick(ProductResponse.Product itemProduct) {
-        BuyProductActivity.start(getActivity(), itemProduct);
+        BuyProductActivity.start(getActivity(),
+                itemProduct.getProductId(),
+                itemProduct.getProductName(),
+                itemProduct.getImageUrl(),
+                itemProduct.getBackgroundImageUrl(),
+                itemProduct.getHargaToko());
     }
 }

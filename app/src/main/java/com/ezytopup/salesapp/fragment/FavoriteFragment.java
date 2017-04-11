@@ -94,6 +94,11 @@ public class FavoriteFragment extends Fragment implements
 
     @Override
     public void onCardclick(BestSellerResponse.Product product) {
-        BuyProductActivity.start(getActivity(), product);
+        BuyProductActivity.start(getActivity(),
+                product.getProductId(),
+                product.getProductName(),
+                product.getReviewUrl(),
+                product.getBackgroundImageUrl(),
+                product.getPrice());
     }
 }
