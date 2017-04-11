@@ -24,7 +24,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class CategoryActivity extends BaseActivity {
+public class CategoryActivity extends BaseActivity implements
+        RecyclerList_CategoryAdapter.RecyclerList_CategoryAdapterlistener{
 
     private static final String CATEGORY_NAME = "CategoryActivity::productName";
     private static final String CATEGORY_ID = "CategoryActivity::productId";
@@ -60,7 +61,7 @@ public class CategoryActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-        adapter = new RecyclerList_CategoryAdapter(CategoryActivity.this, results);
+        adapter = new RecyclerList_CategoryAdapter(CategoryActivity.this, results, this);
         recyclerView.setAdapter(adapter);
 
         if (results.isEmpty() || results.size() == 0) getCategory();
@@ -103,5 +104,15 @@ public class CategoryActivity extends BaseActivity {
     @Override
     public int getLayout() {
         return R.layout.activity_faq_andterm;
+    }
+
+    @Override
+    public void onCardClick(CategoryResponse.Product product) {
+        BuyProductActivity.start(this,
+                product.getProductId(),
+                product.getProductName(),
+                product.getReviewUrl(),
+                product.getBackgroundImageUrl(),
+                product.getPrice());
     }
 }

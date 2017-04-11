@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BuyProductActivity extends BaseActivity {
+public class BuyProductActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String PRODUCT_ID = "BuyProductActivity::productid";
     private static final String PRODUCT_NAME = "BuyProductActivity::productname";
@@ -130,5 +131,10 @@ public class BuyProductActivity extends BaseActivity {
     @Override
     public int getLayout() {
         return R.layout.activity_buyproduct;
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
