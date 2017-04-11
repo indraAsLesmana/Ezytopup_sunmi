@@ -9,6 +9,7 @@
     android:foreground="@drawable/ripple_custom">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/fav_cardcontainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="0dp"

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.adapter.RecyclerList_favoriteAdapter;
 import com.ezytopup.salesapp.api.BestSellerResponse;
 
@@ -27,7 +28,8 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoriteFragment extends Fragment {
+public class FavoriteFragment extends Fragment implements
+        RecyclerList_favoriteAdapter.RecyclerList_favoriteAdapterlistener{
 
     private ArrayList<BestSellerResponse.Product> AllFavoritedata;
     private RecyclerView my_recycler_view;
@@ -57,7 +59,7 @@ public class FavoriteFragment extends Fragment {
         my_recycler_view.setHasFixedSize(true);
         my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        adapter = new RecyclerList_favoriteAdapter(getContext(), AllFavoritedata);
+        adapter = new RecyclerList_favoriteAdapter(getContext(), AllFavoritedata, FavoriteFragment.this);
         my_recycler_view.setAdapter(adapter);
 
         return  rootView;
@@ -90,4 +92,8 @@ public class FavoriteFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onCardclick(BestSellerResponse.Product product) {
+        BuyProductActivity.start(getActivity(), product);
+    }
 }

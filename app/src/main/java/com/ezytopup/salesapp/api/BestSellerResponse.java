@@ -3,6 +3,7 @@ package com.ezytopup.salesapp.api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class BestSellerResponse {
         return status;
     }
 
-    public static class Product {
+    public static class Product implements Serializable{
 
         @SerializedName("product_id")
         @Expose

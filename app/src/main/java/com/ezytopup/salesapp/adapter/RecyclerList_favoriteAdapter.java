@@ -1,6 +1,7 @@
 package com.ezytopup.salesapp.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +24,13 @@ public class RecyclerList_favoriteAdapter extends RecyclerView.Adapter
 
     private ArrayList<BestSellerResponse.Product> itemList;
     private Context mContext;
+    private RecyclerList_favoriteAdapterlistener mListener;
 
-    public RecyclerList_favoriteAdapter(Context mContext, ArrayList<BestSellerResponse.Product> itemList) {
+    public RecyclerList_favoriteAdapter(Context mContext, ArrayList<BestSellerResponse.Product> itemList,
+                                        RecyclerList_favoriteAdapterlistener listener) {
         this.itemList = itemList;
         this.mContext = mContext;
+        this.mListener = listener;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class RecyclerList_favoriteAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(SingleItemFavHolder holder, int position) {
-        BestSellerResponse.Product singleItem = itemList.get(position);
+        final BestSellerResponse.Product singleItem = itemList.get(position);
         if (singleItem != null){
             holder.fav_title.setText(singleItem.getProductName());
             holder.fav_category_value.setText(singleItem.getCategoryName());
@@ -50,6 +54,12 @@ public class RecyclerList_favoriteAdapter extends RecyclerView.Adapter
                         .crossFade()
                         .into(holder.fav_image);
             }
+            holder.card_container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onCardclick(singleItem);
+                }
+            });
         }
     }
 
@@ -62,6 +72,7 @@ public class RecyclerList_favoriteAdapter extends RecyclerView.Adapter
     public class SingleItemFavHolder extends RecyclerView.ViewHolder {
         private TextView fav_title, fav_category_value, fav_price_value;
         private ImageView fav_image;
+        private ConstraintLayout card_container;
 
         public SingleItemFavHolder(View itemView) {
             super(itemView);
@@ -69,6 +80,11 @@ public class RecyclerList_favoriteAdapter extends RecyclerView.Adapter
             fav_category_value = (TextView) itemView.findViewById(R.id.fav_category_value);
             fav_price_value = (TextView) itemView.findViewById(R.id.fav_price_value);
             fav_image = (ImageView) itemView.findViewById(R.id.fav_image);
+            card_container = (ConstraintLayout) itemView.findViewById(R.id.fav_cardcontainer);
         }
+    }
+
+    public interface RecyclerList_favoriteAdapterlistener{
+        void onCardclick(BestSellerResponse.Product product);
     }
 }
