@@ -109,6 +109,7 @@
     <string name="my_email">My email</string>
     <string name="detail_product">Detail product</string>
     <string name="share">Share</string>
+    <string name="realtime_delivery">Realtime delivery</string>
 
     <string-array name="dummy_data">
         <item>One</item>
