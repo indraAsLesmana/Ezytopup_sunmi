@@ -52,10 +52,14 @@
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.FaqActivity" />
-        <activity android:name=".activity.TermActivity" />
-        <activity android:name=".activity.CategoryActivity" />
-        <activity android:name=".activity.BuyProductActivity"></activity>
+        <activity android:name=".activity.FaqActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.TermActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.CategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.BuyProductActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
