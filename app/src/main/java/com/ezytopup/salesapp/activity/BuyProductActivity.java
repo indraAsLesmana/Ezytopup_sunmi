@@ -90,8 +90,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                 .load(productImage).centerCrop()
                 .crossFade(Constant.ITEM_CROSSFADEDURATION)
                 .into(mProductImage);
+        mTotal.setText(productPrice);
+        mSubtotal.setText(productPrice);
 
-        getDetailProduct();
+//        getDetailProduct();
     }
 
     @Override
@@ -104,24 +106,6 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
         return super.onOptionsItemSelected(item);
     }
-
-    private void getLoadActivePayment(String id){
-        switch (id){
-            case Constant.INTERNET_BANK:
-
-                break;
-            case Constant.BANK_TRANSFER:
-
-                break;
-            case Constant.CREADIT_CARD:
-
-                break;
-            case Constant.EZYTOPUP_WALLET:
-
-                break;
-        }
-    }
-
 
     private void getDetailProduct(){
         Call<DetailProductResponse> product = Eztytopup.getsAPIService().
