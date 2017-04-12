@@ -55,4 +55,9 @@ public interface EzytopupAPI {
     @GET("WGS_API_categorized_products.php?" + Constant.API_URL_GENERALUSAGE)
     Call<CategoryResponse> getCategery(@Query("category_id") String productId);
 
+    @GET("WGS_API_payment_method_bank_transfer.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<BankTransferResponse> getBanktransfer();
+
+    @GET("WGS_API_payment_method.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<CheckActivePaymentResponse> getCheckactivePayment();
 }
