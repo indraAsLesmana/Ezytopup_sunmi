@@ -18,7 +18,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/buy_bgproduct"
@@ -157,7 +157,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/buy_bgproduct">
+                app:layout_constraintTop_toBottomOf="@+id/buy_bgproduct">
 
                 <TextView
                     android:id="@+id/textView2"
@@ -350,7 +350,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/buy_bgproduct" />
+                app:layout_constraintTop_toBottomOf="@+id/buy_bgproduct" />
 
         </android.support.constraint.ConstraintLayout>
 
