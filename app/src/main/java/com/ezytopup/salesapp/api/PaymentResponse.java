@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by indraaguslesmana on 4/12/17.
  */
 
-public class CheckActivePaymentResponse {
+public class PaymentResponse {
     @SerializedName("payment_methods")
     @Expose
     public ArrayList<PaymentMethod> paymentMethods = null;
@@ -33,7 +33,10 @@ public class CheckActivePaymentResponse {
         public String paymentMethod;
         @SerializedName("admin_fee")
         @Expose
-        public Object adminFee;
+        public String adminFee;
+        @SerializedName("admin_fee_persen")
+        @Expose
+        public String adminFeePersen;
         @SerializedName("payment_url")
         @Expose
         public String paymentUrl;
@@ -54,15 +57,18 @@ public class CheckActivePaymentResponse {
             return paymentMethod;
         }
 
-        public Object getAdminFee() {
+        public String getAdminFee() {
             return adminFee;
+        }
+
+        public String getAdminFeePersen() {
+            return adminFeePersen;
         }
 
         public String getPaymentUrl() {
             return paymentUrl;
         }
     }
-
     public class Status {
 
         @SerializedName("code")
@@ -71,5 +77,6 @@ public class CheckActivePaymentResponse {
         @SerializedName("message")
         @Expose
         public String message;
+
     }
 }

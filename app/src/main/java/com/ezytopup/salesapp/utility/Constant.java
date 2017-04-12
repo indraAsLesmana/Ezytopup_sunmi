@@ -58,4 +58,11 @@ public class Constant {
     public static final int DEF_BGALPHA = 230;
     public static final int ITEM_CROSSFADEDURATION = 600;
 
+    /**
+     * */
+    public static final String INTERNET_BANK = "101";
+    public static final String BANK_TRANSFER = "102";
+    public static final String CREADIT_CARD = "103";
+    public static final String EZYTOPUP_WALLET = "104";
+
 }

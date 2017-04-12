@@ -8,12 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.DetailProductResponse;
-import com.ezytopup.salesapp.api.ProductResponse;
 import com.ezytopup.salesapp.utility.Constant;
 
 import java.util.ArrayList;
@@ -29,13 +30,15 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private static final String PRODUCT_IMAGE = "BuyProductActivity::productimage";
     private static final String PRODUCT_BG = "BuyProductActivity::productbackground";
     private static final String PRODUCT_PRICE = "BuyProductActivity::productprice";
+    private ArrayList<PaymentResponse.PaymentMethod> paymentActive;
     private ArrayList<DetailProductResponse.Result> results;
     private TextView mSubtotal;
     private TextView mTotal;
     private static final String TAG = "BuyProductActivity";
     private String productId;
 
-    public static void start(Activity caller, String id, String name, String image, String bg, String price) {
+    public static void start(Activity caller, String id, String name, String image, String bg,
+                             String price) {
         Intent intent = new Intent(caller, BuyProductActivity.class);
         intent.putExtra(PRODUCT_ID, id);
         intent.putExtra(PRODUCT_NAME, name);
@@ -59,6 +62,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             return;
         }
 
+        paymentActive = new ArrayList<>();
         results = new ArrayList<>();
         ImageView mBackgroundProduct = (ImageView) findViewById(R.id.buy_bgimage);
         ImageView mProductImage = (ImageView) findViewById(R.id.buy_productimages);
@@ -89,6 +93,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                 .into(mProductImage);
 
         getDetailProduct();
+        getCheckPaymentMethod();
     }
 
     @Override
@@ -101,6 +106,48 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void getCheckPaymentMethod() {
+        Call<PaymentResponse> checkPayment = Eztytopup.getsAPIService()
+                .getCheckactivePayment();
+        checkPayment.enqueue(new Callback<PaymentResponse>() {
+            @Override
+            public void onResponse(Call<PaymentResponse> call,
+                                   Response<PaymentResponse> response) {
+                if (response.isSuccessful()){
+                    paymentActive.addAll(response.body().paymentMethods);
+                    for(PaymentResponse.PaymentMethod payment : paymentActive){
+                        Toast.makeText(BuyProductActivity.this, payment.getId(), Toast.LENGTH_SHORT).show();
+                        getLoadPayment(payment.getId());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PaymentResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getLoadPayment(String id){
+        switch (id){
+            case Constant.INTERNET_BANK:
+
+                break;
+            case Constant.BANK_TRANSFER:
+
+                break;
+            case Constant.CREADIT_CARD:
+
+                break;
+
+            case Constant.EZYTOPUP_WALLET:
+
+                break;
+        }
+    }
+
 
     private void getDetailProduct(){
         Call<DetailProductResponse> product = Eztytopup.getsAPIService().
