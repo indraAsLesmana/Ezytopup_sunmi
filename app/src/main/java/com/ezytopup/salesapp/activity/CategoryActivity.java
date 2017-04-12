@@ -1,15 +1,11 @@
 package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ezytopup.salesapp.Eztytopup;
@@ -79,7 +75,7 @@ public class CategoryActivity extends BaseActivity implements
     }
 
     private void getCategory() {
-        Call<CategoryResponse> category = Eztytopup.getsAPIService().getCategery(mCategoryId);
+        Call<CategoryResponse> category = Eztytopup.getsAPIService().getCategory(mCategoryId);
         category.enqueue(new Callback<CategoryResponse>() {
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {

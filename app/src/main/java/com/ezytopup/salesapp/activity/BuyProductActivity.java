@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
@@ -93,7 +92,6 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                 .into(mProductImage);
 
         getDetailProduct();
-        getCheckPaymentMethod();
     }
 
     @Override
@@ -107,30 +105,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-    private void getCheckPaymentMethod() {
-        Call<PaymentResponse> checkPayment = Eztytopup.getsAPIService()
-                .getCheckactivePayment();
-        checkPayment.enqueue(new Callback<PaymentResponse>() {
-            @Override
-            public void onResponse(Call<PaymentResponse> call,
-                                   Response<PaymentResponse> response) {
-                if (response.isSuccessful()){
-                    paymentActive.addAll(response.body().paymentMethods);
-                    for(PaymentResponse.PaymentMethod payment : paymentActive){
-                        Toast.makeText(BuyProductActivity.this, payment.getId(), Toast.LENGTH_SHORT).show();
-                        getLoadPayment(payment.getId());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PaymentResponse> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void getLoadPayment(String id){
+    private void getLoadActivePayment(String id){
         switch (id){
             case Constant.INTERNET_BANK:
 
@@ -141,7 +116,6 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             case Constant.CREADIT_CARD:
 
                 break;
-
             case Constant.EZYTOPUP_WALLET:
 
                 break;

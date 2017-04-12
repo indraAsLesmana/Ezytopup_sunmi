@@ -9,20 +9,24 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.api.EzytopupAPI;
+import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.utility.Constant;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import woyou.aidlservice.jiuiv5.ICallback;
@@ -45,12 +49,18 @@ public class Eztytopup extends Application {
 
     private final String HEADER_KEY1 = "application_id";
     private final String HEADER_KEY2 = "Authorize";
+    private static ArrayList<String> paymentActiveInfo;
+    private static ArrayList<PaymentResponse.PaymentMethod> paymentInternet;
+    private static ArrayList<PaymentResponse.PaymentMethod> paymentTransfer;
+    private static ArrayList<PaymentResponse.PaymentMethod> paymentCredit;
+    private static ArrayList<PaymentResponse.PaymentMethod> paymentWallet;
+    private ArrayList<PaymentResponse.PaymentMethod> paymentActive;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         sPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -75,9 +85,37 @@ public class Eztytopup extends Application {
 
         Retrofit retrofit = builder.build();
         sAPIService = retrofit.create(EzytopupAPI.class);
-
+        paymentActive = new ArrayList<>();
+        paymentActiveInfo = new ArrayList<>();
+        paymentInternet = new ArrayList<>();
+        paymentTransfer = new ArrayList<>();
+        paymentCredit = new ArrayList<>();
+        paymentWallet = new ArrayList<>();
+        loadPaymentInfo();
         initPrint();
     }
+
+    private void loadPaymentInfo() {
+        Call<PaymentResponse> payment = Eztytopup.getsAPIService().getCheckactivePayment();
+        payment.enqueue(new Callback<PaymentResponse>() {
+            @Override
+            public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                if (response.isSuccessful()){
+                    paymentActive.addAll(response.body().paymentMethods);
+                    for (PaymentResponse.PaymentMethod activePayment : paymentActive){
+                        paymentActiveInfo.add(activePayment.getId());
+                        getLoadActivePayment(activePayment.getId());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PaymentResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     /* printer connection snipet*/
     private static ServiceConnection connService = new ServiceConnection() {
 
@@ -117,6 +155,91 @@ public class Eztytopup extends Application {
         intent.setAction("woyou.aidlservice.jiuiv5.IWoyouService");
         startService(intent);
         bindService(intent, connService, Context.BIND_AUTO_CREATE);
+    }
+
+    private void getLoadActivePayment(String id) {
+        switch (id) {
+            case Constant.INTERNET_BANK:
+                Call<PaymentResponse> payInternet = Eztytopup.getsAPIService().getPaymentInetBanking();
+                payInternet.enqueue(new Callback<PaymentResponse>() {
+                    @Override
+                    public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                        if (response.isSuccessful()) {
+                            paymentInternet.clear();
+                            paymentInternet.addAll(response.body().paymentMethods);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PaymentResponse> call, Throwable t) {
+
+                    }
+                });
+
+                break;
+            case Constant.BANK_TRANSFER:
+                Call<PaymentResponse> payTransfer = Eztytopup.getsAPIService().getPaymentBankTransfer();
+                payTransfer.enqueue(new Callback<PaymentResponse>() {
+                    @Override
+                    public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                        if (response.isSuccessful()) {
+                            paymentTransfer.clear();
+                            paymentTransfer.addAll(response.body().paymentMethods);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PaymentResponse> call, Throwable t) {
+
+                    }
+                });
+
+                break;
+            case Constant.CREADIT_CARD:
+                Call<PaymentResponse> payCredit = Eztytopup.getsAPIService().getPaymentBankTransfer();
+                payCredit.enqueue(new Callback<PaymentResponse>() {
+                    @Override
+                    public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                        if (response.isSuccessful()) {
+                            paymentCredit.clear();
+                            paymentCredit.addAll(response.body().paymentMethods);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PaymentResponse> call, Throwable t) {
+
+                    }
+                });
+
+                break;
+            case Constant.EZYTOPUP_WALLET:
+                Call<PaymentResponse> payWallet = Eztytopup.getsAPIService().getPaymentBankTransfer();
+                payWallet.enqueue(new Callback<PaymentResponse>() {
+                    @Override
+                    public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                        if (response.isSuccessful()) {
+                            paymentWallet.clear();
+                            paymentWallet.addAll(response.body().paymentMethods);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PaymentResponse> call, Throwable t) {
+
+                    }
+                });
+
+                break;
+        }
+    }
+
+    public static ArrayList<String> getPaymentActiveInfo() {
+        return paymentActiveInfo;
+    }
+
+    public static void setPaymentActiveInfo(ArrayList<String> paymentActiveInfo) {
+        Eztytopup.paymentActiveInfo = paymentActiveInfo;
     }
 
     public static EzytopupAPI getsAPIService() {

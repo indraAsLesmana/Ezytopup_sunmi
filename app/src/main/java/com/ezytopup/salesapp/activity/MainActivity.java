@@ -31,6 +31,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
+import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.TutorialResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;

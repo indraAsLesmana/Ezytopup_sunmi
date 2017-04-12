@@ -53,8 +53,21 @@ public interface EzytopupAPI {
     Call<TermResponse> getTerm();
 
     @GET("WGS_API_categorized_products.php?" + Constant.API_URL_GENERALUSAGE)
-    Call<CategoryResponse> getCategery(@Query("category_id") String productId);
+    Call<CategoryResponse> getCategory(@Query("category_id") String productId);
 
     @GET("WGS_API_payment_method.php?" + Constant.API_URL_GENERALUSAGE)
     Call<PaymentResponse> getCheckactivePayment();
+
+    @GET("WGS_API_payment_method_internet_banking.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<PaymentResponse> getPaymentInetBanking();
+
+    @GET("WGS_API_payment_method_bank_transfer.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<PaymentResponse> getPaymentBankTransfer();
+
+    @GET("WGS_API_payment_method_credit_card.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<PaymentResponse> getPaymentCreditcard();
+
+    @GET("WGS_API_payment_method_wallet.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<PaymentResponse> getPaymentEzyWallet();
+
 }
