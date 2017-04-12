@@ -156,6 +156,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_buyitem" />
+    <include layout="@layout/content_buyitem"/>
 
 </android.support.design.widget.CoordinatorLayout>

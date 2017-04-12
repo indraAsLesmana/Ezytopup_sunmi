@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -107,7 +106,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         mMain_Pagger = (ViewPager) findViewById(R.id.vp_detailproduct);
 
         BuyFragment_Adapter adapter = new BuyFragment_Adapter(
-                getSupportFragmentManager(), this);
+                getSupportFragmentManager(), this, productId);
         mMain_Pagger.setOffscreenPageLimit(2);
         mMain_Pagger.setAdapter(adapter);
     }
