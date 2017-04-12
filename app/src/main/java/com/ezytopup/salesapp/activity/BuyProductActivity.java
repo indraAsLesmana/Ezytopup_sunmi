@@ -3,15 +3,18 @@ package com.ezytopup.salesapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.adapter.BuyFragment_Adapter;
 import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.utility.Constant;
@@ -35,6 +38,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private TextView mTotal;
     private static final String TAG = "BuyProductActivity";
     private String productId;
+    private TextView detailButton;
+    private ViewPager mMain_Pagger;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -67,9 +72,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         ImageView mProductImage = (ImageView) findViewById(R.id.buy_productimages);
         TextView mProductTitle = (TextView) findViewById(R.id.buy_producttitle);
         TextView mProductPrice = (TextView) findViewById(R.id.buy_productprice);
-        mTotal = (TextView) findViewById(R.id.buy_total);
+        detailButton = (TextView) findViewById(R.id.tvDetailProduct);
+        /*mTotal = (TextView) findViewById(R.id.buy_total);
         mSubtotal = (TextView) findViewById(R.id.buy_subtotal);
-        TextView mAdminFee = (TextView) findViewById(R.id.buy_adminfee);
+        TextView mAdminFee = (TextView) findViewById(R.id.buy_adminfee);*/
 
         productId = getIntent().getStringExtra(BuyProductActivity.PRODUCT_ID);
         String productName = getIntent().getStringExtra(BuyProductActivity.PRODUCT_NAME);
@@ -90,10 +96,20 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                 .load(productImage).centerCrop()
                 .crossFade(Constant.ITEM_CROSSFADEDURATION)
                 .into(mProductImage);
-        mTotal.setText(productPrice);
-        mSubtotal.setText(productPrice);
+        /*mTotal.setText(productPrice);
+        mSubtotal.setText(productPrice);*/
 
 //        getDetailProduct();
+        initTabMenu();
+    }
+
+    private void initTabMenu(){
+        mMain_Pagger = (ViewPager) findViewById(R.id.vp_detailproduct);
+
+        BuyFragment_Adapter adapter = new BuyFragment_Adapter(
+                getSupportFragmentManager(), this);
+        mMain_Pagger.setOffscreenPageLimit(2);
+        mMain_Pagger.setAdapter(adapter);
     }
 
     @Override
@@ -141,6 +157,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.tvDetailProduct:
+                mMain_Pagger.setCurrentItem(1, true);
+                break;
+        }
     }
 }

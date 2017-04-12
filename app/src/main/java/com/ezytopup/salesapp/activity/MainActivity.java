@@ -27,7 +27,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
-import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
+import com.ezytopup.salesapp.adapter.MainFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.TutorialResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity
         ViewPager mMain_Pagger = (ViewPager) findViewById(R.id.main_pagger);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
-        RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
+        MainFragment_Adapter adapter = new MainFragment_Adapter(
                 getSupportFragmentManager(), this);
         mMain_Pagger.setOffscreenPageLimit(4);
         mMain_Pagger.setAdapter(adapter);
