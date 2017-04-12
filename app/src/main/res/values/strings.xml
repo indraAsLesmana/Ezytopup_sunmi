@@ -110,6 +110,8 @@
     <string name="detail_product">Detail product</string>
     <string name="share">Share</string>
     <string name="realtime_delivery">Realtime delivery</string>
+    <string name="description">Description</string>
+    <string name="information">Information</string>
 
     <string-array name="dummy_data">
         <item>One</item>
