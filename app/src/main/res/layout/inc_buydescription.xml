@@ -25,9 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        tools:text="TextView"
+        android:textColor="@color/secondary_text"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/buy_info2"
@@ -36,6 +37,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         tools:text="TextView"
+        android:textColor="@color/secondary_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buy_info1" />
 
@@ -46,6 +48,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         tools:text="TextView"
+        android:textColor="@color/secondary_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buy_info2" />
 
@@ -66,8 +69,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        android:padding="8dp"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:textColor="@color/secondary_text"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13"
         tools:text="@string/dummy_text" />
 </android.support.constraint.ConstraintLayout>
