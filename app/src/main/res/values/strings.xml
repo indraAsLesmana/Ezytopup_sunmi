@@ -113,6 +113,7 @@
     <string name="description">Description</string>
     <string name="information">Information</string>
     <string name="buy">Buy</string>
+    <string name="keyword">Keyword</string>
 
     <string-array name="dummy_data">
         <item>One</item>
