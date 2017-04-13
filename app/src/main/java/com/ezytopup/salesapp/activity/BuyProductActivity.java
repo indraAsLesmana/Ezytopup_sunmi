@@ -3,6 +3,7 @@ package com.ezytopup.salesapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private TextView mTotal;
     private static final String TAG = "BuyProductActivity";
     private String productId;
+    private TextView bt_Detailproduct;
+    private View view_desc;
+    private ConstraintLayout view_detailbuy;
+    private TextView info1, info2, info3, buy_desc;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -63,6 +68,13 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
         paymentActive = new ArrayList<>();
         results = new ArrayList<>();
+        info1 = (TextView) findViewById(R.id.buy_info1);
+        info2 = (TextView) findViewById(R.id.buy_info2);
+        info3 = (TextView) findViewById(R.id.buy_info3);
+        buy_desc = (TextView) findViewById(R.id.buy_description);
+        view_desc = findViewById(R.id.buy_descview);
+        view_detailbuy = (ConstraintLayout) findViewById(R.id.buy_detailview);
+        bt_Detailproduct = (TextView) findViewById(R.id.tvDetailProduct);
         ImageView mBackgroundProduct = (ImageView) findViewById(R.id.buy_bgimage);
         ImageView mProductImage = (ImageView) findViewById(R.id.buy_productimages);
         TextView mProductTitle = (TextView) findViewById(R.id.buy_producttitle);
@@ -93,7 +105,22 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         mTotal.setText(productPrice);
         mSubtotal.setText(productPrice);
 
-//        getDetailProduct();
+        bt_Detailproduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (view_detailbuy.isShown()){
+                    bt_Detailproduct.setText(R.string.buy);
+                    view_detailbuy.setVisibility(View.GONE);
+                    view_desc.setVisibility(View.VISIBLE);
+                }else {
+                    bt_Detailproduct.setText(R.string.detail_product);
+                    view_detailbuy.setVisibility(View.VISIBLE);
+                    view_desc.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        getDetailProduct();
     }
 
     @Override
@@ -117,8 +144,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                 if (response.isSuccessful()){
                     results.addAll(response.body().result);
                     DetailProductResponse.Result r = results.get(0);
-                    mTotal.setText(r.getHargaToko());
-                    mSubtotal.setText(r.getHargaToko());
+                    info1.setText(r.getInfo1());
+                    info2.setText(r.getInfo2());
+                    info3.setText(r.getInfo3());
+                    buy_desc.setText(r.getDescription());
                 }
             }
             @Override

@@ -151,6 +151,7 @@
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/buy_detailview"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:visibility="visible"
@@ -343,6 +344,7 @@
             </android.support.constraint.ConstraintLayout>
 
             <include
+                android:id="@+id/buy_descview"
                 layout="@layout/inc_buydescription"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
