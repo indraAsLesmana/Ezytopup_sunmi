@@ -32,7 +32,6 @@ public class FavoriteFragment extends Fragment implements
         RecyclerList_favoriteAdapter.RecyclerList_favoriteAdapterlistener{
 
     private ArrayList<BestSellerResponse.Product> AllFavoritedata;
-    private RecyclerView my_recycler_view;
     private RecyclerList_favoriteAdapter adapter;
     private static final String TAG = "FavoriteFragment";
     private View rootView;
@@ -52,13 +51,12 @@ public class FavoriteFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_generallist, container, false);
-        my_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
-        my_recycler_view.setHasFixedSize(true);
-        my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
+        RecyclerView recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
+        recycler_view.setHasFixedSize(true);
+        recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
         adapter = new RecyclerList_favoriteAdapter(getContext(), AllFavoritedata, FavoriteFragment.this);
-        my_recycler_view.setAdapter(adapter);
-
+        recycler_view.setAdapter(adapter);
         return  rootView;
     }
 

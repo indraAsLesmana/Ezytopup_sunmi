@@ -38,7 +38,7 @@ public interface EzytopupAPI {
     Call<BestSellerResponse> getBestSeller();
 
     @GET("WGS_API_search_products.php?" + Constant.API_URL_GENERALUSAGE)
-    Call<SearchResponse> getSearch();
+    Call<SearchResponse> getSearch(@Query("name") String productName);
 
     @GET("WGS_API_get_detail_products.php?" + Constant.API_URL_GENERALUSAGE)
     Call<DetailProductResponse> getDetailProduct(@Query("id") String productid);
