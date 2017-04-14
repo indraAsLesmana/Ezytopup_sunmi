@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
+        android:layout_marginTop="8dp"
         app:cardUseCompatPadding="true">
 
         <android.support.v7.widget.RecyclerView

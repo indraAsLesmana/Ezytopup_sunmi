@@ -58,7 +58,6 @@ public class RecyclerList_CategoryAdapter extends RecyclerView.Adapter
                         .load(singleItem.getReviewUrl()).centerCrop()
                         .error(R.drawable.com_facebook_profile_picture_blank_square)
                         .crossFade(Constant.ITEM_CROSSFADEDURATION)
-
                         .into(holder.cat_image);
             }
             holder.card_container.setOnClickListener(new View.OnClickListener() {

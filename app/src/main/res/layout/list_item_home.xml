@@ -26,20 +26,22 @@
             android:layout_toLeftOf="@+id/btn_more"
             android:textColor="@color/primary_text"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="8dp"
             android:textSize="18sp"
             android:typeface="sans"
             tools:text="Sample title" />
 
         <TextView
             android:id="@+id/btn_more"
-            android:layout_width="wrap_content"
+            android:layout_width="58dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:background="@android:color/transparent"
+            android:background="@drawable/button_email_gift"
             android:text="@string/more"
+            android:gravity="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp" />
 
