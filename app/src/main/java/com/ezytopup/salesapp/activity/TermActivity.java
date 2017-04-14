@@ -39,7 +39,7 @@ public class TermActivity extends BaseActivity {
         titleText.setVisibility(View.GONE);
 
         results = new ArrayList<>();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.faq_mainrecycler);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);

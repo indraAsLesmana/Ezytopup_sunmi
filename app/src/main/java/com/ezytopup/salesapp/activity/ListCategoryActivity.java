@@ -38,12 +38,12 @@ public class ListCategoryActivity extends BaseActivity implements
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         allCategoryProduct = new ArrayList<>();
-        RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.faq_mainrecycler);
-        my_recycler_view.setHasFixedSize(true);
-        my_recycler_view.setLayoutManager(new LinearLayoutManager(this,
+        RecyclerView list_recyclerview = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
+        list_recyclerview.setHasFixedSize(true);
+        list_recyclerview.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
-        adapter = new RecyclerList_ListCategoryAdapter(allCategoryProduct, this, this);
-        my_recycler_view.setAdapter(adapter);
+        adapter = new RecyclerList_ListCategoryAdapter(ListCategoryActivity.this, allCategoryProduct, this);
+        list_recyclerview.setAdapter(adapter);
         getlistCategory();
     }
 

@@ -26,11 +26,10 @@ public class RecyclerList_ListCategoryAdapter extends RecyclerView.Adapter
     private Context mContext;
     private static final String TAG = "RecyclerList_CategoryAdapter";
     private RecyclerList_ListCategoryAdapterlistener mListener;
-    private ListCategoryResponse.Category singleItem;
 
-    public RecyclerList_ListCategoryAdapter(ArrayList<ListCategoryResponse.Category> itemList,
-                                            RecyclerList_ListCategoryAdapterlistener mListener,
-                                            Context mContext) {
+    public RecyclerList_ListCategoryAdapter(Context mContext,
+                                            ArrayList<ListCategoryResponse.Category> itemList,
+                                            RecyclerList_ListCategoryAdapterlistener mListener) {
         this.itemList = itemList;
         this.mContext = mContext;
         this.mListener = mListener;
@@ -45,7 +44,7 @@ public class RecyclerList_ListCategoryAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ItemProductHolder holder, int position) {
-        singleItem = itemList.get(position);
+        final ListCategoryResponse.Category singleItem = itemList.get(position);
         if (singleItem != null){
             holder.card_categoryname.setText(singleItem.getName());
 

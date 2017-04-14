@@ -53,7 +53,7 @@ public class CategoryActivity extends BaseActivity implements
         categoryTitle.setText(String.format("%s: %s", getString(R.string.category), mCategoryName));
 
         results = new ArrayList<>();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.faq_mainrecycler);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
