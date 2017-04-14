@@ -28,7 +28,6 @@ public class CategoryActivity extends BaseActivity implements
     private RecyclerList_CategoryAdapter adapter;
     private ArrayList<CategoryResponse.Product> results;
     private static final String TAG = "CategoryActivity";
-
     private String mCategoryId;
 
     public static void start(Activity caller, String categoryName, String categoryId) {
@@ -36,7 +35,6 @@ public class CategoryActivity extends BaseActivity implements
         intent.putExtra(CATEGORY_NAME, categoryName);
         intent.putExtra(CATEGORY_ID, categoryId);
         caller.startActivity(intent);
-//        if(caller instanceof ListCategoryActivity)caller.finish();
     }
 
     @Override

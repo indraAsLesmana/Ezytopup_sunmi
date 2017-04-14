@@ -37,7 +37,6 @@ public class FavoriteFragment extends Fragment implements
     private static final String TAG = "FavoriteFragment";
     private View rootView;
 
-
     public FavoriteFragment() {
         // Required empty public constructor
     }
@@ -52,10 +51,8 @@ public class FavoriteFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_favorite, container, false);
-
-        my_recycler_view = (RecyclerView) rootView.findViewById(R.id.rc_favorite_recycle);
+        rootView = inflater.inflate(R.layout.fragment_generallist, container, false);
+        my_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         my_recycler_view.setHasFixedSize(true);
         my_recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));

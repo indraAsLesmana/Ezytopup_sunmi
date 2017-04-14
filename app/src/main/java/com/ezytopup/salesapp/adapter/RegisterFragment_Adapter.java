@@ -9,6 +9,7 @@ import android.text.SpannableString;
 
 import com.ezytopup.salesapp.fragment.FavoriteFragment;
 import com.ezytopup.salesapp.fragment.HomeFragment;
+import com.ezytopup.salesapp.fragment.SearchFragment;
 
 
 /**
@@ -40,7 +41,7 @@ public class RegisterFragment_Adapter extends FragmentPagerAdapter {
             case HISTORY:
                 return new HomeFragment();
             case SEARCH:
-                return new HomeFragment();
+                return new SearchFragment();
             default:
                 return new HomeFragment();
         }

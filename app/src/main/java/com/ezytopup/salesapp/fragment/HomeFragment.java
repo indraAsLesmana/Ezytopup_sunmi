@@ -1,7 +1,6 @@
 package com.ezytopup.salesapp.fragment;
 
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -11,12 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.daimajia.slider.library.Indicators.PagerIndicator;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.activity.BuyProductActivity;
@@ -24,7 +18,6 @@ import com.ezytopup.salesapp.activity.CategoryActivity;
 import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
 import com.ezytopup.salesapp.adapter.SectionListDataAdapter;
 import com.ezytopup.salesapp.api.ProductResponse;
-import com.ezytopup.salesapp.utility.Helper;
 
 import java.util.ArrayList;
 
@@ -61,7 +54,7 @@ public class HomeFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        rootView = inflater.inflate(R.layout.fragment_generallist, container, false);
 
         my_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         my_recycler_view.setHasFixedSize(true);
