@@ -36,6 +36,7 @@ public class CategoryActivity extends BaseActivity implements
         intent.putExtra(CATEGORY_NAME, categoryName);
         intent.putExtra(CATEGORY_ID, categoryId);
         caller.startActivity(intent);
+//        if(caller instanceof ListCategoryActivity)caller.finish();
     }
 
     @Override

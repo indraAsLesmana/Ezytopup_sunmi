@@ -77,7 +77,7 @@ public class ListCategoryActivity extends BaseActivity implements
 
     @Override
     public void onCardClick(ListCategoryResponse.Category singleItem) {
-        Toast.makeText(this, singleItem.getName(), Toast.LENGTH_SHORT).show();
+        CategoryActivity.start(ListCategoryActivity.this, singleItem.getName(), singleItem.getId());
     }
 
     @Override
