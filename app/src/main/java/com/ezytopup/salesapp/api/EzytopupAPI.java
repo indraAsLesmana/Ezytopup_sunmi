@@ -70,4 +70,7 @@ public interface EzytopupAPI {
     @GET("WGS_API_payment_method_wallet.php?" + Constant.API_URL_GENERALUSAGE)
     Call<PaymentResponse> getPaymentEzyWallet();
 
+    @GET("WGS_API_categories.php?" + Constant.API_URL_GENERALUSAGE)
+    Call <ListCategoryResponse> getListCategory();
+
 }

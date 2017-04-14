@@ -99,7 +99,7 @@ public class CategoryActivity extends BaseActivity implements
 
     @Override
     public int getLayout() {
-        return R.layout.activity_faq_andterm;
+        return R.layout.activity_generallist;
     }
 
     @Override

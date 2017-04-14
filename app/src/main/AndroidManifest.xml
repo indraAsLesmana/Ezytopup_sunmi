@@ -55,7 +55,8 @@
         <activity android:name=".activity.FaqActivity" />
         <activity android:name=".activity.TermActivity" />
         <activity android:name=".activity.CategoryActivity" />
-        <activity android:name=".activity.BuyProductActivity"></activity>
+        <activity android:name=".activity.BuyProductActivity"/>
+        <activity android:name=".activity.ListCategoryActivity"/>
     </application>
 
 </manifest>

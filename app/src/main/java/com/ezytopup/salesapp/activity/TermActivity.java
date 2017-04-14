@@ -85,6 +85,6 @@ public class TermActivity extends BaseActivity {
 
     @Override
     public int getLayout() {
-        return R.layout.activity_faq_andterm;
+        return R.layout.activity_generallist;
     }
 }

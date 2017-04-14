@@ -152,17 +152,10 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_category) {
+            ListCategoryActivity.start(MainActivity.this);
             return true;
         }
 
