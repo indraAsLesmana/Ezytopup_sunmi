@@ -2,8 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/add_tocart"
-        android:icon="@drawable/ic_shopping_cart_black_28dp"
+        android:id="@+id/action_category"
+        android:title="@string/category"
         app:showAsAction="always" />
 </menu>

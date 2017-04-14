@@ -153,11 +153,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.action_settings);
-        item.setEnabled(true);
-        item.getIcon().setAlpha(0);
         return super.onPrepareOptionsMenu(menu);
-
     }
 
     @Override
@@ -166,7 +162,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_category) {
             return true;
         }
 
