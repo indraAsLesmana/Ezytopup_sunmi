@@ -71,6 +71,9 @@ public interface EzytopupAPI {
     Call<PaymentResponse> getPaymentEzyWallet();
 
     @GET("WGS_API_categories.php?" + Constant.API_URL_GENERALUSAGE)
-    Call <ListCategoryResponse> getListCategory();
+    Call<ListCategoryResponse> getListCategory();
+
+    @GET("WGS_API_get_order_transaction_history.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<TransactionHistoryResponse> getHistory(@Query("customerId") String customerId);
 
 }
