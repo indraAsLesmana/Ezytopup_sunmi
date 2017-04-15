@@ -70,8 +70,8 @@
                 app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintLeft_toRightOf="@id/textView12"
                 app:layout_constraintRight_toRightOf="parent"
-                tools:layout_editor_absoluteY="35dp"
-                tools:text="@string/dummy_price1" />
+                tools:text="@string/dummy_price1"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView12" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -96,8 +96,8 @@
                 app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintLeft_toRightOf="@id/textView15"
                 app:layout_constraintRight_toRightOf="parent"
-                tools:layout_editor_absoluteY="60dp"
-                tools:text="@string/dummy_price1" />
+                tools:text="@string/dummy_price1"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView15" />
 
             <include
                 android:id="@+id/include3"
