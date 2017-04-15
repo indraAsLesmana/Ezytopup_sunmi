@@ -115,6 +115,12 @@
     <string name="buy">Buy</string>
     <string name="keyword">Keyword</string>
     <string name="search">Search</string>
+    <string name="dummy_date">15/04/2017</string>
+    <string name="payment">Payment</string>
+    <string name="date">Date</string>
+    <string name="dummy_email">indra.agus@kiranatama.com</string>
+    <string name="status">Status</string>
+    <string name="transfer_bank">Transfer otomatis PermataBank</string>
 
     <string-array name="dummy_data">
         <item>One</item>
