@@ -73,6 +73,7 @@ public class Eztytopup extends Application {
                     public Response intercept(Chain chain) throws IOException {
                         Request request = chain.request().newBuilder()
                                 .addHeader(HEADER_KEY1, "Ezy_Apps_WGS")
+                                .addHeader(HEADER_KEY2, "0bfe1bb3f7017a6ed4c5d475527c660162110112152a5eed5bfbf1f43f725ebaac39e11ccc193ddc11f6659a72a328bd")
                                 .build();
                         return chain.proceed(request);
                     }

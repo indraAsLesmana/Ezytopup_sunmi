@@ -40,9 +40,9 @@
             android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="@color/primary_text"
-            app:layout_constraintLeft_toLeftOf="@+id/item_image"
-            app:layout_constraintRight_toRightOf="@+id/item_image"
-            app:layout_constraintTop_toBottomOf="@+id/item_image"
+            app:layout_constraintLeft_toLeftOf="@id/item_image"
+            app:layout_constraintRight_toRightOf="@id/item_image"
+            app:layout_constraintTop_toBottomOf="@id/item_image"
             tools:text="@string/dummy_titlecard"
             app:layout_constraintHorizontal_bias="0.5" />
 

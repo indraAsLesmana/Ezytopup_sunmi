@@ -19,7 +19,7 @@ public class PreferenceUtils {
                                        String email, String phone_number, String access_token,
                                        String image_user){
         SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
-        editor.putInt(context.getString(R.string.settings_def_storeid_key), id);
+        editor.putInt(context.getString(R.string.settings_def_uid_key), id);
         editor.putString(context.getString(R.string.settings_def_storefirst_name_key), first_name);
         editor.putString(context.getString(R.string.settings_def_storelast_name_key), last_name);
         editor.putString(context.getString(R.string.settings_def_storeemail_key), email);
@@ -30,7 +30,7 @@ public class PreferenceUtils {
     }
     public static void destroyUserSession(Context context) {
         SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
-        editor.remove(context.getString(R.string.settings_def_storeid_key));
+        editor.remove(context.getString(R.string.settings_def_uid_key));
         editor.remove(context.getString(R.string.settings_def_storefirst_name_key));
         editor.remove(context.getString(R.string.settings_def_storelast_name_key));
         editor.remove(context.getString(R.string.settings_def_storeemail_key));
@@ -93,9 +93,9 @@ public class PreferenceUtils {
         int result = 0;
         SharedPreferences dataPreferece = Eztytopup.getsPreferences();
         switch (prefereceKeyName){
-            case R.string.settings_def_storeid_key:
+            case R.string.settings_def_uid_key:
                 result = dataPreferece.getInt(
-                        context.getString(R.string.settings_def_storeid_key), 0);
+                        context.getString(R.string.settings_def_uid_key), 0);
                 break;
         }
         return result;

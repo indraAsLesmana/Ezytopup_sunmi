@@ -326,7 +326,8 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 showProgress(false);
                 if (response.isSuccessful()){
-                    Log.i(TAG, "onResponse token: " + response.body().getUser().getAccessToken());
+                    Log.i(TAG, "onResponse getid: " + response.body().getUser().getId());
+
                     PreferenceUtils.setStoreDetail(Login.this,
                             response.body().getUser().getId(),
                             response.body().getUser().getFirstName(),
