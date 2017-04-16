@@ -31,6 +31,14 @@ public class TermResponse {
         @SerializedName("message")
         @Expose
         public String message;
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 
 }

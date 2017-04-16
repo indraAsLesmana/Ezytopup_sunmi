@@ -45,6 +45,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -325,7 +326,9 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
             @Override
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 showProgress(false);
-                if (response.isSuccessful()){
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     Log.i(TAG, "onResponse getid: " + response.body().getUser().getId());
 
                     PreferenceUtils.setStoreDetail(Login.this,
@@ -338,6 +341,9 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
                             response.body().getUser().getImageUser());
 
                     MainActivity.start(Login.this);
+                }else {
+                    Toast.makeText(Login.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -7,12 +7,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RecyclerList_CategoryAdapter;
 import com.ezytopup.salesapp.api.CategoryResponse;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -78,9 +80,14 @@ public class CategoryActivity extends BaseActivity implements
         category.enqueue(new Callback<CategoryResponse>() {
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     results.addAll(response.body().products);
                     adapter.notifyDataSetChanged();
+                }else {
+                    Toast.makeText(CategoryActivity.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 

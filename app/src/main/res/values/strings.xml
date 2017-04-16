@@ -78,7 +78,6 @@
     <string name="print">Print</string>
     <string name="action_print_invoice">Print invoice</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="more">More</string>
     <string name="dummy_titlecard">Steam wallet IDR 600,000 (Digital) Gameschool</string>

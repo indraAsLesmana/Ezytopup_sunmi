@@ -14,6 +14,7 @@ import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RecyclerList_ListCategoryAdapter;
 import com.ezytopup.salesapp.api.ListCategoryResponse;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -52,9 +53,14 @@ public class ListCategoryActivity extends BaseActivity implements
         listcategory.enqueue(new Callback<ListCategoryResponse>() {
             @Override
             public void onResponse(Call<ListCategoryResponse> call, Response<ListCategoryResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     allCategoryProduct.addAll(response.body()._0.categories);
                     adapter.notifyDataSetChanged();
+                }else {
+                    Toast.makeText(ListCategoryActivity.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 

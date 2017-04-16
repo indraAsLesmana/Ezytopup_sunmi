@@ -1,6 +1,7 @@
 package com.ezytopup.salesapp.fragment;
 
 
+import android.net.Network;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
@@ -17,11 +19,13 @@ import com.ezytopup.salesapp.adapter.Recyclerlist_HistoryAdapter;
 import com.ezytopup.salesapp.api.TransactionHistoryResponse;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HTTP;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +59,7 @@ public class HistoryFragment extends Fragment {
         recycler_view.setAdapter(adapter);
         /*int uid = PreferenceUtils.getSinglePrefrenceInt(getContext(), R.string.settings_def_uid);
         if ( uid != 0) getHistory(uid);*/
+//        String token = "4d0d9a51f6d19eed7aceccbdee98440e94543b6edf9c152c8365a2fee60a1ed030437bf1786d8674360fac4dab60eb06";
         getHistory(1485);
         return  rootView;
     }
@@ -65,9 +70,15 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onResponse(Call<TransactionHistoryResponse> call,
                                    Response<TransactionHistoryResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     Allhistory.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
+
+                }else {
+                    Toast.makeText(getContext(), response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
@@ -18,6 +19,7 @@ import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.adapter.RecyclerList_favoriteAdapter;
 import com.ezytopup.salesapp.api.BestSellerResponse;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -66,11 +68,15 @@ public class FavoriteFragment extends Fragment implements
         call.enqueue(new Callback<BestSellerResponse>() {
             @Override
             public void onResponse(Call<BestSellerResponse> call, Response<BestSellerResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     AllFavoritedata.addAll(response.body().getProducts());
                     adapter.notifyDataSetChanged();
+                }else {
+                    Toast.makeText(getContext(), response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
-                Log.i(TAG, "onResponse: " + response.message());
             }
 
             @Override

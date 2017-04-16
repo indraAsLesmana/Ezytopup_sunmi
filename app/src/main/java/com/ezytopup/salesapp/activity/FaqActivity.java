@@ -15,6 +15,7 @@ import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RecyclerList_FaqAdapter;
 import com.ezytopup.salesapp.api.FaqResponse;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -66,9 +67,14 @@ public class FaqActivity extends BaseActivity {
         faq.enqueue(new Callback<FaqResponse>() {
             @Override
             public void onResponse(Call<FaqResponse> call, Response<FaqResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     results.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
+                }else {
+                    Toast.makeText(FaqActivity.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
@@ -24,6 +25,7 @@ import com.ezytopup.salesapp.adapter.RecyclerList_searchAdapter;
 import com.ezytopup.salesapp.api.BestSellerResponse;
 import com.ezytopup.salesapp.api.SearchResponse;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -83,10 +85,15 @@ public class SearchFragment extends Fragment implements
         searchResult.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     AllFavoritedata.clear();
                     AllFavoritedata.addAll(response.body().products);
                     adapter.notifyDataSetChanged();
+                }else {
+                    Toast.makeText(getContext(), response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 

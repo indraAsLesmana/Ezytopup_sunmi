@@ -8,12 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RecyclerList_TermAdapter;
 import com.ezytopup.salesapp.api.TermResponse;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -65,9 +67,14 @@ public class TermActivity extends BaseActivity {
         term.enqueue(new Callback<TermResponse>() {
             @Override
             public void onResponse(Call<TermResponse> call, Response<TermResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     results.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
+                }else {
+                    Toast.makeText(TermActivity.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 

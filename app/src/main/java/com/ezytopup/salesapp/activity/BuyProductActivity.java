@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
@@ -17,6 +18,7 @@ import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.utility.Constant;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -141,13 +143,18 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onResponse(Call<DetailProductResponse> call,
                                    Response<DetailProductResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     results.addAll(response.body().result);
                     DetailProductResponse.Result r = results.get(0);
                     info1.setText(r.getInfo1());
                     info2.setText(r.getInfo2());
                     info3.setText(r.getInfo3());
                     buy_desc.setText(r.getDescription());
+                }else {
+                    Toast.makeText(BuyProductActivity.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
             @Override

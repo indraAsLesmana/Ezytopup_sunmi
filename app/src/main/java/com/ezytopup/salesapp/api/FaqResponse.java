@@ -38,5 +38,12 @@ public class FaqResponse {
         @Expose
         public String message;
 
+        public String getCode() {
+            return code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 }

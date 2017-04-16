@@ -57,7 +57,6 @@ public class ProductResponse {
             this.products = products;
         }
 
-
     }
 
     public static class Product implements Serializable{

@@ -27,6 +27,13 @@ public class ListCategoryResponse {
         @Expose
         public String message;
 
+        public String getCode() {
+            return code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 
     public class _0 {

@@ -34,6 +34,7 @@ import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -96,7 +97,9 @@ public class MainActivity extends BaseActivity
         call.enqueue(new Callback<HeaderimageResponse>() {
             @Override
             public void onResponse(Call<HeaderimageResponse> call, Response<HeaderimageResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     headerImage.addAll(response.body().result);
                     // initialize a SliderLayout
                     for (int i = 0; i < headerImage.size(); i++) {
@@ -111,6 +114,9 @@ public class MainActivity extends BaseActivity
 
                         headerImages.addSlider(textSliderView);
                     }
+                }else {
+                    Toast.makeText(MainActivity.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }
