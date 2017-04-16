@@ -59,13 +59,13 @@ public class HistoryFragment extends Fragment {
         recycler_view.setAdapter(adapter);
         /*int uid = PreferenceUtils.getSinglePrefrenceInt(getContext(), R.string.settings_def_uid);
         if ( uid != 0) getHistory(uid);*/
-//        String token = "4d0d9a51f6d19eed7aceccbdee98440e94543b6edf9c152c8365a2fee60a1ed030437bf1786d8674360fac4dab60eb06";
-        getHistory(1485);
+        String token = "4d0d9a51f6d19eed7aceccbdee98440e94543b6edf9c152c8365a2fee60a1ed030437bf1786d8674360fac4dab60eb06";
+        getHistory(token, 1485);
         return  rootView;
     }
 
-    private void getHistory(int customerId) {
-        Call<TransactionHistoryResponse> history = Eztytopup.getsAPIService().getHistory(customerId);
+    private void getHistory(String token, int customerId) {
+        Call<TransactionHistoryResponse> history = Eztytopup.getsAPIService().getHistory(token, customerId);
         history.enqueue(new Callback<TransactionHistoryResponse>() {
             @Override
             public void onResponse(Call<TransactionHistoryResponse> call,
