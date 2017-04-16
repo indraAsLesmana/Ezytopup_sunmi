@@ -18,6 +18,7 @@ import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.utility.Constant;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import okhttp3.Interceptor;
@@ -100,12 +101,17 @@ public class Eztytopup extends Application {
         payment.enqueue(new Callback<PaymentResponse>() {
             @Override
             public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     paymentActive.addAll(response.body().paymentMethods);
                     for (PaymentResponse.PaymentMethod activePayment : paymentActive){
                         paymentActiveInfo.add(activePayment.getId());
                         getLoadActivePayment(activePayment.getId());
                     }
+                }else {
+                    Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -164,9 +170,14 @@ public class Eztytopup extends Application {
                 payInternet.enqueue(new Callback<PaymentResponse>() {
                     @Override
                     public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() &&
+                                response.body().status.getCode()
+                                        .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                             paymentInternet.clear();
                             paymentInternet.addAll(response.body().paymentMethods);
+                        }else {
+                            Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -182,9 +193,14 @@ public class Eztytopup extends Application {
                 payTransfer.enqueue(new Callback<PaymentResponse>() {
                     @Override
                     public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() &&
+                                response.body().status.getCode()
+                                        .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                             paymentTransfer.clear();
                             paymentTransfer.addAll(response.body().paymentMethods);
+                        }else {
+                            Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -200,9 +216,14 @@ public class Eztytopup extends Application {
                 payCredit.enqueue(new Callback<PaymentResponse>() {
                     @Override
                     public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() &&
+                                response.body().status.getCode()
+                                        .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                             paymentCredit.clear();
                             paymentCredit.addAll(response.body().paymentMethods);
+                        }else {
+                            Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -218,9 +239,14 @@ public class Eztytopup extends Application {
                 payWallet.enqueue(new Callback<PaymentResponse>() {
                     @Override
                     public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() &&
+                                response.body().status.getCode()
+                                        .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                             paymentWallet.clear();
                             paymentWallet.addAll(response.body().paymentMethods);
+                        }else {
+                            Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
 
