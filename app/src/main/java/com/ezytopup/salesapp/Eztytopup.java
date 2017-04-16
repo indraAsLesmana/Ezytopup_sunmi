@@ -55,7 +55,7 @@ public class Eztytopup extends Application {
     private static ArrayList<PaymentResponse.PaymentMethod> paymentTransfer;
     private static ArrayList<PaymentResponse.PaymentMethod> paymentCredit;
     private static ArrayList<PaymentResponse.PaymentMethod> paymentWallet;
-    private ArrayList<PaymentResponse.PaymentMethod> paymentActive;
+    private static ArrayList<PaymentResponse.PaymentMethod> paymentActive;
 
 
     @Override
@@ -258,6 +258,26 @@ public class Eztytopup extends Application {
 
                 break;
         }
+    }
+
+    public static ArrayList<PaymentResponse.PaymentMethod> getPaymentActive() {
+        return paymentActive;
+    }
+
+    public static ArrayList<PaymentResponse.PaymentMethod> getPaymentInternet() {
+        return paymentInternet;
+    }
+
+    public static ArrayList<PaymentResponse.PaymentMethod> getPaymentTransfer() {
+        return paymentTransfer;
+    }
+
+    public static ArrayList<PaymentResponse.PaymentMethod> getPaymentCredit() {
+        return paymentCredit;
+    }
+
+    public static ArrayList<PaymentResponse.PaymentMethod> getPaymentWallet() {
+        return paymentWallet;
     }
 
     public static ArrayList<String> getPaymentActiveInfo() {

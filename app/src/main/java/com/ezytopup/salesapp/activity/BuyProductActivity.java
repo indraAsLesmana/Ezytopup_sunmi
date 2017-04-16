@@ -44,6 +44,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private ConstraintLayout view_detailbuy;
     private TextView info1, info2, info3, buy_desc;
     private RelativeLayout e_payment, bank_transfer, credit_card, ezy_wallet;
+    private ImageView e_paymentStatus, bank_transferStatus, credit_cardStatus, ezy_walletStatus;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -97,6 +98,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         bank_transfer = (RelativeLayout) findViewById(R.id.rlBanktransfer);
         credit_card = (RelativeLayout) findViewById(R.id.rlCreditcard);
         ezy_wallet = (RelativeLayout) findViewById(R.id.rlWallet);
+        e_paymentStatus = (ImageView) findViewById(R.id.rivPayment);
+        bank_transferStatus = (ImageView) findViewById(R.id.rivBanktransfer);
+        credit_cardStatus = (ImageView) findViewById(R.id.rivCreditcard);
+        ezy_walletStatus = (ImageView) findViewById(R.id.rivWallet);
 
         mProductTitle.setText(productName);
         mProductPrice.setText(productPrice);
@@ -134,23 +139,40 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setActivePayment() {
-        ArrayList<String> paymentActive = Eztytopup.getPaymentActiveInfo();
-        for (String payment : paymentActive){
-            switch (payment){
+        ArrayList<PaymentResponse.PaymentMethod> paymentActive = Eztytopup.getPaymentActive();
+        for (int i = 0; i < paymentActive.size(); i++) {
+            String paymentid = paymentActive.get(i).getId();
+            switch (paymentid){
                 case Constant.INTERNET_BANK:
+                    getImage(paymentActive.get(i).getPaymentLogo(), e_paymentStatus);
                     e_payment.setVisibility(View.VISIBLE);
                     break;
                 case Constant.BANK_TRANSFER:
+                    getImage(paymentActive.get(i).getPaymentLogo(), bank_transferStatus);
                     bank_transfer.setVisibility(View.VISIBLE);
                     break;
                 case Constant.CREADIT_CARD:
+                    getImage(paymentActive.get(i).getPaymentLogo(), credit_cardStatus);
                     credit_card.setVisibility(View.VISIBLE);
                     break;
                 case Constant.EZYTOPUP_WALLET:
+                    getImage(paymentActive.get(i).getPaymentLogo(), ezy_walletStatus);
                     ezy_wallet.setVisibility(View.VISIBLE);
                     break;
             }
+
         }
+    }
+
+    private void getImage(String url, ImageView imagePlace){
+        if (url == null){
+            return;
+        }
+        Glide.with(BuyProductActivity.this)
+                .load(url).centerCrop()
+                .error(R.drawable.com_facebook_profile_picture_blank_square)
+                .crossFade(Constant.ITEM_CROSSFADEDURATION)
+                .into(imagePlace);
     }
 
     @Override
