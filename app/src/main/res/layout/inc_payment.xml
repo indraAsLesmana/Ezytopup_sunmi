@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rlPayment"
@@ -23,7 +24,7 @@
             android:id="@+id/tvPayment"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="e-Payment"
+            tools:text="e-Payment"
             android:textSize="12sp"
             android:gravity="center_vertical"
             android:layout_toRightOf="@+id/rdbPayment"/>
@@ -80,7 +81,7 @@
             android:id="@+id/tvBanktransfer"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Bank Transfer"
+            tools:text="Bank Transfer"
             android:textSize="12sp"
             android:gravity="center_vertical"
             android:layout_toRightOf="@+id/rdbBanktransfer"/>
@@ -137,7 +138,7 @@
             android:id="@+id/tvCreditcard"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Credit Card"
+            tools:text="Credit Card"
             android:textSize="12sp"
             android:gravity="center_vertical"
             android:layout_toRightOf="@+id/rdbCreditcard"
@@ -195,7 +196,7 @@
             android:id="@+id/tvWallet"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="@string/ezzy_wallet"
+            tools:text="@string/ezzy_wallet"
             android:textSize="12sp"
             android:gravity="center_vertical"
             android:layout_toRightOf="@+id/rdbWallet"

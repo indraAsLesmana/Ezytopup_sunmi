@@ -33,7 +33,6 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private static final String PRODUCT_IMAGE = "BuyProductActivity::productimage";
     private static final String PRODUCT_BG = "BuyProductActivity::productbackground";
     private static final String PRODUCT_PRICE = "BuyProductActivity::productprice";
-    private ArrayList<PaymentResponse.PaymentMethod> paymentActive;
     private ArrayList<DetailProductResponse.Result> results;
     private TextView mSubtotal;
     private TextView mTotal;
@@ -45,6 +44,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private TextView info1, info2, info3, buy_desc;
     private RelativeLayout e_payment, bank_transfer, credit_card, ezy_wallet;
     private ImageView e_paymentStatus, bank_transferStatus, credit_cardStatus, ezy_walletStatus;
+    private TextView e_paymentTv, bank_transferTv, credit_cardTv, ezy_walletTv;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -71,7 +71,6 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             return;
         }
 
-        paymentActive = new ArrayList<>();
         results = new ArrayList<>();
         info1 = (TextView) findViewById(R.id.buy_info1);
         info2 = (TextView) findViewById(R.id.buy_info2);
@@ -102,6 +101,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         bank_transferStatus = (ImageView) findViewById(R.id.rivBanktransfer);
         credit_cardStatus = (ImageView) findViewById(R.id.rivCreditcard);
         ezy_walletStatus = (ImageView) findViewById(R.id.rivWallet);
+        e_paymentTv = (TextView) findViewById(R.id.tvPayment);
+        bank_transferTv = (TextView) findViewById(R.id.tvBanktransfer);
+        credit_cardTv = (TextView) findViewById(R.id.tvCreditcard);
+        ezy_walletTv = (TextView) findViewById(R.id.tvWallet);
 
         mProductTitle.setText(productName);
         mProductPrice.setText(productPrice);
@@ -144,18 +147,22 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             String paymentid = paymentActive.get(i).getId();
             switch (paymentid){
                 case Constant.INTERNET_BANK:
+                    e_paymentTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), e_paymentStatus);
                     e_payment.setVisibility(View.VISIBLE);
                     break;
                 case Constant.BANK_TRANSFER:
+                    bank_transferTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), bank_transferStatus);
                     bank_transfer.setVisibility(View.VISIBLE);
                     break;
                 case Constant.CREADIT_CARD:
+                    credit_cardTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), credit_cardStatus);
                     credit_card.setVisibility(View.VISIBLE);
                     break;
                 case Constant.EZYTOPUP_WALLET:
+                    ezy_walletTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), ezy_walletStatus);
                     ezy_wallet.setVisibility(View.VISIBLE);
                     break;
