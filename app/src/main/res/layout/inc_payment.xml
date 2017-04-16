@@ -5,7 +5,7 @@
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rlPayment"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
@@ -62,7 +62,7 @@
 
     <RelativeLayout
         android:id="@+id/rlBanktransfer"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
@@ -119,7 +119,7 @@
 
     <RelativeLayout
         android:id="@+id/rlCreditcard"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
@@ -177,7 +177,7 @@
 
     <RelativeLayout
         android:id="@+id/rlWallet"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
@@ -195,7 +195,7 @@
             android:id="@+id/tvWallet"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Wallet"
+            android:text="@string/ezzy_wallet"
             android:textSize="12sp"
             android:gravity="center_vertical"
             android:layout_toRightOf="@+id/rdbWallet"

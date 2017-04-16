@@ -120,6 +120,7 @@
     <string name="dummy_email">indra.agus@kiranatama.com</string>
     <string name="status">Status</string>
     <string name="transfer_bank">Transfer otomatis PermataBank</string>
+    <string name="ezzy_wallet">Ezytopup Wallet</string>
 
     <string-array name="dummy_data">
         <item>One</item>

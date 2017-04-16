@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private View view_desc;
     private ConstraintLayout view_detailbuy;
     private TextView info1, info2, info3, buy_desc;
+    private RelativeLayout e_payment, bank_transfer, credit_card, ezy_wallet;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -91,6 +93,11 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         String productBackground = getIntent().getStringExtra(BuyProductActivity.PRODUCT_BG);
         String productPrice = getIntent().getStringExtra(BuyProductActivity.PRODUCT_PRICE);
 
+        e_payment = (RelativeLayout) findViewById(R.id.rlPayment);
+        bank_transfer = (RelativeLayout) findViewById(R.id.rlBanktransfer);
+        credit_card = (RelativeLayout) findViewById(R.id.rlCreditcard);
+        ezy_wallet = (RelativeLayout) findViewById(R.id.rlWallet);
+
         mProductTitle.setText(productName);
         mProductPrice.setText(productPrice);
 
@@ -123,6 +130,27 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         });
 
         getDetailProduct();
+        setActivePayment();
+    }
+
+    private void setActivePayment() {
+        ArrayList<String> paymentActive = Eztytopup.getPaymentActiveInfo();
+        for (String payment : paymentActive){
+            switch (payment){
+                case Constant.INTERNET_BANK:
+                    e_payment.setVisibility(View.VISIBLE);
+                    break;
+                case Constant.BANK_TRANSFER:
+                    bank_transfer.setVisibility(View.VISIBLE);
+                    break;
+                case Constant.CREADIT_CARD:
+                    credit_card.setVisibility(View.VISIBLE);
+                    break;
+                case Constant.EZYTOPUP_WALLET:
+                    ezy_wallet.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
     }
 
     @Override
