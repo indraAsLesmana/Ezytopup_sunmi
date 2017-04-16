@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private RelativeLayout e_payment, bank_transfer, credit_card, ezy_wallet;
     private ImageView e_paymentStatus, bank_transferStatus, credit_cardStatus, ezy_walletStatus;
     private TextView e_paymentTv, bank_transferTv, credit_cardTv, ezy_walletTv;
+    private GridView e_paymentGrid, bank_transferGrid, credit_cardGrid, ezy_walletGrid;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -105,6 +107,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         bank_transferTv = (TextView) findViewById(R.id.tvBanktransfer);
         credit_cardTv = (TextView) findViewById(R.id.tvCreditcard);
         ezy_walletTv = (TextView) findViewById(R.id.tvWallet);
+        e_paymentGrid = (GridView) findViewById(R.id.gridePayment);
+        bank_transferGrid = (GridView) findViewById(R.id.gridBanktransfer);
+        credit_cardGrid = (GridView) findViewById(R.id.gridCreditcard);
+        ezy_walletGrid = (GridView) findViewById(R.id.gridWallet);
 
         mProductTitle.setText(productName);
         mProductPrice.setText(productPrice);
@@ -150,24 +156,27 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     e_paymentTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), e_paymentStatus);
                     e_payment.setVisibility(View.VISIBLE);
+                    e_paymentGrid.setVisibility(View.VISIBLE);
                     break;
                 case Constant.BANK_TRANSFER:
                     bank_transferTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), bank_transferStatus);
                     bank_transfer.setVisibility(View.VISIBLE);
+                    bank_transferGrid.setVisibility(View.VISIBLE);
                     break;
                 case Constant.CREADIT_CARD:
                     credit_cardTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), credit_cardStatus);
                     credit_card.setVisibility(View.VISIBLE);
+                    credit_cardGrid.setVisibility(View.VISIBLE);
                     break;
                 case Constant.EZYTOPUP_WALLET:
                     ezy_walletTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), ezy_walletStatus);
                     ezy_wallet.setVisibility(View.VISIBLE);
+                    ezy_walletGrid.setVisibility(View.VISIBLE);
                     break;
             }
-
         }
     }
 
