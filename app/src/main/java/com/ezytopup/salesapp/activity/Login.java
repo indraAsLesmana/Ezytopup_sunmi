@@ -6,7 +6,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -18,6 +20,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.view.ScrollingView;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,6 +35,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ezytopup.salesapp.BuildConfig;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.Authrequest;
@@ -44,10 +49,16 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,6 +80,11 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    public static final String COLOR_BACKGROUND_REMOTE = "color_background";
+    public static final String COLOR_BACKGROUND_DEFAULT = "#FFFFFF";
+    public ConstraintLayout container;
+
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, Login.class);
@@ -82,6 +98,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -94,7 +111,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
                 return false;
             }
         });
-
+        container = (ConstraintLayout) findViewById(R.id.container_login);
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         Button mEmailSignUpButton = (Button) findViewById(R.id.btnSignup);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -111,8 +128,57 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
             }
         });
 
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+
+        Map<String, Object> defaultConfigMap = new HashMap<>();
+        defaultConfigMap.put(COLOR_BACKGROUND_REMOTE, COLOR_BACKGROUND_DEFAULT);
+        mFirebaseRemoteConfig.setDefaults(defaultConfigMap);
+        fetchConfig();
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    public void fetchConfig() {
+        /*long cacheExpiration = 3600; // 1 hour in seconds
+        // If developer mode is enabled reduce cacheExpiration to 0 so that each fetch goes to the
+        // server. This should not be used in release builds.
+        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+            cacheExpiration = 0;
+        }*/
+        mFirebaseRemoteConfig.fetch(1)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Make the fetched config available
+                        // via FirebaseRemoteConfig get<type> calls, e.g., getLong, getString.
+                        mFirebaseRemoteConfig.activateFetched();
+
+                        // Update the EditText length limit with
+                        // the newly retrieved values from Remote Config.
+                        applyRetrievedLengthLimit();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // An error occurred when fetching the config.
+                        Log.w(TAG, "Error fetching config", e);
+
+                        // Update the EditText length limit with
+                        // the newly retrieved values from Remote Config.
+                        applyRetrievedLengthLimit();
+                    }
+                });
+    }
+
+    private void applyRetrievedLengthLimit() {
+        String color = mFirebaseRemoteConfig.getString(COLOR_BACKGROUND_REMOTE);
+        container.setBackgroundColor(Color.parseColor(color));
+        Log.d(TAG, COLOR_BACKGROUND_REMOTE + " = " + color);
     }
 
     private void populateAutoComplete() {

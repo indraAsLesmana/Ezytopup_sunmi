@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:id="@+id/container_login"
     android:orientation="vertical"
-    tools:context="com.ezytopup.salesapp.activity.Login">
+    tools:context="com.ezytopup.salesapp.activity.Login"
+    android:background="@color/cardview_dark_background">
 
     <include layout="@layout/inc_toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
