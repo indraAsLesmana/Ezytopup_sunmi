@@ -212,7 +212,7 @@ public class Eztytopup extends Application {
 
                 break;
             case Constant.CREADIT_CARD:
-                Call<PaymentResponse> payCredit = Eztytopup.getsAPIService().getPaymentBankTransfer();
+                Call<PaymentResponse> payCredit = Eztytopup.getsAPIService().getPaymentCreditcard();
                 payCredit.enqueue(new Callback<PaymentResponse>() {
                     @Override
                     public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
@@ -235,7 +235,7 @@ public class Eztytopup extends Application {
 
                 break;
             case Constant.EZYTOPUP_WALLET:
-                Call<PaymentResponse> payWallet = Eztytopup.getsAPIService().getPaymentBankTransfer();
+                Call<PaymentResponse> payWallet = Eztytopup.getsAPIService().getPaymentEzyWallet();
                 payWallet.enqueue(new Callback<PaymentResponse>() {
                     @Override
                     public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {

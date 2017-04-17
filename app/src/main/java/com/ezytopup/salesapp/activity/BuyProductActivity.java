@@ -158,7 +158,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), e_paymentStatus);
                     ArrayList<PaymentResponse.PaymentMethod> epaymentData = Eztytopup.getPaymentInternet();
                     Grid_PaymentAdapter paymentAdapter = new
-                            Grid_PaymentAdapter(this, R.layout.grid_itemcard, epaymentData);
+                            Grid_PaymentAdapter(this, epaymentData);
                     e_paymentGrid.setAdapter(paymentAdapter);
                     e_payment.setVisibility(View.VISIBLE);
                     e_paymentGrid.setVisibility(View.VISIBLE);
@@ -168,7 +168,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), bank_transferStatus);
                     ArrayList<PaymentResponse.PaymentMethod> transferData = Eztytopup.getPaymentTransfer();
                     Grid_PaymentAdapter transferAdapter = new
-                            Grid_PaymentAdapter(this, R.layout.grid_itemcard, transferData);
+                            Grid_PaymentAdapter(this, transferData);
                     bank_transferGrid.setAdapter(transferAdapter);
                     bank_transfer.setVisibility(View.VISIBLE);
                     bank_transferGrid.setVisibility(View.VISIBLE);
@@ -178,7 +178,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), credit_cardStatus);
                     ArrayList<PaymentResponse.PaymentMethod> creditData = Eztytopup.getPaymentCredit();
                     Grid_PaymentAdapter creditAdapter = new
-                            Grid_PaymentAdapter(this, R.layout.grid_itemcard, creditData);
+                            Grid_PaymentAdapter(this, creditData);
                     credit_cardGrid.setAdapter(creditAdapter);
                     credit_card.setVisibility(View.VISIBLE);
                     credit_cardGrid.setVisibility(View.VISIBLE);
@@ -188,7 +188,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), ezy_walletStatus);
                     ArrayList<PaymentResponse.PaymentMethod> ezywalletData = Eztytopup.getPaymentWallet();
                     Grid_PaymentAdapter walletAdapter = new
-                            Grid_PaymentAdapter(this, R.layout.grid_itemcard, ezywalletData);
+                            Grid_PaymentAdapter(this, ezywalletData);
                     ezy_walletGrid.setAdapter(walletAdapter);
                     ezy_wallet.setVisibility(View.VISIBLE);
                     ezy_walletGrid.setVisibility(View.VISIBLE);
@@ -207,6 +207,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                 .crossFade(Constant.ITEM_CROSSFADEDURATION)
                 .into(imagePlace);
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

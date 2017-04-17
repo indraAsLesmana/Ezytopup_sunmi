@@ -24,13 +24,10 @@ import java.util.ArrayList;
 public class Grid_PaymentAdapter extends ArrayAdapter<PaymentResponse.PaymentMethod>{
 
     private Context mContext;
-    private int layoutResourceId;
     private ArrayList<PaymentResponse.PaymentMethod> mGridData;
 
-    public Grid_PaymentAdapter(Context mContext, int layoutResourceId,
-                               ArrayList<PaymentResponse.PaymentMethod> mGridData) {
-        super(mContext, layoutResourceId, mGridData);
-        this.layoutResourceId = layoutResourceId;
+    public Grid_PaymentAdapter(Context mContext, ArrayList<PaymentResponse.PaymentMethod> mGridData) {
+        super(mContext, 0, mGridData);
         this.mContext = mContext;
         this.mGridData = mGridData;
     }
