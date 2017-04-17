@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,6 +53,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private GridView e_paymentGrid, bank_transferGrid, credit_cardGrid, ezy_walletGrid;
     private LinearLayout view_paymentNote;
     private TextView paymentMethodTv, paymentNoteTv;
+    private Button buynowButton, cancelButton;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -119,6 +121,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         ezy_walletGrid = (GridView) findViewById(R.id.gridWallet);
         paymentMethodTv = (TextView) findViewById(R.id.tvPaymentCaption);
         paymentNoteTv = (TextView) findViewById(R.id.tvPaymentNote);
+        buynowButton = (Button) findViewById(R.id.btnBuyNow);
+        cancelButton = (Button) findViewById(R.id.btnCancel);
 
         mProductTitle.setText(productName);
         mProductPrice.setText(productPrice);
@@ -271,7 +275,13 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.btnBuyNow:
+                
+                break;
+            case R.id.btnCancel:
+                break;
+        }
     }
 
     @Override

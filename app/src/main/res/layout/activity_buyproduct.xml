@@ -421,7 +421,7 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Buy Now"
+                    android:text="@string/buy_now"
                     android:textColor="#ffffff"
                     android:id="@+id/btnBuyNow"
                     android:layout_marginTop="10dp"
@@ -433,7 +433,7 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     android:textColor="#ffffff"
                     android:id="@+id/btnCancel"
                     android:layout_marginTop="10dp"
