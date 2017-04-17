@@ -2,6 +2,7 @@ package com.ezytopup.salesapp.api;
 
 import com.ezytopup.salesapp.utility.Constant;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -76,5 +77,26 @@ public interface EzytopupAPI {
 
     @GET("WGS_API_get_order_transaction_history.php?" + Constant.API_URL_GENERALUSAGE)
     Call<TransactionHistoryResponse> getHistory(@Header("Authorize") String token, @Query("customerId") int customerId);
+
+    @POST("WGS_API_abuyNow.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<ResponseBody> buyNow(@Query("id") String id,
+                           @Query("session_name") String session_name,
+                           @Query("product_id") String product_id,
+                           @Query("product_name") String product_name,
+                           @Query("price") String price,
+                           @Query("qty") String qty,
+                           @Query("payment_method_id") String payment_method_id,
+                           @Query("email") String email,
+                           @Query("customerId") String customerId,
+                           @Query("templateId") String templateId,
+                           @Query("serviceFee") String serviceFee,
+                           @Query("discount") String discount,
+                           @Query("recepientName") String recepientName,
+                           @Query("recepientEmail") String recepientEmail,
+                           @Query("message") String message,
+                           @Query("paymentCaption") String paymentCaption,
+                           @Query("paymentNote") String paymentNote,
+                           @Query("templateCaption") String templateCaption,
+                           @Query("coupon_promo") String coupon_promo);
 
 }
