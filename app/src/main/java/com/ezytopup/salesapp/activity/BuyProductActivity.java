@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ import com.ezytopup.salesapp.utility.Constant;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +56,9 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private LinearLayout view_paymentNote;
     private TextView paymentMethodTv, paymentNoteTv;
     private Button buynowButton, cancelButton;
+    private String productName, productImage, productBackground, productPrice;
+    private EditText ed_usermail;
+
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -98,10 +103,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         view_paymentNote = (LinearLayout) findViewById(R.id.buy_paymentnote);
 
         productId = getIntent().getStringExtra(BuyProductActivity.PRODUCT_ID);
-        String productName = getIntent().getStringExtra(BuyProductActivity.PRODUCT_NAME);
-        String productImage = getIntent().getStringExtra(BuyProductActivity.PRODUCT_IMAGE);
-        String productBackground = getIntent().getStringExtra(BuyProductActivity.PRODUCT_BG);
-        String productPrice = getIntent().getStringExtra(BuyProductActivity.PRODUCT_PRICE);
+        productName = getIntent().getStringExtra(BuyProductActivity.PRODUCT_NAME);
+        productImage = getIntent().getStringExtra(BuyProductActivity.PRODUCT_IMAGE);
+        productBackground = getIntent().getStringExtra(BuyProductActivity.PRODUCT_BG);
+        productPrice = getIntent().getStringExtra(BuyProductActivity.PRODUCT_PRICE);
 
         e_payment = (RelativeLayout) findViewById(R.id.rlPayment);
         bank_transfer = (RelativeLayout) findViewById(R.id.rlBanktransfer);
@@ -123,6 +128,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         paymentNoteTv = (TextView) findViewById(R.id.tvPaymentNote);
         buynowButton = (Button) findViewById(R.id.btnBuyNow);
         cancelButton = (Button) findViewById(R.id.btnCancel);
+        ed_usermail = (EditText) findViewById(R.id.buy_entermail);
 
         mProductTitle.setText(productName);
         mProductPrice.setText(productPrice);
@@ -277,15 +283,51 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBuyNow:
-                
+                Call<ResponseBody> buy = Eztytopup.getsAPIService().buyNow(
+                        "1",
+                        Constant.temporaryToken,
+                        productId,
+                        productName,
+                        productPrice,
+                        "1", // qty for temporary
+                        "31", // id payment
+                        ed_usermail.getText().toString(),
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""
+                );
+                buy.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()){
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
                 break;
             case R.id.btnCancel:
                 break;
         }
     }
 
+
+
     @Override
     public void onCardClick(PaymentResponse.PaymentMethod optionPaymentItem) {
+
         paymentMethodTv.setText(optionPaymentItem.getPaymentMethod());
         paymentNoteTv.setText(optionPaymentItem.getPaymentNote());
     }

@@ -302,7 +302,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/buy_entermail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -326,7 +326,7 @@
                     android:textColor="@color/primary_text"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editText" />
+                    app:layout_constraintTop_toBottomOf="@+id/buy_entermail" />
 
                 <include
                     layout="@layout/inc_payment"
