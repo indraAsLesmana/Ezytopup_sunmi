@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.adapter.Grid_PaymentAdapter;
 import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.utility.Constant;
@@ -155,24 +156,40 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                 case Constant.INTERNET_BANK:
                     e_paymentTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), e_paymentStatus);
+                    ArrayList<PaymentResponse.PaymentMethod> epaymentData = Eztytopup.getPaymentInternet();
+                    Grid_PaymentAdapter paymentAdapter = new
+                            Grid_PaymentAdapter(this, R.layout.grid_itemcard, epaymentData);
+                    e_paymentGrid.setAdapter(paymentAdapter);
                     e_payment.setVisibility(View.VISIBLE);
                     e_paymentGrid.setVisibility(View.VISIBLE);
                     break;
                 case Constant.BANK_TRANSFER:
                     bank_transferTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), bank_transferStatus);
+                    ArrayList<PaymentResponse.PaymentMethod> transferData = Eztytopup.getPaymentTransfer();
+                    Grid_PaymentAdapter transferAdapter = new
+                            Grid_PaymentAdapter(this, R.layout.grid_itemcard, transferData);
+                    bank_transferGrid.setAdapter(transferAdapter);
                     bank_transfer.setVisibility(View.VISIBLE);
                     bank_transferGrid.setVisibility(View.VISIBLE);
                     break;
                 case Constant.CREADIT_CARD:
                     credit_cardTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), credit_cardStatus);
+                    ArrayList<PaymentResponse.PaymentMethod> creditData = Eztytopup.getPaymentCredit();
+                    Grid_PaymentAdapter creditAdapter = new
+                            Grid_PaymentAdapter(this, R.layout.grid_itemcard, creditData);
+                    credit_cardGrid.setAdapter(creditAdapter);
                     credit_card.setVisibility(View.VISIBLE);
                     credit_cardGrid.setVisibility(View.VISIBLE);
                     break;
                 case Constant.EZYTOPUP_WALLET:
                     ezy_walletTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), ezy_walletStatus);
+                    ArrayList<PaymentResponse.PaymentMethod> ezywalletData = Eztytopup.getPaymentWallet();
+                    Grid_PaymentAdapter walletAdapter = new
+                            Grid_PaymentAdapter(this, R.layout.grid_itemcard, ezywalletData);
+                    ezy_walletGrid.setAdapter(walletAdapter);
                     ezy_wallet.setVisibility(View.VISIBLE);
                     ezy_walletGrid.setVisibility(View.VISIBLE);
                     break;
