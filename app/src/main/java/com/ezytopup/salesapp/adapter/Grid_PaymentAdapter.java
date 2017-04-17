@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,11 +26,14 @@ public class Grid_PaymentAdapter extends ArrayAdapter<PaymentResponse.PaymentMet
 
     private Context mContext;
     private ArrayList<PaymentResponse.PaymentMethod> mGridData;
+    private Grid_PaymentAdapterListener mListener;
 
-    public Grid_PaymentAdapter(Context mContext, ArrayList<PaymentResponse.PaymentMethod> mGridData) {
+    public Grid_PaymentAdapter(Context mContext, ArrayList<PaymentResponse.PaymentMethod> mGridData,
+                               Grid_PaymentAdapterListener listener) {
         super(mContext, 0, mGridData);
         this.mContext = mContext;
         this.mGridData = mGridData;
+        this.mListener = listener;
     }
 
     @NonNull
@@ -42,6 +46,7 @@ public class Grid_PaymentAdapter extends ArrayAdapter<PaymentResponse.PaymentMet
         }
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.grid_item_image);
         final TextView textView = (TextView) convertView.findViewById(R.id.grid_item_title);
+        final LinearLayout paymentOption = (LinearLayout) convertView.findViewById(R.id.container_paymentoption);
         if (bankItem != null){
             textView.setText(bankItem.getPaymentMethod());
             if (mGridData.get(position).getPaymentLogo() != null){
@@ -52,11 +57,21 @@ public class Grid_PaymentAdapter extends ArrayAdapter<PaymentResponse.PaymentMet
                         .into(imageView);
             }
         }
+        paymentOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onCardClick(bankItem);
+            }
+        });
         return convertView;
     }
 
     @Override
     public int getCount() {
         return mGridData.size();
+    }
+
+    public interface Grid_PaymentAdapterListener{
+        void onCardClick(PaymentResponse.PaymentMethod optionPaymentItem);
     }
 }

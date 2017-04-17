@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +29,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BuyProductActivity extends BaseActivity implements View.OnClickListener{
+public class BuyProductActivity extends BaseActivity implements View.OnClickListener,
+        Grid_PaymentAdapter.Grid_PaymentAdapterListener{
 
     private static final String PRODUCT_ID = "BuyProductActivity::productid";
     private static final String PRODUCT_NAME = "BuyProductActivity::productname";
@@ -48,6 +50,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private ImageView e_paymentStatus, bank_transferStatus, credit_cardStatus, ezy_walletStatus;
     private TextView e_paymentTv, bank_transferTv, credit_cardTv, ezy_walletTv;
     private GridView e_paymentGrid, bank_transferGrid, credit_cardGrid, ezy_walletGrid;
+    private LinearLayout view_paymentNote;
+    private TextView paymentMethodTv, paymentNoteTv;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -89,6 +93,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         mTotal = (TextView) findViewById(R.id.buy_total);
         mSubtotal = (TextView) findViewById(R.id.buy_subtotal);
         TextView mAdminFee = (TextView) findViewById(R.id.buy_adminfee);
+        view_paymentNote = (LinearLayout) findViewById(R.id.buy_paymentnote);
 
         productId = getIntent().getStringExtra(BuyProductActivity.PRODUCT_ID);
         String productName = getIntent().getStringExtra(BuyProductActivity.PRODUCT_NAME);
@@ -112,6 +117,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         bank_transferGrid = (GridView) findViewById(R.id.gridBanktransfer);
         credit_cardGrid = (GridView) findViewById(R.id.gridCreditcard);
         ezy_walletGrid = (GridView) findViewById(R.id.gridWallet);
+        paymentMethodTv = (TextView) findViewById(R.id.tvPaymentCaption);
+        paymentNoteTv = (TextView) findViewById(R.id.tvPaymentNote);
 
         mProductTitle.setText(productName);
         mProductPrice.setText(productPrice);
@@ -136,10 +143,12 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     bt_Detailproduct.setText(R.string.buy);
                     view_detailbuy.setVisibility(View.GONE);
                     view_desc.setVisibility(View.VISIBLE);
+                    view_paymentNote.setVisibility(View.GONE);
                 }else {
                     bt_Detailproduct.setText(R.string.detail_product);
                     view_detailbuy.setVisibility(View.VISIBLE);
                     view_desc.setVisibility(View.GONE);
+                    view_paymentNote.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -158,7 +167,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), e_paymentStatus);
                     ArrayList<PaymentResponse.PaymentMethod> epaymentData = Eztytopup.getPaymentInternet();
                     Grid_PaymentAdapter paymentAdapter = new
-                            Grid_PaymentAdapter(this, epaymentData);
+                            Grid_PaymentAdapter(this, epaymentData, this);
                     e_paymentGrid.setAdapter(paymentAdapter);
                     e_payment.setVisibility(View.VISIBLE);
                     e_paymentGrid.setVisibility(View.VISIBLE);
@@ -168,7 +177,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), bank_transferStatus);
                     ArrayList<PaymentResponse.PaymentMethod> transferData = Eztytopup.getPaymentTransfer();
                     Grid_PaymentAdapter transferAdapter = new
-                            Grid_PaymentAdapter(this, transferData);
+                            Grid_PaymentAdapter(this, transferData, this);
                     bank_transferGrid.setAdapter(transferAdapter);
                     bank_transfer.setVisibility(View.VISIBLE);
                     bank_transferGrid.setVisibility(View.VISIBLE);
@@ -178,7 +187,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), credit_cardStatus);
                     ArrayList<PaymentResponse.PaymentMethod> creditData = Eztytopup.getPaymentCredit();
                     Grid_PaymentAdapter creditAdapter = new
-                            Grid_PaymentAdapter(this, creditData);
+                            Grid_PaymentAdapter(this, creditData, this);
                     credit_cardGrid.setAdapter(creditAdapter);
                     credit_card.setVisibility(View.VISIBLE);
                     credit_cardGrid.setVisibility(View.VISIBLE);
@@ -188,7 +197,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), ezy_walletStatus);
                     ArrayList<PaymentResponse.PaymentMethod> ezywalletData = Eztytopup.getPaymentWallet();
                     Grid_PaymentAdapter walletAdapter = new
-                            Grid_PaymentAdapter(this, ezywalletData);
+                            Grid_PaymentAdapter(this, ezywalletData, this);
                     ezy_walletGrid.setAdapter(walletAdapter);
                     ezy_wallet.setVisibility(View.VISIBLE);
                     ezy_walletGrid.setVisibility(View.VISIBLE);
@@ -263,5 +272,11 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void onCardClick(PaymentResponse.PaymentMethod optionPaymentItem) {
+        paymentMethodTv.setText(optionPaymentItem.getPaymentMethod());
+        paymentNoteTv.setText(optionPaymentItem.getPaymentNote());
     }
 }
