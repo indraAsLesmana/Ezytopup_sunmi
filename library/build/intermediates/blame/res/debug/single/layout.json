@@ -32,12 +32,12 @@
         "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/layout/abc_list_menu_item_icon.xml"
     },
     {
-        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/debug/layout/abc_screen_simple_overlay_action_mode.xml",
-        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/layout/abc_screen_simple_overlay_action_mode.xml"
-    },
-    {
         "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/debug/layout/select_dialog_singlechoice_material.xml",
         "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/layout/select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/debug/layout/abc_screen_simple_overlay_action_mode.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/layout/abc_screen_simple_overlay_action_mode.xml"
     },
     {
         "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/debug/layout/abc_expanded_menu_layout.xml",

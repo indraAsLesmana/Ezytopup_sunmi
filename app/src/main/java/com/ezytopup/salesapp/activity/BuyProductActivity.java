@@ -58,6 +58,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private Button buynowButton, cancelButton;
     private String productName, productImage, productBackground, productPrice;
     private EditText ed_usermail;
+    private PaymentResponse.PaymentMethod paymentDetail;
 
 
     public static void start(Activity caller, String id, String name, String image, String bg,
@@ -130,6 +131,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         cancelButton = (Button) findViewById(R.id.btnCancel);
         ed_usermail = (EditText) findViewById(R.id.buy_entermail);
 
+        buynowButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
         mProductTitle.setText(productName);
         mProductPrice.setText(productPrice);
 
@@ -283,7 +286,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBuyNow:
-                Call<ResponseBody> buy = Eztytopup.getsAPIService().buyNow(
+                Call<PaymentResponse> buy = Eztytopup.getsAPIService().buyNow(
+                        Constant.temporaryToken,
                         "1",
                         Constant.temporaryToken,
                         productId,
@@ -294,7 +298,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         ed_usermail.getText().toString(),
                         "",
                         "",
-                        "",
+                        "0.0",
                         "",
                         "",
                         "",
@@ -304,19 +308,28 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         "",
                         ""
                 );
-                buy.enqueue(new Callback<ResponseBody>() {
+                buy.enqueue(new Callback<PaymentResponse>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()){
-
+                    public void onResponse(Call<PaymentResponse> call, Response<PaymentResponse> response) {
+                        if (response.isSuccessful() && response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                            Log.i(TAG, String.format("onResponse: %s%s", response.body().status.getCode(), response.body().status.getMessage()));
+                            if (getPaymentDetail() != null){
+                                PaymentActivity.start(BuyProductActivity.this,
+                                        ed_usermail.getText().toString(), "2017041201084140693479", getPaymentDetail().getPaymentUrl());
+                            }
+                        }else {
+                            Log.i(TAG, "onResponse: " + response.body().status.toString());
+                            Toast.makeText(BuyProductActivity.this,
+                                    response.body().status.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                    public void onFailure(Call<PaymentResponse> call, Throwable t) {
+                        Toast.makeText(BuyProductActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
                 break;
             case R.id.btnCancel:
                 break;
@@ -327,8 +340,16 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onCardClick(PaymentResponse.PaymentMethod optionPaymentItem) {
-
         paymentMethodTv.setText(optionPaymentItem.getPaymentMethod());
         paymentNoteTv.setText(optionPaymentItem.getPaymentNote());
+        setPaymentDetail(optionPaymentItem);
+    }
+
+    public PaymentResponse.PaymentMethod getPaymentDetail() {
+        return paymentDetail;
+    }
+
+    public void setPaymentDetail(PaymentResponse.PaymentMethod paymentDetail) {
+        this.paymentDetail = paymentDetail;
     }
 }

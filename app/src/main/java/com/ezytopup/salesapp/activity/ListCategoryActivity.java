@@ -36,9 +36,7 @@ public class ListCategoryActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        allCategoryProduct = new ArrayList<>();
+        actionBar.setDisplayHomeAsUpEnabled(true);      allCategoryProduct = new ArrayList<>();
         RecyclerView list_recyclerview = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
         list_recyclerview.setHasFixedSize(true);
         list_recyclerview.setLayoutManager(new LinearLayoutManager(this,

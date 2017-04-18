@@ -21,11 +21,14 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".activity.IntroActivity">
-            <!--<intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name="com.facebook.CustomTabActivity"
@@ -45,6 +48,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -55,8 +59,9 @@
         <activity android:name=".activity.FaqActivity" />
         <activity android:name=".activity.TermActivity" />
         <activity android:name=".activity.CategoryActivity" />
-        <activity android:name=".activity.BuyProductActivity"/>
-        <activity android:name=".activity.ListCategoryActivity"/>
+        <activity android:name=".activity.BuyProductActivity" />
+        <activity android:name=".activity.ListCategoryActivity" />
+        <activity android:name=".activity.PaymentActivity"></activity>
     </application>
 
 </manifest>

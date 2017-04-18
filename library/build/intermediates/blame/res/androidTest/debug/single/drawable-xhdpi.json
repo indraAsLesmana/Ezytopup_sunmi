@@ -92,12 +92,12 @@
         "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/drawable-xhdpi/abc_ab_share_pack_mtrl_alpha.9.png"
     },
     {
-        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi/abc_popup_background_mtrl_mult.9.png",
-        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/drawable-xhdpi/abc_popup_background_mtrl_mult.9.png"
-    },
-    {
         "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi/abc_ic_menu_copy_mtrl_am_alpha.png",
         "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/drawable-xhdpi/abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi/abc_popup_background_mtrl_mult.9.png",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/drawable-xhdpi/abc_popup_background_mtrl_mult.9.png"
     },
     {
         "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi/abc_cab_background_top_mtrl_alpha.9.png",

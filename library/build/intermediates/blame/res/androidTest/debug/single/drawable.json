@@ -20,12 +20,12 @@
         "source": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/bundles/debug/res/drawable/indicator_corner_bg.xml"
     },
     {
-        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/androidTest/debug/drawable/abc_ratingbar_full_material.xml",
-        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/drawable/abc_ratingbar_full_material.xml"
-    },
-    {
         "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/androidTest/debug/drawable/gradient_header_top.xml",
         "source": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/bundles/debug/res/drawable/gradient_header_top.xml"
+    },
+    {
+        "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/androidTest/debug/drawable/abc_ratingbar_full_material.xml",
+        "source": "/Users/indraaguslesmana/.android/build-cache/a55c9b2cff6bf1534d7901457f59af61b1e24f22/output/res/drawable/abc_ratingbar_full_material.xml"
     },
     {
         "merged": "/Users/indraaguslesmana/AndroidStudioProjects/Ezytopup_sunmi/library/build/intermediates/res/merged/androidTest/debug/drawable/abc_dialog_material_background_light.xml",
