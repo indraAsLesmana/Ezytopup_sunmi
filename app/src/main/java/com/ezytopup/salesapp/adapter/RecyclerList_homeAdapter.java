@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.ProductResponse;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -56,7 +58,7 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter
         holder.recycler_view_list.setAdapter(itemListDataAdapter);
         holder.recycler_view_list.setNestedScrollingEnabled(false);
 
-        holder.category_more.setOnClickListener(new View.OnClickListener() {
+        holder.btn_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onMoreClick(categoryName, categoryId);
@@ -73,13 +75,13 @@ public class RecyclerList_homeAdapter extends RecyclerView.Adapter
     class ItemRowHolder extends RecyclerView.ViewHolder {
         private TextView categoryTitle;
         private RecyclerView recycler_view_list;
-        private RelativeLayout category_more;
+        private RelativeLayout btn_more;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
             this.categoryTitle = (TextView) itemView.findViewById(R.id.category_title);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.data_list);
-            this.category_more = (RelativeLayout) itemView.findViewById(R.id.container_more);
+            this.btn_more = (RelativeLayout) itemView.findViewById(R.id.btn_more);
         }
     }
     public interface RecyclerList_homeAdapterListener{

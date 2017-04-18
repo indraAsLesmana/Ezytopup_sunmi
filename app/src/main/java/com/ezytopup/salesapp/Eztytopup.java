@@ -93,7 +93,7 @@ public class Eztytopup extends Application {
         paymentCredit = new ArrayList<>();
         paymentWallet = new ArrayList<>();
         loadPaymentInfo();
-        initPrint();
+        //initPrint(); disable couse client not usind Sunmi Device for feature its must be detect hardware sunmi to automaticly init
     }
 
     private void loadPaymentInfo() {
