@@ -59,6 +59,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private String productName, productImage, productBackground, productPrice;
     private EditText ed_usermail;
     private PaymentResponse.PaymentMethod paymentDetail;
+    private LinearLayout buy_button_container;
 
 
     public static void start(Activity caller, String id, String name, String image, String bg,
@@ -130,6 +131,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         buynowButton = (Button) findViewById(R.id.btnBuyNow);
         cancelButton = (Button) findViewById(R.id.btnCancel);
         ed_usermail = (EditText) findViewById(R.id.buy_entermail);
+        buy_button_container = (LinearLayout) findViewById(R.id.buy_paymentbutton);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -157,11 +159,13 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     view_detailbuy.setVisibility(View.GONE);
                     view_desc.setVisibility(View.VISIBLE);
                     view_paymentNote.setVisibility(View.GONE);
+                    buy_button_container.setVisibility(View.GONE);
                 }else {
                     bt_Detailproduct.setText(R.string.detail_product);
                     view_detailbuy.setVisibility(View.VISIBLE);
                     view_desc.setVisibility(View.GONE);
                     view_paymentNote.setVisibility(View.VISIBLE);
+                    buy_button_container.setVisibility(View.VISIBLE);
                 }
             }
         });
