@@ -16,6 +16,8 @@ import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.api.EzytopupAPI;
 import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
+import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -94,7 +96,16 @@ public class Eztytopup extends Application {
         paymentWallet = new ArrayList<>();
         loadPaymentInfo();
         //initPrint(); disable couse client not usind Sunmi Device for feature its must be detect hardware sunmi to automaticly init
+        setDeviceId();
     }
+
+    private void setDeviceId() {
+        if (PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_storeidevice_key).equals("-")){
+            PreferenceUtils.setDeviceId(this, Helper.deviceId());
+        }
+    }
+
 
     private void loadPaymentInfo() {
         Call<PaymentResponse> payment = Eztytopup.getsAPIService().getCheckactivePayment();

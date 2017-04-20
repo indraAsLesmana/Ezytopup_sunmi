@@ -303,7 +303,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.btnBuyNow:
                 int uid = PreferenceUtils.getSinglePrefrenceInt(this, R.string.settings_def_uid_key);
-                String token = PreferenceUtils.getSinglePrefrenceString(this,
+                final String token = PreferenceUtils.getSinglePrefrenceString(this,
                         R.string.settings_def_storeaccess_token_key);
                 if (getPaymentDetail().getId() == null){
                     Toast.makeText(this, R.string.select_payment_method, Toast.LENGTH_SHORT).show();
@@ -349,9 +349,12 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                                     response.body().status.getMessage()));
                             if (getPaymentDetail() != null){
                                 PaymentActivity.start(BuyProductActivity.this,
-                                        ed_usermail.getText().toString(), "2017041201084140693479",
+                                        ed_usermail.getText().toString(),
+                                        PreferenceUtils.getSinglePrefrenceString(BuyProductActivity.this,
+                                                R.string.settings_def_storeidevice_key),
                                         getPaymentDetail().getPaymentUrl());
                             }
+                            //"2017041201084140693479"
                         }else {
                             Log.i(TAG, "onResponse: " + response.body().status.toString());
                             Toast.makeText(BuyProductActivity.this,
