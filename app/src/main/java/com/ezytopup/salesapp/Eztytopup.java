@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.api.EzytopupAPI;
 import com.ezytopup.salesapp.api.PaymentResponse;
+import com.ezytopup.salesapp.api.TamplateResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
@@ -58,6 +59,7 @@ public class Eztytopup extends Application {
     private static ArrayList<PaymentResponse.PaymentMethod> paymentCredit;
     private static ArrayList<PaymentResponse.PaymentMethod> paymentWallet;
     private static ArrayList<PaymentResponse.PaymentMethod> paymentActive;
+    private static ArrayList<TamplateResponse.Result> tamplateActive;
 
 
     @Override
@@ -95,8 +97,34 @@ public class Eztytopup extends Application {
         paymentCredit = new ArrayList<>();
         paymentWallet = new ArrayList<>();
         loadPaymentInfo();
-        //initPrint(); disable couse client not usind Sunmi Device for feature its must be detect hardware sunmi to automaticly init
+        loadGiftTamplte();
+        //initPrint(); disable couse client not usind Sunmi Device for future its must be detect hardware sunmi to automaticly init
         setDeviceId();
+    }
+
+    private void loadGiftTamplte() {
+        Call<TamplateResponse> tamplate = Eztytopup.getsAPIService().getTamplateGift();
+        tamplate.enqueue(new Callback<TamplateResponse>() {
+            @Override
+            public void onResponse(Call<TamplateResponse> call,
+                                   retrofit2.Response<TamplateResponse> response) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                        tamplateActive.addAll(response.body().result);
+
+                }else {
+                    Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<TamplateResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void setDeviceId() {
@@ -111,7 +139,8 @@ public class Eztytopup extends Application {
         Call<PaymentResponse> payment = Eztytopup.getsAPIService().getCheckactivePayment();
         payment.enqueue(new Callback<PaymentResponse>() {
             @Override
-            public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+            public void onResponse(Call<PaymentResponse> call,
+                                   retrofit2.Response<PaymentResponse> response) {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){

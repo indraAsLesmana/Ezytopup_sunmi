@@ -104,4 +104,6 @@ public interface EzytopupAPI {
                                  @Query("templateCaption") String templateCaption,
                                  @Query("coupon_promo") String coupon_promo);
 
+    @GET("WGS_API_template_gift.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<TamplateResponse> getTamplateGift();
 }
