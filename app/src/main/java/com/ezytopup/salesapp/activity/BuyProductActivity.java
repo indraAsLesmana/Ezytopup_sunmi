@@ -310,6 +310,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
                 Call<PaymentResponse> buy = Eztytopup.getsAPIService().buyNow(
                         token,          // header
+
                         "1",            //TODO what id param is ?
                         token,
                         productId,
@@ -321,6 +322,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         uid,
                         "",
                         "0.0",
+                        "",
                         "",
                         "",
                         "",
