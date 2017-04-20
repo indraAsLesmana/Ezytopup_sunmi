@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -53,14 +54,14 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private ImageView e_paymentStatus, bank_transferStatus, credit_cardStatus, ezy_walletStatus;
     private TextView e_paymentTv, bank_transferTv, credit_cardTv, ezy_walletTv;
     private GridView e_paymentGrid, bank_transferGrid, credit_cardGrid, ezy_walletGrid;
-    private LinearLayout view_paymentNote;
+    private LinearLayout view_paymentNote, buy_giftform, buy_redemvoucher;
     private TextView paymentMethodTv, paymentNoteTv;
     private Button buynowButton, cancelButton;
     private String productName, productImage, productBackground, productPrice;
     private EditText ed_usermail;
     private PaymentResponse.PaymentMethod paymentDetail;
     private LinearLayout buy_button_container;
-
+    private CheckBox ch_gift;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -134,6 +135,9 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         cancelButton = (Button) findViewById(R.id.btnCancel);
         ed_usermail = (EditText) findViewById(R.id.buy_entermail);
         buy_button_container = (LinearLayout) findViewById(R.id.buy_paymentbutton);
+        buy_giftform = (LinearLayout) findViewById(R.id.buy_giftform);
+        buy_redemvoucher = (LinearLayout) findViewById(R.id.buy_redemvoucher);
+        ch_gift = (CheckBox) findViewById(R.id.chkSendAsGift);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -162,12 +166,18 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     view_desc.setVisibility(View.VISIBLE);
                     view_paymentNote.setVisibility(View.GONE);
                     buy_button_container.setVisibility(View.GONE);
+                    buy_giftform.setVisibility(View.GONE);
+                    buy_redemvoucher.setVisibility(View.GONE);
+                    ch_gift.setVisibility(View.GONE);
                 }else {
                     bt_Detailproduct.setText(R.string.detail_product);
                     view_detailbuy.setVisibility(View.VISIBLE);
                     view_desc.setVisibility(View.GONE);
                     view_paymentNote.setVisibility(View.VISIBLE);
                     buy_button_container.setVisibility(View.VISIBLE);
+                    buy_giftform.setVisibility(View.VISIBLE);
+                    buy_redemvoucher.setVisibility(View.VISIBLE);
+                    ch_gift.setVisibility(View.VISIBLE);
                 }
             }
         });
