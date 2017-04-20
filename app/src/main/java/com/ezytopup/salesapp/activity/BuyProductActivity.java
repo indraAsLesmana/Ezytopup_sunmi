@@ -58,7 +58,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private TextView paymentMethodTv, paymentNoteTv;
     private Button buynowButton, cancelButton;
     private String productName, productImage, productBackground, productPrice;
-    private EditText ed_usermail;
+    private EditText ed_usermail, gift_receiver, gift_sender, gift_email, gift_message;
     private PaymentResponse.PaymentMethod paymentDetail;
     private LinearLayout buy_button_container;
     private CheckBox ch_gift;
@@ -138,6 +138,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         buy_giftform = (LinearLayout) findViewById(R.id.buy_giftform);
         buy_redemvoucher = (LinearLayout) findViewById(R.id.buy_redemvoucher);
         ch_gift = (CheckBox) findViewById(R.id.chkSendAsGift);
+        gift_sender = (EditText) findViewById(R.id.tvSenderName);
+        gift_receiver = (EditText) findViewById(R.id.tvRecepientName);
+        gift_email = (EditText) findViewById(R.id.tvRecepientEmail);
+        gift_message = (EditText) findViewById(R.id.tvMessage);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -332,11 +336,11 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         "",
                         "0.0",
                         "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
+                        gift_sender.getText().toString(),
+                        gift_email.getText().toString(),
+                        gift_message.getText().toString(),
+                        getPaymentDetail().getPaymentMethod(),
+                        getPaymentDetail().getPaymentNote(),
                         "",
                         ""
                 );
@@ -345,16 +349,14 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     public void onResponse(Call<PaymentResponse> call, Response<PaymentResponse> response) {
                         if (response.isSuccessful() && response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
-                            Log.i(TAG, String.format("onResponse: %s%s", response.body().status.getCode(),
+                            Log.i(TAG, String.format("onResponse: %s %s", response.body().status.getCode(),
                                     response.body().status.getMessage()));
-                            if (getPaymentDetail() != null){
+
                                 PaymentActivity.start(BuyProductActivity.this,
                                         ed_usermail.getText().toString(),
                                         PreferenceUtils.getSinglePrefrenceString(BuyProductActivity.this,
                                                 R.string.settings_def_storeidevice_key),
                                         getPaymentDetail().getPaymentUrl());
-                            }
-                            //"2017041201084140693479"
                         }else {
                             Log.i(TAG, "onResponse: " + response.body().status.toString());
                             Toast.makeText(BuyProductActivity.this,
