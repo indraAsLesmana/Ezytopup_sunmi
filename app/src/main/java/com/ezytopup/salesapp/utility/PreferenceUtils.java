@@ -28,6 +28,12 @@ public class PreferenceUtils {
         editor.putString(context.getString(R.string.settings_def_storeimage_user_key), image_user);
         editor.apply();
     }
+    public static void setDeviceId (Context context, String deviceId){
+        SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
+        editor.putString(context.getString(R.string.settings_def_storedeviceid_key), deviceId);
+        editor.apply();
+    }
+
     public static void destroyUserSession(Context context) {
         SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
         editor.remove(context.getString(R.string.settings_def_uid_key));
@@ -83,6 +89,11 @@ public class PreferenceUtils {
                 result = dataPreferece.getString(
                         context.getString(R.string.settings_def_storeimage_user_key),
                         context.getString(R.string.settings_def_storeimage_user_default));
+                break;
+            case R.string.settings_def_storedeviceid_key:
+                result = dataPreferece.getString(
+                        context.getString(R.string.settings_def_storedeviceid_key),
+                        context.getString(R.string.settings_def_storedeviceid_default));
                 break;
 
         }

@@ -313,7 +313,9 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     private void loginUser(String mEmail, String mPassword){
 
         Authrequest auth = new Authrequest
-                (Constant.LOGIN_PROVIDER_EMAIL, mEmail, mPassword, Helper.deviceId());
+                (Constant.LOGIN_PROVIDER_EMAIL, mEmail, mPassword,
+                        PreferenceUtils.getSinglePrefrenceString(this,
+                                R.string.settings_def_storedeviceid_key));
 
         Call<Authrequest> call = Eztytopup.getsAPIService().login_request(auth);
         call.enqueue(new Callback<Authrequest>() {

@@ -11,6 +11,7 @@ import android.webkit.WebViewClient;
 
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 public class PaymentActivity extends BaseActivity {
 
@@ -59,7 +60,8 @@ public class PaymentActivity extends BaseActivity {
         webview.getSettings().setPluginState(WebSettings.PluginState.ON);
         webview.setWebViewClient(new HelloWebViewClient());
         webview.loadUrl(String.format("%s?session_name=%s&device_id=%s&email=%s",
-                paymentUrl, Constant.temporaryToken, device_id, email));
+                paymentUrl, PreferenceUtils.getSinglePrefrenceString(this,
+                        R.string.settings_def_storeaccess_token_key), device_id, email));
     }
 
     @Override
