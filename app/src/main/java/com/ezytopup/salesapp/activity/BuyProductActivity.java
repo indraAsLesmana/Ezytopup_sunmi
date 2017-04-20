@@ -23,6 +23,7 @@ import com.ezytopup.salesapp.adapter.Grid_PaymentAdapter;
 import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -41,8 +42,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private static final String PRODUCT_BG = "BuyProductActivity::productbackground";
     private static final String PRODUCT_PRICE = "BuyProductActivity::productprice";
     private ArrayList<DetailProductResponse.Result> results;
-    private TextView mSubtotal;
-    private TextView mTotal;
+    private TextView mSubtotal, mTotal, mQty;
     private static final String TAG = "BuyProductActivity";
     private String productId;
     private TextView bt_Detailproduct;
@@ -83,11 +83,13 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                 getIntent().getStringExtra(BuyProductActivity.PRODUCT_IMAGE) == null||
                 getIntent().getStringExtra(BuyProductActivity.PRODUCT_BG) == null||
                 getIntent().getStringExtra(BuyProductActivity.PRODUCT_PRICE) == null){
+
             finish();
             return;
         }
 
         results = new ArrayList<>();
+        mQty = (TextView) findViewById(R.id.tvQty);
         info1 = (TextView) findViewById(R.id.buy_info1);
         info2 = (TextView) findViewById(R.id.buy_info2);
         info3 = (TextView) findViewById(R.id.buy_info3);
@@ -290,17 +292,33 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBuyNow:
+                int uid = PreferenceUtils.getSinglePrefrenceInt(this, R.string.settings_def_uid_key);
+                String token = PreferenceUtils.getSinglePrefrenceString(this,
+                        R.string.settings_def_storeaccess_token_key);
+                if (getPaymentDetail().getId() == null){
+                    Toast.makeText(this, R.string.select_payment_method, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (uid == 0){
+                    Toast.makeText(this, "Uid problem", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (token.equals(Constant.TOKEN_NULL)){
+                    Toast.makeText(this, "Token null", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Call<PaymentResponse> buy = Eztytopup.getsAPIService().buyNow(
-                        Constant.temporaryToken,
-                        "1",
-                        Constant.temporaryToken,
+                        token,          // header
+                        "1",            //TODO what id param is ?
+                        token,
                         productId,
                         productName,
                         productPrice,
-                        "1", // qty for temporary
-                        "31", // id payment
+                        mQty.getText().toString(),      // qty for temporary
+                        getPaymentDetail().getId(),     // id payment
                         ed_usermail.getText().toString(),
-                        "",
+                        uid,
                         "",
                         "0.0",
                         "",
@@ -317,10 +335,12 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     public void onResponse(Call<PaymentResponse> call, Response<PaymentResponse> response) {
                         if (response.isSuccessful() && response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
-                            Log.i(TAG, String.format("onResponse: %s%s", response.body().status.getCode(), response.body().status.getMessage()));
+                            Log.i(TAG, String.format("onResponse: %s%s", response.body().status.getCode(),
+                                    response.body().status.getMessage()));
                             if (getPaymentDetail() != null){
                                 PaymentActivity.start(BuyProductActivity.this,
-                                        ed_usermail.getText().toString(), "2017041201084140693479", getPaymentDetail().getPaymentUrl());
+                                        ed_usermail.getText().toString(), "2017041201084140693479",
+                                        getPaymentDetail().getPaymentUrl());
                             }
                         }else {
                             Log.i(TAG, "onResponse: " + response.body().status.toString());
