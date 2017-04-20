@@ -55,7 +55,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private TextView e_paymentTv, bank_transferTv, credit_cardTv, ezy_walletTv;
     private GridView e_paymentGrid, bank_transferGrid, credit_cardGrid, ezy_walletGrid;
     private LinearLayout view_paymentNote, buy_giftform, buy_redemvoucher;
-    private TextView paymentMethodTv, paymentNoteTv;
+    private TextView paymentMethodTv, paymentNoteTv, etCouponPromo;
     private Button buynowButton, cancelButton;
     private String productName, productImage, productBackground, productPrice;
     private EditText ed_usermail, gift_receiver, gift_sender, gift_email, gift_message;
@@ -142,6 +142,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         gift_receiver = (EditText) findViewById(R.id.tvRecepientName);
         gift_email = (EditText) findViewById(R.id.tvRecepientEmail);
         gift_message = (EditText) findViewById(R.id.tvMessage);
+        etCouponPromo = (EditText) findViewById(R.id.etCouponPromo);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
