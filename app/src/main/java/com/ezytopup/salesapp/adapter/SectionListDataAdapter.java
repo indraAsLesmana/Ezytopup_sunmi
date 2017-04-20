@@ -54,7 +54,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
         if (singleItem.getImageUrl() != null){
             Glide.with(mContext)
                     .load(singleItem.getImageUrl()).centerCrop()
-                    .error(R.drawable.com_facebook_profile_picture_blank_square)
+                    .error(R.drawable.ic_error_loadimage)
                     .crossFade(Constant.ITEM_CROSSFADEDURATION)
                     .into(holder.itemImage);
         }

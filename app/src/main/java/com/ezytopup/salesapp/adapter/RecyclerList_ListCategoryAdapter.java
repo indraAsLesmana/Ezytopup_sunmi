@@ -51,7 +51,7 @@ public class RecyclerList_ListCategoryAdapter extends RecyclerView.Adapter
             if (singleItem.getImage() != null){
                 Glide.with(mContext)
                         .load(singleItem.getImage()).centerCrop()
-                        .error(R.drawable.com_facebook_profile_picture_blank_square)
+                        .error(R.drawable.ic_error_loadimage)
                         .into(holder.itemImage);
             }
 

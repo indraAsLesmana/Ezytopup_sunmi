@@ -54,7 +54,7 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
             if (result.getReviewUrl() != null) {
                 Glide.with(mContext)
                         .load(result.getReviewUrl()).centerCrop()
-                        .error(R.drawable.com_facebook_profile_picture_blank_square)
+                        .error(R.drawable.ic_error_loadimage)
                         .crossFade(Constant.ITEM_CROSSFADEDURATION)
                         .into(holder.hist_image);
             }

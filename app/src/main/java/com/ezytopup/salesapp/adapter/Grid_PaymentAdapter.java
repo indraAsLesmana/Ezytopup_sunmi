@@ -52,7 +52,7 @@ public class Grid_PaymentAdapter extends ArrayAdapter<PaymentResponse.PaymentMet
             if (mGridData.get(position).getPaymentLogo() != null){
                 Glide.with(mContext)
                         .load(bankItem.getPaymentLogo())
-                        .error(R.drawable.com_facebook_profile_picture_blank_square)
+                        .error(R.drawable.ic_error_loadimage)
                         .crossFade(Constant.ITEM_CROSSFADEDURATION)
                         .into(imageView);
             }

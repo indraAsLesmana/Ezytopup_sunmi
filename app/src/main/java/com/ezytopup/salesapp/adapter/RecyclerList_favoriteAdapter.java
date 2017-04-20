@@ -51,7 +51,7 @@ public class RecyclerList_favoriteAdapter extends RecyclerView.Adapter
             if (singleItem.getReviewUrl() != null){
                 Glide.with(mContext)
                         .load(singleItem.getReviewUrl()).centerCrop()
-                        .error(R.drawable.com_facebook_profile_picture_blank_square)
+                        .error(R.drawable.ic_error_loadimage)
                         .crossFade(Constant.ITEM_CROSSFADEDURATION)
                         .into(holder.fav_image);
             }
