@@ -1,5 +1,6 @@
 package com.ezytopup.salesapp.api;
 
+import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.utility.Constant;
 
 import okhttp3.ResponseBody;
@@ -106,4 +107,7 @@ public interface EzytopupAPI {
 
     @GET("WGS_API_template_gift.php?" + Constant.API_URL_GENERALUSAGE)
     Call<TamplateResponse> getTamplateGift();
+
+    @GET("WGS_API_verify_access_token.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<TokencheckResponse> checkToken(@Header("Authorize") String token);
 }

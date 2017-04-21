@@ -325,7 +325,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
-                    Log.i(TAG, "onResponse getid: " + response.body().getUser().getId());
+                    Log.i(TAG, "onResponse getid: " + response.body().getUser().getAccessToken());
 
                     PreferenceUtils.setStoreDetail(Login.this,
                             response.body().getUser().getId(),
