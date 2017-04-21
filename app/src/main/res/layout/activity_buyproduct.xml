@@ -217,6 +217,16 @@
                     android:text="@string/addminfee"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/discount"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
                 <TextView
                     android:id="@+id/buy_adminfee"
@@ -228,6 +238,16 @@
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
                     app:layout_constraintRight_toRightOf="parent" />
 
+                <TextView
+                    android:id="@+id/buy_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="0"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
+                    app:layout_constraintRight_toRightOf="parent" />
+
                 <include
                     android:id="@+id/include2"
                     layout="@layout/inc_devider"
@@ -236,7 +256,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
                 <TextView
                     android:id="@+id/textView7"

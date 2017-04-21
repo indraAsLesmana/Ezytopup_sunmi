@@ -53,7 +53,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private TextView info1, info2, info3, buy_desc;
     private RelativeLayout e_payment, bank_transfer, credit_card, ezy_wallet;
     private ImageView e_paymentStatus, bank_transferStatus, credit_cardStatus, ezy_walletStatus;
-    private TextView e_paymentTv, bank_transferTv, credit_cardTv, ezy_walletTv;
+    private TextView e_paymentTv, bank_transferTv, credit_cardTv, ezy_walletTv, mAdminFee, mDiscount;
     private GridView e_paymentGrid, bank_transferGrid, credit_cardGrid, ezy_walletGrid, gift_grid;
     private LinearLayout view_paymentNote, buy_giftform, buy_redemvoucher;
     private TextView paymentMethodTv, paymentNoteTv, etCouponPromo;
@@ -106,7 +106,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         TextView mProductPrice = (TextView) findViewById(R.id.buy_productprice);
         mTotal = (TextView) findViewById(R.id.buy_total);
         mSubtotal = (TextView) findViewById(R.id.buy_subtotal);
-        TextView mAdminFee = (TextView) findViewById(R.id.buy_adminfee);
+        mAdminFee = (TextView) findViewById(R.id.buy_adminfee);
         view_paymentNote = (LinearLayout) findViewById(R.id.buy_paymentnote);
 
         productId = getIntent().getStringExtra(BuyProductActivity.PRODUCT_ID);
@@ -146,6 +146,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         gift_email = (EditText) findViewById(R.id.tvRecepientEmail);
         gift_message = (EditText) findViewById(R.id.tvMessage);
         etCouponPromo = (EditText) findViewById(R.id.etCouponPromo);
+        mDiscount = (TextView) findViewById(R.id.buy_discount);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -335,6 +336,13 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     Toast.makeText(this, "Token null", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                String getServiceFee = "0";
+                String getServiceFeePercentage = "0";
+                if (mAdminFee.getText().toString().contains("%")) {
+                    getServiceFeePercentage = String.valueOf(getNumberPercentage(mAdminFee.getText().toString()));
+                } else {
+                    getServiceFee = String.valueOf(getNumber(mAdminFee.getText().toString()));
+                }
 
                 Call<PaymentResponse> buy = Eztytopup.getsAPIService().buyNow(
                         token,          // header
@@ -348,9 +356,9 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         ed_usermail.getText().toString(),
                         uid,
                         getGiftDetail().templateId,
-                        "0.0",
-                        "",
-                        "",
+                        getServiceFee,
+                        getServiceFeePercentage,
+                        mDiscount.getText().toString(),
                         gift_receiver.getText().toString(),
                         gift_email.getText().toString(),
                         gift_message.getText().toString(),
@@ -391,6 +399,17 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    //just copy from last developer
+    public static double getNumber(String number){
+        if (number.equals("")) {return 0;}
+        else if (number.equals("null")) {return 0;}
+        else {return Double.parseDouble(number.replaceAll("[^\\d.]", "").replaceAll("[,.]", "").replaceAll("\\s+",""));}
+    }
+    public static double getNumberPercentage(String number){
+        if (number.equals("")) {return 0;}
+        else if (number.equals("null")) {return 0;}
+        else {return Double.parseDouble(number.replaceAll("[^\\d.]", "").replaceAll("\\s+",""));}
+    }
 
 
     @Override

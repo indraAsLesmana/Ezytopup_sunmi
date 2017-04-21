@@ -105,6 +105,7 @@
     <string name="transaction_summary">Transaction Summary</string>
     <string name="subtotal">Subtotal</string>
     <string name="addminfee">Admin fee</string>
+    <string name="discount">Discount</string>
     <string name="total">Total</string>
     <string name="fill_information">Fill the information</string>
     <string name="enter_emailaddress">Enter your email address here</string>
