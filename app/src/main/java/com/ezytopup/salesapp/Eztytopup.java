@@ -96,6 +96,7 @@ public class Eztytopup extends Application {
         paymentTransfer = new ArrayList<>();
         paymentCredit = new ArrayList<>();
         paymentWallet = new ArrayList<>();
+        tamplateActive = new ArrayList<>();
         loadPaymentInfo();
         loadGiftTamplte();
         //initPrint(); disable couse client not usind Sunmi Device for future its must be detect hardware sunmi to automaticly init
@@ -298,6 +299,14 @@ public class Eztytopup extends Application {
 
                 break;
         }
+    }
+
+    public static ArrayList<TamplateResponse.Result> getTamplateActive() {
+        return tamplateActive;
+    }
+
+    public static void setTamplateActive(ArrayList<TamplateResponse.Result> tamplateActive) {
+        Eztytopup.tamplateActive = tamplateActive;
     }
 
     public static ArrayList<PaymentResponse.PaymentMethod> getPaymentActive() {

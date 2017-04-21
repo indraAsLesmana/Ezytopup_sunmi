@@ -154,12 +154,14 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
         Glide.with(BuyProductActivity.this)
                 .load(productBackground).centerCrop()
+                .error(R.drawable.ic_error_loadimage)
                 .crossFade(Constant.ITEM_CROSSFADEDURATION)
                 .into(mBackgroundProduct);
         mBackgroundProduct.setImageAlpha(Constant.DEF_BGALPHA);
 
         Glide.with(BuyProductActivity.this)
                 .load(productImage).centerCrop()
+                .error(R.drawable.ic_error_loadimage)
                 .crossFade(Constant.ITEM_CROSSFADEDURATION)
                 .into(mProductImage);
         mTotal.setText(productPrice);
@@ -192,6 +194,14 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
         getDetailProduct();
         setActivePayment();
+        viewGiftTamplate();
+    }
+
+    private void viewGiftTamplate() {
+        ArrayList<TamplateResponse.Result> gift_tamplate = Eztytopup.getTamplateActive();
+        Grid_GiftAdapter giftAdapter = new Grid_GiftAdapter(this, gift_tamplate, this);
+        gift_grid.setAdapter(giftAdapter);
+        gift_grid.setVisibility(View.VISIBLE);
     }
 
     private void setActivePayment() {
@@ -392,6 +402,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onGiftClick(TamplateResponse.Result optionPaymentItem) {
+        Toast.makeText(this, optionPaymentItem.getTemplateName(),
+                Toast.LENGTH_SHORT).show();
         setGiftDetail(optionPaymentItem);
     }
 

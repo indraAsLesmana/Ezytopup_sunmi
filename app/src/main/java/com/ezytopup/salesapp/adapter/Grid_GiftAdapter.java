@@ -51,7 +51,7 @@ public class Grid_GiftAdapter extends ArrayAdapter<TamplateResponse.Result>{
             textView.setText(giftItem.getTemplateName());
             if (mGridData.get(position).getImage() != null){
                 Glide.with(mContext)
-                        .load(giftItem.getImage())
+                        .load(giftItem.getImage()).centerCrop()
                         .error(R.drawable.ic_error_loadimage)
                         .crossFade(Constant.ITEM_CROSSFADEDURATION)
                         .into(imageView);
