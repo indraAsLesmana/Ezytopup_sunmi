@@ -20,22 +20,23 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.adapter.Grid_GiftAdapter;
 import com.ezytopup.salesapp.adapter.Grid_PaymentAdapter;
 import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.DetailProductResponse;
+import com.ezytopup.salesapp.api.TamplateResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BuyProductActivity extends BaseActivity implements View.OnClickListener,
-        Grid_PaymentAdapter.Grid_PaymentAdapterListener{
+        Grid_PaymentAdapter.Grid_PaymentAdapterListener, Grid_GiftAdapter.Grid_GiftAdapterListener {
 
     private static final String PRODUCT_ID = "BuyProductActivity::productid";
     private static final String PRODUCT_NAME = "BuyProductActivity::productname";
@@ -53,13 +54,14 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private RelativeLayout e_payment, bank_transfer, credit_card, ezy_wallet;
     private ImageView e_paymentStatus, bank_transferStatus, credit_cardStatus, ezy_walletStatus;
     private TextView e_paymentTv, bank_transferTv, credit_cardTv, ezy_walletTv;
-    private GridView e_paymentGrid, bank_transferGrid, credit_cardGrid, ezy_walletGrid;
+    private GridView e_paymentGrid, bank_transferGrid, credit_cardGrid, ezy_walletGrid, gift_grid;
     private LinearLayout view_paymentNote, buy_giftform, buy_redemvoucher;
     private TextView paymentMethodTv, paymentNoteTv, etCouponPromo;
     private Button buynowButton, cancelButton;
     private String productName, productImage, productBackground, productPrice;
     private EditText ed_usermail, gift_receiver, gift_sender, gift_email, gift_message;
     private PaymentResponse.PaymentMethod paymentDetail;
+    private TamplateResponse.Result giftDetail;
     private LinearLayout buy_button_container;
     private CheckBox ch_gift;
 
@@ -129,6 +131,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         bank_transferGrid = (GridView) findViewById(R.id.gridBanktransfer);
         credit_cardGrid = (GridView) findViewById(R.id.gridCreditcard);
         ezy_walletGrid = (GridView) findViewById(R.id.gridWallet);
+        gift_grid = (GridView) findViewById(R.id.gridTemplate);
         paymentMethodTv = (TextView) findViewById(R.id.tvPaymentCaption);
         paymentNoteTv = (TextView) findViewById(R.id.tvPaymentNote);
         buynowButton = (Button) findViewById(R.id.btnBuyNow);
@@ -246,7 +249,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         }
         Glide.with(BuyProductActivity.this)
                 .load(url).centerCrop()
-                .error(R.drawable.com_facebook_profile_picture_blank_square)
+                .error(R.drawable.ic_error_loadimage)
                 .crossFade(Constant.ITEM_CROSSFADEDURATION)
                 .into(imagePlace);
     }
@@ -387,11 +390,24 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         setPaymentDetail(optionPaymentItem);
     }
 
+    @Override
+    public void onGiftClick(TamplateResponse.Result optionPaymentItem) {
+        setGiftDetail(optionPaymentItem);
+    }
+
     public PaymentResponse.PaymentMethod getPaymentDetail() {
         return paymentDetail;
     }
 
     public void setPaymentDetail(PaymentResponse.PaymentMethod paymentDetail) {
         this.paymentDetail = paymentDetail;
+    }
+
+    public TamplateResponse.Result getGiftDetail() {
+        return giftDetail;
+    }
+
+    public void setGiftDetail(TamplateResponse.Result giftDetail) {
+        this.giftDetail = giftDetail;
     }
 }
