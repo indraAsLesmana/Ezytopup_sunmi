@@ -343,6 +343,12 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                 } else {
                     getServiceFee = String.valueOf(getNumber(mAdminFee.getText().toString()));
                 }
+                String templateId = "";
+                String tamplateName = "";
+                if (getGiftDetail() != null){
+                    templateId = getGiftDetail().getTemplateId();
+                    tamplateName = getGiftDetail().getTemplateName();
+                }
 
                 Call<PaymentResponse> buy = Eztytopup.getsAPIService().buyNow(
                         token,          // header
@@ -355,7 +361,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         getPaymentDetail().getId(),     // id payment
                         ed_usermail.getText().toString(),
                         uid,
-                        getGiftDetail().templateId,
+                        templateId,
                         getServiceFee,
                         getServiceFeePercentage,
                         mDiscount.getText().toString(),
@@ -365,7 +371,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         gift_sender.getText().toString(),
                         getPaymentDetail().getPaymentMethod(),
                         getPaymentDetail().getPaymentNote(),
-                        getGiftDetail().getTemplateName(),
+                        tamplateName,
                         etCouponPromo.getText().toString()
                 );
                 buy.enqueue(new Callback<PaymentResponse>() {
