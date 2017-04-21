@@ -347,7 +347,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         getPaymentDetail().getId(),     // id payment
                         ed_usermail.getText().toString(),
                         uid,
-                        "",
+                        getGiftDetail().templateId,
                         "0.0",
                         "",
                         "",
@@ -357,7 +357,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         gift_sender.getText().toString(),
                         getPaymentDetail().getPaymentMethod(),
                         getPaymentDetail().getPaymentNote(),
-                        "",
+                        getGiftDetail().getTemplateName(),
                         ""
                 );
                 buy.enqueue(new Callback<PaymentResponse>() {
