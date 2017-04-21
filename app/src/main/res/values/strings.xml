@@ -131,6 +131,7 @@
     <string name="cancel">Cancel</string>
     <string name="buy_now">Buy now</string>
     <string name="select_payment_method">Please select payment method</string>
+    <string name="listempty">List is empty</string>
 
     <string-array name="dummy_data">
         <item>One</item>

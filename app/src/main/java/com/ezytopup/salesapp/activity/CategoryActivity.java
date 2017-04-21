@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class CategoryActivity extends BaseActivity implements
     private ArrayList<CategoryResponse.Product> results;
     private static final String TAG = "CategoryActivity";
     private String mCategoryId;
+    private TextView mGeneral_list;
 
     public static void start(Activity caller, String categoryName, String categoryId) {
         Intent intent = new Intent(caller, CategoryActivity.class);
@@ -49,7 +51,7 @@ public class CategoryActivity extends BaseActivity implements
         }
         String mCategoryName = getIntent().getStringExtra(CategoryActivity.CATEGORY_NAME);
         mCategoryId = getIntent().getStringExtra(CategoryActivity.CATEGORY_ID);
-
+        mGeneral_list = (TextView) findViewById(R.id.general_emptylist);
         TextView categoryTitle = (TextView) findViewById(R.id.faq_titlequetion);
         categoryTitle.setText(String.format("%s: %s", getString(R.string.category), mCategoryName));
 
@@ -84,6 +86,7 @@ public class CategoryActivity extends BaseActivity implements
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     results.addAll(response.body().products);
+                    if (results.size() == 0) mGeneral_list.setVisibility(View.VISIBLE);
                     adapter.notifyDataSetChanged();
                 }else {
                     Toast.makeText(CategoryActivity.this, response.body().status.getMessage(),
