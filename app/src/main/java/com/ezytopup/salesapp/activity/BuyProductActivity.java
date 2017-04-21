@@ -358,7 +358,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         getPaymentDetail().getPaymentMethod(),
                         getPaymentDetail().getPaymentNote(),
                         getGiftDetail().getTemplateName(),
-                        ""
+                        etCouponPromo.getText().toString()
                 );
                 buy.enqueue(new Callback<PaymentResponse>() {
                     @Override
