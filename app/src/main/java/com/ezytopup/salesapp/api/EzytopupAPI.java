@@ -91,7 +91,7 @@ public interface EzytopupAPI {
                                  @Query("qty") String qty,
                                  @Query("payment_method_id") String payment_method_id,
                                  @Query("email") String email,
-                                 @Query("customerId") int customerId,
+                                 @Query("customerId") String customerId,
                                  @Query("templateId") String templateId,
                                  @Query("serviceFee") String serviceFee,
                                  @Query("serviceFeePercentage") String serviceFeePercentage,

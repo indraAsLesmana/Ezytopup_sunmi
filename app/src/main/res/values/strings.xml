@@ -48,7 +48,7 @@
     <!-- Store user id -->
     <string name="settings_def_uid">ID</string>
     <string name="settings_def_uid_key" translatable="false">def_store_id</string>
-    <string name="settings_def_uid_default" translatable="false">0</string>
+    <string name="settings_def_uid_default" translatable="false">-</string>
     <!-- Store user firstname -->
     <string name="settings_def_storefirst_name_label">First Name</string>
     <string name="settings_def_storefirst_name_key" translatable="false">def_first_name</string>

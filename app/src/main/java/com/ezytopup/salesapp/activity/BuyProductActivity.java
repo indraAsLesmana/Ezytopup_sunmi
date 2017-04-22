@@ -321,14 +321,14 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBuyNow:
-                int uid = PreferenceUtils.getSinglePrefrenceInt(this, R.string.settings_def_uid_key);
+                String uid = PreferenceUtils.getSinglePrefrenceString(this, R.string.settings_def_uid_key);
                 final String token = PreferenceUtils.getSinglePrefrenceString(this,
                         R.string.settings_def_storeaccess_token_key);
                 if (getPaymentDetail().getId() == null){
                     Toast.makeText(this, R.string.select_payment_method, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (uid == 0){
+                if (uid.equals("-")){
                     Toast.makeText(this, "Uid problem", Toast.LENGTH_SHORT).show();
                     return;
                 }

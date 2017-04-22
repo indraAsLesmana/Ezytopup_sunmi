@@ -58,7 +58,7 @@ public class Authrequest {
     public class User {
         @SerializedName("id")
         @Expose
-        public int id;
+        public String id;
         @SerializedName("image_user")
         @Expose
         public String imageUser;
@@ -84,7 +84,7 @@ public class Authrequest {
         @Expose
         public String lastLoginAt;
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
