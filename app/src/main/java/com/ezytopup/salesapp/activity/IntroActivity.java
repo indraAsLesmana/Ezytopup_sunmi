@@ -7,6 +7,7 @@ import android.view.View;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.TokencheckResponse;
+import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 import java.net.HttpURLConnection;
 import retrofit2.Call;
@@ -25,7 +26,7 @@ public class IntroActivity extends AppCompatActivity{
         mProgressBar.setVisibility(View.VISIBLE);
         String lastToken = PreferenceUtils.getSinglePrefrenceString(IntroActivity.this,
                 R.string.settings_def_storeaccess_token_key);
-        if (!lastToken.equals("-")){
+        if (!lastToken.equals(Constant.TOKEN_NULL)){
             tokenValidityCheck(lastToken);
         }else {
             PreferenceUtils.destroyUserSession(IntroActivity.this);
