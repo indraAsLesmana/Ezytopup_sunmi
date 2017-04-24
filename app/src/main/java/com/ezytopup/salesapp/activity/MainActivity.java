@@ -72,13 +72,6 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerImages = (SliderLayout) findViewById(R.id.slider);
-
-        TextSliderView textSliderView = new TextSliderView(MainActivity.this);
-        textSliderView
-                .image(R.drawable.header1)
-                .setScaleType(BaseSliderView.ScaleType.Fit);
-
-        headerImages.addSlider(textSliderView);
         headerImages.setPresetTransformer(SliderLayout.Transformer.Accordion);
         headerImages.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
         headerImages.setDuration(Constant.HEADER_DURATION);
