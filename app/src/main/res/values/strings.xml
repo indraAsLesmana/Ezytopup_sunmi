@@ -52,15 +52,15 @@
     <!-- Store user firstname -->
     <string name="settings_def_storefirst_name_label">First Name</string>
     <string name="settings_def_storefirst_name_key" translatable="false">def_first_name</string>
-    <string name="settings_def_storefirst_name_default">Guest</string>
+    <string name="settings_def_storefirst_name_default">-</string>
     <!-- Store user last_name-->
     <string name="settings_def_storelast_name_label">Last Name</string>
     <string name="settings_def_storelast_name_key" translatable="false">def_last_name</string>
-    <string name="settings_def_storelast_name_default">guest</string>
+    <string name="settings_def_storelast_name_default">-</string>
     <!-- Store email -->
     <string name="settings_def_storeemail_label">E-mail</string>
     <string name="settings_def_storeemail_key" translatable="false">def_email</string>
-    <string name="settings_def_storeemail_default" translatable="false">youremailis@null.com</string>
+    <string name="settings_def_storeemail_default" translatable="false">-</string>
     <!-- Store phone_number -->
     <string name="settings_def_storephone_number_label">Phone Number</string>
     <string name="settings_def_storephone_number_key" translatable="false">def_phone_number</string>

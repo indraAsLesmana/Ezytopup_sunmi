@@ -129,7 +129,7 @@ public class Eztytopup extends Application {
 
     private void setDeviceId() {
         if (PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_storeidevice_key).equals(Constant.DEVICEID_NULL)){
+                R.string.settings_def_storeidevice_key).equals(Constant.PREF_NUll)){
             PreferenceUtils.setDeviceId(this, Helper.deviceId());
         }
     }

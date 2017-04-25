@@ -328,11 +328,11 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     Toast.makeText(this, R.string.select_payment_method, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (uid.equals(Constant.DEVICEID_NULL)){
+                if (uid.equals(Constant.PREF_NUll)){
                     Toast.makeText(this, "Uid problem", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (token.equals(Constant.TOKEN_NULL)){
+                if (token.equals(Constant.PREF_NULL)){
                     Toast.makeText(this, "Token null", Toast.LENGTH_SHORT).show();
                     return;
                 }

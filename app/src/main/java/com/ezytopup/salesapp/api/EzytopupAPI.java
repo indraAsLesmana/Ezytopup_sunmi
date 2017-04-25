@@ -119,7 +119,7 @@ public interface EzytopupAPI {
                                     @Query("device_id") String deviceid);
 
     @POST("WGS_API_login_reg_gcm_id.php?" + API_URL_GENERALUSAGE)
-    Call<Authrequest> setRegFcm(@Query("provider") String provider,
+    Call<RegfcmResponse> setRegFcm(@Query("provider") String provider,
                                     @Query("reg_gcm_id") String regfcmid,
                                     @Query("device_id") String deviceid);
 }

@@ -26,7 +26,7 @@ public class IntroActivity extends AppCompatActivity{
         mProgressBar.setVisibility(View.VISIBLE);
         String lastToken = PreferenceUtils.getSinglePrefrenceString(IntroActivity.this,
                 R.string.settings_def_storeaccess_token_key);
-        if (!lastToken.equals(Constant.TOKEN_NULL)){
+        if (!lastToken.equals(Constant.PREF_NULL)){
             tokenValidityCheck(lastToken);
         }else {
             PreferenceUtils.destroyUserSession(IntroActivity.this);

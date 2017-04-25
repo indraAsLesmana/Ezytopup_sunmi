@@ -3,9 +3,7 @@ package com.ezytopup.salesapp.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -30,7 +28,6 @@ import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.TutorialResponse;
-import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
@@ -65,7 +62,7 @@ public class MainActivity extends BaseActivity
         tutorialImage = new ArrayList<>();
 
         if (PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
-                R.string.settings_def_storeaccess_token_key).equals(Constant.TOKEN_NULL)){
+                R.string.settings_def_storeaccess_token_key).equals(Constant.PREF_NULL)){
             Helper.synchronizeFCMRegToken(this, null);
         }
 
