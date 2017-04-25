@@ -132,6 +132,15 @@
     <string name="buy_now">Buy now</string>
     <string name="select_payment_method">Please select payment method</string>
     <string name="listempty">List is empty</string>
+    <string name="name">Name</string>
+    <string name="enter_name">Enter your name here</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="enter_phone">Enter your phone here</string>
+    <string name="password">Password</string>
+    <string name="password_hint">At least 8 characters</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="loading">Loading</string>
 
     <string-array name="dummy_data">
         <item>One</item>

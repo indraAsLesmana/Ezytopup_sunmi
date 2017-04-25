@@ -47,6 +47,7 @@ public class CategoryActivity extends BaseActivity implements
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (getIntent().getStringExtra(CategoryActivity.CATEGORY_ID) == null){
+            Toast.makeText(this, "Caetgory id is null", Toast.LENGTH_SHORT).show();
             return;
         }
         String mCategoryName = getIntent().getStringExtra(CategoryActivity.CATEGORY_NAME);

@@ -43,22 +43,40 @@
             android:name=".activity.Login"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
-           <!-- <intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.FaqActivity" />
-        <activity android:name=".activity.TermActivity" />
-        <activity android:name=".activity.CategoryActivity" />
-        <activity android:name=".activity.BuyProductActivity" />
-        <activity android:name=".activity.ListCategoryActivity" />
-        <activity android:name=".activity.PaymentActivity"></activity>
+        <activity
+            android:name=".activity.FaqActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TermActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BuyProductActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ListCategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SignUpActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
