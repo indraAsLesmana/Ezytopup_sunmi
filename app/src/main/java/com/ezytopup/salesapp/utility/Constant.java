@@ -59,6 +59,7 @@ public class Constant {
     public static final int DEF_BGALPHA = 230;
     public static final int ITEM_CROSSFADEDURATION = 600;
     public static final String TOKEN_NULL = "-";
+    public static final String DEVICEID_NULL = "-";
 
     /**
      * */

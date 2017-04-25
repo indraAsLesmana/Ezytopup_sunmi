@@ -12,7 +12,6 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.api.EzytopupAPI;
 import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.TamplateResponse;
@@ -130,7 +129,7 @@ public class Eztytopup extends Application {
 
     private void setDeviceId() {
         if (PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_storeidevice_key).equals("-")){
+                R.string.settings_def_storeidevice_key).equals(Constant.DEVICEID_NULL)){
             PreferenceUtils.setDeviceId(this, Helper.deviceId());
         }
     }

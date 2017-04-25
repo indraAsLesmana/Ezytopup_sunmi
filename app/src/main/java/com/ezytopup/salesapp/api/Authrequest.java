@@ -85,7 +85,7 @@ public class Authrequest {
         public String lastLoginAt;
         @SerializedName("device_id")
         @Expose
-        public Object deviceId;
+        public String deviceId;
 
         public String getId() {
             return id;
@@ -121,6 +121,10 @@ public class Authrequest {
 
         public String getLastLoginAt() {
             return lastLoginAt;
+        }
+
+        public String getDeviceId() {
+            return deviceId;
         }
     }
 

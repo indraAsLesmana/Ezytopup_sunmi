@@ -115,4 +115,9 @@ public interface EzytopupAPI {
     Call<Authrequest> setLoginskip(@Query("provider") String provider,
                                     @Query("reg_gcm_id") String regfcmid,
                                     @Query("device_id") String deviceid);
+
+    @POST("WGS_API_login_reg_gcm_id.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<Authrequest> setRegFcm(@Query("provider") String provider,
+                                    @Query("reg_gcm_id") String regfcmid,
+                                    @Query("device_id") String deviceid);
 }

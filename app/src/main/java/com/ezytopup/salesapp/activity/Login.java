@@ -38,7 +38,6 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.Authrequest;
 import com.ezytopup.salesapp.utility.Constant;
-import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
@@ -65,15 +64,15 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private static boolean callerMainactivity;
+    private static boolean flagMainactivity;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, Login.class);
         caller.startActivity(intent);
-        if (caller instanceof MainActivity) callerMainactivity = Boolean.TRUE;
+        if (caller instanceof MainActivity) flagMainactivity = Boolean.TRUE;
         if(!(caller instanceof MainActivity)){
             caller.finish();
-            callerMainactivity = Boolean.FALSE;
+            flagMainactivity = Boolean.FALSE;
         }
     }
 
@@ -127,7 +126,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_skipregistration) {
-            if (callerMainactivity == Boolean.TRUE){
+            if (flagMainactivity == Boolean.TRUE){
                 finish();
             }else {
                 MainActivity.start(Login.this);

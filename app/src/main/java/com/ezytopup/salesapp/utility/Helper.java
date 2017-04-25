@@ -89,6 +89,10 @@ public class Helper {
                             response.body().getUser().getPhoneNumber(),
                             response.body().getUser().getAccessToken(),
                             response.body().getUser().getImageUser());
+                    // TODO : confuse on last developer this response object not save to object
+                    /*PreferenceUtils.setDeviceId(context,
+                            response.body().getUser().getDeviceId());*/
+
                 }
             }
 
