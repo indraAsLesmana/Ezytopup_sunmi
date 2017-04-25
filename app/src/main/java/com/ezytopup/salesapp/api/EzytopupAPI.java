@@ -110,4 +110,9 @@ public interface EzytopupAPI {
 
     @GET("WGS_API_verify_access_token.php?" + Constant.API_URL_GENERALUSAGE)
     Call<TokencheckResponse> checkToken(@Header("Authorize") String token);
+
+    @POST("WGS_API_signup_tanpa_login.php?" + Constant.API_URL_GENERALUSAGE)
+    Call<ResponseBody> setLoginskip(@Query("provider") String provider,
+                                    @Query("reg_gcm_id") String regfcmid,
+                                    @Query("device_id") String deviceid);
 }

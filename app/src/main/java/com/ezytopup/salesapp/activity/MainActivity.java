@@ -32,6 +32,7 @@ import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.TutorialResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
@@ -62,6 +63,12 @@ public class MainActivity extends BaseActivity
         actionBar.setDisplayShowTitleEnabled(false);
         headerImage = new ArrayList<>();
         tutorialImage = new ArrayList<>();
+
+        //TODO : error on this
+        if (PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
+                R.string.settings_def_storeaccess_token_key).equals(Constant.TOKEN_NULL)){
+            Helper.synchronizeFCMRegToken(this, null);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
