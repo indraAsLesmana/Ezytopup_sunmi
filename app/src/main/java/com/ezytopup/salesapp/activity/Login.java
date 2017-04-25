@@ -100,8 +100,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
         mEmailSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                MainActivity.start(Login.this);
+                SignUpActivity.start(Login.this);
             }
         });
 

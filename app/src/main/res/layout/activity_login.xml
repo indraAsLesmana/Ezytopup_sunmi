@@ -49,7 +49,8 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <com.facebook.login.widget.LoginButton xmlns:facebook="http://schemas.android.com/apk/res-auto"
+            <com.facebook.login.widget.LoginButton
+                xmlns:facebook="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/login_facebook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
