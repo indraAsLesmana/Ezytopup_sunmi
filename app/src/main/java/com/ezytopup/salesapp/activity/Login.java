@@ -129,6 +129,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
         return super.onOptionsItemSelected(item);
     }
 
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;

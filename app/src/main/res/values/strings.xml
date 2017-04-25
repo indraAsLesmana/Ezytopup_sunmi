@@ -77,6 +77,10 @@
     <string name="settings_def_storeidevice_label">Device id</string>
     <string name="settings_def_storeidevice_key" translatable="false">def_deviceid</string>
     <string name="settings_def_storeidevice_default" translatable="false">-</string>
+    <!-- Store fcm_token -->
+    <string name="settings_def_storefcmtoken_label">Fcm token</string>
+    <string name="settings_def_storeifcmtoken_key" translatable="false">def_fcmtoken</string>
+    <string name="settings_def_storeifcmtoken_default" translatable="false">-</string>
 
 
     <string name="print">Print</string>
