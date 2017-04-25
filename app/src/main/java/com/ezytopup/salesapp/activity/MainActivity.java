@@ -222,6 +222,10 @@ public class MainActivity extends BaseActivity
                 TermActivity.start(MainActivity.this);
 
                 break;
+            case R.id.nav_login:
+                Login.start(MainActivity.this);
+
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

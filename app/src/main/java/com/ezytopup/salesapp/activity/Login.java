@@ -69,7 +69,9 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, Login.class);
         caller.startActivity(intent);
-        caller.finish();
+        if(!(caller instanceof MainActivity)){
+            caller.finish();
+        }
     }
 
     @Override
@@ -347,7 +349,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     Log.i(TAG, "onResponse getid: " + response.body().getUser().getAccessToken());
-
+                    PreferenceUtils.destroyUserSession(Login.this);
                     PreferenceUtils.setStoreDetail(Login.this,
                             response.body().getUser().getId(),
                             response.body().getUser().getFirstName(),
