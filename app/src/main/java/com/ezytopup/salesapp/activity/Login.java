@@ -65,12 +65,15 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private static boolean callerMainactivity;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, Login.class);
         caller.startActivity(intent);
+        if (caller instanceof MainActivity) callerMainactivity = Boolean.TRUE;
         if(!(caller instanceof MainActivity)){
             caller.finish();
+            callerMainactivity = Boolean.FALSE;
         }
     }
 
@@ -124,7 +127,11 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_skipregistration) {
-            MainActivity.start(this);
+            if (callerMainactivity == Boolean.TRUE){
+                finish();
+            }else {
+                MainActivity.start(Login.this);
+            }
             return true;
         }
 
