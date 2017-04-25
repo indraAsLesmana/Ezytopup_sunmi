@@ -216,52 +216,6 @@ public class MainActivity extends BaseActivity
                 TermActivity.start(MainActivity.this);
 
                 break;
-            case R.id.nav_print:
-                ThreadPoolManager.getInstance().executeTask(new Runnable() {
-                    @Override
-                    public void run() {
-                        if( Eztytopup.getmBitmap() == null ){
-                        /*Change store logo, here...*/
-                            Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
-                                    R.raw.ezy_for_print));
-                        }
-                        try {
-                            String[] text = new String[4];// 4 = set total column
-                            for (int i = 0; i < 4; i++) { // 4 = set total looping content buy
-                                if (i == 0){
-                                /*logo*/
-                                    Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                                    Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(), Eztytopup.getCallback());
-                                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                                    Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
-                                /*header*/
-                                    text[0] = Constant.ROW_NAME;
-                                    text[1] = Constant.ROW_QUANTITY;
-                                    text[2] = Constant.ROW_PRICE;
-                                    text[3] = Constant.ROW_TOTAL_PRICE;
-                                /*print*/
-                                    Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
-                                            Constant.align_header, Eztytopup.getCallback());
-                                }else {
-                                    text[0] = "Steam IDR" + i;
-                                    text[1] = "1";
-                                    text[2] = "72.00";
-                                    text[3] = "48.00";
-                                    Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
-                                            Constant.align, Eztytopup.getCallback());
-                                }
-
-                            }
-                        /* make space*/
-                            Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
-
-                        } catch (RemoteException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                });
-             break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
