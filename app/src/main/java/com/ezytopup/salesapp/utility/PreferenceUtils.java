@@ -28,11 +28,7 @@ public class PreferenceUtils {
         editor.putString(context.getString(R.string.settings_def_storeimage_user_key), image_user);
         editor.apply();
     }
-    public static void setFCMtoken (Context context, String fcmtoken){
-        SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
-        editor.putString(context.getString(R.string.settings_def_storeifcmtoken_key), fcmtoken);
-        editor.apply();
-    }
+
     public static void setDeviceId (Context context, String deviceId){
         SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
         editor.putString(context.getString(R.string.settings_def_uid_key), deviceId);
@@ -47,7 +43,6 @@ public class PreferenceUtils {
         editor.remove(context.getString(R.string.settings_def_storeemail_key));
         editor.remove(context.getString(R.string.settings_def_storeaccess_token_key));
         editor.remove(context.getString(R.string.settings_def_storeimage_user_key));
-        editor.remove(context.getString(R.string.settings_def_storeifcmtoken_key));
         editor.apply();
     }
 
@@ -106,12 +101,6 @@ public class PreferenceUtils {
                         context.getString(R.string.settings_def_uid_key),
                         context.getString(R.string.settings_def_uid_default));
                 break;
-            case R.string.settings_def_storeifcmtoken_key:
-                result = dataPreferece.getString(
-                        context.getString(R.string.settings_def_storeifcmtoken_key),
-                        context.getString(R.string.settings_def_storeifcmtoken_default));
-                break;
-
         }
         return result;
     }

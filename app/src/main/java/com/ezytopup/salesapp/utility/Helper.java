@@ -6,14 +6,16 @@ import android.util.Log;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.activity.Login;
+import com.ezytopup.salesapp.api.Authrequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.net.HttpURLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,33 +64,39 @@ public class Helper {
         }
     }
 
-    public static void synchronizeFCMRegToken(Context context, String token) {
-        if(PreferenceUtils.getSinglePrefrenceString(context,
-                R.string.settings_def_storeifcmtoken_key).equals(Constant.TOKEN_NULL)) {
-            String deviceid = null;
-            if(token == null) {
-                token = FirebaseInstanceId.getInstance().getToken();
-                deviceid = PreferenceUtils.getSinglePrefrenceString(context,
-                        R.string.settings_def_storeidevice_key);
-            }
-            Log.i(TAG, "synchronizeFCMRegToken: --- : " + token);
-
-            Call<ResponseBody> skip = Eztytopup.getsAPIService()
-                    .setLoginskip("email", token, deviceid);
-            skip.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()){
-                        response.raw().body().toString();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });
+    public static void synchronizeFCMRegToken(final Context context, String token) {
+        String deviceid = null;
+        if (token == null) {
+            token = FirebaseInstanceId.getInstance().getToken();
+            deviceid = PreferenceUtils.getSinglePrefrenceString(context,
+                    R.string.settings_def_storeidevice_key);
         }
+        Log.i(TAG, "synchronizeFCMRegToken: --- : " + token);
+
+        Call<Authrequest> skip = Eztytopup.getsAPIService()
+                .setLoginskip("email", token, deviceid);
+        skip.enqueue(new Callback<Authrequest>() {
+            @Override
+            public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
+                if (response.isSuccessful() && response.body().status
+                        .getCode().equals(String.valueOf(HttpURLConnection.HTTP_CREATED))) {
+                    Log.i(TAG, String.format("onResponse: token %s", response.body().getUser().getAccessToken()));
+                    PreferenceUtils.setStoreDetail(context,
+                            response.body().getUser().getId(),
+                            response.body().getUser().getFirstName(),
+                            response.body().getUser().getLastName(),
+                            response.body().getUser().getEmail(),
+                            response.body().getUser().getPhoneNumber(),
+                            response.body().getUser().getAccessToken(),
+                            response.body().getUser().getImageUser());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Authrequest> call, Throwable t) {
+
+            }
+        });
     }
 
 

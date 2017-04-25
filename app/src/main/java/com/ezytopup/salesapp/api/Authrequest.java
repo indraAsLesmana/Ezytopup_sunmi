@@ -83,6 +83,9 @@ public class Authrequest {
         @SerializedName("last_login_at")
         @Expose
         public String lastLoginAt;
+        @SerializedName("device_id")
+        @Expose
+        public Object deviceId;
 
         public String getId() {
             return id;

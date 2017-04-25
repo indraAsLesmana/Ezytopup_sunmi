@@ -64,7 +64,6 @@ public class MainActivity extends BaseActivity
         headerImage = new ArrayList<>();
         tutorialImage = new ArrayList<>();
 
-        //TODO : error on this
         if (PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
                 R.string.settings_def_storeaccess_token_key).equals(Constant.TOKEN_NULL)){
             Helper.synchronizeFCMRegToken(this, null);
