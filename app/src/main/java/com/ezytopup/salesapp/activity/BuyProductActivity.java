@@ -24,8 +24,7 @@ import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.Grid_GiftAdapter;
-import com.ezytopup.salesapp.adapter.Grid_PaymentAdapter;
-import com.ezytopup.salesapp.adapter.RecyclerList_bankoption;
+import com.ezytopup.salesapp.adapter.RecyclerList_bankoptionAdapter;
 import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.api.TamplateResponse;
@@ -40,7 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BuyProductActivity extends BaseActivity implements View.OnClickListener,
-        RecyclerList_bankoption.RecyclerList_bankoptionListener, Grid_GiftAdapter.Grid_GiftAdapterListener {
+        RecyclerList_bankoptionAdapter.RecyclerList_bankoptionListener, Grid_GiftAdapter.Grid_GiftAdapterListener {
 
     private static final String PRODUCT_ID = "BuyProductActivity::productid";
     private static final String PRODUCT_NAME = "BuyProductActivity::productname";
@@ -206,22 +205,40 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     e_paymentTv.setText(paymentActive.get(i).getPaymentMethod());
                     getImage(paymentActive.get(i).getPaymentLogo(), e_paymentStatus);
                     ArrayList<PaymentResponse.PaymentMethod> epaymentData = Eztytopup.getPaymentInternet();
-                    lLayout = new GridLayoutManager(BuyProductActivity.this, 4);
+                    lLayout = new GridLayoutManager(BuyProductActivity.this, Constant.PAYMENT_GRIDSETTINGS);
                     RecyclerView rView = (RecyclerView)findViewById(R.id.rc_banklist);
                     rView.setHasFixedSize(true);
                     rView.setLayoutManager(lLayout);
-                    RecyclerList_bankoption rcAdapter = new RecyclerList_bankoption(this,
+                    RecyclerList_bankoptionAdapter rcAdapter = new RecyclerList_bankoptionAdapter(this,
                             epaymentData, this);
                     rView.setAdapter(rcAdapter);
                     break;
                 case Constant.BANK_TRANSFER:
-
+                    e_paymentTv.setText(paymentActive.get(i).getPaymentMethod());
+                    getImage(paymentActive.get(i).getPaymentLogo(), e_paymentStatus);
+                    ArrayList<PaymentResponse.PaymentMethod> epaymentDataBT = Eztytopup.getPaymentTransfer();
+                    lLayout = new GridLayoutManager(BuyProductActivity.this, Constant.PAYMENT_GRIDSETTINGS);
+                    RecyclerView rViewBT = (RecyclerView)findViewById(R.id.rc_banklist);
+                    rViewBT.setHasFixedSize(true);
+                    rViewBT.setLayoutManager(lLayout);
+                    RecyclerList_bankoptionAdapter rcAdapterBT = new RecyclerList_bankoptionAdapter(this,
+                            epaymentDataBT, this);
+                    rViewBT.setAdapter(rcAdapterBT);
                     break;
                 case Constant.CREADIT_CARD:
 
                     break;
                 case Constant.EZYTOPUP_WALLET:
-
+                    e_paymentTv.setText(paymentActive.get(i).getPaymentMethod());
+                    getImage(paymentActive.get(i).getPaymentLogo(), e_paymentStatus);
+                    ArrayList<PaymentResponse.PaymentMethod> epaymentDataEZ = Eztytopup.getPaymentWallet();
+                    lLayout = new GridLayoutManager(BuyProductActivity.this, Constant.PAYMENT_GRIDSETTINGS);
+                    RecyclerView rViewEZ = (RecyclerView)findViewById(R.id.rc_banklist);
+                    rViewEZ.setHasFixedSize(true);
+                    rViewEZ.setLayoutManager(lLayout);
+                    RecyclerList_bankoptionAdapter rcAdapterEZ = new RecyclerList_bankoptionAdapter(this,
+                            epaymentDataEZ, this);
+                    rViewEZ.setAdapter(rcAdapterEZ);
                     break;
             }
         }

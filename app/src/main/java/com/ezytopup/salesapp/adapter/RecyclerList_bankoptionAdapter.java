@@ -1,12 +1,12 @@
 package com.ezytopup.salesapp.adapter;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,14 +20,14 @@ import java.util.ArrayList;
  * Created by indraaguslesmana on 4/26/17.
  */
 
-public class RecyclerList_bankoption extends RecyclerView.Adapter<RecyclerList_bankoption.Cardbank> {
+public class RecyclerList_bankoptionAdapter extends RecyclerView.Adapter<RecyclerList_bankoptionAdapter.Cardbank> {
 
     private Context mContext;
     private ArrayList<PaymentResponse.PaymentMethod> itemList;
-    private RecyclerList_bankoption.RecyclerList_bankoptionListener mListener;
+    private RecyclerList_bankoptionAdapter.RecyclerList_bankoptionListener mListener;
 
-    public RecyclerList_bankoption(Context mContext, ArrayList<PaymentResponse.PaymentMethod> itemList,
-                                   RecyclerList_bankoptionListener mListener) {
+    public RecyclerList_bankoptionAdapter(Context mContext, ArrayList<PaymentResponse.PaymentMethod> itemList,
+                                          RecyclerList_bankoptionListener mListener) {
         this.mContext = mContext;
         this.itemList = itemList;
         this.mListener = mListener;
@@ -36,8 +36,8 @@ public class RecyclerList_bankoption extends RecyclerView.Adapter<RecyclerList_b
     @Override
     public Cardbank onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_singlecard_home, parent, false);
-        return new RecyclerList_bankoption.Cardbank(v);
+                .inflate(R.layout.list_singlecard_bankoption, parent, false);
+        return new RecyclerList_bankoptionAdapter.Cardbank(v);
     }
 
     @Override
@@ -69,16 +69,14 @@ public class RecyclerList_bankoption extends RecyclerView.Adapter<RecyclerList_b
 
     class Cardbank extends RecyclerView.ViewHolder {
         private ImageView itemImage;
-        private TextView itemTitle, itemPrice;
-        private ConstraintLayout container_card;
+        private TextView itemTitle;
+        private RelativeLayout container_card;
 
         public Cardbank(View itemView) {
             super(itemView);
-            itemImage = (ImageView) itemView.findViewById(R.id.item_image);
-            itemTitle = (TextView) itemView.findViewById(R.id.item_title);
-            itemPrice = (TextView) itemView.findViewById(R.id.item_price);
-            itemPrice.setVisibility(View.GONE);
-            container_card = (ConstraintLayout) itemView.findViewById(R.id.cn_cardview);
+            itemImage = (ImageView) itemView.findViewById(R.id.bank_icon);
+            itemTitle = (TextView) itemView.findViewById(R.id.bank_title);
+            container_card = (RelativeLayout) itemView.findViewById(R.id.containter_bankoption);
         }
     }
 

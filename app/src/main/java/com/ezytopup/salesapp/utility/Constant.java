@@ -67,4 +67,9 @@ public class Constant {
     public static final String CREADIT_CARD = "103";
     public static final String EZYTOPUP_WALLET = "104";
 
+    /**
+     * App settings
+     * */
+    public static final int PAYMENT_GRIDSETTINGS = 3;
+
 }
