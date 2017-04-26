@@ -1,237 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/rlPayment"
-        android:visibility="gone"
+
+    <LinearLayout
+        android:id="@+id/cr_paymentoption"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_height="32dp"
+        android:orientation="horizontal">
+
         <RadioButton
-            android:id="@+id/rdbPayment"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:checked="true"
-            android:buttonTint="#3B5A99"
-            android:backgroundTint="#ffffff"
-            android:foregroundTint="#ffffff"/>
-
-        <TextView
-            android:id="@+id/tvPayment"
+            android:id="@+id/rd_payment"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            tools:text="e-Payment"
-            android:textSize="12sp"
-            android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/rdbPayment"/>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:text="e-payment" />
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="117dp"
-            android:layout_height="19dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/rivPayment"
-            android:scaleType="fitCenter"
-            app:riv_corner_radius="0dp"
-            app:riv_border_width="0dp"
-            app:riv_mutate_background="true"
-            app:riv_tile_mode="repeat"
-            app:riv_oval="false"
-            android:layout_toRightOf="@+id/tvPayment"
-            android:layout_toEndOf="@+id/tvPayment"/>
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/img_statuspayment"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            tools:background="@color/colorAccent"
+            android:layout_width="120dp"
+            android:layout_gravity="center"
+            android:layout_height="23dp" />
 
-    <GridView
-        android:id="@+id/gridePayment"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:columnWidth="100dp"
-        android:drawSelectorOnTop="true"
-        android:gravity="center"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:visibility="gone"/>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/rlBanktransfer"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp">
-        <RadioButton
-            android:id="@+id/rdbBanktransfer"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:checked="false"
-            android:buttonTint="#3B5A99"
-            android:backgroundTint="#ffffff"
-            android:foregroundTint="#ffffff"/>
-
-        <TextView
-            android:id="@+id/tvBanktransfer"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            tools:text="Bank Transfer"
-            android:textSize="12sp"
-            android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/rdbBanktransfer"/>
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="117dp"
-            android:layout_height="19dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/rivBanktransfer"
-            android:scaleType="fitCenter"
-            app:riv_corner_radius="0dp"
-            app:riv_border_width="0dp"
-            app:riv_mutate_background="true"
-            app:riv_tile_mode="repeat"
-            app:riv_oval="false"
-            android:layout_toRightOf="@+id/tvBanktransfer"
-            android:layout_toEndOf="@+id/tvBanktransfer"/>
-    </RelativeLayout>
-
-    <GridView
-        android:id="@+id/gridBanktransfer"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:columnWidth="100dp"
-        android:drawSelectorOnTop="true"
-        android:gravity="center"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:visibility="gone"/>
-
-    <RelativeLayout
-        android:id="@+id/rlCreditcard"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp">
-        <RadioButton
-            android:id="@+id/rdbCreditcard"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:checked="false"
-            android:buttonTint="#3B5A99"
-            android:backgroundTint="#ffffff"
-            android:foregroundTint="#ffffff"/>
-
-        <TextView
-            android:id="@+id/tvCreditcard"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            tools:text="Credit Card"
-            android:textSize="12sp"
-            android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/rdbCreditcard"
-            android:layout_toEndOf="@+id/rdbCreditcard"/>
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="117dp"
-            android:layout_height="19dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/rivCreditcard"
-            android:scaleType="fitCenter"
-            app:riv_corner_radius="0dp"
-            app:riv_border_width="0dp"
-            app:riv_mutate_background="true"
-            app:riv_tile_mode="repeat"
-            app:riv_oval="false"
-            android:layout_toRightOf="@+id/tvCreditcard"
-            android:layout_toEndOf="@+id/tvCreditcard"/>
-    </RelativeLayout>
-
-    <GridView
-        android:id="@+id/gridCreditcard"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:columnWidth="100dp"
-        android:drawSelectorOnTop="true"
-        android:gravity="center"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:visibility="gone"/>
-
-    <RelativeLayout
-        android:id="@+id/rlWallet"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp">
-        <RadioButton
-            android:id="@+id/rdbWallet"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:checked="false"
-            android:buttonTint="#3B5A99"
-            android:backgroundTint="#ffffff"
-            android:foregroundTint="#ffffff"/>
-
-        <TextView
-            android:id="@+id/tvWallet"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            tools:text="@string/ezzy_wallet"
-            android:textSize="12sp"
-            android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/rdbWallet"
-            android:layout_toEndOf="@+id/rdbWallet"/>
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="117dp"
-            android:layout_height="19dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/rivWallet"
-            android:scaleType="fitCenter"
-            app:riv_corner_radius="0dp"
-            app:riv_border_width="0dp"
-            app:riv_mutate_background="true"
-            app:riv_tile_mode="repeat"
-            app:riv_oval="false"
-            android:layout_toRightOf="@+id/tvWallet"
-            android:layout_toEndOf="@+id/tvWallet"/>
-    </RelativeLayout>
-
-    <GridView
-        android:id="@+id/gridWallet"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rc_banklist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:columnWidth="100dp"
-        android:drawSelectorOnTop="true"
-        android:gravity="center"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:visibility="gone"/>
+        android:layout_below="@id/cr_paymentoption" />
 
-</LinearLayout>
+</RelativeLayout>
