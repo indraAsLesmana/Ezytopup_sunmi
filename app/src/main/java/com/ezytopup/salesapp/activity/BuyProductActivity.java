@@ -72,7 +72,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private GridLayoutManager lLayout;
     private RadioButton rd_epayment, rd_banktransfer, rd_creditcard, rd_wallet;
     private ConstraintLayout bg_product;
-    private RecyclerView rViewEZ, rViewCC, rViewBT, rViewIB;
+    private RecyclerView rViewListEZ, rViewListCC, rViewListBT, rViewListIB;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -155,6 +155,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         bt_addtochart = (TextView) findViewById(R.id.tvAddtochart);
         bg_product = (ConstraintLayout) findViewById(R.id.buy_bgproduct);
         view_chartcount = findViewById(R.id.view_chartcount);
+        rViewListIB = (RecyclerView)findViewById(R.id.rc_banklist);
+        rViewListBT = (RecyclerView)findViewById(R.id.rc_banktransferlist);
+        rViewListCC = (RecyclerView)findViewById(R.id.rc_creditcardlist);
+        rViewListEZ = (RecyclerView)findViewById(R.id.rc_walletlist);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -213,16 +217,52 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 rd_wallet.setChecked(false);
-                rViewIB.setVisibility(View.VISIBLE);
-                rViewEZ.setVisibility(View.GONE);
+                rd_banktransfer.setChecked(false);
+                rd_creditcard.setChecked(false);
+
+                rViewListIB.setVisibility(View.VISIBLE);
+                rViewListEZ.setVisibility(View.GONE);
+                rViewListBT.setVisibility(View.GONE);
+                rViewListCC.setVisibility(View.GONE);
             }
         });
         rd_wallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 rd_epayment.setChecked(false);
-                rViewEZ.setVisibility(View.VISIBLE);
-                rViewIB.setVisibility(View.GONE);
+                rd_banktransfer.setChecked(false);
+                rd_creditcard.setChecked(false);
+
+                rViewListIB.setVisibility(View.GONE);
+                rViewListEZ.setVisibility(View.VISIBLE);
+                rViewListBT.setVisibility(View.GONE);
+                rViewListCC.setVisibility(View.GONE);
+            }
+        });
+        rd_banktransfer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rd_wallet.setChecked(false);
+                rd_epayment.setChecked(false);
+                rd_creditcard.setChecked(false);
+
+                rViewListIB.setVisibility(View.GONE);
+                rViewListEZ.setVisibility(View.GONE);
+                rViewListBT.setVisibility(View.VISIBLE);
+                rViewListCC.setVisibility(View.GONE);
+            }
+        });
+        rd_creditcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rd_wallet.setChecked(false);
+                rd_epayment.setChecked(false);
+                rd_banktransfer.setChecked(false);
+
+                rViewListIB.setVisibility(View.GONE);
+                rViewListEZ.setVisibility(View.GONE);
+                rViewListBT.setVisibility(View.GONE);
+                rViewListCC.setVisibility(View.VISIBLE);
             }
         });
 
@@ -248,12 +288,11 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), ico_epayment);
                     ArrayList<PaymentResponse.PaymentMethod> epaymentData = Eztytopup.getPaymentInternet();
                     lLayout = new GridLayoutManager(BuyProductActivity.this, Constant.PAYMENT_GRIDSETTINGS);
-                    rViewIB = (RecyclerView)findViewById(R.id.rc_banklist);
-                    rViewIB.setHasFixedSize(true);
-                    rViewIB.setLayoutManager(lLayout);
+                    rViewListIB.setHasFixedSize(true);
+                    rViewListIB.setLayoutManager(lLayout);
                     RecyclerList_bankoptionAdapter rcAdapter = new RecyclerList_bankoptionAdapter(this,
                             epaymentData, this);
-                    rViewIB.setAdapter(rcAdapter);
+                    rViewListIB.setAdapter(rcAdapter);
                     option_epayment.setVisibility(View.VISIBLE);
                     break;
                 case Constant.BANK_TRANSFER:
@@ -261,12 +300,11 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), ico_banktransfer);
                     ArrayList<PaymentResponse.PaymentMethod> epaymentDataBT = Eztytopup.getPaymentTransfer();
                     lLayout = new GridLayoutManager(BuyProductActivity.this, Constant.PAYMENT_GRIDSETTINGS);
-                    rViewBT = (RecyclerView)findViewById(R.id.rc_banktransferlist);
-                    rViewBT.setHasFixedSize(true);
-                    rViewBT.setLayoutManager(lLayout);
+                    rViewListBT.setHasFixedSize(true);
+                    rViewListBT.setLayoutManager(lLayout);
                     RecyclerList_bankoptionAdapter rcAdapterBT = new RecyclerList_bankoptionAdapter(this,
                             epaymentDataBT, this);
-                    rViewBT.setAdapter(rcAdapterBT);
+                    rViewListBT.setAdapter(rcAdapterBT);
                     option_banktransfer.setVisibility(View.VISIBLE);
                     break;
                 case Constant.CREADIT_CARD:
@@ -274,12 +312,11 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), ico_banktransfer);
                     ArrayList<PaymentResponse.PaymentMethod> epaymentDataCC = Eztytopup.getPaymentTransfer();
                     lLayout = new GridLayoutManager(BuyProductActivity.this, Constant.PAYMENT_GRIDSETTINGS);
-                    rViewCC = (RecyclerView)findViewById(R.id.rc_creditcardlist);
-                    rViewCC.setHasFixedSize(true);
-                    rViewCC.setLayoutManager(lLayout);
+                    rViewListCC.setHasFixedSize(true);
+                    rViewListCC.setLayoutManager(lLayout);
                     RecyclerList_bankoptionAdapter rcAdapterCC = new RecyclerList_bankoptionAdapter(this,
                             epaymentDataCC, this);
-                    rViewCC.setAdapter(rcAdapterCC);
+                    rViewListCC.setAdapter(rcAdapterCC);
                     option_creditcard.setVisibility(View.VISIBLE);
                     break;
                 case Constant.EZYTOPUP_WALLET:
@@ -287,12 +324,11 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     getImage(paymentActive.get(i).getPaymentLogo(), ico_wallet);
                     ArrayList<PaymentResponse.PaymentMethod> epaymentDataEZ = Eztytopup.getPaymentWallet();
                     lLayout = new GridLayoutManager(BuyProductActivity.this, Constant.PAYMENT_GRIDSETTINGS);
-                    rViewEZ = (RecyclerView)findViewById(R.id.rc_walletlist);
-                    rViewEZ.setHasFixedSize(true);
-                    rViewEZ.setLayoutManager(lLayout);
+                    rViewListEZ.setHasFixedSize(true);
+                    rViewListEZ.setLayoutManager(lLayout);
                     RecyclerList_bankoptionAdapter rcAdapterEZ = new RecyclerList_bankoptionAdapter(this,
                             epaymentDataEZ, this);
-                    rViewEZ.setAdapter(rcAdapterEZ);
+                    rViewListEZ.setAdapter(rcAdapterEZ);
                     option_wallet.setVisibility(View.VISIBLE);
                     break;
             }
