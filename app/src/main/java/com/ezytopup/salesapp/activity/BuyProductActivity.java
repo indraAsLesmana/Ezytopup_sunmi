@@ -52,7 +52,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private static final String TAG = "BuyProductActivity";
     private String productId;
     private TextView bt_Detailproduct;
-    private View view_desc;
+    private View view_desc, view_chartcount;
     private ConstraintLayout view_detailbuy;
     private TextView info1, info2, info3, buy_desc;
     private RelativeLayout option_epayment, option_banktransfer, option_creditcard, option_wallet;
@@ -153,6 +153,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         option_wallet = (RelativeLayout) findViewById(R.id.option_wallet);
         bt_addtochart = (TextView) findViewById(R.id.tvAddtochart);
         bg_product = (ConstraintLayout) findViewById(R.id.buy_bgproduct);
+        view_chartcount = findViewById(R.id.view_chartcount);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -203,6 +204,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 bg_product.setVisibility(View.GONE);
+                view_chartcount.setVisibility(View.VISIBLE);
             }
         });
 

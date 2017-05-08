@@ -21,149 +21,169 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/buy_bgproduct"
+            <LinearLayout
+                android:id="@+id/buy_header"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/buy_bgimage"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/buy_bgproduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="visible"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@color/colorPrimary" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent">
-
-                    <TextView
-                        android:id="@+id/tvDetailProduct"
+                    <ImageView
+                        android:id="@+id/buy_bgimage"
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:text="@string/detail_product"
-                        android:textColor="@android:color/white"
-                        android:textSize="12sp" />
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@color/colorPrimary" />
 
                     <LinearLayout
-                        android:id="@+id/tvShareToFacebook"
+                        android:id="@+id/linearLayout"
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
-                        android:layout_margin="8dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/share_to_fb"
-                        android:clickable="true"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="16dp"
-                            android:background="@drawable/icon_facebook" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="16dp"
+                            android:id="@+id/tvDetailProduct"
+                            android:layout_width="0dp"
+                            android:layout_height="32dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="32dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_corner"
+                            android:clickable="true"
                             android:gravity="center"
-                            android:text="@string/share"
-                            android:textColor="#ffffff"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:text="@string/detail_product"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:id="@+id/tvShareToFacebook"
+                            android:layout_width="0dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/share_to_fb"
+                            android:clickable="true"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="16dp"
+                                android:background="@drawable/icon_facebook" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="16dp"
+                                android:gravity="center"
+                                android:text="@string/share"
+                                android:textColor="#ffffff"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvAddtochart"
+                            android:layout_width="0dp"
+                            android:layout_height="32dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginRight="32dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_corner"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="@string/add_tocart"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tvAddtochart"
-                        android:layout_width="0dp"
-                        android:layout_height="32dp"
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/buy_productimages"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginRight="32dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:text="@string/add_tocart"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:riv_border_width="0dp"
+                        app:riv_corner_radius="5dp"
+                        app:riv_mutate_background="true"
+                        app:riv_oval="false"
+                        app:riv_tile_mode="repeat"
+                        tools:background="@drawable/com_facebook_profile_picture_blank_square" />
+
+                    <TextView
+                        android:id="@+id/buy_producttitle"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginStart="8dp"
+                        android:maxLines="2"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp" />
+                        android:textSize="14sp"
+                        app:layout_constraintLeft_toRightOf="@+id/buy_productimages"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/buy_productimages"
+                        tools:text="@string/dummy_text" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/buy_productprice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintLeft_toLeftOf="@+id/buy_producttitle"
+                        app:layout_constraintTop_toBottomOf="@+id/buy_producttitle"
+                        tools:text="@string/dummy_price1" />
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/buy_productimages"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:riv_border_width="0dp"
-                    app:riv_corner_radius="5dp"
-                    app:riv_mutate_background="true"
-                    app:riv_oval="false"
-                    app:riv_tile_mode="repeat"
-                    tools:background="@drawable/com_facebook_profile_picture_blank_square" />
 
-                <TextView
-                    android:id="@+id/buy_producttitle"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginStart="8dp"
-                    android:maxLines="2"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    app:layout_constraintLeft_toRightOf="@+id/buy_productimages"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/buy_productimages"
-                    tools:text="@string/dummy_text" />
+                </android.support.constraint.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/buy_productprice"
-                    android:layout_width="0dp"
+                <include
+                    android:id="@+id/view_chartcount"
+                    layout="@layout/inc_transaction_count"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    app:layout_constraintLeft_toLeftOf="@+id/buy_producttitle"
-                    app:layout_constraintTop_toBottomOf="@+id/buy_producttitle"
-                    tools:text="@string/dummy_price1" />
-
-
-            </android.support.constraint.ConstraintLayout>
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/buy_detailview"
@@ -173,7 +193,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buy_bgproduct">
+                app:layout_constraintTop_toBottomOf="@+id/buy_header">
 
                 <TextView
                     android:id="@+id/textView2"
@@ -282,17 +302,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/include2" />
 
-                <include
-                    android:id="@+id/include_transaction"
-                    layout="@layout/inc_transaction_count"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
                 <TextView
                     android:id="@+id/buy_total"
                     android:layout_width="wrap_content"
@@ -318,7 +327,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/include_transaction" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
                 <TextView
                     android:id="@+id/textView10"
@@ -519,7 +528,9 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buy_redemvoucher">
+                app:layout_constraintTop_toBottomOf="@+id/buy_redemvoucher"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp">
 
                 <Button
                     android:id="@+id/btnBuyNow"
