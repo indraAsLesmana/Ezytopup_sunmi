@@ -57,7 +57,6 @@
                         android:layout_height="32dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="32dp"
-                        android:layout_marginRight="4dp"
                         android:layout_marginTop="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_corner"
@@ -71,9 +70,8 @@
                         android:id="@+id/tvShareToFacebook"
                         android:layout_width="0dp"
                         android:layout_height="32dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginRight="32dp"
+                        android:layout_margin="8dp"
+                        android:layout_gravity="center"
                         android:layout_marginTop="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/share_to_fb"
@@ -99,6 +97,21 @@
                             android:textStyle="bold" />
 
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvAddtochart"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_corner"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="@string/add_tocart"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
