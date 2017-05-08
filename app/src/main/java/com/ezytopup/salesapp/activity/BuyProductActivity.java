@@ -58,7 +58,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private RelativeLayout option_epayment, option_banktransfer, option_creditcard, option_wallet;
     private ImageView ico_epayment, ico_banktransfer, ico_creditcard, ico_wallet, bank_transferStatus,
             credit_cardStatus, ezy_walletStatus;
-    private TextView bank_transferTv, credit_cardTv, ezy_walletTv, mAdminFee, mDiscount;
+    private TextView bank_transferTv, credit_cardTv, ezy_walletTv, mAdminFee, mDiscount, bt_addtochart;
     private GridView gift_grid;
     private LinearLayout view_paymentNote, buy_giftform, buy_redemvoucher;
     private TextView paymentMethodTv, paymentNoteTv, etCouponPromo;
@@ -71,6 +71,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private CheckBox ch_gift;
     private GridLayoutManager lLayout;
     private RadioButton rd_epayment, rd_banktransfer, rd_creditcard, rd_wallet;
+    private ConstraintLayout bg_product;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -150,6 +151,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         option_banktransfer = (RelativeLayout) findViewById(R.id.option_banktransfer);
         option_creditcard = (RelativeLayout) findViewById(R.id.option_creditcard);
         option_wallet = (RelativeLayout) findViewById(R.id.option_wallet);
+        bt_addtochart = (TextView) findViewById(R.id.tvAddtochart);
+        bg_product = (ConstraintLayout) findViewById(R.id.buy_bgproduct);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -193,6 +196,13 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     buy_redemvoucher.setVisibility(View.VISIBLE);
                     ch_gift.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        bt_addtochart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bg_product.setVisibility(View.GONE);
             }
         });
 
