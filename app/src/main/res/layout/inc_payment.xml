@@ -41,8 +41,7 @@
                 android:id="@+id/rc_banklist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cr_epaymentoption"
-                android:clickable="true" />
+                android:layout_below="@id/cr_epaymentoption" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -114,7 +113,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cr_creditcard"
-                android:clickable="true" />
+                android:focusable="true"
+                android:clickable="true"
+                />
         </RelativeLayout>
 
         <RelativeLayout
@@ -150,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cr_wallet"
-                android:clickable="true" />
+                />
         </RelativeLayout>
 
     </LinearLayout>
