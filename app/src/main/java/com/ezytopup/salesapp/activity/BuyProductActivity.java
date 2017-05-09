@@ -210,6 +210,10 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             public void onClick(View v) {
                 bg_product.setVisibility(View.GONE);
                 view_chartcount.setVisibility(View.VISIBLE);
+                if (view_desc.isShown()){
+                    view_desc.setVisibility(View.GONE);
+                    view_detailbuy.setVisibility(View.VISIBLE);
+                }
             }
         });
 
