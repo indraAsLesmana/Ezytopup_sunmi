@@ -31,7 +31,7 @@ public class PreferenceUtils {
 
     public static void setDeviceId (Context context, String deviceId){
         SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
-        editor.putString(context.getString(R.string.settings_def_uid_key), deviceId);
+        editor.putString(context.getString(R.string.settings_def_storeidevice_key), deviceId);
         editor.apply();
     }
     public static void destroyUserSession(Context context) {

@@ -122,4 +122,9 @@ public interface EzytopupAPI {
     Call<RegfcmResponse> setRegFcm(@Query("provider") String provider,
                                     @Query("reg_gcm_id") String regfcmid,
                                     @Query("device_id") String deviceid);
+
+    @POST("WGS_API_logout.php?" + API_URL_GENERALUSAGE)
+    Call<TokencheckResponse> setLogout(@Header("Authorize") String headerToken,
+                                       @Query("token") String token,
+                                       @Query("device_id") String device_id);
 }
