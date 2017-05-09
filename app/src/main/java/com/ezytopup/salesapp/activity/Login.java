@@ -127,7 +127,8 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
         int id = item.getItemId();
         if (id == R.id.action_skipregistration) {
             if (flagMainactivity == Boolean.TRUE){
-                finish();
+//                finish();
+                MainActivity.start(Login.this);
             }else {
                 MainActivity.start(Login.this);
             }

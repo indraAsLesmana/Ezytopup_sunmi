@@ -142,6 +142,9 @@
     <string name="confirm_password">Confirm password</string>
     <string name="loading">Loading</string>
     <string name="skip">Skip login</string>
+    <string name="logout">logout</string>
+    <string name="profile">Profile</string>
+    <string name="change_password">Change password</string>
 
     <string-array name="dummy_data">
         <item>One</item>

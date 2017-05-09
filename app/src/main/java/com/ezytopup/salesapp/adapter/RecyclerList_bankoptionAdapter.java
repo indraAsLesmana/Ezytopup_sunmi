@@ -1,6 +1,10 @@
 package com.ezytopup.salesapp.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +18,7 @@ import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.utility.Constant;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
@@ -41,7 +46,7 @@ public class RecyclerList_bankoptionAdapter extends RecyclerView.Adapter<Recycle
     }
 
     @Override
-    public void onBindViewHolder(Cardbank holder, int position) {
+    public void onBindViewHolder(final Cardbank holder, int position) {
         final PaymentResponse.PaymentMethod bankItem = itemList.get(position);
         if (bankItem == null) return;
         if (bankItem.getPaymentLogo() != null) {
@@ -58,6 +63,29 @@ public class RecyclerList_bankoptionAdapter extends RecyclerView.Adapter<Recycle
                 mListener.onCardClick(bankItem);
             }
         });
+    }
+
+    public static int getBackgroundColor(View view) {
+        Drawable drawable = view.getBackground();
+        if (drawable instanceof ColorDrawable) {
+            ColorDrawable colorDrawable = (ColorDrawable) drawable;
+            if (Build.VERSION.SDK_INT >= 11) {
+                return colorDrawable.getColor();
+            }
+            try {
+                Field field = colorDrawable.getClass().getDeclaredField("mState");
+                field.setAccessible(true);
+                Object object = field.get(colorDrawable);
+                field = object.getClass().getDeclaredField("mUseColor");
+                field.setAccessible(true);
+                return field.getInt(object);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
     }
 
     @Override

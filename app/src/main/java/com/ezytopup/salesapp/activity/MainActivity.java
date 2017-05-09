@@ -34,6 +34,7 @@ import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,7 +63,9 @@ public class MainActivity extends BaseActivity
         tutorialImage = new ArrayList<>();
 
         if (PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
-                R.string.settings_def_storeaccess_token_key).equals(Constant.PREF_NULL)){
+                R.string.settings_def_storeaccess_token_key).equals(Constant.PREF_NULL)
+                || PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
+                R.string.settings_def_storeemail_key).equals(Constant.PREF_NULL)){
             Helper.synchronizeFCMRegToken(this, null);
         }
 
@@ -80,8 +83,24 @@ public class MainActivity extends BaseActivity
         headerImages.setDuration(Constant.HEADER_DURATION);
         headerImages.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
 
-        Toast.makeText(this, PreferenceUtils.getSinglePrefrenceString(this, R.string.settings_def_storeaccess_token_key),
-                Toast.LENGTH_SHORT).show();
+        // this validation if email from Preference contains 'automail' && endwith '@mail' is generate by API,
+        // and login button must be enable
+        String checkEmail = PreferenceUtils.
+                getSinglePrefrenceString(MainActivity.this, R.string.settings_def_storeemail_key);
+        if (checkEmail.startsWith("autoemail") && checkEmail.endsWith("@mail.com")
+                || checkEmail.equals(Constant.PREF_NULL)){
+            navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_signup).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_changepassword).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
+        }else {
+            navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_signup).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_changepassword).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
+        }
 
         getImage();
         initTabMenu();
@@ -220,6 +239,15 @@ public class MainActivity extends BaseActivity
 
                 break;
             case R.id.nav_login:
+                Login.start(MainActivity.this);
+
+                break;
+            case R.id.nav_logout:
+                PreferenceUtils.destroyUserSession(MainActivity.this);
+                Login.start(MainActivity.this);
+
+                break;
+            case R.id.nav_changepassword:
                 Login.start(MainActivity.this);
 
                 break;

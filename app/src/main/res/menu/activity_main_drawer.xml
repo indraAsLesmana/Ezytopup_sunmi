@@ -14,6 +14,24 @@
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_arrow_login_24dp"
             android:title="@string/login" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_profile_24dp"
+            android:title="@string/profile"
+            android:visible="false"
+            />
+        <item
+            android:id="@+id/nav_changepassword"
+            android:icon="@drawable/ic_password_24dp"
+            android:title="@string/change_password"
+            android:visible="false"
+            />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout_24dp"
+            android:title="@string/logout"
+            android:visible="false"
+            />
     </group>
 
     <group android:id="@+id/menu2">
