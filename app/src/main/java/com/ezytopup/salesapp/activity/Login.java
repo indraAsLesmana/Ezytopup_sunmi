@@ -351,6 +351,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     Log.i(TAG, "onResponse getid: " + response.body().getUser().getAccessToken());
+                    Log.i(TAG, "onResponse getDeviceid: " + response.body().getUser().getAccessToken());
                     PreferenceUtils.destroyUserSession(Login.this);
                     PreferenceUtils.setStoreDetail(Login.this,
                             response.body().getUser().getId(),

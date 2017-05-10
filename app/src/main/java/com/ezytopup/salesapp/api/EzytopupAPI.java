@@ -125,6 +125,6 @@ public interface EzytopupAPI {
 
     @POST("WGS_API_logout.php?" + API_URL_GENERALUSAGE)
     Call<TokencheckResponse> setLogout(@Header("Authorize") String headerToken,
-                                       @Query("token") String token,
-                                       @Query("device_id") String device_id);
+                                       @Query("device_id") String device_id,
+                                       @Query("token") String token);
 }

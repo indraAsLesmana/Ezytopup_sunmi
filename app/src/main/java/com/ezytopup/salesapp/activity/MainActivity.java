@@ -27,15 +27,17 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
+import com.ezytopup.salesapp.api.TokencheckResponse;
 import com.ezytopup.salesapp.api.TutorialResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,6 +106,8 @@ public class MainActivity extends BaseActivity
 
         getImage();
         initTabMenu();
+        Log.i(TAG, String.format("setDeviceId: %s", PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_storeidevice_key)));
     }
 
     private void getImage() {
@@ -245,6 +249,7 @@ public class MainActivity extends BaseActivity
             case R.id.nav_logout:
                 PreferenceUtils.destroyUserSession(MainActivity.this);
                 Login.start(MainActivity.this);
+//                setUserlogout();
 
                 break;
             case R.id.nav_changepassword:
@@ -258,6 +263,33 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
+    /* disable this iOS not implement this API*/
+    private void setUserlogout(){
+        String token = PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_storeaccess_token_key);
+        String deviceid = PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_storeidevice_key);
+
+        Call<TokencheckResponse> setlogout = Eztytopup.getsAPIService().setLogout(token, deviceid, token);
+        setlogout.enqueue(new Callback<TokencheckResponse>() {
+            @Override
+            public void onResponse(Call<TokencheckResponse> call, Response<TokencheckResponse> response) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_NO_CONTENT))){
+                    PreferenceUtils.destroyUserSession(MainActivity.this);
+                    Login.start(MainActivity.this);
+                }else {
+                    Log.i(TAG, "onResponse: " + response.body().status.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TokencheckResponse> call, Throwable t) {
+
+            }
+        });
+    }
 
     @Override
     public void initView() {
