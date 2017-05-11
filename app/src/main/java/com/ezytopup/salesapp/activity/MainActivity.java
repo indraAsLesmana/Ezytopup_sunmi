@@ -44,7 +44,7 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-//tes luthfan maftuh push
+
     private static final String TAG = "MainActivity";
     private SliderLayout headerImages;
     private ArrayList<HeaderimageResponse.Result> headerImage;
