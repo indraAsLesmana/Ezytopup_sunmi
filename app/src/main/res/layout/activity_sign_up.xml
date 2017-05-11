@@ -87,7 +87,7 @@
                 android:background="@drawable/button_email_gift">
 
                 <EditText
-                    android:id="@+id/etEmail"
+                    android:id="@+id/profileEmail"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
@@ -121,7 +121,7 @@
                 android:background="@drawable/button_email_gift">
 
                 <EditText
-                    android:id="@+id/etPhone"
+                    android:id="@+id/profilePhone"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"

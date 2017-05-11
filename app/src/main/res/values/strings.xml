@@ -145,6 +145,9 @@
     <string name="logout">logout</string>
     <string name="profile">Profile</string>
     <string name="change_password">Change password</string>
+    <string name="cantreachserver">cant reach server</string>
+    <string name="saldo">Saldo</string>
+    <string name="update">Update</string>
 
     <string-array name="dummy_data">
         <item>One</item>
