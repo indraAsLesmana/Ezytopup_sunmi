@@ -81,7 +81,14 @@
 
             </android.support.design.widget.TextInputLayout>
 
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_forgot_password"
+                android:id="@+id/tvForgotPassword"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"/>
 
             <Button
                 android:id="@+id/email_sign_in_button"

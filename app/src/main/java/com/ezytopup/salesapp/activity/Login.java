@@ -64,6 +64,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private TextView mForgotPasswordView;
     private static boolean flagMainactivity;
 
     public static void start(Activity caller) {
@@ -108,6 +109,14 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
             @Override
             public void onClick(View v) {
                 SignUpActivity.start(Login.this);
+            }
+        });
+
+        mForgotPasswordView = (TextView) findViewById(R.id.tvForgotPassword);
+        mForgotPasswordView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ForgotPasswordActivity.start(Login.this);
             }
         });
 
