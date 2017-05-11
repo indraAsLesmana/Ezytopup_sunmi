@@ -29,6 +29,7 @@ import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.api.TamplateResponse;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
@@ -386,7 +387,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             }
             @Override
             public void onFailure(Call<DetailProductResponse> call, Throwable t) {
-                Log.i(TAG, "onFailure: " + t.getMessage());
+                Helper.logError(t.getMessage(), t);
             }
         });
 

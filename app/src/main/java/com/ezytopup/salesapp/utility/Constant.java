@@ -71,5 +71,14 @@ public class Constant {
      * App settings
      * */
     public static final int PAYMENT_GRIDSETTINGS = 3;
+    public static final boolean ENABLE_LOG = true;
+    public static final String APP_NAME = "Ezytopup";
 
+
+    /**
+     * Message log tag
+     */
+    public static final String TAG_LOG_API = APP_NAME + "_api";
+    public static final String TAG_LOG_VERBOSE = APP_NAME + "_verbose";
+    public static final String TAG_LOG_ERROR = APP_NAME + "_error";
 }

@@ -71,7 +71,6 @@ public class Helper {
             deviceid = PreferenceUtils.getSinglePrefrenceString(context,
                     R.string.settings_def_storeidevice_key);
         }
-        Log.i(TAG, "synchronizeFCMRegToken: --- : " + token);
 
         Call<Authrequest> skip = Eztytopup.getsAPIService()
                 .setLoginskip("email", token, deviceid);
@@ -80,7 +79,8 @@ public class Helper {
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 if (response.isSuccessful() && response.body().status
                         .getCode().equals(String.valueOf(HttpURLConnection.HTTP_CREATED))) {
-                    Log.i(TAG, String.format("onResponse: token %s", response.body().getUser().getAccessToken()));
+                    Helper.log(String.format("userToken %s",
+                            response.body().getUser().getAccessToken()), null);
                     PreferenceUtils.setStoreDetail(context,
                             response.body().getUser().getId(),
                             response.body().getUser().getFirstName(),
@@ -89,9 +89,7 @@ public class Helper {
                             response.body().getUser().getPhoneNumber(),
                             response.body().getUser().getAccessToken(),
                             response.body().getUser().getImageUser());
-                    // TODO : confuse on last developer this response object not save to object
-                    /*PreferenceUtils.setDeviceId(context,
-                            response.body().getUser().getDeviceId());*/
+
                 }
             }
 
@@ -100,6 +98,18 @@ public class Helper {
 
             }
         });
+    }
+
+    public static void log(String message, Throwable throwable) {
+        if(Constant.ENABLE_LOG) {
+            Log.v(Constant.TAG_LOG_VERBOSE, message, throwable);
+        }
+    }
+
+    public static void logError(String message, Throwable throwable) {
+        if(Constant.ENABLE_LOG) {
+            Log.e(Constant.TAG_LOG_ERROR, message, throwable);
+        }
     }
 
 
