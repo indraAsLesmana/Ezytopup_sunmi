@@ -256,6 +256,10 @@ public class MainActivity extends BaseActivity
                 Login.start(MainActivity.this);
 
                 break;
+            case R.id.nav_profile:
+                ProfileActivity.start(MainActivity.this);
+
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
