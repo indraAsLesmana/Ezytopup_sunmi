@@ -21,6 +21,22 @@
     <string name="login">Login</string>
     <string name="title_activity_main">MainActivity</string>
 
+    <!--Strings related to change password-->
+    <string name="prompt_old_password">Old Password</string>
+    <string name="prompt_new_password">New Password</string>
+    <string name="prompt_confirm_new_password">Confirm New Password</string>
+    <string name="action_change_password">Change Password</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="title_change_password">Change Password</string>
+
+    <!--Strings related to forgot password-->
+    <string name="title_fill_the_information">Please fill the Information</string>
+    <string name="prompt_email_address">Email Address</string>
+    <string name="prompt_phone">Phone</string>
+    <string name="action_get_your_password">Get Your Password</string>
+    <string name="action_back">Back</string>
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
