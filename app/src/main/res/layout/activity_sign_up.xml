@@ -155,7 +155,7 @@
                 android:background="@drawable/button_email_gift">
 
                 <EditText
-                    android:id="@+id/profileSaldo"
+                    android:id="@+id/signup_password"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"

@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.EzytopupAPI;
@@ -24,8 +26,8 @@ import retrofit2.Response;
 public class ProfileActivity extends BaseActivity {
 
     private static final String TAG = "ProfileActivity";
-    private EditText mSaldo;
-
+    private EditText mSaldo, mName, mPhone, mEmail;
+    private ImageView mImageprofile;
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ProfileActivity.class);
         caller.startActivity(intent);
@@ -36,7 +38,31 @@ public class ProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mSaldo = (EditText) findViewById(R.id.profileSaldo);
+        mSaldo = (EditText) findViewById(R.id.ed_profile_saldo);
+        mName = (EditText) findViewById(R.id.ed_profile_name);
+        mPhone = (EditText) findViewById(R.id.ed_profile_phone);
+        mEmail = (EditText) findViewById(R.id.ed_profile_email);
+        mImageprofile = (ImageView) findViewById(R.id.im_profile_image);
+
+        String userName = PreferenceUtils.getSinglePrefrenceString
+                (ProfileActivity.this, R.string.settings_def_storefirst_name_key);
+        String userPhone = PreferenceUtils.getSinglePrefrenceString
+                (ProfileActivity.this, R.string.settings_def_storephone_number_key);
+        String userMail = PreferenceUtils.getSinglePrefrenceString
+                (ProfileActivity.this, R.string.settings_def_storeemail_key);
+        String imageUrl = PreferenceUtils.getSinglePrefrenceString
+                (ProfileActivity.this, R.string.settings_def_storeimage_user_key);
+
+        mName.setText(userName);
+        mPhone.setText(userPhone);
+        mEmail.setText(userMail);
+
+        if (imageUrl != null){
+            Glide.with(ProfileActivity.this)
+                    .load(imageUrl).centerCrop()
+                    .error(R.drawable.ic_error_loadimage)
+                    .into(mImageprofile);
+        }
 
         String checkEmail = PreferenceUtils.
                 getSinglePrefrenceString(ProfileActivity.this, R.string.settings_def_storeemail_key);
