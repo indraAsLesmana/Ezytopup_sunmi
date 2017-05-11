@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import com.ezytopup.salesapp.R;
 
-public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
+public class ForgotPasswordActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText mEmailView, mPhoneView;
     private Button mGetYourPasswordButton, mBackButton;
@@ -16,7 +16,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot_password);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         mEmailView = (EditText) findViewById(R.id.emailAddress);
         mPhoneView = (EditText) findViewById(R.id.phone);
@@ -37,5 +37,15 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
             case R.id.btnBack:
                 break;
         }
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public int getLayout() {
+        return R.layout.activity_forgot_password;
     }
 }

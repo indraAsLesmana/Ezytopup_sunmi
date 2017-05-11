@@ -253,7 +253,7 @@ public class MainActivity extends BaseActivity
 
                 break;
             case R.id.nav_changepassword:
-                Login.start(MainActivity.this);
+                ChangePasswordActivity.start(MainActivity.this);
 
                 break;
             case R.id.nav_profile:
