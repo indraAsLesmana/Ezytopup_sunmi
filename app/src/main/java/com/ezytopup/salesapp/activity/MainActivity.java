@@ -33,11 +33,9 @@ import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,13 +102,13 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
         }
 
-        getImage();
+        getImageHeader();
         initTabMenu();
         Log.i(TAG, String.format("setDeviceId: %s", PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeidevice_key)));
     }
 
-    private void getImage() {
+    private void getImageHeader() {
 
         Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeader();
         call.enqueue(new Callback<HeaderimageResponse>() {
