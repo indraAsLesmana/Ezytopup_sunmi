@@ -128,6 +128,6 @@ public interface EzytopupAPI {
                                        @Query("device_id") String device_id,
                                        @Query("token") String token);
 
-    @GET("WGS_API_get_current_user_wallet.php" + API_URL_GENERALUSAGE)
+    @GET("WGS_API_get_current_user_wallet.php?" + API_URL_GENERALUSAGE)
     Call<WalletbalanceResponse> getWalletbalance(@Header("Authorize") String headerToken);
 }

@@ -57,7 +57,7 @@ public class ProfileActivity extends BaseActivity {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_CREATED))){
-                      mSaldo.setText(response.body().getBalance());
+                      mSaldo.setText(response.body().getBalance().toString());
                 }else{
                     Log.i(TAG, "onResponse: " + response.body().status.getMessage());
                 }

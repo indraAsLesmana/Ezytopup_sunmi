@@ -118,7 +118,6 @@ public class MainActivity extends BaseActivity
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     headerImage.addAll(response.body().result);
-                    // initialize a SliderLayout
                     for (int i = 0; i < headerImage.size(); i++) {
                         TextSliderView textSliderView = new TextSliderView(MainActivity.this);
                         textSliderView
@@ -132,8 +131,8 @@ public class MainActivity extends BaseActivity
                         headerImages.addSlider(textSliderView);
                     }
                 }else {
-                    Toast.makeText(MainActivity.this, response.body().status.getMessage(),
-                            Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onResponse: " + response.body().status.getMessage());
+                    headerImages.setVisibility(View.GONE);
                 }
 
             }
