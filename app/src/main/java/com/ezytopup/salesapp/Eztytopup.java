@@ -82,7 +82,7 @@ public class Eztytopup extends Application {
                     }
                 });
 
-        Retrofit.Builder builder = new Retrofit.Builder()
+        Retrofit.Builder builder = new Retrofit.    Builder()
                 .baseUrl(Constant.API_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okhttpClientBuilder.build());
