@@ -82,7 +82,6 @@ public class HomeFragment extends Fragment implements
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure: " + t.getMessage());
-
                 final Snackbar snackbar = Snackbar.make(rootView, t.getMessage(),
                         Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.dismiss, new View.OnClickListener() {

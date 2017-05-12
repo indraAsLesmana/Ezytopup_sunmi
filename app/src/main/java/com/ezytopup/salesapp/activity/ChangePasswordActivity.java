@@ -8,14 +8,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.api.ChangepasswordResponse;
+import com.ezytopup.salesapp.utility.Helper;
+import com.ezytopup.salesapp.utility.PreferenceUtils;
+
+import java.net.HttpURLConnection;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChangePasswordActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText mOldPasswordView, mNewPasswordView, mConfirmNewPasswordView;
     private Button mChangePasswordButton, mCancelButton;
-
+    private static final String TAG = "ChangePasswordActivity";
+    private String token, newPassword, confirmPassword, oldPassword;
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ChangePasswordActivity.class);
         caller.startActivity(intent);
@@ -33,8 +45,54 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
         mChangePasswordButton = (Button) findViewById(R.id.change_password_button);
         mCancelButton = (Button) findViewById(R.id.btnCancel);
 
-        mChangePasswordButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
+        mChangePasswordButton.setOnClickListener(this);
+    }
+
+    private void setChangepassword(String token, String newPassword, String oldPassword,
+                                   String confirmPassword){
+        Call<ChangepasswordResponse> changePassword = Eztytopup.getsAPIService()
+                .setChangePassword(token, oldPassword, newPassword, confirmPassword, token);
+        changePassword.enqueue(new Callback<ChangepasswordResponse>() {
+            @Override
+            public void onResponse(Call<ChangepasswordResponse> call,
+                                   Response<ChangepasswordResponse> response) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                    Toast.makeText(ChangePasswordActivity.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(ChangePasswordActivity.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ChangepasswordResponse> call, Throwable t) {
+
+            }
+        });
+    }
+    private void changePassword(){
+        token = PreferenceUtils.getSinglePrefrenceString(ChangePasswordActivity.this,
+                R.string.settings_def_storeaccess_token_key);
+        oldPassword = mOldPasswordView.getText().toString();
+        newPassword = mNewPasswordView.getText().toString();
+        confirmPassword = mConfirmNewPasswordView.getText().toString();
+
+        Helper.log(TAG, "change passwordToken " + token, null);
+
+        if(oldPassword.isEmpty()){
+            Toast.makeText(this, R.string.please_fill_password, Toast.LENGTH_SHORT).show();
+        } else if (newPassword.length() < 8 || confirmPassword.length() < 8 ||
+                oldPassword.length() < 8){
+            Toast.makeText(this, R.string.password_toshort, Toast.LENGTH_SHORT).show();
+        }else if (!newPassword.equals(confirmPassword)){
+            Toast.makeText(this, R.string.password_notmatch, Toast.LENGTH_SHORT).show();
+        }else{
+            setChangepassword(token, newPassword, mOldPasswordView.getText().toString(), token);
+        }
     }
 
     @Override
@@ -51,6 +109,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.change_password_button:
+                changePassword();
                 break;
             case R.id.btnCancel:
                 break;

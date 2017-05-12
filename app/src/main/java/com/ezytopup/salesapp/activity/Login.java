@@ -38,6 +38,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.Authrequest;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
@@ -359,8 +360,8 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
-                    Log.i(TAG, "onResponse getid: " + response.body().getUser().getAccessToken());
-                    Log.i(TAG, "onResponse getDeviceid: " + response.body().getUser().getAccessToken());
+                    Helper.log(TAG, "onResponse getAccessToken: " +
+                            response.body().getUser().getAccessToken(), null);
                     PreferenceUtils.destroyUserSession(Login.this);
                     PreferenceUtils.setStoreDetail(Login.this,
                             response.body().getUser().getId(),

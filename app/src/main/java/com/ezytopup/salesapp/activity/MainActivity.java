@@ -33,11 +33,9 @@ import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,8 +83,6 @@ public class MainActivity extends BaseActivity
         headerImages.setDuration(Constant.HEADER_DURATION);
         headerImages.setPresetTransformer(SliderLayout.Transformer.ZoomOut);
 
-        // this validation if email from Preference contains 'automail' && endwith '@mail' is generate by API,
-        // and login button must be enable
         String checkEmail = PreferenceUtils.
                 getSinglePrefrenceString(MainActivity.this, R.string.settings_def_storeemail_key);
         if (checkEmail.startsWith("autoemail") && checkEmail.endsWith("@mail.com")
@@ -104,38 +100,40 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
         }
 
-        getImage();
+        getImageHeader();
         initTabMenu();
-        Log.i(TAG, String.format("setDeviceId: %s", PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_storeidevice_key)));
+        Helper.log(TAG, "setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_storeidevice_key), null);
     }
 
-    private void getImage() {
+    private void getImageHeader() {
 
         Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeader();
         call.enqueue(new Callback<HeaderimageResponse>() {
             @Override
-            public void onResponse(Call<HeaderimageResponse> call, Response<HeaderimageResponse> response) {
+            public void onResponse(Call<HeaderimageResponse> call,
+                                   Response<HeaderimageResponse> response) {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     headerImage.addAll(response.body().result);
-                    // initialize a SliderLayout
+                    TextSliderView textSliderView = null;
                     for (int i = 0; i < headerImage.size(); i++) {
-                        TextSliderView textSliderView = new TextSliderView(MainActivity.this);
+                        textSliderView = new TextSliderView(MainActivity.this);
                         textSliderView
                                 .image(headerImage.get(i).getImageUrl())
+                                .errorDisappear(true)
                                 .setScaleType(BaseSliderView.ScaleType.Fit);
-
-                        textSliderView.bundle(new Bundle());
-                        textSliderView.getBundle()
-                                .putString("extra", headerImage.get(i).getShortDescription());
-
                         headerImages.addSlider(textSliderView);
                     }
+                    if (textSliderView.isErrorLoad()) {
+                        headerImages.setVisibility(View.GONE);
+                    }else {
+                        headerImages.setVisibility(View.VISIBLE);
+                    }
                 }else {
-                    Toast.makeText(MainActivity.this, response.body().status.getMessage(),
-                            Toast.LENGTH_SHORT).show();
+                    Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
+                    headerImages.setVisibility(View.GONE);
                 }
 
             }
@@ -205,7 +203,8 @@ public class MainActivity extends BaseActivity
                     Call<TutorialResponse> tutorial = Eztytopup.getsAPIService().getTutorial();
                     tutorial.enqueue(new Callback<TutorialResponse>() {
                         @Override
-                        public void onResponse(Call<TutorialResponse> call, Response<TutorialResponse> response) {
+                        public void onResponse(Call<TutorialResponse> call,
+                                               Response<TutorialResponse> response) {
                             if (response.isSuccessful()) {
                                 tutorialImage.addAll(response.body().result);
 

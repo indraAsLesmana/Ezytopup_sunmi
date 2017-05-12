@@ -127,4 +127,14 @@ public interface EzytopupAPI {
     Call<TokencheckResponse> setLogout(@Header("Authorize") String headerToken,
                                        @Query("device_id") String device_id,
                                        @Query("token") String token);
+
+    @GET("WGS_API_get_current_user_wallet.php?" + API_URL_GENERALUSAGE)
+    Call<WalletbalanceResponse> getWalletbalance(@Header("Authorize") String headerToken);
+
+    @POST("WGS_API_change_password.php?" + API_URL_GENERALUSAGE)
+    Call<ChangepasswordResponse> setChangePassword(@Header("Authorize") String headerToken,
+                                                   @Query("pass_lama") String oldPassword,
+                                                   @Query("pass_baru1") String newPassword,
+                                                   @Query("pass_baru2") String confirmPassword,
+                                                   @Query("token") String token);
 }
