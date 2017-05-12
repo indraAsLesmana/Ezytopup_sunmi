@@ -2,7 +2,9 @@ package com.ezytopup.salesapp.utility;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
@@ -106,4 +108,20 @@ public class Helper {
         }
     }
 
+    public static void apiSnacbarError(Context context, Throwable t, View view){
+        Helper.log(TAG, "onFailure: " + t.getMessage(), null);
+        String message = t.getMessage();
+        if (t.getMessage().contains("Use JsonReader.setLenient")){
+            message = context.getResources().getString(R.string.cantreachserver);
+        }
+        final Snackbar snackbar = Snackbar.make(view, message,
+                Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
 }

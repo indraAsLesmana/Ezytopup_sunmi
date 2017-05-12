@@ -47,6 +47,7 @@ public class MainActivity extends BaseActivity
     private SliderLayout headerImages;
     private ArrayList<HeaderimageResponse.Result> headerImage;
     private ArrayList<TutorialResponse.Result> tutorialImage;
+    private DrawerLayout drawer;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
@@ -69,7 +70,7 @@ public class MainActivity extends BaseActivity
             Helper.synchronizeFCMRegToken(this, null);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -126,7 +127,7 @@ public class MainActivity extends BaseActivity
                                 .setScaleType(BaseSliderView.ScaleType.Fit);
                         headerImages.addSlider(textSliderView);
                     }
-                    if (textSliderView.isErrorLoad()) {
+                    if (textSliderView != null && textSliderView.isErrorLoad()) {
                         headerImages.setVisibility(View.GONE);
                     }else {
                         headerImages.setVisibility(View.VISIBLE);
@@ -214,7 +215,8 @@ public class MainActivity extends BaseActivity
 
                         @Override
                         public void onFailure(Call<TutorialResponse> call, Throwable t) {
-                            Log.i(TAG, "onFailure: " + t.getMessage());
+                            Helper.apiSnacbarError(MainActivity.this, t, drawer);
+                            dialog.dismiss();
                         }
                     });
                 }else {

@@ -3,6 +3,8 @@ package com.ezytopup.salesapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RecyclerList_FaqAdapter;
 import com.ezytopup.salesapp.api.FaqResponse;
+import com.ezytopup.salesapp.utility.Helper;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -26,6 +29,8 @@ public class FaqActivity extends BaseActivity {
 
     private RecyclerList_FaqAdapter adapter;
     private ArrayList<FaqResponse.Result> results;
+    private static final String TAG = "FaqActivity";
+    private ConstraintLayout container_layout;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, FaqActivity.class);
@@ -39,7 +44,7 @@ public class FaqActivity extends BaseActivity {
 
         TextView titleText = (TextView) findViewById(R.id.faq_titlequetion);
         titleText.setVisibility(View.VISIBLE);
-
+        container_layout = (ConstraintLayout) findViewById(R.id.container_layout);
         results = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
@@ -48,7 +53,7 @@ public class FaqActivity extends BaseActivity {
         adapter = new RecyclerList_FaqAdapter(FaqActivity.this, results);
         recyclerView.setAdapter(adapter);
 
-        if (results.isEmpty() || results.size() == 0) getQuestion(); //TODO not work, still load on internet
+        if (results.isEmpty() || results.size() == 0) getQuestion();
     }
 
     @Override
@@ -80,7 +85,7 @@ public class FaqActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<FaqResponse> call, Throwable t) {
-                Toast.makeText(FaqActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Helper.apiSnacbarError(FaqActivity.this, t, container_layout);
             }
         });
     }

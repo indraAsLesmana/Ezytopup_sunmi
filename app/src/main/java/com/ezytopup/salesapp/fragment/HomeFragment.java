@@ -82,20 +82,7 @@ public class HomeFragment extends Fragment implements
 
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
-                Helper.log(TAG, "onFailure: " + t.getMessage(), null);
-                String message = t.getMessage();
-                if (t.getMessage().contains("Use JsonReader.setLenient")){
-                   message = getResources().getString(R.string.cantreachserver);
-                }
-                final Snackbar snackbar = Snackbar.make(rootView, message,
-                        Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                });
-                snackbar.show();
+                Helper.apiSnacbarError(getContext(), t, rootView);
             }
         });
     }
