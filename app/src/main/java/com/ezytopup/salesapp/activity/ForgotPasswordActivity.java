@@ -80,7 +80,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
             case R.id.btnGetyourpassword:
                 if (mEmailView.getText().toString().isEmpty() ||
                         mPhoneView.getText().toString().isEmpty()){
-                    Toast.makeText(this, R.string.please_fill_password, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.forgot_password, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 setForgotpassword(mEmailView.getText().toString(), mPhoneView.getText().toString());

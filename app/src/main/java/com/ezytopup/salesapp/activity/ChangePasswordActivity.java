@@ -52,7 +52,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
     private void setChangepassword(String token, String newPassword, String oldPassword,
                                    String confirmPassword){
         Call<ChangepasswordResponse> changePassword = Eztytopup.getsAPIService()
-                .setChangePassword(token, oldPassword, newPassword, confirmPassword, token);
+                .setChangePassword(token, token, newPassword, confirmPassword, oldPassword);
         changePassword.enqueue(new Callback<ChangepasswordResponse>() {
             @Override
             public void onResponse(Call<ChangepasswordResponse> call,

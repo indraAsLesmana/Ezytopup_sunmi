@@ -18,6 +18,7 @@ import com.ezytopup.salesapp.activity.CategoryActivity;
 import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
 import com.ezytopup.salesapp.adapter.SectionListDataAdapter;
 import com.ezytopup.salesapp.api.ProductResponse;
+import com.ezytopup.salesapp.utility.Helper;
 
 import java.util.ArrayList;
 
@@ -81,8 +82,12 @@ public class HomeFragment extends Fragment implements
 
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
-                Log.i(TAG, "onFailure: " + t.getMessage());
-                final Snackbar snackbar = Snackbar.make(rootView, t.getMessage(),
+                Helper.log(TAG, "onFailure: " + t.getMessage(), null);
+                String message = t.getMessage();
+                if (t.getMessage().contains("Use JsonReader.setLenient")){
+                   message = getResources().getString(R.string.cantreachserver);
+                }
+                final Snackbar snackbar = Snackbar.make(rootView, message,
                         Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
                     @Override

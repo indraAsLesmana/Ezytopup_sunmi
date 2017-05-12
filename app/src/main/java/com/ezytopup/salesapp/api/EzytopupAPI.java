@@ -133,10 +133,10 @@ public interface EzytopupAPI {
 
     @POST("WGS_API_change_password.php?" + API_URL_GENERALUSAGE)
     Call<ChangepasswordResponse> setChangePassword(@Header("Authorize") String headerToken,
-                                                   @Query("pass_lama") String oldPassword,
+                                                   @Query("token") String token,
                                                    @Query("pass_baru1") String newPassword,
                                                    @Query("pass_baru2") String confirmPassword,
-                                                   @Query("token") String token);
+                                                   @Query("pass_lama") String oldPassword);
 
     @POST("WGS_API_forget_password.php?" + API_URL_GENERALUSAGE)
     Call<ForgotpasswordResponse> setForgotpassword(@Header("Authorize") String headerToken,

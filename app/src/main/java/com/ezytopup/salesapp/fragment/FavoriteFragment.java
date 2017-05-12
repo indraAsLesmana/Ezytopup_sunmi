@@ -18,6 +18,7 @@ import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.adapter.RecyclerList_favoriteAdapter;
 import com.ezytopup.salesapp.api.BestSellerResponse;
+import com.ezytopup.salesapp.utility.Helper;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -81,8 +82,13 @@ public class FavoriteFragment extends Fragment implements
 
             @Override
             public void onFailure(Call<BestSellerResponse> call, Throwable t) {
-                Log.i(TAG, "onFailure: " + t.getMessage());
-                final Snackbar snackbar = Snackbar.make(rootView, t.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                Helper.log(TAG, "onFailure: " + t.getMessage(), null);
+                String message = t.getMessage();
+                if (t.getMessage().contains("Use JsonReader.setLenient")){
+                    message = getResources().getString(R.string.cantreachserver);
+                }
+                final Snackbar snackbar = Snackbar.make(rootView, message,
+                        Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
