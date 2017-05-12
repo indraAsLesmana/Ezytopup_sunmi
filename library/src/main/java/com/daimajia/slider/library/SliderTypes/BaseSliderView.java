@@ -25,6 +25,8 @@ public abstract class BaseSliderView {
 
     private Bundle mBundle;
 
+    private boolean errorLoad;
+
     /**
      * Error place holder image.
      */
@@ -249,6 +251,7 @@ public abstract class BaseSliderView {
                 if(v.findViewById(R.id.loading_bar) != null){
                     v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
                 }
+                errorLoad = false;
             }
 
             @Override
@@ -259,11 +262,14 @@ public abstract class BaseSliderView {
                 if(v.findViewById(R.id.loading_bar) != null){
                     v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
                 }
+                errorLoad = true;
             }
         });
    }
 
-
+    public boolean isErrorLoad() {
+        return errorLoad;
+    }
 
     public BaseSliderView setScaleType(ScaleType type){
         mScaleType = type;

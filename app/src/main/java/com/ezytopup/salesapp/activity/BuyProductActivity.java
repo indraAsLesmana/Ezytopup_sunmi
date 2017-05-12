@@ -387,7 +387,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             }
             @Override
             public void onFailure(Call<DetailProductResponse> call, Throwable t) {
-                Helper.logError(t.getMessage(), t);
+                Helper.log(TAG, t.getMessage(), t);
             }
         });
 

@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity
 
         getImageHeader();
         initTabMenu();
-        Helper.log("setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
+        Helper.log(TAG, "setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeidevice_key), null);
     }
 
@@ -117,20 +117,22 @@ public class MainActivity extends BaseActivity
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     headerImage.addAll(response.body().result);
+                    TextSliderView textSliderView = null;
                     for (int i = 0; i < headerImage.size(); i++) {
-                        TextSliderView textSliderView = new TextSliderView(MainActivity.this);
+                        textSliderView = new TextSliderView(MainActivity.this);
                         textSliderView
                                 .image(headerImage.get(i).getImageUrl())
+                                .errorDisappear(true)
                                 .setScaleType(BaseSliderView.ScaleType.Fit);
-
-                        textSliderView.bundle(new Bundle());
-                        textSliderView.getBundle()
-                                .putString("extra", headerImage.get(i).getShortDescription());
-
                         headerImages.addSlider(textSliderView);
                     }
+                    if (textSliderView.isErrorLoad()) {
+                        headerImages.setVisibility(View.GONE);
+                    }else {
+                        headerImages.setVisibility(View.VISIBLE);
+                    }
                 }else {
-                    Helper.logError("onResponse: " + response.body().status.getMessage(), null);
+                    Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);
                 }
 

@@ -79,7 +79,7 @@ public class Helper {
             public void onResponse(Call<Authrequest> call, Response<Authrequest> response) {
                 if (response.isSuccessful() && response.body().status
                         .getCode().equals(String.valueOf(HttpURLConnection.HTTP_CREATED))) {
-                    Helper.log(String.format("userToken %s",
+                    Helper.log(TAG, String.format("userToken %s",
                             response.body().getUser().getAccessToken()), null);
                     PreferenceUtils.setStoreDetail(context,
                             response.body().getUser().getId(),
@@ -100,17 +100,10 @@ public class Helper {
         });
     }
 
-    public static void log(String message, Throwable throwable) {
+    public static void log(String TAG, String message, Throwable throwable) {
         if(Constant.ENABLE_LOG) {
-            Log.v(Constant.TAG_LOG_VERBOSE, message, throwable);
+            Log.v(TAG, message, throwable);
         }
     }
-
-    public static void logError(String message, Throwable throwable) {
-        if(Constant.ENABLE_LOG) {
-            Log.e(Constant.TAG_LOG_ERROR, message, throwable);
-        }
-    }
-
 
 }
