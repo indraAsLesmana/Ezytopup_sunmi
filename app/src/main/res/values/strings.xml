@@ -164,6 +164,9 @@
     <string name="cantreachserver">cant reach server</string>
     <string name="saldo">Saldo</string>
     <string name="update">Update</string>
+    <string name="password_toshort">Password to short</string>
+    <string name="password_notmatch">Passoword not match</string>
+    <string name="please_fill_password">Please fill password</string>
 
     <string-array name="dummy_data">
         <item>One</item>
