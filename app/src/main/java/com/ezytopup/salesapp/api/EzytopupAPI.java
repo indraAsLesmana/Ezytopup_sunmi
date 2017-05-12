@@ -137,4 +137,9 @@ public interface EzytopupAPI {
                                                    @Query("pass_baru1") String newPassword,
                                                    @Query("pass_baru2") String confirmPassword,
                                                    @Query("token") String token);
+
+    @POST("WGS_API_forget_password.php?" + API_URL_GENERALUSAGE)
+    Call<ForgotpasswordResponse> setForgotpassword(@Header("Authorize") String headerToken,
+                                                   @Query("email") String email,
+                                                   @Query("phone") String phone);
 }
