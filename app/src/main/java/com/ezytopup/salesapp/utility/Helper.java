@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
-import com.ezytopup.salesapp.activity.Login;
 import com.ezytopup.salesapp.api.Authrequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 

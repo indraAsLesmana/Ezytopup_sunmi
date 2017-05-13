@@ -3,7 +3,9 @@ package com.ezytopup.salesapp.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -17,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -29,6 +30,7 @@ import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.TokencheckResponse;
 import com.ezytopup.salesapp.api.TutorialResponse;
+import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
@@ -100,6 +102,9 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_changepassword).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
         }
+
+        navigationView.getMenu().findItem(R.id.nav_print)
+                .setVisible(Eztytopup.getSunmiDevice());
 
         getImageHeader();
         initTabMenu();
@@ -260,6 +265,52 @@ public class MainActivity extends BaseActivity
             case R.id.nav_profile:
                 ProfileActivity.start(MainActivity.this);
 
+                break;
+            case R.id.nav_print:
+                ThreadPoolManager.getInstance().executeTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        if( Eztytopup.getmBitmap() == null ){
+                        /*Change store logo, here...*/
+                            Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
+                                    R.raw.ezy_for_print));
+                        }
+                        try {
+                            String[] text = new String[4];// 4 = set total column
+                            for (int i = 0; i < 4; i++) { // 4 = set total looping content buy
+                                if (i == 0){
+                                /*logo*/
+                                    Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
+                                    Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(), Eztytopup.getCallback());
+                                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                                    Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
+                                /*header*/
+                                    text[0] = Constant.ROW_NAME;
+                                    text[1] = Constant.ROW_QUANTITY;
+                                    text[2] = Constant.ROW_PRICE;
+                                    text[3] = Constant.ROW_TOTAL_PRICE;
+                                /*print*/
+                                    Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
+                                            Constant.align_header, Eztytopup.getCallback());
+                                }else {
+                                    text[0] = "Steam IDR" + i;
+                                    text[1] = "1";
+                                    text[2] = "72.00";
+                                    text[3] = "48.00";
+                                    Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
+                                            Constant.align, Eztytopup.getCallback());
+                                }
+
+                            }
+                        /* make space*/
+                            Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
+
+                        } catch (RemoteException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 break;
         }
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -59,6 +60,7 @@ public class Eztytopup extends Application {
     private static ArrayList<PaymentResponse.PaymentMethod> paymentWallet;
     private static ArrayList<PaymentResponse.PaymentMethod> paymentActive;
     private static ArrayList<TamplateResponse.Result> tamplateActive;
+    private static Boolean isSunmiDevice;
 
 
     @Override
@@ -98,7 +100,15 @@ public class Eztytopup extends Application {
         tamplateActive = new ArrayList<>();
         loadPaymentInfo();
         loadGiftTamplte();
-        //initPrint(); disable couse client not usind Sunmi Device for future its must be detect hardware sunmi to automaticly init
+
+        if (Build.BRAND.equals("SUNMI")
+                && Build.DEVICE.equals("V1")){
+            initPrint();
+            isSunmiDevice = Boolean.TRUE;
+        }else {
+            isSunmiDevice = Boolean.FALSE;
+        }
+
         setDeviceId();
     }
 
@@ -298,6 +308,10 @@ public class Eztytopup extends Application {
 
                 break;
         }
+    }
+
+    public static Boolean getSunmiDevice() {
+        return isSunmiDevice;
     }
 
     public static ArrayList<TamplateResponse.Result> getTamplateActive() {
