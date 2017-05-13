@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -67,6 +68,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     private TextView mForgotPasswordView;
     private static boolean flagMainactivity;
+    private ConstraintLayout container_login;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, Login.class);
@@ -123,6 +125,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        container_login = (ConstraintLayout) findViewById(R.id.container_login);
     }
 
     @Override
@@ -382,6 +385,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
 
             @Override
             public void onFailure(Call<Authrequest> call, Throwable t) {
+                Helper.apiSnacbarError(Login.this, t, container_login);
                 showProgress(false);
             }
         });

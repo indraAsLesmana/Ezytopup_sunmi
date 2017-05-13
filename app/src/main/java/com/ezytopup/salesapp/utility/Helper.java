@@ -111,7 +111,7 @@ public class Helper {
         Helper.log(TAG, "onFailure: " + t.getMessage(), null);
         String message = t.getMessage();
         if (t.getMessage().contains("Use JsonReader.setLenient")){
-            message = context.getResources().getString(R.string.cantreachserver);
+            message = context.getResources().getString(R.string.response_error);
         }
         final Snackbar snackbar = Snackbar.make(view, message,
                 Snackbar.LENGTH_INDEFINITE);
