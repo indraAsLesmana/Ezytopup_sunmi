@@ -11,6 +11,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.TokencheckResponse;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 import java.net.HttpURLConnection;
 import retrofit2.Call;
@@ -34,32 +35,36 @@ public class IntroActivity extends AppCompatActivity{
         }
 
         mProgressBar = findViewById(R.id.intro_progress_bar);
-        mProgressBar.setVisibility(View.VISIBLE);
         String lastToken = PreferenceUtils.getSinglePrefrenceString(IntroActivity.this,
                 R.string.settings_def_storeaccess_token_key);
 
-      /*  if (!lastToken.equals(Constant.PREF_NULL)){
+        if (!lastToken.equals(Constant.PREF_NULL)){
             tokenValidityCheck(lastToken);
         }else {
             PreferenceUtils.destroyUserSession(IntroActivity.this);
             Login.start(IntroActivity.this);
-        }*/
-        Login.start(IntroActivity.this); //TODO : remove this after API running again.
+        }
     }
 
     private void tokenValidityCheck(String token){
+        mProgressBar.setVisibility(View.VISIBLE);
+
         Call<TokencheckResponse> tokenResponse = Eztytopup.getsAPIService().checkToken(token);
         tokenResponse.enqueue(new Callback<TokencheckResponse>() {
             @Override
-            public void onResponse(Call<TokencheckResponse> call, Response<TokencheckResponse> response) {
+            public void onResponse(Call<TokencheckResponse> call,
+                                   Response<TokencheckResponse> response) {
                 if (response.isSuccessful()
                         && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))
                         && response.body().tokenValidity == Boolean.TRUE) {
+                    mProgressBar.setVisibility(View.GONE);
                     MainActivity.start(IntroActivity.this);
                     finish();
                 } else {
-                    Log.i(TAG, String.format("onResponse: %s", response.body().status.getMessage()));
+                    Helper.log(TAG, String.format("onResponse: %s",
+                            response.body().status.getMessage()), null);
+                    mProgressBar.setVisibility(View.GONE);
                     PreferenceUtils.destroyUserSession(IntroActivity.this);
                     Login.start(IntroActivity.this);
                     finish();
@@ -68,7 +73,7 @@ public class IntroActivity extends AppCompatActivity{
 
             @Override
             public void onFailure(Call<TokencheckResponse> call, Throwable t) {
-
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }

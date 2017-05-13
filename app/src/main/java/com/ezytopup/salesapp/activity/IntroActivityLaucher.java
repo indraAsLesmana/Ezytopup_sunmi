@@ -11,6 +11,8 @@ import android.view.View;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.TokencheckResponse;
+import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
@@ -20,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class IntroActivityLaucher extends AppCompatActivity{
-    private static final String TAG = "IntroActivity";
+    private static final String TAG = "IntroActivityLaucher";
     private View mProgressBar;
 
     @Override
@@ -29,32 +31,36 @@ public class IntroActivityLaucher extends AppCompatActivity{
         setContentView(R.layout.activity_intro);
 
         mProgressBar = findViewById(R.id.intro_progress_bar);
-        mProgressBar.setVisibility(View.VISIBLE);
         String lastToken = PreferenceUtils.getSinglePrefrenceString(IntroActivityLaucher.this,
                 R.string.settings_def_storeaccess_token_key);
 
-      /*  if (!lastToken.equals(Constant.PREF_NULL)){
+        if (!lastToken.equals(Constant.PREF_NULL)){
             tokenValidityCheck(lastToken);
         }else {
-            PreferenceUtils.destroyUserSession(IntroActivity.this);
-            Login.start(IntroActivity.this);
-        }*/
-        Login.start(IntroActivityLaucher.this); //TODO : remove this after API running again.
+            PreferenceUtils.destroyUserSession(IntroActivityLaucher.this);
+            Login.start(IntroActivityLaucher.this);
+        }
     }
 
     private void tokenValidityCheck(String token){
+        mProgressBar.setVisibility(View.VISIBLE);
+
         Call<TokencheckResponse> tokenResponse = Eztytopup.getsAPIService().checkToken(token);
         tokenResponse.enqueue(new Callback<TokencheckResponse>() {
             @Override
-            public void onResponse(Call<TokencheckResponse> call, Response<TokencheckResponse> response) {
+            public void onResponse(Call<TokencheckResponse> call,
+                                   Response<TokencheckResponse> response) {
                 if (response.isSuccessful()
                         && response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))
                         && response.body().tokenValidity == Boolean.TRUE) {
+                    mProgressBar.setVisibility(View.GONE);
                     MainActivity.start(IntroActivityLaucher.this);
                     finish();
                 } else {
-                    Log.i(TAG, String.format("onResponse: %s", response.body().status.getMessage()));
+                    Helper.log(TAG, String.format("onResponse: %s",
+                            response.body().status.getMessage()), null);
+                    mProgressBar.setVisibility(View.GONE);
                     PreferenceUtils.destroyUserSession(IntroActivityLaucher.this);
                     Login.start(IntroActivityLaucher.this);
                     finish();
@@ -63,7 +69,7 @@ public class IntroActivityLaucher extends AppCompatActivity{
 
             @Override
             public void onFailure(Call<TokencheckResponse> call, Throwable t) {
-
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }
