@@ -184,6 +184,11 @@
     <string name="menu_settings">set</string>
     <string name="strLang">en</string>
     <string name="button_scan">Scan for devices</string>
+    <string name="bluetooth_open">Bluetooth open successful</string>
+    <string name="unbale_toconnect">Unable to connect device</string>
+    <string name="printer_connectionlost">Printer connection was lost</string>
+    <string name="connection_success">Connect successful</string>
+    <string name="bluetooth_notfound">Bluetooth is not available</string>
 
     <string-array name="dummy_data">
         <item>One</item>

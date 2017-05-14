@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.utility.Helper;
 import com.zj.btsdk.BluetoothService;
 import com.zj.btsdk.PrintPic;
 
@@ -45,7 +45,7 @@ public class PrintDemo extends Activity {
 		mService = new BluetoothService(this, mHandler);
 
 		if( mService.isAvailable() == false ){
-            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.bluetooth_notfound, Toast.LENGTH_LONG).show();
             finish();
 		}		
 	}
@@ -143,30 +143,30 @@ public class PrintDemo extends Activity {
             case BluetoothService.MESSAGE_STATE_CHANGE:
                 switch (msg.arg1) {
                 case BluetoothService.STATE_CONNECTED:
-                	Toast.makeText(getApplicationContext(), "Connect successful",
+                	Toast.makeText(getApplicationContext(), R.string.connection_success,
                             Toast.LENGTH_SHORT).show();
         			btnClose.setEnabled(true);
         			btnSend.setEnabled(true);
         			btnSendDraw.setEnabled(true);
                     break;
                 case BluetoothService.STATE_CONNECTING:
-                	Log.d(TAG,"state connecting");
+                	Helper.log(TAG,"state connecting", null);
                     break;
                 case BluetoothService.STATE_LISTEN:
                 case BluetoothService.STATE_NONE:
-                	Log.d(TAG,"state none");
+                	Helper.log(TAG,"state none", null);
                     break;
                 }
                 break;
             case BluetoothService.MESSAGE_CONNECTION_LOST:
-                Toast.makeText(getApplicationContext(), "Device connection was lost",
+                Toast.makeText(getApplicationContext(), R.string.printer_connectionlost,
                                Toast.LENGTH_SHORT).show();
     			btnClose.setEnabled(false);
     			btnSend.setEnabled(false);
     			btnSendDraw.setEnabled(false);
                 break;
             case BluetoothService.MESSAGE_UNABLE_CONNECT:
-            	Toast.makeText(getApplicationContext(), "Unable to connect device",
+            	Toast.makeText(getApplicationContext(), R.string.unbale_toconnect,
                         Toast.LENGTH_SHORT).show();
             	break;
             }
@@ -179,7 +179,7 @@ public class PrintDemo extends Activity {
         switch (requestCode) {
         case REQUEST_ENABLE_BT:
             if (resultCode == Activity.RESULT_OK) {
-            	Toast.makeText(this, "Bluetooth open successful", Toast.LENGTH_LONG).show();
+            	Toast.makeText(this, R.string.bluetooth_open, Toast.LENGTH_LONG).show();
             } else {
             	finish();
             }
