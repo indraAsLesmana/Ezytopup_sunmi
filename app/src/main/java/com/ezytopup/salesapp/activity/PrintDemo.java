@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -99,8 +100,7 @@ public class PrintDemo extends Activity {
 			} else if (v == btnSendDraw) {
                 String msg = "";
                 String lang = getString(R.string.strLang);
-				//printImage();
-				
+
             	byte[] cmd = new byte[3];
         	    cmd[0] = 0x1b;
         	    cmd[1] = 0x21;
@@ -116,6 +116,7 @@ public class PrintDemo extends Activity {
                          
 
             		mService.sendMessage(msg,"GBK");
+					printImage();
             	}else if((lang.compareTo("ch")) == 0){
             		cmd[2] |= 0x10;
             		mService.write(cmd);
@@ -202,8 +203,8 @@ public class PrintDemo extends Activity {
     	PrintPic pg = new PrintPic();
     	pg.initCanvas(384);     
     	pg.initPaint();
-    	pg.drawImage(0, 0, "/mnt/sdcard/icon.jpg");
-    	sendData = pg.printDraw();
+    	pg.drawImage(0, 0, "/mnt/sdcard/ezy_for_print.jpg"); //this from internal storage.
+		sendData = pg.printDraw();
     	mService.write(sendData);
     }
 }
