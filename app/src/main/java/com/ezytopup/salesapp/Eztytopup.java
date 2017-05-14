@@ -1,6 +1,7 @@
 package com.ezytopup.salesapp;
 
 import android.app.Application;
+import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,9 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,6 +22,7 @@ import com.ezytopup.salesapp.api.TamplateResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.zj.btsdk.BluetoothService;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -61,6 +65,8 @@ public class Eztytopup extends Application {
     private static ArrayList<PaymentResponse.PaymentMethod> paymentActive;
     private static ArrayList<TamplateResponse.Result> tamplateActive;
     private static Boolean isSunmiDevice;
+    private static BluetoothService mBTprintService = null;
+    private static Boolean isPrinterConnected;
 
 
     @Override
@@ -100,17 +106,69 @@ public class Eztytopup extends Application {
         tamplateActive = new ArrayList<>();
         loadPaymentInfo();
         loadGiftTamplte();
+        isPrinterConnected = Boolean.FALSE;
 
         if (Build.BRAND.equals("SUNMI")
                 && Build.DEVICE.equals("V1")){
             initPrint();
             isSunmiDevice = Boolean.TRUE;
+            Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
         }else {
+            mBTprintService = new BluetoothService(this, mHandler);
             isSunmiDevice = Boolean.FALSE;
+            Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
         }
 
         setDeviceId();
     }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        if (mBTprintService != null)
+            mBTprintService.stop();
+        mBTprintService = null;
+    }
+
+    /**
+     *  Handler BluetoothService
+     */
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case BluetoothService.MESSAGE_STATE_CHANGE:
+                    switch (msg.arg1) {
+                        case BluetoothService.STATE_CONNECTED:
+                            Toast.makeText(getApplicationContext(), R.string.connection_success,
+                                    Toast.LENGTH_SHORT).show();
+                            isPrinterConnected = Boolean.TRUE;
+                            break;
+                        case BluetoothService.STATE_CONNECTING:
+                            Helper.log(TAG,"state connecting", null);
+                            isPrinterConnected = Boolean.FALSE;
+                            break;
+                        case BluetoothService.STATE_LISTEN:
+                        case BluetoothService.STATE_NONE:
+                            Helper.log(TAG,"state none", null);
+                            isPrinterConnected = Boolean.FALSE;
+                            break;
+                    }
+                    break;
+                case BluetoothService.MESSAGE_CONNECTION_LOST:
+                    Toast.makeText(getApplicationContext(), R.string.printer_connectionlost,
+                            Toast.LENGTH_SHORT).show();
+                    isPrinterConnected = Boolean.FALSE;
+                    break;
+                case BluetoothService.MESSAGE_UNABLE_CONNECT:
+                    Toast.makeText(getApplicationContext(), R.string.unbale_toconnect,
+                            Toast.LENGTH_SHORT).show();
+                    isPrinterConnected = Boolean.FALSE;
+                    break;
+            }
+        }
+
+    };
 
     private void loadGiftTamplte() {
         Call<TamplateResponse> tamplate = Eztytopup.getsAPIService().getTamplateGift();
@@ -308,6 +366,14 @@ public class Eztytopup extends Application {
 
                 break;
         }
+    }
+
+    public static Boolean getIsPrinterConnected() {
+        return isPrinterConnected;
+    }
+
+    public static BluetoothService getmBTprintService() {
+        return mBTprintService;
     }
 
     public static Boolean getSunmiDevice() {
