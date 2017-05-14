@@ -18,7 +18,6 @@ import com.ezytopup.salesapp.R;
 import com.zj.btsdk.BluetoothService;
 import com.zj.btsdk.PrintPic;
 
-
 public class PrintDemo extends Activity {
 	Button btnSearch;
 	Button btnSendDraw;
@@ -29,8 +28,8 @@ public class PrintDemo extends Activity {
 	private static final int REQUEST_ENABLE_BT = 2;
 	BluetoothService mService = null;
 	BluetoothDevice con_dev = null;
-	private static final int REQUEST_CONNECT_DEVICE = 1;  //获取设备消息
-
+	private static final int REQUEST_CONNECT_DEVICE = 1;
+	private static final String TAG = "PrintDemo";
 
 	public static void start(Activity caller) {
 		Intent intent = new Intent(caller, PrintDemo.class);
@@ -43,7 +42,7 @@ public class PrintDemo extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		mService = new BluetoothService(this, mHandler);
-		//蓝牙不可用退出程序
+
 		if( mService.isAvailable() == false ){
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             finish();
@@ -53,7 +52,7 @@ public class PrintDemo extends Activity {
     @Override
     public void onStart() {
     	super.onStart();
-    	//蓝牙未打开，打开蓝牙
+
 		if( mService.isBTopen() == false)
 		{
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -73,7 +72,7 @@ public class PrintDemo extends Activity {
 			btnSend.setEnabled(false);
 			btnSendDraw.setEnabled(false);
 		} catch (Exception ex) {
-            Log.e("出错信息",ex.getMessage());
+            Log.e("Bluetooth no ready",ex.getMessage());
 		}
     }
     
@@ -88,7 +87,7 @@ public class PrintDemo extends Activity {
 	class ClickEvent implements View.OnClickListener {
 		public void onClick(View v) {
 			if (v == btnSearch) {			
-				Intent serverIntent = new Intent(PrintDemo.this,DeviceListActivity.class);      //运行另外一个类的活动
+				Intent serverIntent = new Intent(PrintDemo.this,DeviceListActivity.class);
 				startActivityForResult(serverIntent,REQUEST_CONNECT_DEVICE);
 			} else if (v == btnSend) {
                 String msg = edtContext.getText().toString();
@@ -107,10 +106,10 @@ public class PrintDemo extends Activity {
         	    cmd[1] = 0x21;
             	if((lang.compareTo("en")) == 0){	
             		cmd[2] |= 0x10;
-            		mService.write(cmd);           //倍宽、倍高模式
+            		mService.write(cmd);
             		mService.sendMessage("Congratulations!\n", "GBK"); 
             		cmd[2] &= 0xEF;
-            		mService.write(cmd);           //取消倍高、倍宽模式
+            		mService.write(cmd);
             		msg = "  You have sucessfully created communications between your device and our bluetooth printer.\n\n"
                           +"  the company is a high-tech enterprise which specializes" +
                           " in R&D,manufacturing,marketing of thermal printers and barcode scanners.\n\n";
@@ -119,12 +118,13 @@ public class PrintDemo extends Activity {
             		mService.sendMessage(msg,"GBK");
             	}else if((lang.compareTo("ch")) == 0){
             		cmd[2] |= 0x10;
-            		mService.write(cmd);           //倍宽、倍高模式
-        		    mService.sendMessage("恭喜您！\n", "GBK"); 
-            		cmd[2] &= 0xEF;
-            		mService.write(cmd);           //取消倍高、倍宽模式
-            		msg = "  您已经成功的连接上了我们的蓝牙打印机！\n\n"
-            		+ "  本公司是一家专业从事研发，生产，销售商用票据打印机和条码扫描设备于一体的高科技企业.\n\n";
+            		mService.write(cmd);
+					mService.sendMessage("Congratulations!\n", "GBK");
+					cmd[2] &= 0xEF;
+            		mService.write(cmd);
+					msg = "  You have sucessfully created communications between your device and our bluetooth printer.\n\n"
+							+"  the company is a high-tech enterprise which specializes" +
+							" in R&D,manufacturing,marketing of thermal printers and barcode scanners.\n\n";
             	    
             		mService.sendMessage(msg,"GBK");	
             	}
@@ -133,7 +133,7 @@ public class PrintDemo extends Activity {
 	}
 	
     /**
-     * 创建一个Handler实例，用于接收BluetoothService类返回回来的消息
+     *  Handler BluetoothService
      */
     private final Handler mHandler = new Handler() {
         @Override
@@ -141,30 +141,30 @@ public class PrintDemo extends Activity {
             switch (msg.what) {
             case BluetoothService.MESSAGE_STATE_CHANGE:
                 switch (msg.arg1) {
-                case BluetoothService.STATE_CONNECTED:   //已连接
+                case BluetoothService.STATE_CONNECTED:
                 	Toast.makeText(getApplicationContext(), "Connect successful",
                             Toast.LENGTH_SHORT).show();
         			btnClose.setEnabled(true);
         			btnSend.setEnabled(true);
         			btnSendDraw.setEnabled(true);
                     break;
-                case BluetoothService.STATE_CONNECTING:  //正在连接
-                	Log.d("蓝牙调试","正在连接.....");
+                case BluetoothService.STATE_CONNECTING:
+                	Log.d(TAG,"state connecting");
                     break;
-                case BluetoothService.STATE_LISTEN:     //监听连接的到来
+                case BluetoothService.STATE_LISTEN:
                 case BluetoothService.STATE_NONE:
-                	Log.d("蓝牙调试","等待连接.....");
+                	Log.d(TAG,"state none");
                     break;
                 }
                 break;
-            case BluetoothService.MESSAGE_CONNECTION_LOST:    //蓝牙已断开连接
+            case BluetoothService.MESSAGE_CONNECTION_LOST:
                 Toast.makeText(getApplicationContext(), "Device connection was lost",
                                Toast.LENGTH_SHORT).show();
     			btnClose.setEnabled(false);
     			btnSend.setEnabled(false);
     			btnSendDraw.setEnabled(false);
                 break;
-            case BluetoothService.MESSAGE_UNABLE_CONNECT:     //无法连接设备
+            case BluetoothService.MESSAGE_UNABLE_CONNECT:
             	Toast.makeText(getApplicationContext(), "Unable to connect device",
                         Toast.LENGTH_SHORT).show();
             	break;
@@ -176,17 +176,17 @@ public class PrintDemo extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-        case REQUEST_ENABLE_BT:      //请求打开蓝牙
-            if (resultCode == Activity.RESULT_OK) {   //蓝牙已经打开
+        case REQUEST_ENABLE_BT:
+            if (resultCode == Activity.RESULT_OK) {
             	Toast.makeText(this, "Bluetooth open successful", Toast.LENGTH_LONG).show();
-            } else {                 //用户不允许打开蓝牙
+            } else {
             	finish();
             }
             break;
-        case  REQUEST_CONNECT_DEVICE:     //请求连接某一蓝牙设备
-        	if (resultCode == Activity.RESULT_OK) {   //已点击搜索列表中的某个设备项
+        case  REQUEST_CONNECT_DEVICE:
+        	if (resultCode == Activity.RESULT_OK) {
                 String address = data.getExtras()
-                                     .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);  //获取列表项中设备的mac地址
+                                     .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
                 con_dev = mService.getDevByMac(address);   
                 
                 mService.connect(con_dev);
@@ -195,7 +195,7 @@ public class PrintDemo extends Activity {
         }
     } 
     
-    //打印图形
+
     @SuppressLint("SdCardPath")
 	private void printImage() {
     	byte[] sendData = null;
@@ -204,6 +204,6 @@ public class PrintDemo extends Activity {
     	pg.initPaint();
     	pg.drawImage(0, 0, "/mnt/sdcard/icon.jpg");
     	sendData = pg.printDraw();
-    	mService.write(sendData);   //打印byte流数据
+    	mService.write(sendData);
     }
 }

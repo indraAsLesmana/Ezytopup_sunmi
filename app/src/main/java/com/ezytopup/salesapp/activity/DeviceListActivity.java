@@ -54,13 +54,14 @@ public class DeviceListActivity extends Activity {
     BluetoothService mService = null;
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
-
+    private static final String TAG = "DeviceListActivity";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Setup the window
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        setContentView(R.layout.device_list);   //显示列表界面
+        setContentView(R.layout.device_list);
 
         // Set result CANCELED incase the user backs out
         setResult(Activity.RESULT_CANCELED);
@@ -146,7 +147,7 @@ public class DeviceListActivity extends Activity {
     }
 
     // The on-click listener for all devices in the ListViews
-    private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {   //点击列表项，连接设备
+    private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             // Cancel discovery because it's costly and we're about to connect
         	mService.cancelDiscovery();
@@ -158,7 +159,7 @@ public class DeviceListActivity extends Activity {
             // Create the result Intent and include the MAC address
             Intent intent = new Intent();
             intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
-            Log.d("连接地址", address);
+            Log.d(TAG, address);
             
             // Set result and finish this Activity
             setResult(Activity.RESULT_OK, intent);
