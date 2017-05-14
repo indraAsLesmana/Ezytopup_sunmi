@@ -189,6 +189,8 @@
     <string name="printer_connectionlost">Printer connection was lost</string>
     <string name="connection_success">Connect successful</string>
     <string name="bluetooth_notfound">Bluetooth is not available</string>
+    <string name="paired_printer">Paired printer</string>
+    <string name="other_devices">Other Available Devices</string>
 
     <string-array name="dummy_data">
         <item>One</item>
