@@ -101,6 +101,25 @@ public class Helper {
         });
     }
 
+    public static String printTextCenter(String src) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String finalString = null;
+        if (src.length() < 30) {
+            int n = 30 - src.length();
+            int space = n / 2;
+
+            for (int i = 0; i <= space; i++) {
+                stringBuilder.append(" ");
+            }
+            stringBuilder.append(src);
+            for (int i = 0; i <= space; i++) {
+                stringBuilder.append(" ");
+            }
+            finalString = stringBuilder.toString();
+        }
+        return finalString;
+    }
+
     public static void log(String TAG, String message, Throwable throwable) {
         if(Constant.ENABLE_LOG) {
             Log.v(TAG, message, throwable);

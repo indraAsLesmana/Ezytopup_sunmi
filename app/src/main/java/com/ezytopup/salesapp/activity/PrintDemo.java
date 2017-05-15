@@ -84,7 +84,8 @@ public class PrintDemo extends Activity {
 			mService.stop();
 		mService = null; 
 	}
-	
+	String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
+
 	class ClickEvent implements View.OnClickListener {
 		public void onClick(View v) {
 			if (v == btnSearch) {			
@@ -105,17 +106,25 @@ public class PrintDemo extends Activity {
 				mService.write(cmd);
 				mService.sendMessage("Jl. Pangeran Jayakarta No. 129 \n" +
 						"     Jakarta Pusat - 10730  \n", "GBK");
+				cmd[1] = 0x21;
+				mService.write(cmd);
+				mService.sendMessage("Steam Wallet IDR \n", "GBK");
+
+				cmd[1] = 0x21;
+				mService.write(cmd);
+				mService.sendMessage("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
+						"sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n", "GBK");
 
 				cmd[2] &= 0xEF;
 				mService.write(cmd);
 				mService.sendMessage("Your Voucher code is : \n","GBK");
 				cmd[2] |= 0x10;
 				mService.write(cmd);
-				mService.sendMessage("JJ4A1 - L120O - 1IG6S - ABG6S \n\n", "GBK");
+				mService.sendMessage(Helper.printTextCenter(code) + "\n", "GBK");
 			}
 		}
 	}
-	
+
     /**
      *  Handler BluetoothService
      */
