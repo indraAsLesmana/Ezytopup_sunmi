@@ -495,12 +495,14 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     public static double getNumber(String number){
         if (number.equals("")) {return 0;}
         else if (number.equals("null")) {return 0;}
-        else {return Double.parseDouble(number.replaceAll("[^\\d.]", "").replaceAll("[,.]", "").replaceAll("\\s+",""));}
+        else {return Double.parseDouble(number.replaceAll("[^\\d.]", "")
+                .replaceAll("[,.]", "").replaceAll("\\s+",""));}
     }
     public static double getNumberPercentage(String number){
         if (number.equals("")) {return 0;}
         else if (number.equals("null")) {return 0;}
-        else {return Double.parseDouble(number.replaceAll("[^\\d.]", "").replaceAll("\\s+",""));}
+        else {return Double.parseDouble(number.replaceAll("[^\\d.]", "")
+                .replaceAll("\\s+",""));}
     }
 
 

@@ -4,9 +4,11 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
@@ -24,16 +26,33 @@ import retrofit2.Response;
 public class IntroActivityLaucher extends AppCompatActivity{
     private static final String TAG = "IntroActivityLaucher";
     private View mProgressBar;
+    private ConstraintLayout intro_container;
+    private ConstraintLayout intro_errorcontainer;
+    private Button btn_reload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
+        btn_reload = (Button) findViewById(R.id.btn_intro_reload);
+        intro_container = (ConstraintLayout) findViewById(R.id.container_intro);
+        intro_errorcontainer = (ConstraintLayout) findViewById(R.id.container_introerror);
         mProgressBar = findViewById(R.id.intro_progress_bar);
-        String lastToken = PreferenceUtils.getSinglePrefrenceString(IntroActivityLaucher.this,
+        final String lastToken = PreferenceUtils.getSinglePrefrenceString(IntroActivityLaucher.this,
                 R.string.settings_def_storeaccess_token_key);
 
+        tokenCheck(lastToken);
+        btn_reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tokenCheck(lastToken);
+            }
+        });
+    }
+
+    private void tokenCheck(String lastToken){
+        intro_errorcontainer.setVisibility(View.GONE);
         if (!lastToken.equals(Constant.PREF_NULL)){
             tokenValidityCheck(lastToken);
         }else {
@@ -70,6 +89,7 @@ public class IntroActivityLaucher extends AppCompatActivity{
             @Override
             public void onFailure(Call<TokencheckResponse> call, Throwable t) {
                 mProgressBar.setVisibility(View.GONE);
+                intro_errorcontainer.setVisibility(View.VISIBLE);
             }
         });
     }
