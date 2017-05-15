@@ -103,9 +103,6 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
         }
 
-        /*navigationView.getMenu().findItem(R.id.nav_print)
-                .setVisible(Eztytopup.getSunmiDevice());*/
-
         getImageHeader();
         initTabMenu();
         Helper.log(TAG, "setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
@@ -113,7 +110,6 @@ public class MainActivity extends BaseActivity
     }
 
     private void getImageHeader() {
-
         Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeader();
         call.enqueue(new Callback<HeaderimageResponse>() {
             @Override
@@ -146,7 +142,8 @@ public class MainActivity extends BaseActivity
 
             @Override
             public void onFailure(Call<HeaderimageResponse> call, Throwable t) {
-
+                Helper.log(TAG, "onResponse: " + t.getMessage(), null);
+                headerImages.setVisibility(View.GONE);
             }
         });
     }

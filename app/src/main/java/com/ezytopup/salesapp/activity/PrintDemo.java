@@ -98,37 +98,20 @@ public class PrintDemo extends Activity {
 			} else if (v == btnClose) {
 				mService.stop();
 			} else if (v == btnSendDraw) {
-                String msg = "";
-                String lang = getString(R.string.strLang);
+				printImage(); // Header
+				byte[] cmd = new byte[3];
+				cmd[0] = 0x1b;
+				cmd[1] = 0x21;
+				mService.write(cmd);
+				mService.sendMessage("Jl. Pangeran Jayakarta No. 129 \n" +
+						"     Jakarta Pusat - 10730  \n", "GBK");
 
-            	byte[] cmd = new byte[3];
-        	    cmd[0] = 0x1b;
-        	    cmd[1] = 0x21;
-            	if((lang.compareTo("en")) == 0){	
-            		cmd[2] |= 0x10;
-            		mService.write(cmd);
-            		mService.sendMessage("Congratulations!\n", "GBK"); 
-            		cmd[2] &= 0xEF;
-            		mService.write(cmd);
-            		msg = "  You have sucessfully created communications between your device and our bluetooth printer.\n\n"
-                          +"  the company is a high-tech enterprise which specializes" +
-                          " in R&D,manufacturing,marketing of thermal printers and barcode scanners.\n\n";
-                         
-
-            		mService.sendMessage(msg,"GBK");
-					printImage();
-            	}else if((lang.compareTo("ch")) == 0){
-            		cmd[2] |= 0x10;
-            		mService.write(cmd);
-					mService.sendMessage("Congratulations!\n", "GBK");
-					cmd[2] &= 0xEF;
-            		mService.write(cmd);
-					msg = "  You have sucessfully created communications between your device and our bluetooth printer.\n\n"
-							+"  the company is a high-tech enterprise which specializes" +
-							" in R&D,manufacturing,marketing of thermal printers and barcode scanners.\n\n";
-            	    
-            		mService.sendMessage(msg,"GBK");	
-            	}
+				cmd[2] &= 0xEF;
+				mService.write(cmd);
+				mService.sendMessage("Your Voucher code is : \n","GBK");
+				cmd[2] |= 0x10;
+				mService.write(cmd);
+				mService.sendMessage("JJ4A1 - L120O - 1IG6S - ABG6S \n\n", "GBK");
 			}
 		}
 	}
@@ -194,7 +177,7 @@ public class PrintDemo extends Activity {
             }
             break;
         }
-    } 
+    }
     
 
     @SuppressLint("SdCardPath")
@@ -203,7 +186,7 @@ public class PrintDemo extends Activity {
     	PrintPic pg = new PrintPic();
     	pg.initCanvas(384);     
     	pg.initPaint();
-    	pg.drawImage(0, 0, "/mnt/sdcard/ezy_for_print.jpg"); //this from internal storage.
+    	pg.drawImage(100, 0, "/mnt/sdcard/ezy_for_print.jpg"); //this from internal storage.
 		sendData = pg.printDraw();
     	mService.write(sendData);
     }
