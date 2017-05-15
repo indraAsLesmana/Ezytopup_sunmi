@@ -1,6 +1,9 @@
 package com.ezytopup.salesapp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -31,6 +34,7 @@ import com.ezytopup.salesapp.api.TamplateResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.zj.btsdk.PrintPic;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -74,6 +78,9 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private RadioButton rd_epayment, rd_banktransfer, rd_creditcard, rd_wallet;
     private ConstraintLayout bg_product;
     private RecyclerView rViewListEZ, rViewListCC, rViewListBT, rViewListIB;
+    private static final int REQUEST_CONNECT_DEVICE = 1;
+    private static final int REQUEST_ENABLE_BT = 2;
+    private BluetoothDevice con_dev = null;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -407,7 +414,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBuyNow:
-                String uid = PreferenceUtils.getSinglePrefrenceString(this, R.string.settings_def_uid_key);
+                /*String uid = PreferenceUtils.getSinglePrefrenceString(this, R.string.settings_def_uid_key);
                 final String token = PreferenceUtils.getSinglePrefrenceString(this,
                         R.string.settings_def_storeaccess_token_key);
                 if (getPaymentDetail().getId() == null){
@@ -483,10 +490,84 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     public void onFailure(Call<PaymentResponse> call, Throwable t) {
                         Toast.makeText(BuyProductActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
+
+                if (Eztytopup.getmBTprintService().isAvailable()){              // is blutooth exist on that device?
+                    if (!Eztytopup.getmBTprintService().isBTopen()){            // is blutooth Enable on that device?
+                        Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+                    }else if (!Eztytopup.getIsPrinterConnected()){              // is bluetooth connected to printer?
+                        Intent serverIntent = new Intent(BuyProductActivity.this,
+                                DeviceListActivity.class);
+                        startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+                    }else {
+                        String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
+
+                        printImage(); // Header
+                        byte[] cmd = new byte[3];
+                        cmd[0] = 0x1b;
+                        cmd[1] = 0x21;
+                        Eztytopup.getmBTprintService().write(cmd);
+                        Eztytopup.getmBTprintService().sendMessage("Jl. Pangeran Jayakarta No. 129 \n"
+                                + "     Jakarta Pusat - 10730  \n", "GBK");
+                        cmd[1] = 0x21;
+                        Eztytopup.getmBTprintService().write(cmd);
+                        Eztytopup.getmBTprintService().sendMessage(productName + "\n", "GBK");
+
+                        cmd[1] = 0x21;
+                        Eztytopup.getmBTprintService().write(cmd);
+                        Eztytopup.getmBTprintService()
+                                .sendMessage("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
+                                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n", "GBK");
+
+                        cmd[2] &= 0xEF;
+                        Eztytopup.getmBTprintService().write(cmd);
+                        Eztytopup.getmBTprintService().sendMessage("Your Voucher code is : \n","GBK");
+                        cmd[2] |= 0x10;
+                        Eztytopup.getmBTprintService().write(cmd);
+                        Eztytopup.getmBTprintService().sendMessage(Helper.printTextCenter(code) +
+                                "\n", "GBK");
+                    }
+                }else {
+                    Toast.makeText(this, R.string.bluetooth_notfound, Toast.LENGTH_LONG).show();
+                }
+
 
                 break;
             case R.id.btnCancel:
+                break;
+        }
+    }
+
+    @SuppressLint("SdCardPath")
+    private void printImage() {
+        byte[] sendData = null;
+        PrintPic pg = new PrintPic();
+        pg.initCanvas(384);
+        pg.initPaint();
+        pg.drawImage(100, 0, "/mnt/sdcard/ezy_for_print.jpg"); //this from internal storage.
+        sendData = pg.printDraw();
+        Eztytopup.getmBTprintService().write(sendData);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_ENABLE_BT:
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(this, R.string.bluetooth_open, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, R.string.failed_open_bluetooth, Toast.LENGTH_LONG).show();
+                }
+                break;
+            case  REQUEST_CONNECT_DEVICE:
+                if (resultCode == Activity.RESULT_OK) {
+                    String address = data.getExtras()
+                            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+                    con_dev = Eztytopup.getmBTprintService().getDevByMac(address);
+
+                    Eztytopup.getmBTprintService().connect(con_dev);
+                }
                 break;
         }
     }
