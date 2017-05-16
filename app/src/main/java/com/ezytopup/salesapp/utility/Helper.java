@@ -101,7 +101,9 @@ public class Helper {
                             response.body().getUser().getSellerAddress(),
                             response.body().getUser().getSellerWebsite(),
                             response.body().getUser().getSellerLogo(),
-                            response.body().getUser().getSellerPrintLogo());
+                            response.body().getUser().getSellerPrintLogo(),
+                            response.body().getUser().getSellerWarnaBg(),
+                            response.body().getUser().getSellerId());
                 }
             }
 

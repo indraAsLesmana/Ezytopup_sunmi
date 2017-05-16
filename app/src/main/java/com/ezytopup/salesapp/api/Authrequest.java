@@ -104,6 +104,12 @@ public class Authrequest {
         @SerializedName("seller_print_logo")
         @Expose
         public String sellerPrintLogo;
+        @SerializedName("seller_warna_bg")
+        @Expose
+        public String sellerWarnaBg;
+        @SerializedName("seller_id")
+        @Expose
+        public String sellerId;
         @SerializedName("device_id")
         @Expose
         public String deviceId;
@@ -170,6 +176,14 @@ public class Authrequest {
 
         public String getSellerPrintLogo() {
             return sellerPrintLogo;
+        }
+
+        public String getSellerWarnaBg() {
+            return sellerWarnaBg;
+        }
+
+        public String getSellerId() {
+            return sellerId;
         }
 
         public String getDeviceId() {

@@ -123,6 +123,14 @@
     <string name="settings_def_sellerprintlogo_label">Seller print logo</string>
     <string name="settings_def_sellerprintlogo_key" translatable="false">def_sellerprintlogo</string>
     <string name="settings_def_sellerprintlogo_default" translatable="false">-</string>
+    <!-- Store seller_warna_bg -->
+    <string name="settings_def_sellerwarnabg_label">Seller color background</string>
+    <string name="settings_def_sellerwarnabg_key" translatable="false">def_sellerwarnabg</string>
+    <string name="settings_def_sellerwarnabg_default" translatable="false">-</string>
+    <!-- Store seller_id -->
+    <string name="settings_def_sellerid_label">Seller id</string>
+    <string name="settings_def_sellerid_key" translatable="false">def_sellerid</string>
+    <string name="settings_def_sellerid_default" translatable="false">-</string>
 
     <string name="print">Print</string>
     <string name="action_print_invoice">Print invoice</string>

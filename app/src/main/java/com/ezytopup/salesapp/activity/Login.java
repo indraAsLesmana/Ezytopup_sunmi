@@ -380,7 +380,9 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
                             response.body().getUser().getSellerAddress(),
                             response.body().getUser().getSellerWebsite(),
                             response.body().getUser().getSellerLogo(),
-                            response.body().getUser().getSellerPrintLogo());
+                            response.body().getUser().getSellerPrintLogo(),
+                            response.body().getUser().getSellerWarnaBg(),
+                            response.body().getUser().getSellerId());
                     MainActivity.start(Login.this);
                 }else {
                     Toast.makeText(Login.this, response.body().status.getMessage(),

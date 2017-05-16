@@ -15,11 +15,14 @@ public class PreferenceUtils {
     private final int STORENAME_KEY = R.string.settings_def_storename_key;
     private final int STORELOGO_KEY = R.string.settings_def_storelogo_key;
 
-    public static void setStoreDetail (Context context, String id, String first_name, String last_name,
-                                       String email, String phone_number, String access_token,
-                                       String image_user, String seller_shop_name, String seller_kasir_name,
-                                       String seller_phone, String seller_address, String seller_website,
-                                       String seller_logo, String seller_print_logo){
+    public static void setStoreDetail (Context context, String id, String first_name,
+                                       String last_name, String email, String phone_number,
+                                       String access_token, String image_user,
+                                       String seller_shop_name, String seller_kasir_name,
+                                       String seller_phone, String seller_address,
+                                       String seller_website, String seller_logo,
+                                       String seller_print_logo, String seller_warna_bg,
+                                       String seller_id){
         SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
         editor.putString(context.getString(R.string.settings_def_uid_key), id);
         editor.putString(context.getString(R.string.settings_def_storefirst_name_key), first_name);
@@ -33,8 +36,8 @@ public class PreferenceUtils {
         editor.putString(context.getString(R.string.settings_def_sellerphone_key), seller_phone);
         editor.putString(context.getString(R.string.settings_def_selleraddress_key), seller_address);
         editor.putString(context.getString(R.string.settings_def_sellerwebsite_key), seller_website);
-        editor.putString(context.getString(R.string.settings_def_sellerlogo_key), seller_logo);
-        editor.putString(context.getString(R.string.settings_def_sellerprintlogo_key), seller_print_logo);
+        editor.putString(context.getString(R.string.settings_def_sellerwarnabg_key), seller_warna_bg);
+        editor.putString(context.getString(R.string.settings_def_sellerid_key), seller_id);
         editor.apply();
     }
 
@@ -52,7 +55,6 @@ public class PreferenceUtils {
         editor.remove(context.getString(R.string.settings_def_storeemail_key));
         editor.remove(context.getString(R.string.settings_def_storeaccess_token_key));
         editor.remove(context.getString(R.string.settings_def_storeimage_user_key));
-
         editor.remove(context.getString(R.string.settings_def_sellershopname_key));
         editor.remove(context.getString(R.string.settings_def_sellerkasirname_key));
         editor.remove(context.getString(R.string.settings_def_sellerphone_key));
@@ -60,6 +62,8 @@ public class PreferenceUtils {
         editor.remove(context.getString(R.string.settings_def_sellerwebsite_key));
         editor.remove(context.getString(R.string.settings_def_sellerlogo_key));
         editor.remove(context.getString(R.string.settings_def_sellerprintlogo_key));
+        editor.remove(context.getString(R.string.settings_def_sellerwarnabg_key));
+        editor.remove(context.getString(R.string.settings_def_sellerid_key));
         editor.apply();
     }
 
@@ -154,7 +158,16 @@ public class PreferenceUtils {
                         context.getString(R.string.settings_def_uid_key),
                         context.getString(R.string.settings_def_uid_default));
                 break;
-
+            case R.string.settings_def_sellerwarnabg_key:
+                result = dataPreferece.getString(
+                        context.getString(R.string.settings_def_sellerwarnabg_key),
+                        context.getString(R.string.settings_def_sellerwarnabg_default));
+                break;
+            case R.string.settings_def_sellerid_key:
+                result = dataPreferece.getString(
+                        context.getString(R.string.settings_def_sellerid_key),
+                        context.getString(R.string.settings_def_sellerid_default));
+                break;
         }
         return result;
     }
