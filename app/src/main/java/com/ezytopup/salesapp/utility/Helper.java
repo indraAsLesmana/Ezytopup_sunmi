@@ -89,8 +89,14 @@ public class Helper {
                             response.body().getUser().getEmail(),
                             response.body().getUser().getPhoneNumber(),
                             response.body().getUser().getAccessToken(),
-                            response.body().getUser().getImageUser());
-
+                            response.body().getUser().getImageUser(),
+                            response.body().getUser().getSellerShopName(),
+                            response.body().getUser().getSellerKasirName(),
+                            response.body().getUser().getSellerPhone(),
+                            response.body().getUser().getSellerAddress(),
+                            response.body().getUser().getSellerWebsite(),
+                            response.body().getUser().getSellerLogo(),
+                            response.body().getUser().getSellerPrintLogo());
                 }
             }
 

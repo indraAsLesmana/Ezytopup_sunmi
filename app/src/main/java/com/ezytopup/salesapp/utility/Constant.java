@@ -73,6 +73,7 @@ public class Constant {
     public static final int PAYMENT_GRIDSETTINGS = 3;
     public static final boolean ENABLE_LOG = true;
     public static final String APP_NAME = "Ezytopup";
+    public static boolean ENABLE_HOME_SWIPE = false;
 
 
     /**

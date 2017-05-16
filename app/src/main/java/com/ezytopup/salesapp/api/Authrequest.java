@@ -83,6 +83,27 @@ public class Authrequest {
         @SerializedName("last_login_at")
         @Expose
         public String lastLoginAt;
+        @SerializedName("seller_shop_name")
+        @Expose
+        public String sellerShopName;
+        @SerializedName("seller_kasir_name")
+        @Expose
+        public String sellerKasirName;
+        @SerializedName("seller_phone")
+        @Expose
+        public String sellerPhone;
+        @SerializedName("seller_address")
+        @Expose
+        public String sellerAddress;
+        @SerializedName("seller_website")
+        @Expose
+        public String sellerWebsite;
+        @SerializedName("seller_logo")
+        @Expose
+        public String sellerLogo;
+        @SerializedName("seller_print_logo")
+        @Expose
+        public String sellerPrintLogo;
         @SerializedName("device_id")
         @Expose
         public String deviceId;
@@ -121,6 +142,34 @@ public class Authrequest {
 
         public String getLastLoginAt() {
             return lastLoginAt;
+        }
+
+        public String getSellerShopName() {
+            return sellerShopName;
+        }
+
+        public String getSellerKasirName() {
+            return sellerKasirName;
+        }
+
+        public String getSellerPhone() {
+            return sellerPhone;
+        }
+
+        public String getSellerAddress() {
+            return sellerAddress;
+        }
+
+        public String getSellerWebsite() {
+            return sellerWebsite;
+        }
+
+        public String getSellerLogo() {
+            return sellerLogo;
+        }
+
+        public String getSellerPrintLogo() {
+            return sellerPrintLogo;
         }
 
         public String getDeviceId() {

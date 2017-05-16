@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.base.ActivityInterface;
+import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 /**
@@ -44,13 +45,25 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
             actionBar = getSupportActionBar();
             if (actionBar != null){
                 actionBar.setDisplayShowTitleEnabled(false);
-
                 toolbar_centerImage = (ImageView) findViewById(R.id.toolbar_centered_logo);
-                Glide.with(this)
-                        .load(PreferenceUtils.getSinglePrefrenceString(this,
-                                R.string.settings_def_storelogo_key))
-                        .crossFade()
-                        .into(toolbar_centerImage);
+
+                if (PreferenceUtils.getSinglePrefrenceString(this,
+                        R.string.settings_def_sellerlogo_key).equals(Constant.PREF_NULL)){
+                    Glide.with(this)
+                            .load(PreferenceUtils.getSinglePrefrenceString(this,
+                                    R.string.settings_def_storelogo_key))
+                            .crossFade()
+                            .into(toolbar_centerImage);
+                }else {
+                    toolbar_centerImage.setBackgroundResource(0);
+                    Glide.with(this)
+                            .load(PreferenceUtils.getSinglePrefrenceString(this,
+                                    R.string.settings_def_sellerlogo_key))
+                            .error(R.drawable.ic_error_loadimage)
+                            .crossFade(Constant.ITEM_CROSSFADEDURATION)
+                            .into(toolbar_centerImage);
+                }
+
             }
         }
 

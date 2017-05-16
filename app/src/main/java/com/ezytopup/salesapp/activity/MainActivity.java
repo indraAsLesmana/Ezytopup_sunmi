@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
@@ -26,6 +25,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.adapter.CustomViewPager;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.TokencheckResponse;
@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void initTabMenu(){
-        ViewPager mMain_Pagger = (ViewPager) findViewById(R.id.main_pagger);
+        CustomViewPager mMain_Pagger = (CustomViewPager) findViewById(R.id.main_pagger);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
         RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
@@ -158,16 +158,6 @@ public class MainActivity extends BaseActivity
         mMain_Pagger.setAdapter(adapter);
         tabLayout.setupWithViewPager(mMain_Pagger);
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override

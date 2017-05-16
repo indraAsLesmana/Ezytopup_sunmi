@@ -99,7 +99,7 @@ public class PrintDemo extends Activity {
 			} else if (v == btnClose) {
 				mService.stop();
 			} else if (v == btnSendDraw) {
-				printImage(); // Header
+				/*printImage(); // Header
 				byte[] cmd = new byte[3];
 				cmd[0] = 0x1b;
 				cmd[1] = 0x21;
@@ -118,9 +118,42 @@ public class PrintDemo extends Activity {
 				cmd[2] &= 0xEF;
 				mService.write(cmd);
 				mService.sendMessage("Your Voucher code is : \n","GBK");
-				cmd[2] |= 0x10;
+				cmd[2] |= 0x69;
 				mService.write(cmd);
-				mService.sendMessage(Helper.printTextCenter(code) + "\n", "GBK");
+				mService.sendMessage(Helper.printTextCenter(code) + "\n", "GBK");*/
+
+				/*Make font reverse
+				byte[] cmd = new byte[3];
+				cmd[0] = 0x1B;
+				cmd[1] = 0x7B;
+				cmd[2] = 0x1;*/
+
+				/*
+				make 1 line feed (space)
+				cmd[0] = 0x0A;
+				mService.write(cmd);*/
+
+				/*
+				make bold
+				cmd[0] = 0x1B;
+				cmd[1] = 0x45;
+				cmd[2] = 0x1;
+				mService.write(cmd);*/
+
+				/*
+				Selecting print mode
+
+
+				 */
+
+				byte[] cmd = new byte[5];
+				cmd[0] = 0x1b;
+				cmd[1] = 0x21;
+				cmd[2] = 0x10;
+				cmd[3] = 0x20;
+				mService.write(cmd);
+				mService.sendMessage(code + "\n", "GBK");
+
 			}
 		}
 	}
