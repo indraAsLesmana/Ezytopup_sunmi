@@ -1,6 +1,7 @@
 package com.ezytopup.salesapp.activity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -46,7 +47,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
             if (actionBar != null){
                 actionBar.setDisplayShowTitleEnabled(false);
                 toolbar_centerImage = (ImageView) findViewById(R.id.toolbar_centered_logo);
-
                 if (PreferenceUtils.getSinglePrefrenceString(this,
                         R.string.settings_def_sellerlogo_key).equals(Constant.PREF_NULL)){
                     Glide.with(this)

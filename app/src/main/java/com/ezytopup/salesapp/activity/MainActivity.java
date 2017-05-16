@@ -2,9 +2,13 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.RemoteException;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
@@ -35,6 +39,7 @@ import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -101,6 +106,12 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_changepassword).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
+        }
+
+        if (!PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)){
+            Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
+                    R.string.settings_def_sellerprintlogo_key));
         }
 
         getImageHeader();
@@ -254,12 +265,14 @@ public class MainActivity extends BaseActivity
 
                 break;
             case R.id.nav_print:
-                if (Eztytopup.getSunmiDevice()){
+                Helper.downloadFile(MainActivity.this, PreferenceUtils.getSinglePrefrenceString(this,
+                        R.string.settings_def_sellerprintlogo_key));
+              /*  if (Eztytopup.getSunmiDevice()){
                     ThreadPoolManager.getInstance().executeTask(new Runnable() {
                         @Override
                         public void run() {
                             if( Eztytopup.getmBitmap() == null ){
-                        /*Change store logo, here...*/
+                        *//*Change store logo, here...*//*
                                 Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
                                         R.raw.ezy_for_print));
                             }
@@ -267,17 +280,17 @@ public class MainActivity extends BaseActivity
                                 String[] text = new String[4];// 4 = set total column
                                 for (int i = 0; i < 4; i++) { // 4 = set total looping content buy
                                     if (i == 0){
-                                /*logo*/
+                                *//*logo*//*
                                         Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
                                         Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(), Eztytopup.getCallback());
                                         Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
                                         Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
-                                /*header*/
+                                *//*header*//*
                                         text[0] = Constant.ROW_NAME;
                                         text[1] = Constant.ROW_QUANTITY;
                                         text[2] = Constant.ROW_PRICE;
                                         text[3] = Constant.ROW_TOTAL_PRICE;
-                                /*print*/
+                                *//*print*//*
                                         Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
                                                 Constant.align_header, Eztytopup.getCallback());
                                     }else {
@@ -290,7 +303,7 @@ public class MainActivity extends BaseActivity
                                     }
 
                                 }
-                        /* make space*/
+                        *//* make space*//*
                                 Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
 
                             } catch (RemoteException e) {
@@ -302,7 +315,7 @@ public class MainActivity extends BaseActivity
                 }else {
                     PrintDemo.start(MainActivity.this);
                 }
-
+*/
                 break;
         }
 

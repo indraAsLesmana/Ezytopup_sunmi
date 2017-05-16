@@ -39,6 +39,7 @@ import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 import com.zj.btsdk.PrintPic;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -428,8 +429,9 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                             startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
                         }else {
                             String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
-
-                            printImage(); // Header
+                            if (!printImage()){ // logo print
+                                return;
+                            }
                             byte[] cmd = new byte[5];
                             cmd[0] = 0x1b;
                             cmd[1] = 0x21;
@@ -511,15 +513,25 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    // TODO : print will still printed, no Flag to dot print. i'll fix latter
     @SuppressLint("SdCardPath")
-    private void printImage() {
-        byte[] sendData = null;
-        PrintPic pg = new PrintPic();
-        pg.initCanvas(384);
-        pg.initPaint();
-        pg.drawImage(100, 0, "/mnt/sdcard/ezy_for_print.jpg"); //this from internal storage.
-        sendData = pg.printDraw();
-        Eztytopup.getmBTprintService().write(sendData);
+    private Boolean printImage() {
+        File file = new File("/mnt/sdcard/Ezytopup/print_logo.jpg");
+        if (!file.exists()) {
+            Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
+                    R.string.settings_def_sellerprintlogo_key));
+            Toast.makeText(this, R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();
+            return Boolean.FALSE;
+        }else {
+            byte[] sendData = null;
+            PrintPic pg = new PrintPic();
+            pg.initCanvas(384);
+            pg.initPaint();
+            pg.drawImage(100, 0, "/mnt/sdcard/Ezytopup/print_logo.jpg");
+            sendData = pg.printDraw();
+            Eztytopup.getmBTprintService().write(sendData);
+            return Boolean.TRUE;
+        }
     }
 
     @Override
