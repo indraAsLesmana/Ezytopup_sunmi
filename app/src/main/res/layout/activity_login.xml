@@ -102,7 +102,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:text="@string/action_forgot_password"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/email_sign_in_button"
