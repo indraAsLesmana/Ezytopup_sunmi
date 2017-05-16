@@ -142,4 +142,8 @@ public interface EzytopupAPI {
     Call<ForgotpasswordResponse> setForgotpassword(@Header("Authorize") String headerToken,
                                                    @Query("email") String email,
                                                    @Query("phone") String phone);
+
+    @POST("WGS_API_buyNow_reseller.php?" + API_URL_GENERALUSAGE)
+    Call<ForgotpasswordResponse> getBuyreseller(@Header("Authorize") String headerToken,
+                                                @Body BuynowReseller buynowReseller);
 }
