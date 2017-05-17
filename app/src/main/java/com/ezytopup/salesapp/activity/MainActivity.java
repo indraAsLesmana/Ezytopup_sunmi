@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,8 +19,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -34,6 +38,7 @@ import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -44,6 +49,9 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static TextView nav_user_name, nav_user_email;
+    public static RoundedImageView nav_image_view;
 
     private static final String TAG = "MainActivity";
     private SliderLayout headerImages;
@@ -68,7 +76,7 @@ public class MainActivity extends BaseActivity
         if (PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
                 R.string.settings_def_storeaccess_token_key).equals(Constant.PREF_NULL)
                 || PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
-                R.string.settings_def_storeemail_key).equals(Constant.PREF_NULL)){
+                R.string.settings_def_storeemail_key).equals(Constant.PREF_NULL)) {
             Helper.synchronizeFCMRegToken(this, null);
         }
 
@@ -80,6 +88,12 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View navView = navigationView.getHeaderView(0);
+        nav_user_name = (TextView) navView.findViewById(R.id.nav_user_name);
+        nav_user_email = (TextView) navView.findViewById(R.id.nav_user_email);
+        nav_image_view = (RoundedImageView) navView.findViewById(R.id.nav_image_view);
+
         headerImages = (SliderLayout) findViewById(R.id.slider);
         headerImages.setPresetTransformer(SliderLayout.Transformer.Accordion);
         headerImages.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
@@ -89,18 +103,43 @@ public class MainActivity extends BaseActivity
         String checkEmail = PreferenceUtils.
                 getSinglePrefrenceString(MainActivity.this, R.string.settings_def_storeemail_key);
         if (checkEmail.startsWith("autoemail") && checkEmail.endsWith("@mail.com")
-                || checkEmail.equals(Constant.PREF_NULL)){
+                || checkEmail.equals(Constant.PREF_NULL)) {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_signup).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_changepassword).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
-        }else {
+
+            nav_user_name.setText("Welcome, Guest");
+            nav_user_email.setText("Your Email Here");
+        } else {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_signup).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_changepassword).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
+
+            String firstName = PreferenceUtils.getSinglePrefrenceString
+                    (this, R.string.settings_def_storefirst_name_key);
+            String lastName = PreferenceUtils.getSinglePrefrenceString
+                    (this, R.string.settings_def_storelast_name_key);
+            String userMail = PreferenceUtils.getSinglePrefrenceString
+                    (this, R.string.settings_def_storeemail_key);
+            String imageUrl = PreferenceUtils.getSinglePrefrenceString
+                    (this, R.string.settings_def_storeimage_user_key);
+
+            nav_user_name.setText(firstName + " " + lastName);
+            nav_user_email.setText(userMail);
+
+            if(imageUrl != null){
+                Glide.with(this)
+                        .load(imageUrl)
+                        .centerCrop()
+                        .error(R.drawable.ic_launcher)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(nav_image_view);
+            }
         }
 
         getImageHeader();
@@ -117,7 +156,7 @@ public class MainActivity extends BaseActivity
                                    Response<HeaderimageResponse> response) {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
-                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
                     headerImage.addAll(response.body().result);
                     TextSliderView textSliderView = null;
                     for (int i = 0; i < headerImage.size(); i++) {
@@ -130,10 +169,10 @@ public class MainActivity extends BaseActivity
                     }
                     if (textSliderView != null && textSliderView.isErrorLoad()) {
                         headerImages.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         headerImages.setVisibility(View.VISIBLE);
                     }
-                }else {
+                } else {
                     Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);
                 }
@@ -148,8 +187,8 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    private void initTabMenu(){
-        ViewPager mMain_Pagger = (ViewPager) findViewById(R.id.main_pagger);
+    private void initTabMenu() {
+        final ViewPager mMain_Pagger = (ViewPager) findViewById(R.id.main_pagger);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
         RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
@@ -192,7 +231,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_guide:
 
                 final Dialog dialog = new Dialog(this);
@@ -202,7 +241,7 @@ public class MainActivity extends BaseActivity
                 final SliderLayout slider_tutorial = (SliderLayout)
                         dialog.findViewById(R.id.slider_tutorial);
 
-                if (tutorialImage.isEmpty()){
+                if (tutorialImage.isEmpty()) {
                     Call<TutorialResponse> tutorial = Eztytopup.getsAPIService().getTutorial();
                     tutorial.enqueue(new Callback<TutorialResponse>() {
                         @Override
@@ -221,7 +260,7 @@ public class MainActivity extends BaseActivity
                             dialog.dismiss();
                         }
                     });
-                }else {
+                } else {
                     initSlider(slider_tutorial, tutorialImage);
                 }
 
@@ -264,11 +303,11 @@ public class MainActivity extends BaseActivity
 
                 break;
             case R.id.nav_print:
-                if (Eztytopup.getSunmiDevice()){
+                if (Eztytopup.getSunmiDevice()) {
                     ThreadPoolManager.getInstance().executeTask(new Runnable() {
                         @Override
                         public void run() {
-                            if( Eztytopup.getmBitmap() == null ){
+                            if (Eztytopup.getmBitmap() == null) {
                         /*Change store logo, here...*/
                                 Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
                                         R.raw.ezy_for_print));
@@ -276,7 +315,7 @@ public class MainActivity extends BaseActivity
                             try {
                                 String[] text = new String[4];// 4 = set total column
                                 for (int i = 0; i < 4; i++) { // 4 = set total looping content buy
-                                    if (i == 0){
+                                    if (i == 0) {
                                 /*logo*/
                                         Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
                                         Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(), Eztytopup.getCallback());
@@ -290,7 +329,7 @@ public class MainActivity extends BaseActivity
                                 /*print*/
                                         Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
                                                 Constant.align_header, Eztytopup.getCallback());
-                                    }else {
+                                    } else {
                                         text[0] = "Steam IDR" + i;
                                         text[1] = "1";
                                         text[2] = "72.00";
@@ -309,7 +348,7 @@ public class MainActivity extends BaseActivity
                             }
                         }
                     });
-                }else {
+                } else {
                     PrintDemo.start(MainActivity.this);
                 }
 
@@ -322,7 +361,7 @@ public class MainActivity extends BaseActivity
     }
 
     /* disable this iOS not implement this API*/
-    private void setUserlogout(){
+    private void setUserlogout() {
         String token = PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeaccess_token_key);
         String deviceid = PreferenceUtils.getSinglePrefrenceString(this,
@@ -334,10 +373,10 @@ public class MainActivity extends BaseActivity
             public void onResponse(Call<TokencheckResponse> call, Response<TokencheckResponse> response) {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
-                                .equals(String.valueOf(HttpURLConnection.HTTP_NO_CONTENT))){
+                                .equals(String.valueOf(HttpURLConnection.HTTP_NO_CONTENT))) {
                     PreferenceUtils.destroyUserSession(MainActivity.this);
                     Login.start(MainActivity.this);
-                }else {
+                } else {
                     Log.i(TAG, "onResponse: " + response.body().status.getMessage());
                 }
             }
