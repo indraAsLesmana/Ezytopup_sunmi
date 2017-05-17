@@ -352,6 +352,15 @@ public class MainActivity extends BaseActivity
         });
     }
 
+    // TODO : if this not set, after app resume always set to false. must fix latter
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Eztytopup.setIsUserReseller(PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
+                ? Boolean.FALSE : Boolean.TRUE);
+    }
+
     @Override
     public void initView() {
 

@@ -106,7 +106,10 @@ public class Eztytopup extends Application {
         tamplateActive = new ArrayList<>();
         loadPaymentInfo();
         loadGiftTamplte();
-        isPrinterConnected = Boolean.FALSE;
+
+        isUserReseller = PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
+                ? Boolean.FALSE : Boolean.TRUE;
 
         if (Build.BRAND.equals("SUNMI")
                 && Build.DEVICE.equals("V1")){
@@ -121,14 +124,6 @@ public class Eztytopup extends Application {
 
         setDeviceId();
         isUserReseller = Boolean.FALSE;
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        if (mBTprintService != null)
-            mBTprintService.stop();
-        mBTprintService = null;
     }
 
     /**
