@@ -1,5 +1,8 @@
 package com.ezytopup.salesapp.api;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by indraaguslesmana on 5/17/17.
  */
@@ -17,6 +20,13 @@ public class BuynowReseller {
 
     public BuynowReseller() {
     }
+    @SerializedName("status")
+    @Expose
+    public BestSellerResponse.Status status;
+
+    public BestSellerResponse.Status getStatus() {
+        return status;
+    }
 
     public BuynowReseller(String deviceId, String productId, String email, String customerId,
                           String sessionName, String sellerId, String sellerPassword,
@@ -32,4 +42,93 @@ public class BuynowReseller {
         this.sellerKasirname = sellerKasirname;
     }
 
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getSessionName() {
+        return sessionName;
+    }
+
+    public void setSessionName(String sessionName) {
+        this.sessionName = sessionName;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public String getSellerPassword() {
+        return sellerPassword;
+    }
+
+    public void setSellerPassword(String sellerPassword) {
+        this.sellerPassword = sellerPassword;
+    }
+
+    public String getSellerShopname() {
+        return sellerShopname;
+    }
+
+    public void setSellerShopname(String sellerShopname) {
+        this.sellerShopname = sellerShopname;
+    }
+
+    public String getSellerKasirname() {
+        return sellerKasirname;
+    }
+
+    public void setSellerKasirname(String sellerKasirname) {
+        this.sellerKasirname = sellerKasirname;
+    }
+
+    public static class Status {
+
+        @SerializedName("code")
+        @Expose
+        public String code;
+        @SerializedName("message")
+        @Expose
+        public String message;
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
 }

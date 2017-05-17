@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.api.BuynowReseller;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
@@ -48,7 +49,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     private static final String TAG = "BuyResellerActivity";
     private Button buynowButton, cancelButton;
     private String productId, productName, productImage, productBackground, productPrice;
-    private TextView mSubtotal, mTotal, mQty, info1, info2, info3, buy_desc;
+    private TextView mSubtotal, mTotal, mQty, info1, info2, info3, buy_desc, textView4;
     private ArrayList<DetailProductResponse.Result> results;
 
     private static final int REQUEST_CONNECT_DEVICE = 1;
@@ -94,11 +95,19 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         ImageView mProductImage = (ImageView) findViewById(R.id.buy_productimages);
         TextView mProductTitle = (TextView) findViewById(R.id.buy_producttitle);
         TextView mProductPrice = (TextView) findViewById(R.id.buy_productprice);
+        textView4 = (TextView) findViewById(R.id.textView4);
         info1 = (TextView) findViewById(R.id.buy_info1);
         info2 = (TextView) findViewById(R.id.buy_info2);
         info3 = (TextView) findViewById(R.id.buy_info3);
         mTotal = (TextView) findViewById(R.id.buy_total);
         mSubtotal = (TextView) findViewById(R.id.buy_subtotal);
+        buy_desc = (TextView) findViewById(R.id.buy_description);
+
+        //disable information detail
+        textView4.setVisibility(View.GONE);
+        info1.setVisibility(View.GONE);
+        info2.setVisibility(View.GONE);
+        info3.setVisibility(View.GONE);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -118,7 +127,58 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                 .into(mProductImage);
         mTotal.setText(productPrice);
         mSubtotal.setText(productPrice);
+
+        getDetailProduct();
     }
+    private void buyNowReseller(){
+        String deviceId = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
+                R.string.settings_def_storeidevice_key);
+        String email = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
+                R.string.settings_def_storeemail_key);
+        String customerId = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
+                R.string.settings_def_uid_key);
+        String token = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
+                R.string.settings_def_storeaccess_token_key);
+        String sellerId = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
+                R.string.settings_def_sellerid_key);
+        String sellerShopName = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
+                R.string.settings_def_sellershopname_key);
+        String sellerKasirName = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
+                R.string.settings_def_sellerkasirname_key);
+
+        Helper.log(TAG, deviceId + "  "+
+                email + "  "+
+                customerId + "  "+
+                token + "  "+
+                sellerId + "  "+
+                sellerShopName + "  "+
+                sellerKasirName, null);
+
+        BuynowReseller itemBuy = new BuynowReseller(
+            deviceId, "Product Test 01 aaa", email, customerId, token,
+                sellerId, "12341234", sellerShopName, sellerKasirName);
+
+        Call<BuynowReseller> buyProduct = Eztytopup.getsAPIService().getBuyreseller(itemBuy);
+        buyProduct.enqueue(new Callback<BuynowReseller>() {
+            @Override
+            public void onResponse(Call<BuynowReseller> call, Response<BuynowReseller> response) {
+                if (response.isSuccessful() && response.body()
+                        .status.getCode().equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+
+                }else {
+                    Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BuynowReseller> call, Throwable t) {
+                Toast.makeText(BuyResellerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     private void getDetailProduct(){
         Call<DetailProductResponse> product = Eztytopup.getsAPIService().
                 getDetailProduct(productId);
@@ -131,9 +191,6 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     results.addAll(response.body().result);
                     DetailProductResponse.Result r = results.get(0);
-                    info1.setText(r.getInfo1());
-                    info2.setText(r.getInfo2());
-                    info3.setText(r.getInfo3());
                     buy_desc.setText(r.getDescription());
                 }else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
@@ -253,7 +310,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.btnCancel:
-                finish();
+                buyNowReseller();
+//                finish();
                 break;
         }
         
