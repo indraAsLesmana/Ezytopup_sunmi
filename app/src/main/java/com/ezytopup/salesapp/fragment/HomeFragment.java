@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.activity.BuyProductActivity;
+import com.ezytopup.salesapp.activity.BuyResellerActivity;
 import com.ezytopup.salesapp.activity.CategoryActivity;
+import com.ezytopup.salesapp.activity.Login;
 import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
 import com.ezytopup.salesapp.adapter.SectionListDataAdapter;
 import com.ezytopup.salesapp.api.ProductResponse;
@@ -94,11 +96,20 @@ public class HomeFragment extends Fragment implements
 
     @Override
     public void onCardClick(ProductResponse.Product itemProduct) {
-        BuyProductActivity.start(getActivity(),
-                itemProduct.getProductId(),
-                itemProduct.getProductName(),
-                itemProduct.getImageUrl(),
-                itemProduct.getBackgroundImageUrl(),
-                itemProduct.getHargaToko());
+        if (!Eztytopup.getIsUserReseller()){
+            BuyProductActivity.start(getActivity(),
+                    itemProduct.getProductId(),
+                    itemProduct.getProductName(),
+                    itemProduct.getImageUrl(),
+                    itemProduct.getBackgroundImageUrl(),
+                    itemProduct.getHargaToko());
+        }else {
+            BuyResellerActivity.start(getActivity(),
+                    itemProduct.getProductId(),
+                    itemProduct.getProductName(),
+                    itemProduct.getImageUrl(),
+                    itemProduct.getBackgroundImageUrl(),
+                    itemProduct.getHargaToko());
+        }
     }
 }

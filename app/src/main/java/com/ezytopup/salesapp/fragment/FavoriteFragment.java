@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.activity.BuyProductActivity;
+import com.ezytopup.salesapp.activity.BuyResellerActivity;
+import com.ezytopup.salesapp.activity.Login;
 import com.ezytopup.salesapp.adapter.RecyclerList_favoriteAdapter;
 import com.ezytopup.salesapp.api.BestSellerResponse;
 import com.ezytopup.salesapp.utility.Helper;
@@ -101,11 +103,20 @@ public class FavoriteFragment extends Fragment implements
 
     @Override
     public void onCardclick(BestSellerResponse.Product product) {
-        BuyProductActivity.start(getActivity(),
-                product.getProductId(),
-                product.getProductName(),
-                product.getReviewUrl(),
-                product.getBackgroundImageUrl(),
-                product.getPrice());
+       if (!Eztytopup.getIsUserReseller()){
+           BuyProductActivity.start(getActivity(),
+                   product.getProductId(),
+                   product.getProductName(),
+                   product.getReviewUrl(),
+                   product.getBackgroundImageUrl(),
+                   product.getPrice());
+       }else {
+           BuyResellerActivity.start(getActivity(),
+                   product.getProductId(),
+                   product.getProductName(),
+                   product.getReviewUrl(),
+                   product.getBackgroundImageUrl(),
+                   product.getPrice());
+       }
     }
 }

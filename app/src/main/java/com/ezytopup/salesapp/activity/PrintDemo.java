@@ -2,22 +2,45 @@ package com.ezytopup.salesapp.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.utility.Helper;
+import com.ezytopup.salesapp.utility.PreferenceUtils;
 import com.zj.btsdk.BluetoothService;
 import com.zj.btsdk.PrintPic;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class PrintDemo extends Activity {
 	Button btnSearch;
@@ -84,7 +107,8 @@ public class PrintDemo extends Activity {
 			mService.stop();
 		mService = null; 
 	}
-	
+	String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
+
 	class ClickEvent implements View.OnClickListener {
 		public void onClick(View v) {
 			if (v == btnSearch) {			
@@ -98,24 +122,62 @@ public class PrintDemo extends Activity {
 			} else if (v == btnClose) {
 				mService.stop();
 			} else if (v == btnSendDraw) {
-				printImage(); // Header
+				/*printImage(); // Header
 				byte[] cmd = new byte[3];
 				cmd[0] = 0x1b;
 				cmd[1] = 0x21;
 				mService.write(cmd);
 				mService.sendMessage("Jl. Pangeran Jayakarta No. 129 \n" +
 						"     Jakarta Pusat - 10730  \n", "GBK");
+				cmd[1] = 0x21;
+				mService.write(cmd);
+				mService.sendMessage("Steam Wallet IDR \n", "GBK");
+
+				cmd[1] = 0x21;
+				mService.write(cmd);
+				mService.sendMessage("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
+						"sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n", "GBK");
 
 				cmd[2] &= 0xEF;
 				mService.write(cmd);
 				mService.sendMessage("Your Voucher code is : \n","GBK");
-				cmd[2] |= 0x10;
+				cmd[2] |= 0x69;
 				mService.write(cmd);
-				mService.sendMessage("JJ4A1 - L120O - 1IG6S - ABG6S \n\n", "GBK");
+				mService.sendMessage(Helper.printTextCenter(code) + "\n", "GBK");*/
+
+				/*Make font reverse
+				byte[] cmd = new byte[3];
+				cmd[0] = 0x1B;
+				cmd[1] = 0x7B;
+				cmd[2] = 0x1;*/
+
+				/*
+				make 1 line feed (space)
+				cmd[0] = 0x0A;
+				mService.write(cmd);*/
+
+				/*
+				make bold
+				cmd[0] = 0x1B;
+				cmd[1] = 0x45;
+				cmd[2] = 0x1;
+				mService.write(cmd);*/
+
+				/*
+				Selecting print mode
+				 */
+
+				byte[] cmd = new byte[5];
+				cmd[0] = 0x1b;
+				cmd[1] = 0x21;
+				cmd[2] = 0x10;
+				cmd[3] = 0x20;
+				mService.write(cmd);
+				mService.sendMessage(code + "\n", "GBK");
 			}
 		}
 	}
-	
+
     /**
      *  Handler BluetoothService
      */
@@ -178,7 +240,6 @@ public class PrintDemo extends Activity {
             break;
         }
     }
-    
 
     @SuppressLint("SdCardPath")
 	private void printImage() {
@@ -186,7 +247,7 @@ public class PrintDemo extends Activity {
     	PrintPic pg = new PrintPic();
     	pg.initCanvas(384);     
     	pg.initPaint();
-    	pg.drawImage(100, 0, "/mnt/sdcard/ezy_for_print.jpg"); //this from internal storage.
+		pg.drawImage(100, 0, "/mnt/sdcard/ezy_for_print.jpg"); //this from internal storage.
 		sendData = pg.printDraw();
     	mService.write(sendData);
     }

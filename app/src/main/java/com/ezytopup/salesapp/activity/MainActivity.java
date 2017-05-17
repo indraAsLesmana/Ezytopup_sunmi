@@ -2,12 +2,15 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.RemoteException;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
@@ -30,6 +33,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.adapter.CustomViewPager;
 import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.TokencheckResponse;
@@ -40,6 +44,7 @@ import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -142,6 +147,12 @@ public class MainActivity extends BaseActivity
             }
         }
 
+        if (!PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)){
+            Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
+                    R.string.settings_def_sellerprintlogo_key));
+        }
+
         getImageHeader();
         initTabMenu();
         Helper.log(TAG, "setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
@@ -187,8 +198,10 @@ public class MainActivity extends BaseActivity
         });
     }
 
+
     private void initTabMenu() {
         final ViewPager mMain_Pagger = (ViewPager) findViewById(R.id.main_pagger);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
         RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
@@ -197,16 +210,6 @@ public class MainActivity extends BaseActivity
         mMain_Pagger.setAdapter(adapter);
         tabLayout.setupWithViewPager(mMain_Pagger);
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -303,55 +306,7 @@ public class MainActivity extends BaseActivity
 
                 break;
             case R.id.nav_print:
-                if (Eztytopup.getSunmiDevice()) {
-                    ThreadPoolManager.getInstance().executeTask(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (Eztytopup.getmBitmap() == null) {
-                        /*Change store logo, here...*/
-                                Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
-                                        R.raw.ezy_for_print));
-                            }
-                            try {
-                                String[] text = new String[4];// 4 = set total column
-                                for (int i = 0; i < 4; i++) { // 4 = set total looping content buy
-                                    if (i == 0) {
-                                /*logo*/
-                                        Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                                        Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(), Eztytopup.getCallback());
-                                        Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                                        Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
-                                /*header*/
-                                        text[0] = Constant.ROW_NAME;
-                                        text[1] = Constant.ROW_QUANTITY;
-                                        text[2] = Constant.ROW_PRICE;
-                                        text[3] = Constant.ROW_TOTAL_PRICE;
-                                /*print*/
-                                        Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
-                                                Constant.align_header, Eztytopup.getCallback());
-                                    } else {
-                                        text[0] = "Steam IDR" + i;
-                                        text[1] = "1";
-                                        text[2] = "72.00";
-                                        text[3] = "48.00";
-                                        Eztytopup.getWoyouService().printColumnsText(text, Constant.width,
-                                                Constant.align, Eztytopup.getCallback());
-                                    }
-
-                                }
-                        /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
-
-                            } catch (RemoteException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                } else {
-                    PrintDemo.start(MainActivity.this);
-                }
-
+ 
                 break;
         }
 
@@ -386,6 +341,15 @@ public class MainActivity extends BaseActivity
 
             }
         });
+    }
+
+    // TODO : if this not set, after app resume always set to false. must fix latter
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Eztytopup.setIsUserReseller(PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
+                ? Boolean.FALSE : Boolean.TRUE);
     }
 
     @Override

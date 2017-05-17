@@ -1,8 +1,13 @@
 package com.ezytopup.salesapp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,10 +33,13 @@ import com.ezytopup.salesapp.adapter.RecyclerList_bankoptionAdapter;
 import com.ezytopup.salesapp.api.PaymentResponse;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.api.TamplateResponse;
+import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.zj.btsdk.PrintPic;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -74,6 +82,9 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     private RadioButton rd_epayment, rd_banktransfer, rd_creditcard, rd_wallet;
     private ConstraintLayout bg_product;
     private RecyclerView rViewListEZ, rViewListCC, rViewListBT, rViewListIB;
+    private static final int REQUEST_CONNECT_DEVICE = 1;
+    private static final int REQUEST_ENABLE_BT = 2;
+    private BluetoothDevice con_dev = null;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -407,7 +418,146 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBuyNow:
-                String uid = PreferenceUtils.getSinglePrefrenceString(this, R.string.settings_def_uid_key);
+                if (!Eztytopup.getSunmiDevice()){
+                    if (Eztytopup.getmBTprintService().isAvailable()){              // is blutooth exist on that device?
+                        if (!Eztytopup.getmBTprintService().isBTopen()){            // is blutooth Enable on that device?
+                            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+                        }else if (!Eztytopup.getIsPrinterConnected()){              // is bluetooth connected to printer?
+                            Intent serverIntent = new Intent(BuyProductActivity.this,
+                                    DeviceListActivity.class);
+                            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+                        }else {
+                            String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
+                            if (!printImage()){ // logo print
+                                return;
+                            }
+                            byte[] cmd = new byte[5];
+                            cmd[0] = 0x1b;
+                            cmd[1] = 0x21;
+                            Eztytopup.getmBTprintService().write(cmd);
+                            Eztytopup.getmBTprintService().sendMessage("Jl. Pangeran Jayakarta No. 129 \n"
+                                    + "     Jakarta Pusat - 10730  \n", "GBK");
+
+                            Eztytopup.getmBTprintService().write(cmd);
+                            Eztytopup.getmBTprintService().sendMessage(productName + "\n", "GBK");
+
+                            Eztytopup.getmBTprintService().write(cmd);
+                            Eztytopup.getmBTprintService()
+                                    .sendMessage("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
+                                            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n", "GBK");
+
+                            cmd[2] &= 0xEF;
+                            Eztytopup.getmBTprintService().write(cmd);
+                            Eztytopup.getmBTprintService().sendMessage("Your Voucher code is : \n","GBK");
+                            cmd[2] = 0x10;
+                            cmd[3] = 0x20;
+                            Eztytopup.getmBTprintService().write(cmd);
+                            Eztytopup.getmBTprintService().sendMessage(Helper.printTextCenter(code) +
+                                    "\n", "GBK");
+                        }
+                    }else {
+                        Toast.makeText(this, R.string.bluetooth_notfound, Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    ThreadPoolManager.getInstance().executeTask(new Runnable() {
+                        @Override
+                        public void run() {
+                            if( Eztytopup.getmBitmap() == null ){
+                        /*Change store logo, here...*/
+                                Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
+                                        R.raw.ezy_for_print));
+                            }
+                            try {
+                                String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
+
+                                /*logo*/
+                                Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
+                                Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
+                                        Eztytopup.getCallback());
+                                 /* make space*/
+                                Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                                Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
+                                Eztytopup.getWoyouService().printText("Jl. Pangeran Jayakarta No. 129 \n"
+                                        + "Jakarta Pusat - 10730", Eztytopup.getCallback());
+                                 /* make space*/
+                                Eztytopup.getWoyouService().lineWrap(2, Eztytopup.getCallback());
+                                Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
+                                Eztytopup.getWoyouService().printOriginalText("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
+                                        "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n",
+                                        Eztytopup.getCallback());
+                                 /* make space*/
+                                Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                                Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
+                                Eztytopup.getWoyouService().printOriginalText("Your Voucher code is : \n",
+                                        Eztytopup.getCallback());
+                                 /* make space*/
+                                Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                                Eztytopup.getWoyouService().printTextWithFont(code
+                                        ,"gh", 32, Eztytopup.getCallback());
+
+                                /* make space*/
+                                Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
+
+                            } catch (RemoteException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+
+                break;
+            case R.id.btnCancel:
+                break;
+        }
+    }
+
+    // TODO : print will still printed, no Flag to dot print. i'll fix latter
+    @SuppressLint("SdCardPath")
+    private Boolean printImage() {
+        File file = new File("/mnt/sdcard/Ezytopup/print_logo.jpg");
+        if (!file.exists()) {
+            Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
+                    R.string.settings_def_sellerprintlogo_key));
+            Toast.makeText(this, R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();
+            return Boolean.FALSE;
+        }else {
+            byte[] sendData = null;
+            PrintPic pg = new PrintPic();
+            pg.initCanvas(384);
+            pg.initPaint();
+            pg.drawImage(100, 0, "/mnt/sdcard/Ezytopup/print_logo.jpg");
+            sendData = pg.printDraw();
+            Eztytopup.getmBTprintService().write(sendData);
+            return Boolean.TRUE;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_ENABLE_BT:
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(this, R.string.bluetooth_open, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, R.string.failed_open_bluetooth, Toast.LENGTH_LONG).show();
+                }
+                break;
+            case  REQUEST_CONNECT_DEVICE:
+                if (resultCode == Activity.RESULT_OK) {
+                    String address = data.getExtras()
+                            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+                    con_dev = Eztytopup.getmBTprintService().getDevByMac(address);
+
+                    Eztytopup.getmBTprintService().connect(con_dev);
+                }
+                break;
+        }
+    }
+
+    private void buyforEndUser(){
+        String uid = PreferenceUtils.getSinglePrefrenceString(this, R.string.settings_def_uid_key);
                 final String token = PreferenceUtils.getSinglePrefrenceString(this,
                         R.string.settings_def_storeaccess_token_key);
                 if (getPaymentDetail().getId() == null){
@@ -484,11 +634,6 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                         Toast.makeText(BuyProductActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                break;
-            case R.id.btnCancel:
-                break;
-        }
     }
 
     //just copy from last developer

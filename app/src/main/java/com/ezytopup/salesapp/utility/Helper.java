@@ -1,7 +1,11 @@
 package com.ezytopup.salesapp.utility;
 
+import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +15,7 @@ import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.Authrequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -89,8 +94,16 @@ public class Helper {
                             response.body().getUser().getEmail(),
                             response.body().getUser().getPhoneNumber(),
                             response.body().getUser().getAccessToken(),
-                            response.body().getUser().getImageUser());
-
+                            response.body().getUser().getImageUser(),
+                            response.body().getUser().getSellerShopName(),
+                            response.body().getUser().getSellerKasirName(),
+                            response.body().getUser().getSellerPhone(),
+                            response.body().getUser().getSellerAddress(),
+                            response.body().getUser().getSellerWebsite(),
+                            response.body().getUser().getSellerLogo(),
+                            response.body().getUser().getSellerPrintLogo(),
+                            response.body().getUser().getSellerWarnaBg(),
+                            response.body().getUser().getSellerId());
                 }
             }
 
@@ -99,6 +112,25 @@ public class Helper {
 
             }
         });
+    }
+
+    public static String printTextCenter(String src) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String finalString = null;
+        if (src.length() < 30) {
+            int n = 30 - src.length();
+            int space = n / 2;
+
+            for (int i = 0; i <= space; i++) {
+                stringBuilder.append(" ");
+            }
+            stringBuilder.append(src);
+            for (int i = 0; i <= space; i++) {
+                stringBuilder.append(" ");
+            }
+            finalString = stringBuilder.toString();
+        }
+        return finalString;
     }
 
     public static void log(String TAG, String message, Throwable throwable) {
@@ -122,5 +154,36 @@ public class Helper {
             }
         });
         snackbar.show();
+    }
+
+    // TODO : Download manager need permission on > Marshollow
+    public static void downloadFile(Context context, String uRl) {
+        File direct = new File(Environment.getExternalStorageDirectory()
+                + "/Ezytopup");
+
+        if (!direct.exists()) {
+            direct.mkdirs();
+        }
+
+        @SuppressLint("SdCardPath")
+        File file = new File("/mnt/sdcard/Ezytopup/print_logo.jpg");
+        if (file.exists()){
+            return;
+        }else {
+            DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+            Uri downloadUri = Uri.parse(uRl);
+            DownloadManager.Request request = new DownloadManager.Request(
+                    downloadUri);
+
+            request.setAllowedNetworkTypes(
+                    DownloadManager.Request.NETWORK_WIFI
+                            | DownloadManager.Request.NETWORK_MOBILE)
+                    .setAllowedOverRoaming(false).setTitle("Ezytopup")
+                    .setDescription("Ezytopup resouce folder")
+                    .setDestinationInExternalPublicDir("/Ezytopup", "print_logo.jpg");
+
+            mgr.enqueue(request);
+        }
     }
 }

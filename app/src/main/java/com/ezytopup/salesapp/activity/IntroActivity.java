@@ -58,13 +58,12 @@ public class IntroActivity extends AppCompatActivity{
 
     private void tokenCheck(String lastToken){
         intro_errorcontainer.setVisibility(View.GONE);
-        //TODO : uncomment again after server backOnline
-        /*if (!lastToken.equals(Constant.PREF_NULL)){
+        if (!lastToken.equals(Constant.PREF_NULL)){
             tokenValidityCheck(lastToken);
         }else {
-        }*/
-        PreferenceUtils.destroyUserSession(IntroActivity.this);
-        Login.start(IntroActivity.this);
+            PreferenceUtils.destroyUserSession(IntroActivity.this);
+            Login.start(IntroActivity.this);
+        }
     }
 
     private void tokenValidityCheck(String token){

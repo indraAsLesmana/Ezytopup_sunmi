@@ -67,7 +67,7 @@ public class Eztytopup extends Application {
     private static Boolean isSunmiDevice;
     private static BluetoothService mBTprintService = null;
     private static Boolean isPrinterConnected;
-
+    private static Boolean isUserReseller;
 
     @Override
     public void onCreate() {
@@ -106,7 +106,10 @@ public class Eztytopup extends Application {
         tamplateActive = new ArrayList<>();
         loadPaymentInfo();
         loadGiftTamplte();
-        isPrinterConnected = Boolean.FALSE;
+
+        isUserReseller = PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
+                ? Boolean.FALSE : Boolean.TRUE;
 
         if (Build.BRAND.equals("SUNMI")
                 && Build.DEVICE.equals("V1")){
@@ -120,14 +123,7 @@ public class Eztytopup extends Application {
         }
 
         setDeviceId();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        if (mBTprintService != null)
-            mBTprintService.stop();
-        mBTprintService = null;
+        isUserReseller = Boolean.FALSE;
     }
 
     /**
@@ -366,6 +362,14 @@ public class Eztytopup extends Application {
 
                 break;
         }
+    }
+
+    public static Boolean getIsUserReseller() {
+        return isUserReseller;
+    }
+
+    public static void setIsUserReseller(Boolean isUserReseller) {
+        Eztytopup.isUserReseller = isUserReseller;
     }
 
     public static Boolean getIsPrinterConnected() {

@@ -139,6 +139,7 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_skipregistration) {
+            Eztytopup.setIsUserReseller(Boolean.FALSE);
             MainActivity.start(Login.this);
             return true;
         }
@@ -373,7 +374,20 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
                             response.body().getUser().getEmail(),
                             response.body().getUser().getPhoneNumber(),
                             response.body().getUser().getAccessToken(),
-                            response.body().getUser().getImageUser());
+                            response.body().getUser().getImageUser(),
+                            response.body().getUser().getSellerShopName(),
+                            response.body().getUser().getSellerKasirName(),
+                            response.body().getUser().getSellerPhone(),
+                            response.body().getUser().getSellerAddress(),
+                            response.body().getUser().getSellerWebsite(),
+                            response.body().getUser().getSellerLogo(),
+                            response.body().getUser().getSellerPrintLogo(),
+                            response.body().getUser().getSellerWarnaBg(),
+                            response.body().getUser().getSellerId());
+
+                    Eztytopup.setIsUserReseller(PreferenceUtils.getSinglePrefrenceString(Login.this,
+                            R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
+                            ? Boolean.FALSE : Boolean.TRUE);
 
                     MainActivity.start(Login.this);
                 }else {
@@ -389,7 +403,6 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
                 showProgress(false);
             }
         });
-
     }
 }
 

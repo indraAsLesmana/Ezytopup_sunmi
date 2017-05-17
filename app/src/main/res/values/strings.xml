@@ -95,6 +95,42 @@
     <string name="settings_def_storeidevice_key" translatable="false">def_deviceid</string>
     <string name="settings_def_storeidevice_default" translatable="false">-</string>
 
+ <!-- Store seller_shop_name -->
+    <string name="settings_def_sellershopname_label">Shop name</string>
+    <string name="settings_def_sellershopname_key" translatable="false">def_sellershopname</string>
+    <string name="settings_def_sellershopname_default" translatable="false">-</string>
+ <!-- Store seller_kasir_name -->
+    <string name="settings_def_sellerkasirname_label">Cashier name</string>
+    <string name="settings_def_sellerkasirname_key" translatable="false">def_sellerkasirname</string>
+    <string name="settings_def_sellerkasirname_default" translatable="false">-</string>
+ <!-- Store seller_phone -->
+    <string name="settings_def_sellerphone_label">Seller phone</string>
+    <string name="settings_def_sellerphone_key" translatable="false">def_sellerphone</string>
+    <string name="settings_def_sellerphone_default" translatable="false">-</string>
+ <!-- Store seller_address -->
+    <string name="settings_def_selleraddress_label">Seller address</string>
+    <string name="settings_def_selleraddress_key" translatable="false">def_selleraddress</string>
+    <string name="settings_def_selleraddress_default" translatable="false">-</string>
+ <!-- Store seller_website -->
+    <string name="settings_def_sellerwebsite_label">Seller website</string>
+    <string name="settings_def_sellerwebsite_key" translatable="false">def_sellerwebsite</string>
+    <string name="settings_def_sellerwebsite_default" translatable="false">-</string>
+ <!-- Store seller_logo -->
+    <string name="settings_def_sellerlogo_label">Seller logo</string>
+    <string name="settings_def_sellerlogo_key" translatable="false">def_sellerlogo</string>
+    <string name="settings_def_sellerlogo_default" translatable="false">-</string>
+ <!-- Store seller_print_logo -->
+    <string name="settings_def_sellerprintlogo_label">Seller print logo</string>
+    <string name="settings_def_sellerprintlogo_key" translatable="false">def_sellerprintlogo</string>
+    <string name="settings_def_sellerprintlogo_default" translatable="false">-</string>
+    <!-- Store seller_warna_bg -->
+    <string name="settings_def_sellerwarnabg_label">Seller color background</string>
+    <string name="settings_def_sellerwarnabg_key" translatable="false">def_sellerwarnabg</string>
+    <string name="settings_def_sellerwarnabg_default" translatable="false">-</string>
+    <!-- Store seller_id -->
+    <string name="settings_def_sellerid_label">Seller id</string>
+    <string name="settings_def_sellerid_key" translatable="false">def_sellerid</string>
+    <string name="settings_def_sellerid_default" translatable="false">-</string>
 
     <string name="print">Print</string>
     <string name="action_print_invoice">Print invoice</string>
@@ -192,6 +228,8 @@
     <string name="paired_printer">Paired printer</string>
     <string name="other_devices">Other Available Devices</string>
     <string name="reload">Reload</string>
+    <string name="failed_open_bluetooth">Failed open bluetooth</string>
+    <string name="please_wait_imageprint">Please wait image on progress download</string>
 
     <string-array name="dummy_data">
         <item>One</item>
