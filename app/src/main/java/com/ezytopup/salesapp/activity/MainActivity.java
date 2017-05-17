@@ -200,7 +200,7 @@ public class MainActivity extends BaseActivity
 
 
     private void initTabMenu() {
-        final ViewPager mMain_Pagger = (ViewPager) findViewById(R.id.main_pagger);
+        final CustomViewPager mMain_Pagger = (CustomViewPager) findViewById(R.id.main_pagger);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
