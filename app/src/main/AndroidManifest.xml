@@ -74,6 +74,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activity.BuyResellerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activity.ListCategoryActivity"
             android:screenOrientation="portrait" />
         <activity

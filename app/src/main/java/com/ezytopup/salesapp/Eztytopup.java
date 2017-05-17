@@ -67,7 +67,7 @@ public class Eztytopup extends Application {
     private static Boolean isSunmiDevice;
     private static BluetoothService mBTprintService = null;
     private static Boolean isPrinterConnected;
-
+    private static Boolean isUserReseller;
 
     @Override
     public void onCreate() {
@@ -120,6 +120,7 @@ public class Eztytopup extends Application {
         }
 
         setDeviceId();
+        isUserReseller = Boolean.FALSE;
     }
 
     @Override
@@ -366,6 +367,14 @@ public class Eztytopup extends Application {
 
                 break;
         }
+    }
+
+    public static Boolean getIsUserReseller() {
+        return isUserReseller;
+    }
+
+    public static void setIsUserReseller(Boolean isUserReseller) {
+        Eztytopup.isUserReseller = isUserReseller;
     }
 
     public static Boolean getIsPrinterConnected() {

@@ -36,6 +36,8 @@ public class PreferenceUtils {
         editor.putString(context.getString(R.string.settings_def_sellerphone_key), seller_phone);
         editor.putString(context.getString(R.string.settings_def_selleraddress_key), seller_address);
         editor.putString(context.getString(R.string.settings_def_sellerwebsite_key), seller_website);
+        editor.putString(context.getString(R.string.settings_def_sellerlogo_key), seller_logo);
+        editor.putString(context.getString(R.string.settings_def_sellerprintlogo_key), seller_print_logo);
         editor.putString(context.getString(R.string.settings_def_sellerwarnabg_key), seller_warna_bg);
         editor.putString(context.getString(R.string.settings_def_sellerid_key), seller_id);
         editor.apply();

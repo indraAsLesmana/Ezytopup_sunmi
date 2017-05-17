@@ -156,6 +156,7 @@ public class Helper {
         snackbar.show();
     }
 
+    // TODO : Download manager need permission on > Marshollow
     public static void downloadFile(Context context, String uRl) {
         File direct = new File(Environment.getExternalStorageDirectory()
                 + "/Ezytopup");

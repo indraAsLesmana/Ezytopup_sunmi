@@ -114,11 +114,20 @@ public class CategoryActivity extends BaseActivity implements
 
     @Override
     public void onCardClick(CategoryResponse.Product product) {
-        BuyProductActivity.start(this,
-                product.getProductId(),
-                product.getProductName(),
-                product.getReviewUrl(),
-                product.getBackgroundImageUrl(),
-                product.getPrice());
+        if (!Eztytopup.getIsUserReseller()){
+            BuyProductActivity.start(this,
+                    product.getProductId(),
+                    product.getProductName(),
+                    product.getReviewUrl(),
+                    product.getBackgroundImageUrl(),
+                    product.getPrice());
+        }else {
+            BuyResellerActivity.start(this,
+                    product.getProductId(),
+                    product.getProductName(),
+                    product.getReviewUrl(),
+                    product.getBackgroundImageUrl(),
+                    product.getPrice());
+        }
     }
 }
