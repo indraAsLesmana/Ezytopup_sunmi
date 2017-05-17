@@ -12,14 +12,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/nav_image_view"
+        android:src="@drawable/ic_launcher"
+        app:riv_corner_radius="5dp"
+        app:riv_border_width="0dp"
+        app:riv_oval="true"
+        android:layout_marginTop="30dp" />
 
     <TextView
+        android:id="@+id/nav_user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -27,7 +31,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nav_user_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="android.studio@android.com" />
