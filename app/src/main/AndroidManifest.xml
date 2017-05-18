@@ -111,6 +111,9 @@
         <activity
             android:name=".activity.TutorialActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ContactUsActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

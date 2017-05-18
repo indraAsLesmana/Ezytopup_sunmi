@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity
             nav_user_name.setText(firstName + " " + lastName);
             nav_user_email.setText(userMail);
 
-            if(imageUrl != null){
+            if (imageUrl != null) {
                 Glide.with(this)
                         .load(imageUrl)
                         .centerCrop()
@@ -148,7 +148,7 @@ public class MainActivity extends BaseActivity
         }
 
         if (!PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)){
+                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)) {
             Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
                     R.string.settings_def_sellerprintlogo_key));
         }
@@ -283,7 +283,9 @@ public class MainActivity extends BaseActivity
                 FaqActivity.start(MainActivity.this);
 
                 break;
-
+            case R.id.nav_contactus:
+                ContactUsActivity.start(MainActivity.this);
+                break;
             case R.id.nav_tutorial:
                 TutorialActivity.start(MainActivity.this);
                 break;
@@ -310,7 +312,7 @@ public class MainActivity extends BaseActivity
 
                 break;
             case R.id.nav_print:
- 
+
                 break;
         }
 
