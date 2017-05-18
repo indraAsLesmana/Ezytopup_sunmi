@@ -56,6 +56,13 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     private EditText resellerPassword;
     private ArrayList<DetailProductResponse.Result> results;
     private RelativeLayout containerResellerbuy;
+    private TextView invoice_word1, invoice_word2, invoice_word3, invoice_word4, invoice_word5,
+            invoice_word6, invoice_word7, invoice_word8, invoice_word9, invoice_word10,
+            invoice_word11, invoice_word12, invoice_word13, invoice_word14, invoice_word15,
+            invoice_word16, invoice_word17, invoice_word18, invoice_word19, invoice_word20,
+            invoice_word21, invoice_word22, invoice_word23, invoice_word24, invoice_word25,
+            invoice_word26, invoice_word27, invoice_word28, invoice_word29, invoice_word30,
+            invoice_word31, invoice_word32, invoice_word33, invoice_word34, invoice_word35;
 
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
@@ -109,6 +116,42 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         buy_desc = (TextView) findViewById(R.id.buy_description);
         resellerPassword = (EditText) findViewById(R.id.reseller_password);
         containerResellerbuy = (RelativeLayout) findViewById(R.id.container_resellerbuy);
+        invoice_word1 = (TextView) findViewById(R.id.invoice_word1);
+        invoice_word2 = (TextView) findViewById(R.id.invoice_word2);
+        invoice_word3 = (TextView) findViewById(R.id.invoice_word3);
+        invoice_word4 = (TextView) findViewById(R.id.invoice_word4);
+        invoice_word5 = (TextView) findViewById(R.id.invoice_word5);
+        invoice_word6 = (TextView) findViewById(R.id.invoice_word6);
+        invoice_word7 = (TextView) findViewById(R.id.invoice_word7);
+        invoice_word8 = (TextView) findViewById(R.id.invoice_word8);
+        invoice_word9 = (TextView) findViewById(R.id.invoice_word9);
+        invoice_word10 = (TextView) findViewById(R.id.invoice_word10);
+        invoice_word11 = (TextView) findViewById(R.id.invoice_word11);
+        invoice_word12 = (TextView) findViewById(R.id.invoice_word12);
+        invoice_word13 = (TextView) findViewById(R.id.invoice_word13);
+        invoice_word14 = (TextView) findViewById(R.id.invoice_word14);
+        invoice_word15 = (TextView) findViewById(R.id.invoice_word15);
+        invoice_word16 = (TextView) findViewById(R.id.invoice_word16);
+        invoice_word17 = (TextView) findViewById(R.id.invoice_word17);
+        invoice_word18 = (TextView) findViewById(R.id.invoice_word18);
+        invoice_word19 = (TextView) findViewById(R.id.invoice_word19);
+        invoice_word20 = (TextView) findViewById(R.id.invoice_word20);
+        invoice_word21 = (TextView) findViewById(R.id.invoice_word21);
+        invoice_word22 = (TextView) findViewById(R.id.invoice_word22);
+        invoice_word23 = (TextView) findViewById(R.id.invoice_word23);
+        invoice_word24 = (TextView) findViewById(R.id.invoice_word24);
+        invoice_word25 = (TextView) findViewById(R.id.invoice_word25);
+        invoice_word26 = (TextView) findViewById(R.id.invoice_word26);
+        invoice_word27 = (TextView) findViewById(R.id.invoice_word27);
+        invoice_word28 = (TextView) findViewById(R.id.invoice_word28);
+        invoice_word29 = (TextView) findViewById(R.id.invoice_word29);
+        invoice_word30 = (TextView) findViewById(R.id.invoice_word30);
+        invoice_word31 = (TextView) findViewById(R.id.invoice_word31);
+        invoice_word32 = (TextView) findViewById(R.id.invoice_word32);
+        invoice_word33 = (TextView) findViewById(R.id.invoice_word33);
+        invoice_word34 = (TextView) findViewById(R.id.invoice_word34);
+        invoice_word35 = (TextView) findViewById(R.id.invoice_word35);
+
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -169,9 +212,45 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onResponse(Call<VoucherprintResponse> call, Response<VoucherprintResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
-                        .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
-                        bluetoothPrint(response);
-                }else {
+                        .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
+                    bluetoothPrint(response);
+                    invoice_word1.setText(response.body().result.baris01.trim());
+                    invoice_word2.setText(response.body().result.baris02.trim());
+                    invoice_word3.setText(response.body().result.baris03.trim());
+                    invoice_word4.setText(response.body().result.baris04.trim());
+                    invoice_word5.setText(response.body().result.baris05.trim());
+                    invoice_word6.setText(response.body().result.baris06.trim());
+                    invoice_word7.setText(response.body().result.baris07.trim());
+                    invoice_word8.setText(response.body().result.baris08.trim());
+                    invoice_word9.setText(response.body().result.baris09.trim());
+                    invoice_word10.setText(response.body().result.baris10.trim());
+                    invoice_word11.setText(response.body().result.baris11.trim());
+                    invoice_word12.setText(response.body().result.baris12.trim());
+                    invoice_word13.setText(response.body().result.baris13.trim());
+                    invoice_word14.setText(response.body().result.baris14.trim());
+                    invoice_word15.setText(response.body().result.baris15.trim());
+                    invoice_word16.setText(response.body().result.baris16.trim());
+                    invoice_word17.setText(response.body().result.baris17.trim());
+                    invoice_word18.setText(response.body().result.baris18.trim());
+                    invoice_word19.setText(response.body().result.baris19.trim());
+                    invoice_word20.setText(response.body().result.baris20.trim());
+                    invoice_word21.setText(response.body().result.baris21.trim());
+                    invoice_word22.setText(response.body().result.baris22.trim());
+                    invoice_word23.setText(response.body().result.baris23.trim());
+                    invoice_word24.setText(response.body().result.baris24.trim());
+                    invoice_word25.setText(response.body().result.baris25.trim());
+                    invoice_word26.setText(response.body().result.baris26.trim());
+                    invoice_word27.setText(response.body().result.baris27.trim());
+                    invoice_word28.setText(response.body().result.baris28.trim());
+                    invoice_word29.setText(response.body().result.baris29.trim());
+                    invoice_word30.setText(response.body().result.baris30.trim());
+                    invoice_word31.setText(response.body().result.baris31.trim());
+                    invoice_word32.setText(response.body().result.baris32.trim());
+                    invoice_word33.setText(response.body().result.baris33.trim());
+                    invoice_word34.setText(response.body().result.baris34.trim());
+                    invoice_word35.setText(response.body().result.baris35.trim());
+
+                } else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
@@ -199,6 +278,9 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     results.addAll(response.body().result);
                     DetailProductResponse.Result r = results.get(0);
+                    info1.setText(r.getInfo1());
+                    info2.setText(r.getInfo2());
+                    info3.setText(r.getInfo3());
                     buy_desc.setText(r.getDescription());
                 }else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
