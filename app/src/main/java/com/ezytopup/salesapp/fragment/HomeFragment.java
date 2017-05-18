@@ -2,7 +2,6 @@ package com.ezytopup.salesapp.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +15,6 @@ import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.activity.BuyResellerActivity;
 import com.ezytopup.salesapp.activity.CategoryActivity;
-import com.ezytopup.salesapp.activity.Login;
 import com.ezytopup.salesapp.adapter.RecyclerList_homeAdapter;
 import com.ezytopup.salesapp.adapter.SectionListDataAdapter;
 import com.ezytopup.salesapp.api.ProductResponse;

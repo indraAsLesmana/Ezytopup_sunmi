@@ -155,6 +155,18 @@ public class Helper {
         });
         snackbar.show();
     }
+    public static void snacbarError(int message, View view){
+        Helper.log(TAG, "onFailure: " + message, null);
+        final Snackbar snackbar = Snackbar.make(view, message,
+                Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
 
     // TODO : Download manager need permission on > Marshollow
     public static void downloadFile(Context context, String uRl) {

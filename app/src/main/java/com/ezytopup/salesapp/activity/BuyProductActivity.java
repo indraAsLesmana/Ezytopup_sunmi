@@ -517,7 +517,8 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
     @SuppressLint("SdCardPath")
     private Boolean printImage() {
         File file = new File("/mnt/sdcard/Ezytopup/print_logo.jpg");
-        if (!file.exists()) {
+        if (!file.exists() && !PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)) {
             Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
                     R.string.settings_def_sellerprintlogo_key));
             Toast.makeText(this, R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();

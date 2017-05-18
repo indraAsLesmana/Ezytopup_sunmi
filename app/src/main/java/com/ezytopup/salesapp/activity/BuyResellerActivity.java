@@ -12,14 +12,15 @@ import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
-import com.ezytopup.salesapp.api.BuynowReseller;
 import com.ezytopup.salesapp.api.DetailProductResponse;
 import com.ezytopup.salesapp.api.VoucherprintResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
@@ -29,14 +30,10 @@ import com.ezytopup.salesapp.utility.PreferenceUtils;
 import com.zj.btsdk.PrintPic;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +53,9 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     private Button buynowButton, cancelButton;
     private String productId, productName, productImage, productBackground, productPrice;
     private TextView mSubtotal, mTotal, info1, info2, info3, buy_desc, textView4;
+    private EditText resellerPassword;
     private ArrayList<DetailProductResponse.Result> results;
+    private RelativeLayout containerResellerbuy;
 
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
@@ -108,12 +107,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         mTotal = (TextView) findViewById(R.id.buy_total);
         mSubtotal = (TextView) findViewById(R.id.buy_subtotal);
         buy_desc = (TextView) findViewById(R.id.buy_description);
-
-        //disable information detail
-        textView4.setVisibility(View.GONE);
-        info1.setVisibility(View.GONE);
-        info2.setVisibility(View.GONE);
-        info3.setVisibility(View.GONE);
+        resellerPassword = (EditText) findViewById(R.id.reseller_password);
+        containerResellerbuy = (RelativeLayout) findViewById(R.id.container_resellerbuy);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -152,15 +147,20 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                 R.string.settings_def_sellershopname_key);
         String sellerKasirName = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
                 R.string.settings_def_sellerkasirname_key);
+        String password = resellerPassword.getText().toString();
+        if (password.isEmpty() || password.equals("")){
+            Helper.snacbarError(R.string.please_fill_password, containerResellerbuy);
+            return;
+        }
 
         HashMap<String, String> data = new HashMap<>();
         data.put("device_id", deviceId);
-        data.put("product_id", "3169");
+        data.put("product_id", "3169"); //TODO : if testing done, change to productid
         data.put("email", email);
         data.put("customerId", customerId);
         data.put("session_name", token);
         data.put("seller_id", sellerId);
-        data.put("seller_password", "12341234");
+        data.put("seller_password", password);
         data.put("seller_shop_name", sellerShopName);
         data.put("seller_kasir_name", sellerKasirName);
 
@@ -250,11 +250,11 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         
     }
     
-    // TODO : print will still printed, no Flag to dot print. i'll fix latter
     @SuppressLint("SdCardPath")
     private Boolean printImage() {
         File file = new File("/mnt/sdcard/Ezytopup/print_logo.jpg");
-        if (!file.exists()) {
+        if (!file.exists() && !PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)) {
             Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
                     R.string.settings_def_sellerprintlogo_key));
             Toast.makeText(this, R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();
@@ -361,7 +361,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     // TODO unfinish method to change bluetoothprint method
     // if decide use this method, create arraylist string and add word one by one in response.
     private void blutoothPrint2(ArrayList<String> data){
-        if (!printImage()) return;
+        printImage();
         byte[] cmd = new byte[5];
         cmd[0] = 0x1b;
         cmd[1] = 0x21;
@@ -382,7 +382,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
 
     private void bluetoothPrint(Response<VoucherprintResponse> response){
         // logo print
-        if (!printImage()) return;
+        printImage();
         byte[] cmd = new byte[5];
         cmd[0] = 0x1b;
         cmd[1] = 0x21;

@@ -2,14 +2,8 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.RemoteException;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -34,12 +28,10 @@ import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.TokencheckResponse;
 import com.ezytopup.salesapp.api.TutorialResponse;
-import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
-import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -265,8 +257,6 @@ public class MainActivity extends BaseActivity
 
                 break;
             case R.id.nav_print:
-                Helper.downloadFile(MainActivity.this, PreferenceUtils.getSinglePrefrenceString(this,
-                        R.string.settings_def_sellerprintlogo_key));
               /*  if (Eztytopup.getSunmiDevice()){
                     ThreadPoolManager.getInstance().executeTask(new Runnable() {
                         @Override
