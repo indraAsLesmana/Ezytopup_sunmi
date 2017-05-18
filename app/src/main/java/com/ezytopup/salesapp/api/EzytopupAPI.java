@@ -81,7 +81,7 @@ public interface EzytopupAPI {
     Call<ListCategoryResponse> getListCategory();
 
     @GET("WGS_API_get_order_transaction_history.php?" + API_URL_GENERALUSAGE)
-    Call<TransactionHistoryResponse> getHistory(@Header("Authorize") String token, @Query("customerId") int customerId);
+    Call<TransactionHistoryResponse> getHistory(@Header("Authorize") String token, @Query("customerId") String customerId);
     /**
      * this API i implement with object PaymentResponse have no object data, just get Message for checking result 200 or not
      * */

@@ -1,13 +1,11 @@
 package com.ezytopup.salesapp.fragment;
 
 
-import android.net.Network;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +15,8 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.Recyclerlist_HistoryAdapter;
 import com.ezytopup.salesapp.api.TransactionHistoryResponse;
+import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HTTP;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,14 +56,16 @@ public class HistoryFragment extends Fragment {
                 LinearLayoutManager.VERTICAL, false));
         adapter = new Recyclerlist_HistoryAdapter(getContext(), Allhistory);
         recycler_view.setAdapter(adapter);
-        /*int uid = PreferenceUtils.getSinglePrefrenceInt(getContext(), R.string.settings_def_uid);
-        if ( uid != 0) getHistory(uid);*/
-        String token = "4d0d9a51f6d19eed7aceccbdee98440e94543b6edf9c152c8365a2fee60a1ed030437bf1786d8674360fac4dab60eb06";
-        getHistory(token, 1485);
+        String uid = PreferenceUtils.getSinglePrefrenceString(getContext(),
+                R.string.settings_def_uid_key);
+        String token = PreferenceUtils.getSinglePrefrenceString(getContext(),
+                R.string.settings_def_storeaccess_token_key);
+        if (!uid.equals(Constant.PREF_NULL) && !token.equals(Constant.PREF_NULL))
+            getHistory(token, uid);
         return  rootView;
     }
 
-    private void getHistory(String token, int customerId) {
+    private void getHistory(String token, String customerId) {
         Call<TransactionHistoryResponse> history = Eztytopup.getsAPIService().getHistory(token, customerId);
         history.enqueue(new Callback<TransactionHistoryResponse>() {
             @Override
@@ -84,8 +85,7 @@ public class HistoryFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TransactionHistoryResponse> call, Throwable t) {
-                Log.i(TAG, "onFailure: " + t.getMessage());
-
+                Helper.apiSnacbarError(getContext(), t, rootView);
             }
         });
     }

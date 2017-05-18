@@ -18,7 +18,6 @@
         android:background="@drawable/dot_border"
         android:orientation="vertical"
         android:padding="8dp"
-        android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
