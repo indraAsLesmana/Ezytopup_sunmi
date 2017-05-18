@@ -24,11 +24,14 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
 
     private ArrayList<TransactionHistoryResponse.Result> itemList;
     private Context mContext;
+    private Recyclerlist_HistoryAdapterlistener mListener;
 
     public Recyclerlist_HistoryAdapter(Context mContext,
-                                       ArrayList<TransactionHistoryResponse.Result> itemList) {
+                                       ArrayList<TransactionHistoryResponse.Result> itemList,
+                                       Recyclerlist_HistoryAdapterlistener mListener) {
         this.itemList = itemList;
         this.mContext = mContext;
+        this.mListener = mListener;
     }
 
     @Override
@@ -58,6 +61,12 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
                         .crossFade(Constant.ITEM_CROSSFADEDURATION)
                         .into(holder.hist_image);
             }
+            holder.reprint.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onReprintClick(result);
+                }
+            });
 
         }
     }
@@ -70,7 +79,8 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
 
     public class SingleItemFavHolder extends RecyclerView.ViewHolder {
         private TextView hist_title, hist_price, hist_adminfee, hist_total,
-                hist_payment, hist_date, hist_delivery, hist_deliverydate, hist_email, hist_deviderdate;
+                hist_payment, hist_date, hist_delivery, hist_deliverydate, hist_email,
+                hist_deviderdate, reprint;
         private ImageView hist_image;
 
         public SingleItemFavHolder(View itemView) {
@@ -86,7 +96,11 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
             hist_deliverydate = (TextView) itemView.findViewById(R.id.hist_datestaus);
             hist_email = (TextView) itemView.findViewById(R.id.hist_email);
             hist_image = (ImageView) itemView.findViewById(R.id.itemImage);
+            reprint = (TextView) itemView.findViewById(R.id.reprint);
         }
+    }
+    public interface Recyclerlist_HistoryAdapterlistener{
+        void onReprintClick(TransactionHistoryResponse.Result historyItem);
     }
 
 }

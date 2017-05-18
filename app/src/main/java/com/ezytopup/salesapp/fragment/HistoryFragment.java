@@ -29,7 +29,8 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements
+        Recyclerlist_HistoryAdapter.Recyclerlist_HistoryAdapterlistener{
 
     private ArrayList<TransactionHistoryResponse.Result> Allhistory;
     private Recyclerlist_HistoryAdapter adapter;
@@ -54,7 +55,7 @@ public class HistoryFragment extends Fragment {
         recycler_view.setHasFixedSize(true);
         recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        adapter = new Recyclerlist_HistoryAdapter(getContext(), Allhistory);
+        adapter = new Recyclerlist_HistoryAdapter(getContext(), Allhistory, HistoryFragment.this);
         recycler_view.setAdapter(adapter);
         String uid = PreferenceUtils.getSinglePrefrenceString(getContext(),
                 R.string.settings_def_uid_key);
@@ -90,4 +91,8 @@ public class HistoryFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onReprintClick(TransactionHistoryResponse.Result historyItem) {
+        Toast.makeText(getContext(), historyItem.getTotal(), Toast.LENGTH_SHORT).show();
+    }
 }
