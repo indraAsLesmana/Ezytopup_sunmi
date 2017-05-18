@@ -22,9 +22,12 @@ import com.ezytopup.salesapp.api.TamplateResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.zj.btsdk.BluetoothService;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -90,9 +93,13 @@ public class Eztytopup extends Application {
                     }
                 });
 
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(Constant.API_ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okhttpClientBuilder.build());
 
         Retrofit retrofit = builder.build();
@@ -124,6 +131,13 @@ public class Eztytopup extends Application {
 
         setDeviceId();
         isUserReseller = Boolean.FALSE;
+        isPrinterConnected = Boolean.FALSE;
+
+        Class VoucherprintResponse = getClass();
+        Field[] fields = VoucherprintResponse.getFields();
+        for (Field f : fields) {
+            Helper.log(TAG, "am" + f.getName(), null);
+        }
     }
 
     /**

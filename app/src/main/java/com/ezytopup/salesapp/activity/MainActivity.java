@@ -316,6 +316,8 @@ public class MainActivity extends BaseActivity
                     PrintDemo.start(MainActivity.this);
                 }
 */
+                PrintDemo.start(MainActivity.this);
+
                 break;
         }
 

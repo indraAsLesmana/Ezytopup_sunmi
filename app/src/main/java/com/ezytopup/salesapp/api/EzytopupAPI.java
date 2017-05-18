@@ -3,6 +3,8 @@ package com.ezytopup.salesapp.api;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.utility.Constant;
 
+import java.util.HashMap;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -144,5 +146,6 @@ public interface EzytopupAPI {
                                                    @Query("phone") String phone);
 
     @POST("WGS_API_buyNow_reseller.php?" + API_URL_GENERALUSAGE)
-    Call<BuynowReseller> getBuyreseller(@Body BuynowReseller buynowReseller);
+    Call<VoucherprintResponse> getBuyreseller(@Body HashMap<String, String> data);
+
 }

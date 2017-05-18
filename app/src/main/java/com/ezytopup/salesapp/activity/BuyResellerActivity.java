@@ -21,6 +21,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.BuynowReseller;
 import com.ezytopup.salesapp.api.DetailProductResponse;
+import com.ezytopup.salesapp.api.VoucherprintResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
@@ -28,9 +29,14 @@ import com.ezytopup.salesapp.utility.PreferenceUtils;
 import com.zj.btsdk.PrintPic;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,7 +55,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     private static final String TAG = "BuyResellerActivity";
     private Button buynowButton, cancelButton;
     private String productId, productName, productImage, productBackground, productPrice;
-    private TextView mSubtotal, mTotal, mQty, info1, info2, info3, buy_desc, textView4;
+    private TextView mSubtotal, mTotal, info1, info2, info3, buy_desc, textView4;
     private ArrayList<DetailProductResponse.Result> results;
 
     private static final int REQUEST_CONNECT_DEVICE = 1;
@@ -130,6 +136,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
 
         getDetailProduct();
     }
+
     private void buyNowReseller(){
         String deviceId = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
                 R.string.settings_def_storeidevice_key);
@@ -146,25 +153,24 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         String sellerKasirName = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
                 R.string.settings_def_sellerkasirname_key);
 
-        Helper.log(TAG, deviceId + "  "+
-                email + "  "+
-                customerId + "  "+
-                token + "  "+
-                sellerId + "  "+
-                sellerShopName + "  "+
-                sellerKasirName, null);
+        HashMap<String, String> data = new HashMap<>();
+        data.put("device_id", deviceId);
+        data.put("product_id", "3169");
+        data.put("email", email);
+        data.put("customerId", customerId);
+        data.put("session_name", token);
+        data.put("seller_id", sellerId);
+        data.put("seller_password", "12341234");
+        data.put("seller_shop_name", sellerShopName);
+        data.put("seller_kasir_name", sellerKasirName);
 
-        BuynowReseller itemBuy = new BuynowReseller(
-            deviceId, "Product Test 01 aaa", email, customerId, token,
-                sellerId, "12341234", sellerShopName, sellerKasirName);
-
-        Call<BuynowReseller> buyProduct = Eztytopup.getsAPIService().getBuyreseller(itemBuy);
-        buyProduct.enqueue(new Callback<BuynowReseller>() {
+        Call<VoucherprintResponse> buyProduct = Eztytopup.getsAPIService().getBuyreseller(data);
+        buyProduct.enqueue(new Callback<VoucherprintResponse>() {
             @Override
-            public void onResponse(Call<BuynowReseller> call, Response<BuynowReseller> response) {
-                if (response.isSuccessful() && response.body()
-                        .status.getCode().equals(String.valueOf(HttpURLConnection.HTTP_OK))){
-
+            public void onResponse(Call<VoucherprintResponse> call, Response<VoucherprintResponse> response) {
+                if (response.isSuccessful() && response.body().status.getCode()
+                        .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                        bluetoothPrint(response);
                 }else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -172,8 +178,10 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
             }
 
             @Override
-            public void onFailure(Call<BuynowReseller> call, Throwable t) {
-                Toast.makeText(BuyResellerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<VoucherprintResponse> call, Throwable t) {
+                Helper.log(TAG, t.getMessage(), null);
+                Toast.makeText(BuyResellerActivity.this, t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -220,98 +228,23 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBuyNow:
-                if (!Eztytopup.getSunmiDevice()){
-                    if (Eztytopup.getmBTprintService().isAvailable()){              // is blutooth exist on that device?
-                        if (!Eztytopup.getmBTprintService().isBTopen()){            // is blutooth Enable on that device?
-                            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-                        }else if (!Eztytopup.getIsPrinterConnected()){              // is bluetooth connected to printer?
-                            Intent serverIntent = new Intent(BuyResellerActivity.this,
-                                    DeviceListActivity.class);
-                            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-                        }else {
-                            String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
-                            if (!printImage()){ // logo print
-                                return;
-                            }
-                            byte[] cmd = new byte[5];
-                            cmd[0] = 0x1b;
-                            cmd[1] = 0x21;
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService().sendMessage("Jl. Pangeran Jayakarta No. 129 \n"
-                                    + "     Jakarta Pusat - 10730  \n", "GBK");
-
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService().sendMessage(productName + "\n", "GBK");
-
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService()
-                                    .sendMessage("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
-                                            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n", "GBK");
-
-                            cmd[2] &= 0xEF;
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService().sendMessage("Your Voucher code is : \n","GBK");
-                            cmd[2] = 0x10;
-                            cmd[3] = 0x20;
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService().sendMessage(Helper.printTextCenter(code) +
-                                    "\n", "GBK");
-                        }
-                    }else {
-                        Toast.makeText(this, R.string.bluetooth_notfound, Toast.LENGTH_LONG).show();
+                if (!Eztytopup.getSunmiDevice()) {
+                    if (!Eztytopup.getmBTprintService().isBTopen()) { // is blutooth Enable on that device?
+                        Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+                    } else if (!Eztytopup.getIsPrinterConnected()) {  // is bluetooth connected to printer?
+                        Intent serverIntent = new Intent(BuyResellerActivity.this,
+                                DeviceListActivity.class);
+                        startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+                    } else {
+                        buyNowReseller();
                     }
-                }else {
-                    ThreadPoolManager.getInstance().executeTask(new Runnable() {
-                        @Override
-                        public void run() {
-                            if( Eztytopup.getmBitmap() == null ){
-                        /*Change store logo, here...*/
-                                Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
-                                        R.raw.ezy_for_print));
-                            }
-                            try {
-                                String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
-
-                                /*logo*/
-                                Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
-                                        Eztytopup.getCallback());
-                                 /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printText("Jl. Pangeran Jayakarta No. 129 \n"
-                                        + "Jakarta Pusat - 10730", Eztytopup.getCallback());
-                                 /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(2, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printOriginalText("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
-                                                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n",
-                                        Eztytopup.getCallback());
-                                 /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printOriginalText("Your Voucher code is : \n",
-                                        Eztytopup.getCallback());
-                                 /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printTextWithFont(code
-                                        ,"gh", 32, Eztytopup.getCallback());
-
-                                /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
-
-                            } catch (RemoteException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                        }
-                    });
+                } else {
+                    sunmiPrint();
                 }
                 break;
             case R.id.btnCancel:
-                buyNowReseller();
-//                finish();
+                finish();
                 break;
         }
         
@@ -368,5 +301,137 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     @Override
     public int getLayout() {
         return R.layout.activity_buyreseller;
+    }
+
+    private void sunmiPrint(){
+        ThreadPoolManager.getInstance().executeTask(new Runnable() {
+            @Override
+            public void run() {
+                if( Eztytopup.getmBitmap() == null ){
+                        /*Change store logo, here...*/
+                    Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
+                            R.raw.ezy_for_print));
+                }
+                try {
+                    String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
+
+                                /*logo*/
+                    Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
+                    Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
+                            Eztytopup.getCallback());
+                                 /* make space*/
+                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                    Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
+                    Eztytopup.getWoyouService().printText("Jl. Pangeran Jayakarta No. 129 \n"
+                            + "Jakarta Pusat - 10730", Eztytopup.getCallback());
+                                 /* make space*/
+                    Eztytopup.getWoyouService().lineWrap(2, Eztytopup.getCallback());
+                    Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
+                    Eztytopup.getWoyouService().printOriginalText("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
+                                    "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n",
+                            Eztytopup.getCallback());
+                                 /* make space*/
+                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                    Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
+                    Eztytopup.getWoyouService().printOriginalText("Your Voucher code is : \n",
+                            Eztytopup.getCallback());
+                                 /* make space*/
+                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                    Eztytopup.getWoyouService().printTextWithFont(code
+                            ,"gh", 32, Eztytopup.getCallback());
+
+                                /* make space*/
+                    Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
+
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private boolean validatePrint(String word){
+        if (!word.isEmpty()){
+            Eztytopup.getmBTprintService().sendMessage(word, "ENG");
+            return true;
+        }else {
+            return false;
+        }
+    }
+    // TODO unfinish method to change bluetoothprint method
+    // if decide use this method, create arraylist string and add word one by one in response.
+    private void blutoothPrint2(ArrayList<String> data){
+        if (!printImage()) return;
+        byte[] cmd = new byte[5];
+        cmd[0] = 0x1b;
+        cmd[1] = 0x21;
+
+        for (int i = 0; i < data.size(); i++) {
+            if (i == 0){ // Nama toko
+                cmd[2] |= 0x10;
+                Eztytopup.getmBTprintService().write(cmd);
+                if (!validatePrint(data.get(i))) return;
+            }
+
+            if (i == 1){
+
+            }
+        }
+
+    }
+
+    private void bluetoothPrint(Response<VoucherprintResponse> response){
+        // logo print
+        if (!printImage()) return;
+        byte[] cmd = new byte[5];
+        cmd[0] = 0x1b;
+        cmd[1] = 0x21;
+        cmd[2] |= 0x10;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(response.body().result.baris01)) return;
+        cmd[2] &= 0xEF;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(response.body().result.baris02)) return;
+        if (!validatePrint(response.body().result.baris03)) return;
+        if (!validatePrint(response.body().result.baris04)) return;
+        cmd[2] |= 0x10;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(response.body().result.baris05)) return;
+        cmd[2] &= 0xEF;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(response.body().result.baris06)) return;
+        if (!validatePrint(response.body().result.baris07)) return;
+        if (!validatePrint(response.body().result.baris08)) return;
+        if (!validatePrint(response.body().result.baris09)) return;
+        if (!validatePrint(response.body().result.baris10)) return;
+        if (!validatePrint(response.body().result.baris11)) return;
+        if (!validatePrint(response.body().result.baris12)) return;
+        if (!validatePrint(response.body().result.baris13)) return;
+        cmd[2] |= 0x10;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(response.body().result.baris14)) return;
+        cmd[2] &= 0xEF;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(response.body().result.baris15)) return;
+        if (!validatePrint(response.body().result.baris16)) return;
+        if (!validatePrint(response.body().result.baris17)) return;
+        if (!validatePrint(response.body().result.baris18)) return;
+        if (!validatePrint(response.body().result.baris19)) return;
+        if (!validatePrint(response.body().result.baris20)) return;
+        if (!validatePrint(response.body().result.baris21)) return;
+        if (!validatePrint(response.body().result.baris22)) return;
+        if (!validatePrint(response.body().result.baris23)) return;
+        if (!validatePrint(response.body().result.baris24)) return;
+        if (!validatePrint(response.body().result.baris25)) return;
+        if (!validatePrint(response.body().result.baris26)) return;
+        if (!validatePrint(response.body().result.baris27)) return;
+        if (!validatePrint(response.body().result.baris28)) return;
+        if (!validatePrint(response.body().result.baris29)) return;
+        if (!validatePrint(response.body().result.baris30)) return;
+        if (!validatePrint(response.body().result.baris31)) return;
+        if (!validatePrint(response.body().result.baris32)) return;
+        if (!validatePrint(response.body().result.baris33)) return;
+        if (!validatePrint(response.body().result.baris34)) return;
+        if (!validatePrint(response.body().result.baris35)) ;
     }
 }
