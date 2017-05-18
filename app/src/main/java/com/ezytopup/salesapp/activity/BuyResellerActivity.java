@@ -210,7 +210,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         Call<VoucherprintResponse> buyProduct = Eztytopup.getsAPIService().getBuyreseller(data);
         buyProduct.enqueue(new Callback<VoucherprintResponse>() {
             @Override
-            public void onResponse(Call<VoucherprintResponse> call, Response<VoucherprintResponse> response) {
+            public void onResponse(Call<VoucherprintResponse> call,
+                                   Response<VoucherprintResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
                     bluetoothPrint(response);
@@ -462,6 +463,15 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    /**
+     * 1. if you use looping, you cant expect what data perbaris is, becaouse response
+     * data not consitent.
+     * like now baris '5' respone is line, like this ("===="). 19 may 2017
+     * mybe in future isnot.
+     * this best way i have.
+     * 2. kesepakatan dgn ezytopup jika response string == "" maka print berhenti
+     *    jika response string == " " atau isEmpety() print lanjut
+     * */
     private void bluetoothPrint(Response<VoucherprintResponse> response){
         // logo print
         printImage();
