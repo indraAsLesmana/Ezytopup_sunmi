@@ -118,6 +118,8 @@ public class Eztytopup extends Application {
                 R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
                 ? Boolean.FALSE : Boolean.TRUE;
 
+        Helper.log(TAG, isUserReseller.toString(), null);
+
         if (Build.BRAND.equals("SUNMI")
                 && Build.DEVICE.equals("V1")){
             initPrint();

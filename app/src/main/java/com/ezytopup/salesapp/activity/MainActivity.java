@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -106,7 +107,13 @@ public class MainActivity extends BaseActivity
                     R.string.settings_def_sellerprintlogo_key));
         }
 
-        getImageHeader();
+        if (Eztytopup.getIsUserReseller()){
+            getImageHeaderReseller();
+            Toast.makeText(this, "Header as reseller", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "Header as user", Toast.LENGTH_SHORT).show();
+            getImageHeader();
+        }
         initTabMenu();
         Helper.log(TAG, "setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeidevice_key), null);
@@ -114,6 +121,44 @@ public class MainActivity extends BaseActivity
 
     private void getImageHeader() {
         Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeader();
+        call.enqueue(new Callback<HeaderimageResponse>() {
+            @Override
+            public void onResponse(Call<HeaderimageResponse> call,
+                                   Response<HeaderimageResponse> response) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                    headerImage.addAll(response.body().result);
+                    TextSliderView textSliderView = null;
+                    for (int i = 0; i < headerImage.size(); i++) {
+                        textSliderView = new TextSliderView(MainActivity.this);
+                        textSliderView
+                                .image(headerImage.get(i).getImageUrl())
+                                .errorDisappear(true)
+                                .setScaleType(BaseSliderView.ScaleType.Fit);
+                        headerImages.addSlider(textSliderView);
+                    }
+                    if (textSliderView != null && textSliderView.isErrorLoad()) {
+                        headerImages.setVisibility(View.GONE);
+                    }else {
+                        headerImages.setVisibility(View.VISIBLE);
+                    }
+                }else {
+                    Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
+                    headerImages.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<HeaderimageResponse> call, Throwable t) {
+                Helper.log(TAG, "onResponse: " + t.getMessage(), null);
+                headerImages.setVisibility(View.GONE);
+            }
+        });
+    }
+    private void getImageHeaderReseller() {
+        Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeaderReseller();
         call.enqueue(new Callback<HeaderimageResponse>() {
             @Override
             public void onResponse(Call<HeaderimageResponse> call,
@@ -342,15 +387,6 @@ public class MainActivity extends BaseActivity
 
             }
         });
-    }
-
-    // TODO : if this not set, after app resume always set to false. must fix latter
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Eztytopup.setIsUserReseller(PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
-                ? Boolean.FALSE : Boolean.TRUE);
     }
 
     @Override

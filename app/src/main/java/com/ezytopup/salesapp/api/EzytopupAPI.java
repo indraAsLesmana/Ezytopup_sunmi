@@ -148,4 +148,7 @@ public interface EzytopupAPI {
     @POST("WGS_API_buyNow_reseller.php?" + API_URL_GENERALUSAGE)
     Call<VoucherprintResponse> getBuyreseller(@Body HashMap<String, String> data);
 
+    @GET("WGS_API_getHeaderImages_reseller.php?" + API_URL_GENERALUSAGE)
+    Call<HeaderimageResponse> getImageHeaderReseller();
+
 }

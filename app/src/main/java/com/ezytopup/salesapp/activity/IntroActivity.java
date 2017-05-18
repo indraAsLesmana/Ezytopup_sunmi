@@ -66,6 +66,14 @@ public class IntroActivity extends AppCompatActivity{
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Eztytopup.setIsUserReseller(PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
+                ? Boolean.FALSE : Boolean.TRUE);
+    }
+
     private void tokenValidityCheck(String token){
         mProgressBar.setVisibility(View.VISIBLE);
 
