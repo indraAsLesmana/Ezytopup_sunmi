@@ -1,6 +1,10 @@
 package com.ezytopup.salesapp.fragment;
 
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,14 +18,18 @@ import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.activity.DeviceListActivity;
 import com.ezytopup.salesapp.adapter.Recyclerlist_HistoryAdapter;
+import com.ezytopup.salesapp.api.ServertimeResponse;
 import com.ezytopup.salesapp.api.TransactionHistoryResponse;
 import com.ezytopup.salesapp.api.VoucherprintResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 import com.google.gson.Gson;
+import com.zj.btsdk.PrintPic;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -44,7 +52,9 @@ public class HistoryFragment extends Fragment implements
     private Recyclerlist_HistoryAdapter adapter;
     private static final String TAG = "FavoriteFragment";
     private View rootView;
-
+    private static final int REQUEST_CONNECT_DEVICE = 1;
+    private static final int REQUEST_ENABLE_BT = 2;
+    
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -103,14 +113,162 @@ public class HistoryFragment extends Fragment implements
     @Override
     public void onReprintClick(TransactionHistoryResponse.Result historyItem) {
         // TODO : please check, currentTime still gate onPhone
-        if (Helper.dateCheck(PreferenceUtils.getLastProduct().tglCetak,
-                PreferenceUtils.getLastProduct().reprintTime)) {
+       serverTime();
+        
+    }
 
-            Toast.makeText(getContext(), "print", Toast.LENGTH_SHORT).show();
-            PreferenceUtils.destroyLastProduct();
+    private void serverTime(){
+        Call<ServertimeResponse> serverTime = Eztytopup.getsAPIService().getServertime();
+        serverTime.enqueue(new Callback<ServertimeResponse>() {
+            @Override
+            public void onResponse(Call<ServertimeResponse> call,
+                                   Response<ServertimeResponse> response) {
+                if (response.isSuccessful() && response.body().status.getCode()
+                        .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
+                    response.body().result.getServerTime();
+                    if (Helper.dateCheck(PreferenceUtils.getLastProduct().tglCetak,
+                            PreferenceUtils.getLastProduct().reprintTime,
+                            response.body().result.getServerTime())) {
+                        Toast.makeText(getContext(), "print", Toast.LENGTH_SHORT).show();
 
-        } else {
-            Toast.makeText(getContext(), "not valid", Toast.LENGTH_SHORT).show();
+                        if (!Eztytopup.getSunmiDevice()) {
+                            if (!Eztytopup.getmBTprintService().isBTopen()) { // is blutooth Enable on that device?
+                                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                                startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+                            } else if (!Eztytopup.getIsPrinterConnected()) {  // is bluetooth connected to printer?
+                                Intent serverIntent = new Intent(getContext(),
+                                        DeviceListActivity.class);
+                                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+                            } else {
+                                bluetoothPrint();
+                                PreferenceUtils.destroyLastProduct();
+                            }
+                        } else {
+                            // TODO sunmi-printing section
+                        }
+
+                    } else {
+                        Toast.makeText(getContext(), "not valid", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ServertimeResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_ENABLE_BT:
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(getContext(), R.string.bluetooth_open,
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), R.string.failed_open_bluetooth,
+                            Toast.LENGTH_LONG).show();
+                }
+                break;
+            case  REQUEST_CONNECT_DEVICE:
+                if (resultCode == Activity.RESULT_OK) {
+                    String address = data.getExtras()
+                            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+                    Eztytopup.setCon_dev(Eztytopup.getmBTprintService().getDevByMac(address));
+                    Eztytopup.getmBTprintService().connect(Eztytopup.getCon_dev());
+                }
+                break;
+        }
+    }
+    private boolean validatePrint(String word){
+        if (!word.isEmpty()){
+            Eztytopup.getmBTprintService().sendMessage(word, "ENG");
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private void bluetoothPrint(){
+        // logo print
+        printImage();
+        byte[] cmd = new byte[5];
+        cmd[0] = 0x1b;
+        cmd[1] = 0x21;
+        cmd[2] |= 0x10;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris01())) return;
+        cmd[2] &= 0xEF;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris02())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris03())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris04())) return;
+        cmd[2] |= 0x10;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris05())) return;
+        cmd[2] &= 0xEF;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris06())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris07())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris08())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris09())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris10())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris11())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris12())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris13())) return;
+        cmd[2] |= 0x10;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris14())) return;
+        cmd[2] &= 0xEF;
+        Eztytopup.getmBTprintService().write(cmd);
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris15())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris16())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris17())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris18())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris19())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris20())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris21())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris22())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris23())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris24())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris25())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris26())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris27())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris28())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris29())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris30())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris31())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris32())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris33())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris34())) return;
+        if (!validatePrint(PreferenceUtils.getLastProduct().getBaris35())) ;
+    }
+
+    @SuppressLint("SdCardPath")
+    private Boolean printImage() {
+        File file = new File("/mnt/sdcard/Ezytopup/print_logo.jpg");
+        if (!file.exists() && !PreferenceUtils.getSinglePrefrenceString(getContext(),
+                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)) {
+            Helper.downloadFile(getContext(), PreferenceUtils.getSinglePrefrenceString(getContext(),
+                    R.string.settings_def_sellerprintlogo_key));
+            Toast.makeText(getContext(), R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();
+            return Boolean.FALSE;
+        }else {
+            byte[] sendData = null;
+            PrintPic pg = new PrintPic();
+            pg.initCanvas(384);
+            pg.initPaint();
+            pg.drawImage(100, 0, "/mnt/sdcard/Ezytopup/print_logo.jpg");
+            sendData = pg.printDraw();
+            Eztytopup.getmBTprintService().write(sendData);
+            return Boolean.TRUE;
         }
     }
 }

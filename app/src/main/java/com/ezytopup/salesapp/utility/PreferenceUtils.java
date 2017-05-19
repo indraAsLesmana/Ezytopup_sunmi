@@ -77,7 +77,7 @@ public class PreferenceUtils {
         editor.putString("lastProduct", gsonStringObj);
         editor.apply();
     }
-
+    // TODO : crash after lastProduct destroy please make exception
     public static VoucherprintResponse.Result getLastProduct() {
         SharedPreferences dataPreferece = Eztytopup.getsPreferences();
         Gson gson = new Gson();

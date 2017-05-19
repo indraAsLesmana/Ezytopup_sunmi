@@ -71,6 +71,7 @@ public class Eztytopup extends Application {
     private static BluetoothService mBTprintService = null;
     private static Boolean isPrinterConnected;
     private static Boolean isUserReseller;
+    private static BluetoothDevice con_dev;
 
     @Override
     public void onCreate() {
@@ -134,6 +135,7 @@ public class Eztytopup extends Application {
         setDeviceId();
         isUserReseller = Boolean.FALSE;
         isPrinterConnected = Boolean.FALSE;
+        con_dev = null;
 
         Class VoucherprintResponse = getClass();
         Field[] fields = VoucherprintResponse.getFields();
@@ -378,6 +380,14 @@ public class Eztytopup extends Application {
 
                 break;
         }
+    }
+
+    public static BluetoothDevice getCon_dev() {
+        return con_dev;
+    }
+
+    public static void setCon_dev(BluetoothDevice con_dev) {
+        Eztytopup.con_dev = con_dev;
     }
 
     public static Boolean getIsUserReseller() {

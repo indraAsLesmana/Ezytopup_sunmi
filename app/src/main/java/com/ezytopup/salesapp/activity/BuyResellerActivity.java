@@ -67,7 +67,6 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
 
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
-    private BluetoothDevice con_dev = null;
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -375,9 +374,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                 if (resultCode == Activity.RESULT_OK) {
                     String address = data.getExtras()
                             .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-                    con_dev = Eztytopup.getmBTprintService().getDevByMac(address);
-
-                    Eztytopup.getmBTprintService().connect(con_dev);
+                    Eztytopup.setCon_dev(Eztytopup.getmBTprintService().getDevByMac(address));
+                    Eztytopup.getmBTprintService().connect(Eztytopup.getCon_dev());
                 }
                 break;
         }

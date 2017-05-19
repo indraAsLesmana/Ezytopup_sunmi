@@ -204,7 +204,7 @@ public class Helper {
         }
     }
 
-    public static boolean dateCheck(String tglCetak, String reprintTime){
+    public static boolean dateCheck(String tglCetak, String reprintTime, String serverTime){
         SimpleDateFormat df = new SimpleDateFormat(getDefaultDisplayDateFormat());
         Date startDate = null, currentTime = null, endDate = null, tempDate;
 
@@ -217,13 +217,11 @@ public class Helper {
             String tempDateupdate = df.format(cal.getTime());
             endDate = df.parse(tempDateupdate);
 
-            Calendar currentTimex = Calendar.getInstance();
-            String currentTimeResult = df.format(currentTimex.getTime());
-            currentTime = df.parse(currentTimeResult);
+            currentTime = df.parse(serverTime);
 
             Helper.log(TAG, "original   : " + PreferenceUtils.getLastProduct().getTglCetak(), null);
             Helper.log(TAG, "validate   : " + tempDateupdate, null);
-            Helper.log(TAG, "now   : " + currentTimeResult, null);
+            Helper.log(TAG, "now   : " + serverTime, null);
             Helper.log(TAG, "isWithRage   : " + Helper.isWithinRange(currentTime,
                     startDate, endDate), null);
 

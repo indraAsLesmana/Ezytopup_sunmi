@@ -151,4 +151,7 @@ public interface EzytopupAPI {
     @GET("WGS_API_getHeaderImages_reseller.php?" + API_URL_GENERALUSAGE)
     Call<HeaderimageResponse> getImageHeaderReseller();
 
+    @GET("WGS_API_server_time.php?" + API_URL_GENERALUSAGE)
+    Call<ServertimeResponse> getServertime();
+
 }
