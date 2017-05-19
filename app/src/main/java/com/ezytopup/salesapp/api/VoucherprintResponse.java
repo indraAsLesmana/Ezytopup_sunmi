@@ -54,6 +54,9 @@ public class VoucherprintResponse implements Serializable{
         @SerializedName("tgl_cetak")
         @Expose
         public String tglCetak;
+        @SerializedName("reprint_time")
+        @Expose
+        public String reprintTime;
         @SerializedName("baris01")
         @Expose
         public String baris01;
@@ -182,6 +185,10 @@ public class VoucherprintResponse implements Serializable{
 
         public String getTglCetak() {
             return tglCetak;
+        }
+
+        public String getReprintTime() {
+            return reprintTime;
         }
 
         public String getBaris01() {

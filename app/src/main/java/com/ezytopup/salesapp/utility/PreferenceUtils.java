@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 public class PreferenceUtils {
 
+    private static final String TAG = "PreferenceUtils";
     private final int STORENAME_KEY = R.string.settings_def_storename_key;
     private final int STORELOGO_KEY = R.string.settings_def_storelogo_key;
 
@@ -76,11 +77,13 @@ public class PreferenceUtils {
         editor.putString("lastProduct", gsonStringObj);
         editor.apply();
     }
-    public static VoucherprintResponse.Result getLastProduct(){
+
+    public static VoucherprintResponse.Result getLastProduct() {
         SharedPreferences dataPreferece = Eztytopup.getsPreferences();
         Gson gson = new Gson();
         String data = dataPreferece.getString("lastProduct", Constant.PREF_NULL);
-        VoucherprintResponse.Result lastProduct = gson.fromJson(data, VoucherprintResponse.Result.class);
+        VoucherprintResponse.Result lastProduct = gson.fromJson(data,
+                VoucherprintResponse.Result.class);
         return lastProduct;
     }
     public static void destroyLastProduct(){

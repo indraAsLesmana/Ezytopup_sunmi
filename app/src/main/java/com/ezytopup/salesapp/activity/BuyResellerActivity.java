@@ -253,7 +253,6 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     invoice_word35.setText(response.body().result.baris35.trim());
 
                     VoucherprintResponse.setUserInstance(response.body().result);
-                    PreferenceUtils.destroyLastProduct();
                     Gson gson = new Gson();
                     String json = gson.toJson(VoucherprintResponse.getInstance());
                     PreferenceUtils.saveLastProduct(json);
@@ -328,6 +327,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                 DeviceListActivity.class);
                         startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
                     } else {
+                        PreferenceUtils.destroyLastProduct();
                         buyNowReseller();
                     }
                 } else {

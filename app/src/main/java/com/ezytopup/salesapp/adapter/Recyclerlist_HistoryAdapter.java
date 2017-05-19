@@ -41,7 +41,7 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(SingleItemFavHolder holder, int position) {
+    public void onBindViewHolder(final SingleItemFavHolder holder, int position) {
         final TransactionHistoryResponse.Result result = itemList.get(position);
         if (result != null) {
             holder.hist_deviderdate.setText(result.getCreatedDate());
@@ -68,6 +68,7 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
                 @Override
                 public void onClick(View v) {
                     mListener.onReprintClick(result);
+                    holder.reprint.setVisibility(View.INVISIBLE);
                 }
             });
         }

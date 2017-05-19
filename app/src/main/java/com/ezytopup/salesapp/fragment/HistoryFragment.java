@@ -1,6 +1,7 @@
 package com.ezytopup.salesapp.fragment;
 
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,7 +23,12 @@ import com.ezytopup.salesapp.utility.PreferenceUtils;
 import com.google.gson.Gson;
 
 import java.net.HttpURLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,13 +99,18 @@ public class HistoryFragment extends Fragment implements
         });
     }
 
+
     @Override
     public void onReprintClick(TransactionHistoryResponse.Result historyItem) {
-//        Toast.makeText(getContext(), historyItem.getTotal(), Toast.LENGTH_SHORT).show();
-        String kasirName = PreferenceUtils.getLastProduct().getSellerKasirName();
-        String baris1 = PreferenceUtils.getLastProduct().getBaris01();
-        String tanggalCetak = PreferenceUtils.getLastProduct().getTglCetak();
-        Toast.makeText(getContext(), tanggalCetak,
-                Toast.LENGTH_SHORT).show();
+        // TODO : please check, currentTime still gate onPhone
+        if (Helper.dateCheck(PreferenceUtils.getLastProduct().tglCetak,
+                PreferenceUtils.getLastProduct().reprintTime)) {
+
+            Toast.makeText(getContext(), "print", Toast.LENGTH_SHORT).show();
+            PreferenceUtils.destroyLastProduct();
+
+        } else {
+            Toast.makeText(getContext(), "not valid", Toast.LENGTH_SHORT).show();
+        }
     }
 }

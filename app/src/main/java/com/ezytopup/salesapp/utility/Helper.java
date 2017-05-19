@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +20,11 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -197,5 +202,45 @@ public class Helper {
 
             mgr.enqueue(request);
         }
+    }
+
+    public static boolean dateCheck(String tglCetak, String reprintTime){
+        SimpleDateFormat df = new SimpleDateFormat(getDefaultDisplayDateFormat());
+        Date startDate = null, currentTime = null, endDate = null, tempDate;
+
+        try {
+            startDate = df.parse(tglCetak);
+            tempDate = startDate;
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(tempDate);
+            cal.add(Calendar.MINUTE, Integer.parseInt(reprintTime));
+            String tempDateupdate = df.format(cal.getTime());
+            endDate = df.parse(tempDateupdate);
+
+            Calendar currentTimex = Calendar.getInstance();
+            String currentTimeResult = df.format(currentTimex.getTime());
+            currentTime = df.parse(currentTimeResult);
+
+            Helper.log(TAG, "original   : " + PreferenceUtils.getLastProduct().getTglCetak(), null);
+            Helper.log(TAG, "validate   : " + tempDateupdate, null);
+            Helper.log(TAG, "now   : " + currentTimeResult, null);
+            Helper.log(TAG, "isWithRage   : " + Helper.isWithinRange(currentTime,
+                    startDate, endDate), null);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return isWithinRange(currentTime, startDate, endDate);
+    }
+    public static boolean isWithinRange(Date currenTime, Date startDate, Date endDate) {
+        return !(currenTime.before(startDate) || currenTime.after(endDate));
+    }
+
+    private static String getDefaultDisplayDateFormat() {
+        return "yyyy-MM-dd HH:mm:ss";
+    }
+
+    private static String getDefaultDisplayTimeFormat() {
+        return "hh:mm:ss";
     }
 }
