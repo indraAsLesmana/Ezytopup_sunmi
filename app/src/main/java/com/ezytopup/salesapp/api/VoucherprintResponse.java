@@ -23,10 +23,8 @@ public class VoucherprintResponse implements Serializable{
     @Expose
     public Status status;
 
-    public static VoucherprintResponse.Result getInstance()
-    {
-        if (userInstance == null)
-        {
+    public static VoucherprintResponse.Result getInstance() {
+        if (userInstance == null) {
             Helper.log(TAG, " last product null", null);
         }
         return userInstance;

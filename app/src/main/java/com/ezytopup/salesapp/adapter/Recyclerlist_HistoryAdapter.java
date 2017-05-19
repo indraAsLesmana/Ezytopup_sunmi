@@ -61,13 +61,15 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
                         .crossFade(Constant.ITEM_CROSSFADEDURATION)
                         .into(holder.hist_image);
             }
+        }
+        if (position == 0 && result != null){
+            holder.reprint.setVisibility(View.VISIBLE);
             holder.reprint.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mListener.onReprintClick(result);
                 }
             });
-
         }
     }
 
