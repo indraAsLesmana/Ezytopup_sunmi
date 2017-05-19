@@ -215,7 +215,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                    Response<VoucherprintResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
-//                    bluetoothPrint(response);
+                    bluetoothPrint(response);
                     invoice_word1.setText(response.body().result.baris01.trim());
                     invoice_word2.setText(response.body().result.baris02.trim());
                     invoice_word3.setText(response.body().result.baris03.trim());
@@ -252,12 +252,11 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     invoice_word34.setText(response.body().result.baris34.trim());
                     invoice_word35.setText(response.body().result.baris35.trim());
 
+                    //save last object product buy, to SharedPreference
                     VoucherprintResponse.setUserInstance(response.body().result);
                     Gson gson = new Gson();
                     String json = gson.toJson(VoucherprintResponse.getInstance());
                     PreferenceUtils.saveLastProduct(json);
-
-
                 } else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
