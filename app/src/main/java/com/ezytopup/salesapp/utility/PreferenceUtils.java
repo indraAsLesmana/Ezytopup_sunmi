@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.api.VoucherprintResponse;
+import com.google.gson.Gson;
 
 /**
  * Created by indraaguslesmana on 3/30/17.
@@ -66,6 +68,24 @@ public class PreferenceUtils {
         editor.remove(context.getString(R.string.settings_def_sellerprintlogo_key));
         editor.remove(context.getString(R.string.settings_def_sellerwarnabg_key));
         editor.remove(context.getString(R.string.settings_def_sellerid_key));
+        editor.apply();
+    }
+
+    public static void saveLastProduct(String gsonStringObj){
+        SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
+        editor.putString("lastProduct", gsonStringObj);
+        editor.apply();
+    }
+    public static VoucherprintResponse.Result getLastProduct(){
+        SharedPreferences dataPreferece = Eztytopup.getsPreferences();
+        Gson gson = new Gson();
+        String data = dataPreferece.getString("lastProduct", Constant.PREF_NULL);
+        VoucherprintResponse.Result lastProduct = gson.fromJson(data, VoucherprintResponse.Result.class);
+        return lastProduct;
+    }
+    public static void destroyLastProduct(){
+        SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
+        editor.remove("lastProduct");
         editor.apply();
     }
 

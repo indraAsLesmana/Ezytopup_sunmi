@@ -27,6 +27,7 @@ import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.google.gson.Gson;
 import com.zj.btsdk.PrintPic;
 
 import java.io.File;
@@ -214,7 +215,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                    Response<VoucherprintResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
-                    bluetoothPrint(response);
+//                    bluetoothPrint(response);
                     invoice_word1.setText(response.body().result.baris01.trim());
                     invoice_word2.setText(response.body().result.baris02.trim());
                     invoice_word3.setText(response.body().result.baris03.trim());
@@ -250,6 +251,13 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     invoice_word33.setText(response.body().result.baris33.trim());
                     invoice_word34.setText(response.body().result.baris34.trim());
                     invoice_word35.setText(response.body().result.baris35.trim());
+
+                    VoucherprintResponse.setUserInstance(response.body().result);
+                    PreferenceUtils.destroyLastProduct();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(VoucherprintResponse.getInstance());
+                    PreferenceUtils.saveLastProduct(json);
+
 
                 } else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),

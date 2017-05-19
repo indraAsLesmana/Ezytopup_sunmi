@@ -1,5 +1,8 @@
 package com.ezytopup.salesapp.api;
 
+import android.nfc.Tag;
+
+import com.ezytopup.salesapp.utility.Helper;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,7 +14,8 @@ import java.io.Serializable;
 
 public class VoucherprintResponse implements Serializable{
 
-
+    private static final String TAG = "VoucherprintResponse";
+    private static VoucherprintResponse.Result userInstance;
     @SerializedName("result")
     @Expose
     public Result result;
@@ -19,7 +23,20 @@ public class VoucherprintResponse implements Serializable{
     @Expose
     public Status status;
 
-    public class Result implements Serializable{
+    public static VoucherprintResponse.Result getInstance()
+    {
+        if (userInstance == null)
+        {
+            Helper.log(TAG, " last product null", null);
+        }
+        return userInstance;
+    }
+
+    public static void setUserInstance(Result userInstance) {
+        VoucherprintResponse.userInstance = userInstance;
+    }
+
+    public static class Result implements Serializable{
 
         @SerializedName("seller_id")
         @Expose

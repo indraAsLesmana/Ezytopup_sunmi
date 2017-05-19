@@ -15,9 +15,11 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.Recyclerlist_HistoryAdapter;
 import com.ezytopup.salesapp.api.TransactionHistoryResponse;
+import com.ezytopup.salesapp.api.VoucherprintResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.google.gson.Gson;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -93,6 +95,11 @@ public class HistoryFragment extends Fragment implements
 
     @Override
     public void onReprintClick(TransactionHistoryResponse.Result historyItem) {
-        Toast.makeText(getContext(), historyItem.getTotal(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), historyItem.getTotal(), Toast.LENGTH_SHORT).show();
+        String kasirName = PreferenceUtils.getLastProduct().getSellerKasirName();
+        String baris1 = PreferenceUtils.getLastProduct().getBaris01();
+        String tanggalCetak = PreferenceUtils.getLastProduct().getTglCetak();
+        Toast.makeText(getContext(), tanggalCetak,
+                Toast.LENGTH_SHORT).show();
     }
 }
