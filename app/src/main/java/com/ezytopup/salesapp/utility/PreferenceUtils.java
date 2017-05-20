@@ -69,6 +69,7 @@ public class PreferenceUtils {
         editor.remove(context.getString(R.string.settings_def_sellerprintlogo_key));
         editor.remove(context.getString(R.string.settings_def_sellerwarnabg_key));
         editor.remove(context.getString(R.string.settings_def_sellerid_key));
+        destroyLastProduct();
         editor.apply();
     }
 
@@ -77,13 +78,16 @@ public class PreferenceUtils {
         editor.putString("lastProduct", gsonStringObj);
         editor.apply();
     }
-    // TODO : crash after lastProduct destroy please make exception
+    
     public static VoucherprintResponse.Result getLastProduct() {
         SharedPreferences dataPreferece = Eztytopup.getsPreferences();
         Gson gson = new Gson();
         String data = dataPreferece.getString("lastProduct", Constant.PREF_NULL);
-        VoucherprintResponse.Result lastProduct = gson.fromJson(data,
-                VoucherprintResponse.Result.class);
+        VoucherprintResponse.Result lastProduct = null;
+        if (!data.equals(Constant.PREF_NULL)){
+            lastProduct = gson.fromJson(data,
+                    VoucherprintResponse.Result.class);
+        }
         return lastProduct;
     }
     public static void destroyLastProduct(){

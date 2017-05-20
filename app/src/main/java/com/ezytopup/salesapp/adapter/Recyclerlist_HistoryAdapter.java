@@ -13,6 +13,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.TransactionHistoryResponse;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.util.ArrayList;
 
@@ -63,7 +64,9 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
                         .into(holder.hist_image);
             }
         }
-        if (position == 0 && result != null && Eztytopup.getIsUserReseller()){
+        if (position == 0 && result != null
+                && Eztytopup.getIsUserReseller()
+                && PreferenceUtils.getLastProduct() != null){
             holder.reprint.setVisibility(View.VISIBLE);
             holder.reprint.setOnClickListener(new View.OnClickListener() {
                 @Override
