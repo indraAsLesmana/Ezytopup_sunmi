@@ -129,6 +129,7 @@ public class Eztytopup extends Application {
             isSunmiDevice = Boolean.TRUE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
         } else {
+            this.setTheme(R.style.AppTheme_Sunmi);
             mBTprintService = new BluetoothService(this, mHandler);
             isSunmiDevice = Boolean.FALSE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);

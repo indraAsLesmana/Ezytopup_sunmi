@@ -2,6 +2,7 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,6 +22,8 @@ import java.net.HttpURLConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.ezytopup.salesapp.utility.Helper.enableImmersiveMode;
 
 public class ChangePasswordActivity extends BaseActivity implements View.OnClickListener {
 
