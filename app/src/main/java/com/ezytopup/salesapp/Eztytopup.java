@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -72,6 +73,7 @@ public class Eztytopup extends Application {
     private static Boolean isPrinterConnected;
     private static Boolean isUserReseller;
     private static BluetoothDevice con_dev;
+    private static Typeface sPrintedFont;
 
     @Override
     public void onCreate() {
@@ -137,6 +139,8 @@ public class Eztytopup extends Application {
         isUserReseller = Boolean.FALSE;
         isPrinterConnected = Boolean.FALSE;
         con_dev = null;
+        sPrintedFont = Typeface.createFromAsset(getAssets(), Constant.APP_FONT_PRINT);
+
     }
 
     /**
@@ -375,6 +379,10 @@ public class Eztytopup extends Application {
 
                 break;
         }
+    }
+
+    public static Typeface getPrintedFont() {
+        return sPrintedFont;
     }
 
     public static BluetoothDevice getCon_dev() {

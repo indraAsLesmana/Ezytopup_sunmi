@@ -75,6 +75,8 @@ public class Constant {
     public static final String APP_NAME = "Ezytopup";
     public static boolean ENABLE_HOME_SWIPE = false;
     public static String DEF_PATH_IMAGEPRINT = "/mnt/sdcard/Ezytopup/print_logo.jpg";
+    public static final String APP_FONT_PRINT = "fonts/lmmonocaps10-regular.otf";
+
 
     /**
      * Message log tag

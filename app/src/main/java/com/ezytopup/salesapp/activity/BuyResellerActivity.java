@@ -221,7 +221,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                    Response<VoucherprintResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
-                    bluetoothPrint(response);
+//                    bluetoothPrint(response);
                     invoice_word1.setText(response.body().result.baris01.trim());
                     invoice_word2.setText(response.body().result.baris02.trim());
                     invoice_word3.setText(response.body().result.baris03.trim());
@@ -264,7 +264,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     String json = gson.toJson(VoucherprintResponse.getInstance());
                     PreferenceUtils.saveLastProduct(json);
 
-                    invoice_beforebuy.setVisibility(View.INVISIBLE);
+                    invoice_beforebuy.setVisibility(View.GONE);
                     invoice_subcontainer.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
@@ -326,7 +326,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBuyNow:
-                if (!Eztytopup.getSunmiDevice()) {
+                buyNowReseller();
+                /*if (!Eztytopup.getSunmiDevice()) {
                     if (!Eztytopup.getmBTprintService().isBTopen()) { // is blutooth Enable on that device?
                         Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                         startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
@@ -340,7 +341,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     }
                 } else {
                     sunmiPrint();
-                }
+                }*/
                 break;
             case R.id.btnCancel:
                 finish();
