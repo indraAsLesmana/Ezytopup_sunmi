@@ -259,19 +259,20 @@ public class HistoryFragment extends Fragment implements
 
     @SuppressLint("SdCardPath")
     private Boolean printImage() {
-        File file = new File("/mnt/sdcard/Ezytopup/print_logo.jpg");
+        File file = new File(Constant.DEF_PATH_IMAGEPRINT);
         if (!file.exists() && !PreferenceUtils.getSinglePrefrenceString(getContext(),
                 R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)) {
             Helper.downloadFile(getContext(), PreferenceUtils.getSinglePrefrenceString(getContext(),
                     R.string.settings_def_sellerprintlogo_key));
-            Toast.makeText(getContext(), R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.please_wait_imageprint,
+                    Toast.LENGTH_SHORT).show();
             return Boolean.FALSE;
         }else {
             byte[] sendData = null;
             PrintPic pg = new PrintPic();
             pg.initCanvas(384);
             pg.initPaint();
-            pg.drawImage(100, 0, "/mnt/sdcard/Ezytopup/print_logo.jpg");
+            pg.drawImage(100, 0, Constant.DEF_PATH_IMAGEPRINT);
             sendData = pg.printDraw();
             Eztytopup.getmBTprintService().write(sendData);
             return Boolean.TRUE;

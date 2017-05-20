@@ -349,7 +349,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     
     @SuppressLint("SdCardPath")
     private Boolean printImage() {
-        File file = new File("/mnt/sdcard/Ezytopup/print_logo.jpg");
+        File file = new File(Constant.DEF_PATH_IMAGEPRINT);
         if (!file.exists() && !PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)) {
             Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
@@ -361,7 +361,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
             PrintPic pg = new PrintPic();
             pg.initCanvas(384);
             pg.initPaint();
-            pg.drawImage(100, 0, "/mnt/sdcard/Ezytopup/print_logo.jpg");
+            pg.drawImage(100, 0, Constant.DEF_PATH_IMAGEPRINT);
             sendData = pg.printDraw();
             Eztytopup.getmBTprintService().write(sendData);
             return Boolean.TRUE;
