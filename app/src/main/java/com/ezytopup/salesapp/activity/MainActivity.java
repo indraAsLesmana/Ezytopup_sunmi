@@ -123,7 +123,9 @@ public class MainActivity extends BaseActivity
         }else {
             Helper.log(TAG, "end user", null);
             getImageHeader();
+            navigationView.getMenu().findItem(R.id.nav_print).setVisible(false);
         }
+
         initTabMenu();
         Helper.log(TAG, "setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeidevice_key), null);

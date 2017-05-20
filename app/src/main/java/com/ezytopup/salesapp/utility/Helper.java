@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
@@ -214,9 +213,7 @@ public class Helper {
             cal.add(Calendar.MINUTE, Integer.parseInt(reprintTime));
             String tempDateupdate = df.format(cal.getTime());
             endDate = df.parse(tempDateupdate);
-
             currentTime = df.parse(serverTime);
-
             Helper.log(TAG, "original   : " + PreferenceUtils.getLastProduct().getTglCetak(), null);
             Helper.log(TAG, "validate   : " + tempDateupdate, null);
             Helper.log(TAG, "now   : " + serverTime, null);
@@ -249,11 +246,4 @@ public class Helper {
         return "yyyy-MM-dd HH:mm:ss";
     }
 
-    private static String getDefaultDisplayDateFormat() {
-        return "yyyy-MM-dd";
-    }
-
-    private static String getDefaultDisplayTimeFormat() {
-        return "hh:mm:ss";
-    }
 }
