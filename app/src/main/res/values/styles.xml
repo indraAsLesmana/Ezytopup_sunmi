@@ -9,7 +9,7 @@
         <item name="actionButtonStyle">@style/AppTheme.Widget.ActionButton</item>
     </style>
 
-    <style name="AppTheme.Sunmi" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Sunmi" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>

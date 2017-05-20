@@ -28,7 +28,6 @@ import com.google.gson.GsonBuilder;
 import com.zj.btsdk.BluetoothService;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -125,15 +124,14 @@ public class Eztytopup extends Application {
 
         if (Build.BRAND.equals("SUNMI")
                 && Build.DEVICE.equals("V1")) {
+            this.setTheme(R.style.Theme_Sunmi);
             initPrint();
             isSunmiDevice = Boolean.TRUE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
         } else {
-            this.setTheme(R.style.AppTheme_Sunmi);
             mBTprintService = new BluetoothService(this, mHandler);
             isSunmiDevice = Boolean.FALSE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
-
         }
 
         setDeviceId();
