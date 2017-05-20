@@ -221,7 +221,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                    Response<VoucherprintResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
-//                    bluetoothPrint(response);
+                    bluetoothPrint(response);
                     invoice_word1.setText(response.body().result.baris01.trim());
                     invoice_word2.setText(response.body().result.baris02.trim());
                     invoice_word3.setText(response.body().result.baris03.trim());
@@ -326,9 +326,11 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBuyNow:
-                buyNowReseller();
-                /*if (!Eztytopup.getSunmiDevice()) {
-                    if (!Eztytopup.getmBTprintService().isBTopen()) { // is blutooth Enable on that device?
+                if (!Eztytopup.getSunmiDevice()) {
+                    if (!Eztytopup.getmBTprintService().isAvailable()) {
+                        Toast.makeText(BuyResellerActivity.this, R.string.bluetooth_notfound,
+                                Toast.LENGTH_SHORT).show();
+                    }else if (!Eztytopup.getmBTprintService().isBTopen()) { // is blutooth Enable on that device?
                         Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                         startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
                     } else if (!Eztytopup.getIsPrinterConnected()) {  // is bluetooth connected to printer?
@@ -341,7 +343,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     }
                 } else {
                     sunmiPrint();
-                }*/
+                }
                 break;
             case R.id.btnCancel:
                 finish();
