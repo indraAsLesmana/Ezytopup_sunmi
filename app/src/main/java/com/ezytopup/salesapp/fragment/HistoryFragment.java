@@ -118,6 +118,7 @@ public class HistoryFragment extends Fragment implements
                                    Response<ServertimeResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
+                    //get servertime
                     String serverTime = response.body().result.getServerTime();
                     String tanggalCetak = PreferenceUtils.getLastProduct().tglCetak;
                     String reprintTime = PreferenceUtils.getLastProduct().reprintTime;
@@ -126,6 +127,7 @@ public class HistoryFragment extends Fragment implements
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    //validate reprinted time
                     if (Helper.dateCheck(tanggalCetak, reprintTime, serverTime)) {
                         Toast.makeText(getContext(), "print", Toast.LENGTH_SHORT).show();
 

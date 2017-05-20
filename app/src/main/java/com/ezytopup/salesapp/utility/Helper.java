@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
@@ -226,8 +227,21 @@ public class Helper {
         }
         return isWithinRange(currentTime, startDate, endDate);
     }
-    public static boolean isWithinRange(Date currenTime, Date startDate, Date endDate) {
+    private static boolean isWithinRange(Date currenTime, Date startDate, Date endDate) {
         return !(currenTime.before(startDate) || currenTime.after(endDate));
+    }
+
+    /**
+     * Show soft keyboard for given view
+     */
+    public static void hideSoftKeyboard(View view) {
+        if(view == null) {
+            return;
+        }
+
+        InputMethodManager imm = (InputMethodManager)
+                view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private static String getDefaultDisplayDateTimeFormat() {
