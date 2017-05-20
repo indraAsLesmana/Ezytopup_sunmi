@@ -107,12 +107,10 @@ public class HistoryFragment extends Fragment implements
 
     @Override
     public void onReprintClick(TransactionHistoryResponse.Result historyItem) {
-        // TODO : please check, currentTime still gate onPhone
-       serverTime();
-        
+       validatePrint();
     }
 
-    private void serverTime(){
+    private void validatePrint(){
         Call<ServertimeResponse> serverTime = Eztytopup.getsAPIService().getServertime();
         serverTime.enqueue(new Callback<ServertimeResponse>() {
             @Override

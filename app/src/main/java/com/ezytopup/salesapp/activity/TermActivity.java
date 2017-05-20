@@ -48,7 +48,7 @@ public class TermActivity extends BaseActivity {
         adapter = new RecyclerList_TermAdapter(TermActivity.this, results);
         recyclerView.setAdapter(adapter);
 
-        if (results.isEmpty() || results.size() == 0) getTerm(); //TODO not work, still load on internet
+        if (results.isEmpty() || results.size() == 0) getTerm();
     }
 
     @Override

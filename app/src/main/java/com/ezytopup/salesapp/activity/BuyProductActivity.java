@@ -500,7 +500,6 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                                 Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
 
                             } catch (RemoteException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                         }
@@ -513,7 +512,6 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    // TODO : print will still printed, no Flag to dot print. i'll fix latter
     @SuppressLint("SdCardPath")
     private Boolean printImage() {
         File file = new File("/mnt/sdcard/Ezytopup/print_logo.jpg");

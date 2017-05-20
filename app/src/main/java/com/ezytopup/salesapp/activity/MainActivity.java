@@ -352,7 +352,6 @@ public class MainActivity extends BaseActivity
                                 Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
 
                             } catch (RemoteException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                         }
