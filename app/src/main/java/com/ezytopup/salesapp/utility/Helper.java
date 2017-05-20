@@ -170,8 +170,6 @@ public class Helper {
         snackbar.show();
     }
 
-    // TODO : Download manager need permission on > Marshollow
-    // Unable to create directory: /storage/emulated/0/Ezytopup
     public static void downloadFile(Context context, String uRl) {
         File direct = new File(Environment.getExternalStorageDirectory()
                 + "/Ezytopup");
