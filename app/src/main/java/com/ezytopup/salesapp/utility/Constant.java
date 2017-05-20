@@ -82,4 +82,10 @@ public class Constant {
     public static final String TAG_LOG_API = APP_NAME + "_api";
     public static final String TAG_LOG_VERBOSE = APP_NAME + "_verbose";
     public static final String TAG_LOG_ERROR = APP_NAME + "_error";
+
+    public static class PermissionCode {
+
+        public static int STORAGE = 1;
+        public static int LOCATION = 2;
+    }
 }

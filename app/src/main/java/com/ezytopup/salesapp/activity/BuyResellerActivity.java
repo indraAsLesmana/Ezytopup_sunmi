@@ -1,5 +1,6 @@
 package com.ezytopup.salesapp.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -27,6 +28,7 @@ import com.ezytopup.salesapp.api.VoucherprintResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
+import com.ezytopup.salesapp.utility.PermissionHelper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 import com.google.gson.Gson;
 import com.zj.btsdk.PrintPic;
@@ -346,17 +348,20 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         }
         
     }
-    
+
     @SuppressLint("SdCardPath")
     private Boolean printImage() {
         File file = new File(Constant.DEF_PATH_IMAGEPRINT);
         if (!file.exists() && !PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)) {
+                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL) &&
+                PermissionHelper.isPermissionGranted(BuyResellerActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
             Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
                     R.string.settings_def_sellerprintlogo_key));
             Toast.makeText(this, R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();
             return Boolean.FALSE;
-        }else {
+        } else {
             byte[] sendData = null;
             PrintPic pg = new PrintPic();
             pg.initCanvas(384);

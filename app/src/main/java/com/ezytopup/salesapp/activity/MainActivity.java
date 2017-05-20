@@ -1,5 +1,6 @@
 package com.ezytopup.salesapp.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -31,8 +32,10 @@ import com.ezytopup.salesapp.api.TokencheckResponse;
 import com.ezytopup.salesapp.api.TutorialResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
+import com.ezytopup.salesapp.utility.PermissionHelper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -48,6 +51,8 @@ public class MainActivity extends BaseActivity
     private ArrayList<HeaderimageResponse.Result> headerImage;
     private ArrayList<TutorialResponse.Result> tutorialImage;
     private DrawerLayout drawer;
+    private File file = new File(Constant.DEF_PATH_IMAGEPRINT);
+
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
@@ -101,17 +106,22 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
         }
 
-        if (!PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)){
+        if (!file.exists() &&
+                !PreferenceUtils.getSinglePrefrenceString(this,
+                        R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL) &&
+                Eztytopup.getIsUserReseller() &&
+                PermissionHelper.isPermissionGranted(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
             Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
                     R.string.settings_def_sellerprintlogo_key));
         }
 
         if (Eztytopup.getIsUserReseller()){
+            Helper.log(TAG, "user reseller", null);
             getImageHeaderReseller();
-            Toast.makeText(this, "Header as reseller", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(this, "Header as user", Toast.LENGTH_SHORT).show();
+            Helper.log(TAG, "end user", null);
             getImageHeader();
         }
         initTabMenu();

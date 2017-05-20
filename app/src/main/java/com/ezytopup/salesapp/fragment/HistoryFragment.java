@@ -1,11 +1,11 @@
 package com.ezytopup.salesapp.fragment;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,21 +22,15 @@ import com.ezytopup.salesapp.activity.DeviceListActivity;
 import com.ezytopup.salesapp.adapter.Recyclerlist_HistoryAdapter;
 import com.ezytopup.salesapp.api.ServertimeResponse;
 import com.ezytopup.salesapp.api.TransactionHistoryResponse;
-import com.ezytopup.salesapp.api.VoucherprintResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
+import com.ezytopup.salesapp.utility.PermissionHelper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
-import com.google.gson.Gson;
 import com.zj.btsdk.PrintPic;
 
 import java.io.File;
 import java.net.HttpURLConnection;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,7 +79,8 @@ public class HistoryFragment extends Fragment implements
     }
 
     private void getHistory(String token, String customerId) {
-        Call<TransactionHistoryResponse> history = Eztytopup.getsAPIService().getHistory(token, customerId);
+        Call<TransactionHistoryResponse> history = Eztytopup.getsAPIService().getHistory(token,
+                customerId);
         history.enqueue(new Callback<TransactionHistoryResponse>() {
             @Override
             public void onResponse(Call<TransactionHistoryResponse> call,
@@ -261,7 +256,10 @@ public class HistoryFragment extends Fragment implements
     private Boolean printImage() {
         File file = new File(Constant.DEF_PATH_IMAGEPRINT);
         if (!file.exists() && !PreferenceUtils.getSinglePrefrenceString(getContext(),
-                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)) {
+                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL) &&
+                PermissionHelper.isPermissionGranted(getContext(),
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
             Helper.downloadFile(getContext(), PreferenceUtils.getSinglePrefrenceString(getContext(),
                     R.string.settings_def_sellerprintlogo_key));
             Toast.makeText(getContext(), R.string.please_wait_imageprint,

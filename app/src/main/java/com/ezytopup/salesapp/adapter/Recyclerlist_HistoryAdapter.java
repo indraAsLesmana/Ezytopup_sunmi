@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.TransactionHistoryResponse;
 import com.ezytopup.salesapp.utility.Constant;
@@ -62,7 +63,7 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
                         .into(holder.hist_image);
             }
         }
-        if (position == 0 && result != null){
+        if (position == 0 && result != null && Eztytopup.getIsUserReseller()){
             holder.reprint.setVisibility(View.VISIBLE);
             holder.reprint.setOnClickListener(new View.OnClickListener() {
                 @Override
