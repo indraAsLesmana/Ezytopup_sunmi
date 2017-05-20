@@ -6,8 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +22,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -205,7 +202,7 @@ public class Helper {
     }
 
     public static boolean dateCheck(String tglCetak, String reprintTime, String serverTime){
-        SimpleDateFormat df = new SimpleDateFormat(getDefaultDisplayDateFormat());
+        SimpleDateFormat df = new SimpleDateFormat(getDefaultDisplayDateTimeFormat());
         Date startDate = null, currentTime = null, endDate = null, tempDate;
 
         try {
@@ -234,8 +231,12 @@ public class Helper {
         return !(currenTime.before(startDate) || currenTime.after(endDate));
     }
 
-    private static String getDefaultDisplayDateFormat() {
+    private static String getDefaultDisplayDateTimeFormat() {
         return "yyyy-MM-dd HH:mm:ss";
+    }
+
+    private static String getDefaultDisplayDateFormat() {
+        return "yyyy-MM-dd";
     }
 
     private static String getDefaultDisplayTimeFormat() {

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +65,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
             invoice_word21, invoice_word22, invoice_word23, invoice_word24, invoice_word25,
             invoice_word26, invoice_word27, invoice_word28, invoice_word29, invoice_word30,
             invoice_word31, invoice_word32, invoice_word33, invoice_word34, invoice_word35;
+    private ImageView invoice_beforebuy;
+    private LinearLayout invoice_subcontainer;
 
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
@@ -152,6 +155,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         invoice_word34 = (TextView) findViewById(R.id.invoice_word34);
         invoice_word35 = (TextView) findViewById(R.id.invoice_word35);
 
+        invoice_beforebuy = (ImageView) findViewById(R.id.invoice_beforebuy);
+        invoice_subcontainer = (LinearLayout) findViewById(R.id.invoice_subcontainer);
 
         buynowButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -256,6 +261,9 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     Gson gson = new Gson();
                     String json = gson.toJson(VoucherprintResponse.getInstance());
                     PreferenceUtils.saveLastProduct(json);
+
+                    invoice_beforebuy.setVisibility(View.INVISIBLE);
+                    invoice_subcontainer.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -445,27 +453,6 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         }else {
             return false;
         }
-    }
-    // TODO unfinish method to change bluetoothprint method
-    // if decide use this method, create arraylist string and add word one by one in response.
-    private void blutoothPrint2(ArrayList<String> data){
-        printImage();
-        byte[] cmd = new byte[5];
-        cmd[0] = 0x1b;
-        cmd[1] = 0x21;
-
-        for (int i = 0; i < data.size(); i++) {
-            if (i == 0){ // Nama toko
-                cmd[2] |= 0x10;
-                Eztytopup.getmBTprintService().write(cmd);
-                if (!validatePrint(data.get(i))) return;
-            }
-
-            if (i == 1){
-
-            }
-        }
-
     }
 
     /**

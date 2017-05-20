@@ -122,26 +122,21 @@ public class Eztytopup extends Application {
         Helper.log(TAG, isUserReseller.toString(), null);
 
         if (Build.BRAND.equals("SUNMI")
-                && Build.DEVICE.equals("V1")){
+                && Build.DEVICE.equals("V1")) {
             initPrint();
             isSunmiDevice = Boolean.TRUE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
-        }else {
+        } else {
             mBTprintService = new BluetoothService(this, mHandler);
             isSunmiDevice = Boolean.FALSE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
+
         }
 
         setDeviceId();
         isUserReseller = Boolean.FALSE;
         isPrinterConnected = Boolean.FALSE;
         con_dev = null;
-
-        Class VoucherprintResponse = getClass();
-        Field[] fields = VoucherprintResponse.getFields();
-        for (Field f : fields) {
-            Helper.log(TAG, "am" + f.getName(), null);
-        }
     }
 
     /**

@@ -125,10 +125,15 @@ public class HistoryFragment extends Fragment implements
                                    Response<ServertimeResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
-                    response.body().result.getServerTime();
-                    if (Helper.dateCheck(PreferenceUtils.getLastProduct().tglCetak,
-                            PreferenceUtils.getLastProduct().reprintTime,
-                            response.body().result.getServerTime())) {
+                    String serverTime = response.body().result.getServerTime();
+                    String tanggalCetak = PreferenceUtils.getLastProduct().tglCetak;
+                    String reprintTime = PreferenceUtils.getLastProduct().reprintTime;
+                    if (tanggalCetak.equals("") || reprintTime.equals("") || serverTime.equals("")){
+                        Toast.makeText(getContext(), R.string.cant_get_time,
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (Helper.dateCheck(tanggalCetak, reprintTime, serverTime)) {
                         Toast.makeText(getContext(), "print", Toast.LENGTH_SHORT).show();
 
                         if (!Eztytopup.getSunmiDevice()) {
@@ -152,15 +157,15 @@ public class HistoryFragment extends Fragment implements
                     }
 
                 } else {
-
+                    Toast.makeText(getContext(), response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
-
 
             }
 
             @Override
             public void onFailure(Call<ServertimeResponse> call, Throwable t) {
-
+                Helper.apiSnacbarError(getContext(), t, rootView);
             }
         });
     }
@@ -187,6 +192,7 @@ public class HistoryFragment extends Fragment implements
                 break;
         }
     }
+
     private boolean validatePrint(String word){
         if (!word.isEmpty()){
             Eztytopup.getmBTprintService().sendMessage(word, "ENG");
