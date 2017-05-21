@@ -424,34 +424,45 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void run() {
                 try {
-                     /*logo*/
                     if (printImage()) {
                         Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
                         Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
                                 Eztytopup.getCallback());
-                        /* make space*/
                         Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                        Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
                     }
-                    Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
                     Eztytopup.getWoyouService().setFontSize(20, Eztytopup.getCallback());
-                    if (!validatePrint(response.body().result.baris01.trim())) return;
-                    if (!validatePrint(response.body().result.baris02.trim())) return;
-                    if (!validatePrint(response.body().result.baris03.trim())) return;
-                    if (!validatePrint(response.body().result.baris04.trim())) return;
-                    Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
+
+                    byte[] cmd = new byte[5];
+                    cmd[0] = 0x1b;
+                    cmd[1] = 0x21;
+                    cmd[2] |= 0x10;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
+                    if (!validatePrint(response.body().result.baris01)) return;
+                    cmd[2] &= 0xEF;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
+                    if (!validatePrint(response.body().result.baris02)) return;
+                    if (!validatePrint(response.body().result.baris03)) return;
+                    if (!validatePrint(response.body().result.baris04)) return;
+                    cmd[2] |= 0x10;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
                     if (!validatePrint(response.body().result.baris05)) return;
+                    cmd[2] &= 0xEF;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
                     if (!validatePrint(response.body().result.baris06)) return;
                     if (!validatePrint(response.body().result.baris07)) return;
                     if (!validatePrint(response.body().result.baris08)) return;
                     if (!validatePrint(response.body().result.baris09)) return;
-                    Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                    if (!validatePrint(response.body().result.baris10.trim())) return;
-                    if (!validatePrint(response.body().result.baris11.trim())) return;
+                    if (!validatePrint(response.body().result.baris10)) return;
+                    if (!validatePrint(response.body().result.baris11)) return;
                     if (!validatePrint(response.body().result.baris12)) return;
-                    if (!validatePrint(response.body().result.baris13.trim())) return;
-                    if (!validatePrint(response.body().result.baris14.trim())) return;
+                    if (!validatePrint(response.body().result.baris13)) return;
+                    cmd[2] |= 0x10;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
+                    if (!validatePrint(response.body().result.baris14)) return;
+                    cmd[2] &= 0xEF;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
                     if (!validatePrint(response.body().result.baris15)) return;
-                    Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
                     if (!validatePrint(response.body().result.baris16)) return;
                     if (!validatePrint(response.body().result.baris17)) return;
                     if (!validatePrint(response.body().result.baris18)) return;
@@ -472,7 +483,6 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     if (!validatePrint(response.body().result.baris33)) return;
                     if (!validatePrint(response.body().result.baris34)) return;
                     if (!validatePrint(response.body().result.baris35)) ;
-
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -483,6 +493,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     private boolean validatePrint(String word){
         if (!word.isEmpty()){
             if (!Eztytopup.getSunmiDevice()){
+
                 Eztytopup.getmBTprintService().sendMessage(word, "ENG");
                 return true;
             }else {
@@ -490,7 +501,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     Eztytopup.getWoyouService().printOriginalText(word+"\n",
                             Eztytopup.getCallback());
                 } catch (RemoteException e) {
-                    Helper.log(TAG, "Sunmi print error" + e.getMessage(), null);
+                    Helper.log(TAG, "Sunmi print error: " + e.getMessage(), null);
                     e.printStackTrace();
                 }
                 return true;
