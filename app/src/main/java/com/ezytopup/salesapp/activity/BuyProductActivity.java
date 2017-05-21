@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -463,20 +464,17 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     ThreadPoolManager.getInstance().executeTask(new Runnable() {
                         @Override
                         public void run() {
-                            if( Eztytopup.getmBitmap() == null ){
-                        /*Change store logo, here...*/
-                                Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
-                                        R.raw.ezy_for_print));
-                            }
                             try {
                                 String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
-
                                 /*logo*/
-                                Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
-                                        Eztytopup.getCallback());
+                                if (printImage()){
+                                    Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
+                                    Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
+                                            Eztytopup.getCallback());
                                  /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                                }
+
                                 Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
                                 Eztytopup.getWoyouService().printText("Jl. Pangeran Jayakarta No. 129 \n"
                                         + "Jakarta Pusat - 10730", Eztytopup.getCallback());
@@ -522,14 +520,21 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
             Toast.makeText(this, R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();
             return Boolean.FALSE;
         }else {
-            byte[] sendData = null;
-            PrintPic pg = new PrintPic();
-            pg.initCanvas(384);
-            pg.initPaint();
-            pg.drawImage(100, 0, "/mnt/sdcard/Ezytopup/print_logo.jpg");
-            sendData = pg.printDraw();
-            Eztytopup.getmBTprintService().write(sendData);
-            return Boolean.TRUE;
+            if (!Eztytopup.getSunmiDevice()){
+                byte[] sendData = null;
+                PrintPic pg = new PrintPic();
+                pg.initCanvas(384);
+                pg.initPaint();
+                pg.drawImage(100, 0, "/mnt/sdcard/Ezytopup/print_logo.jpg");
+                sendData = pg.printDraw();
+                Eztytopup.getmBTprintService().write(sendData);
+                return Boolean.TRUE;
+
+            }else {
+                Bitmap bitmap = BitmapFactory.decodeFile(Constant.DEF_PATH_IMAGEPRINT);
+                Eztytopup.setmBitmap(bitmap);
+                return  Boolean.TRUE;
+            }
         }
     }
 

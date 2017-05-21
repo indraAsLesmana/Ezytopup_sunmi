@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -221,7 +222,11 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                    Response<VoucherprintResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
-                    bluetoothPrint(response);
+                    if (!Eztytopup.getSunmiDevice()){
+                        bluetoothPrint(response);
+                    }else {
+                        sunmiPrint(response);
+                    }
                     invoice_word1.setText(response.body().result.baris01.trim());
                     invoice_word2.setText(response.body().result.baris02.trim());
                     invoice_word3.setText(response.body().result.baris03.trim());
@@ -338,11 +343,10 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                 DeviceListActivity.class);
                         startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
                     } else {
-                        PreferenceUtils.destroyLastProduct();
                         buyNowReseller();
                     }
                 } else {
-                    sunmiPrint();
+                    buyNowReseller();
                 }
                 break;
             case R.id.btnCancel:
@@ -365,14 +369,21 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
             Toast.makeText(this, R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();
             return Boolean.FALSE;
         } else {
-            byte[] sendData = null;
-            PrintPic pg = new PrintPic();
-            pg.initCanvas(384);
-            pg.initPaint();
-            pg.drawImage(100, 0, Constant.DEF_PATH_IMAGEPRINT);
-            sendData = pg.printDraw();
-            Eztytopup.getmBTprintService().write(sendData);
-            return Boolean.TRUE;
+            if (!Eztytopup.getSunmiDevice()){
+                byte[] sendData = null;
+                PrintPic pg = new PrintPic();
+                pg.initCanvas(384);
+                pg.initPaint();
+                pg.drawImage(100, 0, Constant.DEF_PATH_IMAGEPRINT);
+                sendData = pg.printDraw();
+                Eztytopup.getmBTprintService().write(sendData);
+                return Boolean.TRUE;
+
+            }else {
+                Bitmap bitmap = BitmapFactory.decodeFile(Constant.DEF_PATH_IMAGEPRINT);
+                Eztytopup.setmBitmap(bitmap);
+                return  Boolean.TRUE;
+            }
         }
     }
     
@@ -407,45 +418,60 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         return R.layout.activity_buyreseller;
     }
 
-    private void sunmiPrint(){
+    // TODO : this style align handle by me its wrong, becouse he want handle all by API
+    private void sunmiPrint(final Response<VoucherprintResponse> response){
         ThreadPoolManager.getInstance().executeTask(new Runnable() {
             @Override
             public void run() {
-                if( Eztytopup.getmBitmap() == null ){
-                        /*Change store logo, here...*/
-                    Eztytopup.setmBitmap(BitmapFactory.decodeResource(getResources(),
-                            R.raw.ezy_for_print));
-                }
                 try {
-                    String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
-
-                                /*logo*/
+                     /*logo*/
+                    if (printImage()) {
+                        Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
+                        Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
+                                Eztytopup.getCallback());
+                        /* make space*/
+                        Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                    }
                     Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                    Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
-                            Eztytopup.getCallback());
-                                 /* make space*/
-                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                    Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
-                    Eztytopup.getWoyouService().printText("Jl. Pangeran Jayakarta No. 129 \n"
-                            + "Jakarta Pusat - 10730", Eztytopup.getCallback());
-                                 /* make space*/
-                    Eztytopup.getWoyouService().lineWrap(2, Eztytopup.getCallback());
+                    Eztytopup.getWoyouService().setFontSize(20, Eztytopup.getCallback());
+                    if (!validatePrint(response.body().result.baris01.trim())) return;
+                    if (!validatePrint(response.body().result.baris02.trim())) return;
+                    if (!validatePrint(response.body().result.baris03.trim())) return;
+                    if (!validatePrint(response.body().result.baris04.trim())) return;
                     Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
-                    Eztytopup.getWoyouService().printOriginalText("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
-                                    "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n",
-                            Eztytopup.getCallback());
-                                 /* make space*/
-                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                    if (!validatePrint(response.body().result.baris05)) return;
+                    if (!validatePrint(response.body().result.baris06)) return;
+                    if (!validatePrint(response.body().result.baris07)) return;
+                    if (!validatePrint(response.body().result.baris08)) return;
+                    if (!validatePrint(response.body().result.baris09)) return;
                     Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                    Eztytopup.getWoyouService().printOriginalText("Your Voucher code is : \n",
-                            Eztytopup.getCallback());
-                                 /* make space*/
-                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                    Eztytopup.getWoyouService().printTextWithFont(code
-                            ,"gh", 32, Eztytopup.getCallback());
-
-                                /* make space*/
-                    Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
+                    if (!validatePrint(response.body().result.baris10.trim())) return;
+                    if (!validatePrint(response.body().result.baris11.trim())) return;
+                    if (!validatePrint(response.body().result.baris12)) return;
+                    if (!validatePrint(response.body().result.baris13.trim())) return;
+                    if (!validatePrint(response.body().result.baris14.trim())) return;
+                    if (!validatePrint(response.body().result.baris15)) return;
+                    Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
+                    if (!validatePrint(response.body().result.baris16)) return;
+                    if (!validatePrint(response.body().result.baris17)) return;
+                    if (!validatePrint(response.body().result.baris18)) return;
+                    if (!validatePrint(response.body().result.baris19)) return;
+                    if (!validatePrint(response.body().result.baris20)) return;
+                    if (!validatePrint(response.body().result.baris21)) return;
+                    if (!validatePrint(response.body().result.baris22)) return;
+                    if (!validatePrint(response.body().result.baris23)) return;
+                    if (!validatePrint(response.body().result.baris24)) return;
+                    if (!validatePrint(response.body().result.baris25)) return;
+                    if (!validatePrint(response.body().result.baris26)) return;
+                    if (!validatePrint(response.body().result.baris27)) return;
+                    if (!validatePrint(response.body().result.baris28)) return;
+                    if (!validatePrint(response.body().result.baris29)) return;
+                    if (!validatePrint(response.body().result.baris30)) return;
+                    if (!validatePrint(response.body().result.baris31)) return;
+                    if (!validatePrint(response.body().result.baris32)) return;
+                    if (!validatePrint(response.body().result.baris33)) return;
+                    if (!validatePrint(response.body().result.baris34)) return;
+                    if (!validatePrint(response.body().result.baris35)) ;
 
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -456,8 +482,19 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
 
     private boolean validatePrint(String word){
         if (!word.isEmpty()){
-            Eztytopup.getmBTprintService().sendMessage(word, "ENG");
-            return true;
+            if (!Eztytopup.getSunmiDevice()){
+                Eztytopup.getmBTprintService().sendMessage(word, "ENG");
+                return true;
+            }else {
+                try {
+                    Eztytopup.getWoyouService().printOriginalText(word+"\n",
+                            Eztytopup.getCallback());
+                } catch (RemoteException e) {
+                    Helper.log(TAG, "Sunmi print error" + e.getMessage(), null);
+                    e.printStackTrace();
+                }
+                return true;
+            }
         }else {
             return false;
         }
