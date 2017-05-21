@@ -124,7 +124,6 @@ public class Eztytopup extends Application {
 
         if (Build.BRAND.equals("SUNMI")
                 && Build.DEVICE.equals("V1")) {
-            this.setTheme(R.style.Theme_Sunmi);
             initPrint();
             isSunmiDevice = Boolean.TRUE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
