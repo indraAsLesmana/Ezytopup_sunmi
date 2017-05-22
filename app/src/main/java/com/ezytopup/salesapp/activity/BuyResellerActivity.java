@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -274,6 +275,10 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
 
                     invoice_beforebuy.setVisibility(View.GONE);
                     invoice_subcontainer.setVisibility(View.VISIBLE);
+
+                    resellerPassword.getText().clear();
+                    buynowButton.setVisibility(View.GONE);
+                    cancelButton.setText(R.string.done);
                 } else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -578,5 +583,6 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         if (!validatePrint(response.body().result.baris33)) return;
         if (!validatePrint(response.body().result.baris34)) return;
         if (!validatePrint(response.body().result.baris35)) ;
+
     }
 }

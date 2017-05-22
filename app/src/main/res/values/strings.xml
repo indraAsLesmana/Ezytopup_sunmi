@@ -233,6 +233,7 @@
     <string name="cant_get_time">Can\'t gate valid time</string>
     <string name="reprint_timeout">Out of reprint validity</string>
     <string name="cant_getlastproduct">Can\'t get last product buy</string>
+    <string name="done">Done</string>
 
     <string-array name="dummy_data">
         <item>One</item>
