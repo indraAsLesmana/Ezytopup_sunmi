@@ -69,6 +69,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        enableImmersiveMode(getWindow().getDecorView());
+        if (Eztytopup.getSunmiDevice()){
+            enableImmersiveMode(getWindow().getDecorView());
+        }
     }
 }

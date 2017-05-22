@@ -2,19 +2,19 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
-import com.ezytopup.salesapp.api.EzytopupAPI;
 import com.ezytopup.salesapp.api.WalletbalanceResponse;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
@@ -28,6 +28,8 @@ public class ProfileActivity extends BaseActivity {
     private static final String TAG = "ProfileActivity";
     private EditText mSaldo, mName, mPhone, mEmail;
     private ImageView mImageprofile;
+    private RelativeLayout container_view;
+
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ProfileActivity.class);
         caller.startActivity(intent);
@@ -43,6 +45,7 @@ public class ProfileActivity extends BaseActivity {
         mPhone = (EditText) findViewById(R.id.ed_profile_phone);
         mEmail = (EditText) findViewById(R.id.ed_profile_email);
         mImageprofile = (ImageView) findViewById(R.id.im_profile_image);
+        container_view = (RelativeLayout) findViewById(R.id.container_profileactivity);
 
         String userName = PreferenceUtils.getSinglePrefrenceString
                 (ProfileActivity.this, R.string.settings_def_storefirst_name_key);
@@ -69,6 +72,10 @@ public class ProfileActivity extends BaseActivity {
         if (!checkEmail.startsWith("autoemail") && !checkEmail.endsWith("@mail.com")
                 || checkEmail.equals(Constant.PREF_NULL)){
             getBalance();
+        }
+
+        if (Eztytopup.getSunmiDevice()){
+            Helper.setImmersivebyKeyboard(container_view);
         }
     }
 

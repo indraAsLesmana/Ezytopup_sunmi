@@ -2,13 +2,10 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,8 +21,6 @@ import java.net.HttpURLConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.ezytopup.salesapp.utility.Helper.enableImmersiveMode;
 
 public class ChangePasswordActivity extends BaseActivity implements View.OnClickListener {
 
@@ -56,20 +51,9 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
         mCancelButton.setOnClickListener(this);
         mChangePasswordButton.setOnClickListener(this);
 
-        container_view.getViewTreeObserver()
-                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int heightDiff = container_view.getRootView().getHeight() - container_view.getHeight();
-
-                if (heightDiff > 100) {
-                    Helper.log(TAG, "keyboard opened", null);
-                } else {
-                    Helper.log(TAG, "keyboard closed", null);
-                    Helper.enableImmersiveMode(container_view);
-                }
-            }
-        });
+        if (Eztytopup.getSunmiDevice()){
+            Helper.setImmersivebyKeyboard(container_view);
+        }
     }
 
     private void setChangepassword(String token, String newPassword, String oldPassword,

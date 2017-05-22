@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +20,10 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.activity.BuyProductActivity;
 import com.ezytopup.salesapp.activity.BuyResellerActivity;
-import com.ezytopup.salesapp.activity.Login;
-import com.ezytopup.salesapp.adapter.RecyclerList_favoriteAdapter;
 import com.ezytopup.salesapp.adapter.RecyclerList_searchAdapter;
 import com.ezytopup.salesapp.api.BestSellerResponse;
 import com.ezytopup.salesapp.api.SearchResponse;
+import com.ezytopup.salesapp.utility.Helper;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -79,6 +77,9 @@ public class SearchFragment extends Fragment implements
                 return false;
             }
         });
+        if (Eztytopup.getSunmiDevice()){
+            Helper.setImmersivebyKeyboard(rootView);
+        }
         return rootView;
     }
 

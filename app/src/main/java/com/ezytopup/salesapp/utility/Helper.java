@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 
 import com.ezytopup.salesapp.Eztytopup;
@@ -254,6 +255,27 @@ public class Helper {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         systemUiVisibility |= flags;
         view.setSystemUiVisibility(systemUiVisibility);
+    }
+
+    /**
+     * this tricky to get is keyboard hide or not.
+     * and if keybord is hide, rerun again immersive mode
+     * */
+    public static void setImmersivebyKeyboard(final View rootView){
+        rootView.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
+
+                        if (heightDiff > 100) {
+                            Helper.log(TAG, "keyboard opened", null);
+                        } else {
+                            Helper.log(TAG, "keyboard closed", null);
+                            Helper.enableImmersiveMode(rootView);
+                        }
+                    }
+                });
     }
 
     private static String getDefaultDisplayDateTimeFormat() {
