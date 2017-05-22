@@ -3,6 +3,7 @@ package com.ezytopup.salesapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ public class ProfileActivity extends BaseActivity {
     private static final String TAG = "ProfileActivity";
     private EditText mSaldo, mName, mPhone, mEmail;
     private ImageView mImageprofile;
-    private RelativeLayout container_view;
+    private ConstraintLayout container_view;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ProfileActivity.class);
@@ -45,7 +46,7 @@ public class ProfileActivity extends BaseActivity {
         mPhone = (EditText) findViewById(R.id.ed_profile_phone);
         mEmail = (EditText) findViewById(R.id.ed_profile_email);
         mImageprofile = (ImageView) findViewById(R.id.im_profile_image);
-        container_view = (RelativeLayout) findViewById(R.id.container_profileactivity);
+        container_view = (ConstraintLayout) findViewById(R.id.container_profileactivity);
 
         String userName = PreferenceUtils.getSinglePrefrenceString
                 (ProfileActivity.this, R.string.settings_def_storefirst_name_key);
