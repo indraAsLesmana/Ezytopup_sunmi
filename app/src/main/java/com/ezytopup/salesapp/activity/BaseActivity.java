@@ -8,10 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.base.ActivityInterface;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+
+import static com.ezytopup.salesapp.utility.Helper.enableImmersiveMode;
 
 /**
  * Created by indraaguslesmana on 3/31/17.
@@ -28,6 +31,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         configureToolbar();
+        if (Eztytopup.getSunmiDevice()){
+            enableImmersiveMode(getWindow().getDecorView());
+        }
     }
 
     private void configureToolbar() {
@@ -60,4 +66,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
 
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (Eztytopup.getSunmiDevice()){
+            enableImmersiveMode(getWindow().getDecorView());
+        }
+    }
 }

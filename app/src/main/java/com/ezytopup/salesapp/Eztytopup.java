@@ -28,7 +28,6 @@ import com.google.gson.GsonBuilder;
 import com.zj.btsdk.BluetoothService;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -132,7 +131,6 @@ public class Eztytopup extends Application {
             mBTprintService = new BluetoothService(this, mHandler);
             isSunmiDevice = Boolean.FALSE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
-
         }
 
         setDeviceId();

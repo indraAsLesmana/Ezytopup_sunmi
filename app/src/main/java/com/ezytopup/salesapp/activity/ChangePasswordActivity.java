@@ -2,7 +2,7 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.support.constraint.ConstraintLayout;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +29,8 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
     private Button mChangePasswordButton, mCancelButton;
     private static final String TAG = "ChangePasswordActivity";
     private String token, newPassword, confirmPassword, oldPassword;
+    private ConstraintLayout container_view;
+
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ChangePasswordActivity.class);
         caller.startActivity(intent);
@@ -45,9 +47,14 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
 
         mChangePasswordButton = (Button) findViewById(R.id.change_password_button);
         mCancelButton = (Button) findViewById(R.id.btnCancel);
+        container_view = (ConstraintLayout) findViewById(R.id.container_changepassword);
 
         mCancelButton.setOnClickListener(this);
         mChangePasswordButton.setOnClickListener(this);
+
+        if (Eztytopup.getSunmiDevice()){
+            Helper.setImmersivebyKeyboard(container_view);
+        }
     }
 
     private void setChangepassword(String token, String newPassword, String oldPassword,
