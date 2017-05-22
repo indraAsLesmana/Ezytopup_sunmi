@@ -366,7 +366,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
             Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
                     R.string.settings_def_sellerprintlogo_key));
-            Toast.makeText(this, R.string.please_wait_imageprint, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.please_wait_imageprint,
+                    Toast.LENGTH_SHORT).show();
             return Boolean.FALSE;
         } else {
             if (!Eztytopup.getSunmiDevice()){
