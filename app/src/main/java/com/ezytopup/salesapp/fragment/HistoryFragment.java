@@ -54,7 +54,6 @@ public class HistoryFragment extends Fragment implements
     private View rootView;
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
-    private TextView reprint;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -70,7 +69,6 @@ public class HistoryFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_generallist, container, false);
-        reprint = (TextView) rootView.findViewById(R.id.reprint);
 
         RecyclerView recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         recycler_view.setHasFixedSize(true);
@@ -164,6 +162,7 @@ public class HistoryFragment extends Fragment implements
 
                     } else {
                         Toast.makeText(getContext(), R.string.reprint_timeout, Toast.LENGTH_SHORT).show();
+                        PreferenceUtils.destroyLastProduct();
                     }
 
                 } else {
@@ -220,7 +219,6 @@ public class HistoryFragment extends Fragment implements
             }
         }else {
             PreferenceUtils.destroyLastProduct();
-            reprint.setVisibility(View.INVISIBLE);
             return false;
         }
     }
@@ -291,9 +289,7 @@ public class HistoryFragment extends Fragment implements
                     if (!validatePrint(PreferenceUtils.getLastProduct().getBaris35())) ;
 
                     Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-
                     PreferenceUtils.destroyLastProduct();
-                    reprint.setVisibility(View.INVISIBLE);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -356,7 +352,6 @@ public class HistoryFragment extends Fragment implements
         if (!validatePrint(PreferenceUtils.getLastProduct().getBaris35())) ;
 
         PreferenceUtils.destroyLastProduct();
-        reprint.setVisibility(View.INVISIBLE);
     }
 
     @SuppressLint("SdCardPath")
