@@ -112,6 +112,7 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_changepassword).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_inbox).setVisible(false);
 
             nav_user_name.setText("Welcome, Guest");
             nav_user_email.setText("Your Email Here");
@@ -121,6 +122,10 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_changepassword).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
+
+            if (!Eztytopup.getIsUserReseller()){
+                navigationView.getMenu().findItem(R.id.nav_inbox).setVisible(true);
+            }
 
             String firstName = PreferenceUtils.getSinglePrefrenceString
                     (this, R.string.settings_def_storefirst_name_key);
