@@ -418,7 +418,6 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         return R.layout.activity_buyreseller;
     }
 
-    // TODO : this style align handle by me its wrong, becouse he want handle all by API
     private void sunmiPrint(final Response<VoucherprintResponse> response){
         ThreadPoolManager.getInstance().executeTask(new Runnable() {
             @Override
@@ -483,6 +482,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     if (!validatePrint(response.body().result.baris33)) return;
                     if (!validatePrint(response.body().result.baris34)) return;
                     if (!validatePrint(response.body().result.baris35)) ;
+
+                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }

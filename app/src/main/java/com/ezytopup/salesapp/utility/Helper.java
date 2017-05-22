@@ -214,7 +214,7 @@ public class Helper {
             String tempDateupdate = df.format(cal.getTime());
             endDate = df.parse(tempDateupdate);
             currentTime = df.parse(serverTime);
-            Helper.log(TAG, "original   : " + PreferenceUtils.getLastProduct().getTglCetak(), null);
+            Helper.log(TAG, "original   : " + tglCetak, null);
             Helper.log(TAG, "validate   : " + tempDateupdate, null);
             Helper.log(TAG, "now   : " + serverTime, null);
             Helper.log(TAG, "isWithRage   : " + Helper.isWithinRange(currentTime,

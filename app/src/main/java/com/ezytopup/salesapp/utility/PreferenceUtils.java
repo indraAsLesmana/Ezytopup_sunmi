@@ -17,6 +17,7 @@ public class PreferenceUtils {
     private static final String TAG = "PreferenceUtils";
     private final int STORENAME_KEY = R.string.settings_def_storename_key;
     private final int STORELOGO_KEY = R.string.settings_def_storelogo_key;
+    private final static String LAST_PRODUCT = "lastProduct";
 
     public static void setStoreDetail (Context context, String id, String first_name,
                                        String last_name, String email, String phone_number,
@@ -75,14 +76,14 @@ public class PreferenceUtils {
 
     public static void saveLastProduct(String gsonStringObj){
         SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
-        editor.putString("lastProduct", gsonStringObj);
+        editor.putString(LAST_PRODUCT, gsonStringObj);
         editor.apply();
     }
     
     public static VoucherprintResponse.Result getLastProduct() {
         SharedPreferences dataPreferece = Eztytopup.getsPreferences();
         Gson gson = new Gson();
-        String data = dataPreferece.getString("lastProduct", Constant.PREF_NULL);
+        String data = dataPreferece.getString(LAST_PRODUCT, Constant.PREF_NULL);
         VoucherprintResponse.Result lastProduct = null;
         if (!data.equals(Constant.PREF_NULL)){
             lastProduct = gson.fromJson(data,
@@ -92,7 +93,7 @@ public class PreferenceUtils {
     }
     public static void destroyLastProduct(){
         SharedPreferences.Editor editor = Eztytopup.getsPreferences().edit();
-        editor.remove("lastProduct");
+        editor.remove(LAST_PRODUCT);
         editor.apply();
     }
 

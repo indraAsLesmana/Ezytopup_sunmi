@@ -6,7 +6,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
@@ -22,6 +26,8 @@ import com.ezytopup.salesapp.activity.DeviceListActivity;
 import com.ezytopup.salesapp.adapter.Recyclerlist_HistoryAdapter;
 import com.ezytopup.salesapp.api.ServertimeResponse;
 import com.ezytopup.salesapp.api.TransactionHistoryResponse;
+import com.ezytopup.salesapp.api.VoucherprintResponse;
+import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PermissionHelper;
@@ -48,7 +54,8 @@ public class HistoryFragment extends Fragment implements
     private View rootView;
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
-    
+    private TextView reprint;
+
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -63,6 +70,8 @@ public class HistoryFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_generallist, container, false);
+        reprint = (TextView) rootView.findViewById(R.id.reprint);
+
         RecyclerView recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         recycler_view.setHasFixedSize(true);
         recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -119,6 +128,12 @@ public class HistoryFragment extends Fragment implements
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
                     //get servertime
+                    if (PreferenceUtils.getLastProduct() == null){
+                        Toast.makeText(getContext(), R.string.cant_getlastproduct,
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     String serverTime = response.body().result.getServerTime();
                     String tanggalCetak = PreferenceUtils.getLastProduct().tglCetak;
                     String reprintTime = PreferenceUtils.getLastProduct().reprintTime;
@@ -129,8 +144,6 @@ public class HistoryFragment extends Fragment implements
                     }
                     //validate reprinted time
                     if (Helper.dateCheck(tanggalCetak, reprintTime, serverTime)) {
-                        Toast.makeText(getContext(), "print", Toast.LENGTH_SHORT).show();
-
                         if (!Eztytopup.getSunmiDevice()) {
                             if (!Eztytopup.getmBTprintService().isAvailable()){
                                 Toast.makeText(getContext(), R.string.bluetooth_notfound,
@@ -144,14 +157,13 @@ public class HistoryFragment extends Fragment implements
                                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
                             } else {
                                 bluetoothPrint();
-                                PreferenceUtils.destroyLastProduct();
                             }
                         } else {
-                            // TODO sunmi-printing section
+                            sunmiPrint();
                         }
 
                     } else {
-                        Toast.makeText(getContext(), "not valid", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.reprint_timeout, Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
@@ -193,11 +205,100 @@ public class HistoryFragment extends Fragment implements
 
     private boolean validatePrint(String word){
         if (!word.isEmpty()){
-            Eztytopup.getmBTprintService().sendMessage(word, "ENG");
-            return true;
+            if (!Eztytopup.getSunmiDevice()){
+                Eztytopup.getmBTprintService().sendMessage(word, "ENG");
+                return true;
+            }else {
+                try {
+                    Eztytopup.getWoyouService().printOriginalText(word+"\n",
+                            Eztytopup.getCallback());
+                } catch (RemoteException e) {
+                    Helper.log(TAG, "Sunmi print error: " + e.getMessage(), null);
+                    e.printStackTrace();
+                }
+                return true;
+            }
         }else {
+            PreferenceUtils.destroyLastProduct();
+            reprint.setVisibility(View.INVISIBLE);
             return false;
         }
+    }
+
+    private void sunmiPrint(){
+        ThreadPoolManager.getInstance().executeTask(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (printImage()) {
+                        Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
+                        Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
+                                Eztytopup.getCallback());
+                        Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+                        Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
+                    }
+                    Eztytopup.getWoyouService().setFontSize(20, Eztytopup.getCallback());
+
+                    byte[] cmd = new byte[5];
+                    cmd[0] = 0x1b;
+                    cmd[1] = 0x21;
+                    cmd[2] |= 0x10;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris01())) return;
+                    cmd[2] &= 0xEF;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris02())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris03())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris04())) return;
+                    cmd[2] |= 0x10;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris05())) return;
+                    cmd[2] &= 0xEF;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris06())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris07())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris08())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris09())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris10())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris11())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris12())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris13())) return;
+                    cmd[2] |= 0x10;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris14())) return;
+                    cmd[2] &= 0xEF;
+                    Eztytopup.getWoyouService().sendRAWData(cmd, Eztytopup.getCallback());
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris15())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris16())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris17())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris18())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris19())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris20())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris21())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris22())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris23())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris24())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris25())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris26())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris27())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris28())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris29())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris30())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris31())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris32())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris33())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris34())) return;
+                    if (!validatePrint(PreferenceUtils.getLastProduct().getBaris35())) ;
+
+                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
+
+                    PreferenceUtils.destroyLastProduct();
+                    reprint.setVisibility(View.INVISIBLE);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void bluetoothPrint(){
@@ -253,6 +354,9 @@ public class HistoryFragment extends Fragment implements
         if (!validatePrint(PreferenceUtils.getLastProduct().getBaris33())) return;
         if (!validatePrint(PreferenceUtils.getLastProduct().getBaris34())) return;
         if (!validatePrint(PreferenceUtils.getLastProduct().getBaris35())) ;
+
+        PreferenceUtils.destroyLastProduct();
+        reprint.setVisibility(View.INVISIBLE);
     }
 
     @SuppressLint("SdCardPath")
@@ -268,15 +372,21 @@ public class HistoryFragment extends Fragment implements
             Toast.makeText(getContext(), R.string.please_wait_imageprint,
                     Toast.LENGTH_SHORT).show();
             return Boolean.FALSE;
-        }else {
-            byte[] sendData = null;
-            PrintPic pg = new PrintPic();
-            pg.initCanvas(384);
-            pg.initPaint();
-            pg.drawImage(100, 0, Constant.DEF_PATH_IMAGEPRINT);
-            sendData = pg.printDraw();
-            Eztytopup.getmBTprintService().write(sendData);
-            return Boolean.TRUE;
+        } else {
+            if (!Eztytopup.getSunmiDevice()){
+                byte[] sendData = null;
+                PrintPic pg = new PrintPic();
+                pg.initCanvas(384);
+                pg.initPaint();
+                pg.drawImage(100, 0, Constant.DEF_PATH_IMAGEPRINT);
+                sendData = pg.printDraw();
+                Eztytopup.getmBTprintService().write(sendData);
+                return Boolean.TRUE;
+            }else {
+                Bitmap bitmap = BitmapFactory.decodeFile(Constant.DEF_PATH_IMAGEPRINT);
+                Eztytopup.setmBitmap(bitmap);
+                return  Boolean.TRUE;
+            }
         }
     }
 }
