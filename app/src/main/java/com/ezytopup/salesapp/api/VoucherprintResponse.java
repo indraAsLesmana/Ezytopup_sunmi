@@ -1,23 +1,21 @@
 package com.ezytopup.salesapp.api;
 
+import android.nfc.Tag;
+
+import com.ezytopup.salesapp.utility.Helper;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * Created by indraaguslesmana on 5/17/17.
  */
 
-public class BuynowReseller {
-    private String deviceId;
-    private String productId;
-    private String email;
-    private String customerId;
-    private String sessionName;
-    private String sellerId;
-    private String sellerPassword;
-    private String sellerShopname;
-    private String sellerKasirname;
+public class VoucherprintResponse implements Serializable{
 
+    private static final String TAG = "VoucherprintResponse";
+    private static VoucherprintResponse.Result userInstance;
     @SerializedName("result")
     @Expose
     public Result result;
@@ -25,24 +23,18 @@ public class BuynowReseller {
     @Expose
     public Status status;
 
-    public BuynowReseller() {
+    public static VoucherprintResponse.Result getInstance() {
+        if (userInstance == null) {
+            Helper.log(TAG, " last product null", null);
+        }
+        return userInstance;
     }
 
-    public BuynowReseller(String deviceId, String productId, String email, String customerId,
-                          String sessionName, String sellerId, String sellerPassword,
-                          String sellerShopname, String sellerKasirname) {
-        this.deviceId = deviceId;
-        this.productId = productId;
-        this.email = email;
-        this.customerId = customerId;
-        this.sessionName = sessionName;
-        this.sellerId = sellerId;
-        this.sellerPassword = sellerPassword;
-        this.sellerShopname = sellerShopname;
-        this.sellerKasirname = sellerKasirname;
+    public static void setUserInstance(Result userInstance) {
+        VoucherprintResponse.userInstance = userInstance;
     }
 
-    public class Result {
+    public static class Result implements Serializable{
 
         @SerializedName("seller_id")
         @Expose
@@ -62,6 +54,9 @@ public class BuynowReseller {
         @SerializedName("tgl_cetak")
         @Expose
         public String tglCetak;
+        @SerializedName("reprint_time")
+        @Expose
+        public String reprintTime;
         @SerializedName("baris01")
         @Expose
         public String baris01;
@@ -190,6 +185,10 @@ public class BuynowReseller {
 
         public String getTglCetak() {
             return tglCetak;
+        }
+
+        public String getReprintTime() {
+            return reprintTime;
         }
 
         public String getBaris01() {
@@ -333,7 +332,7 @@ public class BuynowReseller {
         }
     }
 
-    public class Status {
+    public class Status implements Serializable{
 
         @SerializedName("code")
         @Expose

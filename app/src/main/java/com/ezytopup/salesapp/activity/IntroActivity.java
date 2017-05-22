@@ -1,12 +1,10 @@
 package com.ezytopup.salesapp.activity;
 
 import android.content.ComponentName;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -64,6 +62,14 @@ public class IntroActivity extends AppCompatActivity{
             PreferenceUtils.destroyUserSession(IntroActivity.this);
             Login.start(IntroActivity.this);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Eztytopup.setIsUserReseller(PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
+                ? Boolean.FALSE : Boolean.TRUE);
     }
 
     private void tokenValidityCheck(String token){

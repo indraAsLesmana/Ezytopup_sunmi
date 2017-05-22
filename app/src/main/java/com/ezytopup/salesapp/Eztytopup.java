@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -22,9 +23,12 @@ import com.ezytopup.salesapp.api.TamplateResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.zj.btsdk.BluetoothService;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -68,6 +72,8 @@ public class Eztytopup extends Application {
     private static BluetoothService mBTprintService = null;
     private static Boolean isPrinterConnected;
     private static Boolean isUserReseller;
+    private static BluetoothDevice con_dev;
+    private static Typeface sPrintedFont;
 
     @Override
     public void onCreate() {
@@ -90,9 +96,13 @@ public class Eztytopup extends Application {
                     }
                 });
 
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(Constant.API_ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okhttpClientBuilder.build());
 
         Retrofit retrofit = builder.build();
@@ -111,19 +121,26 @@ public class Eztytopup extends Application {
                 R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
                 ? Boolean.FALSE : Boolean.TRUE;
 
+        Helper.log(TAG, isUserReseller.toString(), null);
+
         if (Build.BRAND.equals("SUNMI")
-                && Build.DEVICE.equals("V1")){
+                && Build.DEVICE.equals("V1")) {
             initPrint();
             isSunmiDevice = Boolean.TRUE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
-        }else {
+        } else {
             mBTprintService = new BluetoothService(this, mHandler);
             isSunmiDevice = Boolean.FALSE;
             Helper.log(TAG, "isSunmi device= " + isSunmiDevice, null);
+
         }
 
         setDeviceId();
         isUserReseller = Boolean.FALSE;
+        isPrinterConnected = Boolean.FALSE;
+        con_dev = null;
+        sPrintedFont = Typeface.createFromAsset(getAssets(), Constant.APP_FONT_PRINT);
+
     }
 
     /**
@@ -362,6 +379,18 @@ public class Eztytopup extends Application {
 
                 break;
         }
+    }
+
+    public static Typeface getPrintedFont() {
+        return sPrintedFont;
+    }
+
+    public static BluetoothDevice getCon_dev() {
+        return con_dev;
+    }
+
+    public static void setCon_dev(BluetoothDevice con_dev) {
+        Eztytopup.con_dev = con_dev;
     }
 
     public static Boolean getIsUserReseller() {

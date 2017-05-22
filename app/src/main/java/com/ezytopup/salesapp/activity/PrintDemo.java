@@ -167,13 +167,20 @@ public class PrintDemo extends Activity {
 				Selecting print mode
 				 */
 
-				byte[] cmd = new byte[5];
-				cmd[0] = 0x1b;
+				byte[] cmd = new byte[4];
+				cmd[0] = 0x1B;
 				cmd[1] = 0x21;
-				cmd[2] = 0x10;
-				cmd[3] = 0x20;
 				mService.write(cmd);
-				mService.sendMessage(code + "\n", "GBK");
+				mService.sendMessage(getResources().getString(R.string.dummy_text), "GBK");
+				/*cmd[2] &= 0xEF;
+				mService.write(cmd);
+				mService.sendMessage("    Jl Pangeran Keren No 100", "GBK");
+				mService.sendMessage("      www.xxxxxxxxx.com", "GBK");
+				mService.sendMessage("         021-12345689   ", "GBK");
+				cmd[2] |= 0x10;
+				mService.write(cmd);
+				mService.sendMessage("===============================", "GBK");*/
+
 			}
 		}
 	}

@@ -230,6 +230,9 @@
     <string name="reload">Reload</string>
     <string name="failed_open_bluetooth">Failed open bluetooth</string>
     <string name="please_wait_imageprint">Please wait image on progress download</string>
+    <string name="cant_get_time">Can\'t gate valid time</string>
+    <string name="reprint_timeout">Out of reprint validity</string>
+    <string name="cant_getlastproduct">Can\'t get last product buy</string>
 
     <string-array name="dummy_data">
         <item>One</item>

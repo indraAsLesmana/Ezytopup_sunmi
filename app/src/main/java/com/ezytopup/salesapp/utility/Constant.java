@@ -74,6 +74,8 @@ public class Constant {
     public static final boolean ENABLE_LOG = true;
     public static final String APP_NAME = "Ezytopup";
     public static boolean ENABLE_HOME_SWIPE = false;
+    public static String DEF_PATH_IMAGEPRINT = "/mnt/sdcard/Ezytopup/print_logo.jpg";
+    public static final String APP_FONT_PRINT = "fonts/lmmonocaps10-regular.otf";
 
 
     /**
@@ -82,4 +84,10 @@ public class Constant {
     public static final String TAG_LOG_API = APP_NAME + "_api";
     public static final String TAG_LOG_VERBOSE = APP_NAME + "_verbose";
     public static final String TAG_LOG_ERROR = APP_NAME + "_error";
+
+    public static class PermissionCode {
+
+        public static int STORAGE = 1;
+        public static int LOCATION = 2;
+    }
 }

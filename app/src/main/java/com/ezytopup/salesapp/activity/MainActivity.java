@@ -1,15 +1,10 @@
 package com.ezytopup.salesapp.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.RemoteException;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -24,6 +19,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -38,9 +34,9 @@ import com.ezytopup.salesapp.adapter.RegisterFragment_Adapter;
 import com.ezytopup.salesapp.api.HeaderimageResponse;
 import com.ezytopup.salesapp.api.TokencheckResponse;
 import com.ezytopup.salesapp.api.TutorialResponse;
-import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
+import com.ezytopup.salesapp.utility.PermissionHelper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -63,6 +59,8 @@ public class MainActivity extends BaseActivity
     private ArrayList<HeaderimageResponse.Result> headerImage;
     private ArrayList<TutorialResponse.Result> tutorialImage;
     private DrawerLayout drawer;
+    private File file = new File(Constant.DEF_PATH_IMAGEPRINT);
+
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
@@ -147,13 +145,26 @@ public class MainActivity extends BaseActivity
             }
         }
 
-        if (!PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)){
+        if (!file.exists() &&
+                !PreferenceUtils.getSinglePrefrenceString(this,
+                        R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL) &&
+                Eztytopup.getIsUserReseller() &&
+                PermissionHelper.isPermissionGranted(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
             Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
                     R.string.settings_def_sellerprintlogo_key));
         }
 
-        getImageHeader();
+        if (Eztytopup.getIsUserReseller()){
+            Helper.log(TAG, "user reseller", null);
+            getImageHeaderReseller();
+        }else {
+            Helper.log(TAG, "end user", null);
+            getImageHeader();
+            navigationView.getMenu().findItem(R.id.nav_print).setVisible(false);
+        }
+
         initTabMenu();
         Helper.log(TAG, "setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeidevice_key), null);
@@ -184,6 +195,44 @@ public class MainActivity extends BaseActivity
                         headerImages.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
+                    headerImages.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<HeaderimageResponse> call, Throwable t) {
+                Helper.log(TAG, "onResponse: " + t.getMessage(), null);
+                headerImages.setVisibility(View.GONE);
+            }
+        });
+    }
+    private void getImageHeaderReseller() {
+        Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeaderReseller();
+        call.enqueue(new Callback<HeaderimageResponse>() {
+            @Override
+            public void onResponse(Call<HeaderimageResponse> call,
+                                   Response<HeaderimageResponse> response) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                    headerImage.addAll(response.body().result);
+                    TextSliderView textSliderView = null;
+                    for (int i = 0; i < headerImage.size(); i++) {
+                        textSliderView = new TextSliderView(MainActivity.this);
+                        textSliderView
+                                .image(headerImage.get(i).getImageUrl())
+                                .errorDisappear(true)
+                                .setScaleType(BaseSliderView.ScaleType.Fit);
+                        headerImages.addSlider(textSliderView);
+                    }
+                    if (textSliderView != null && textSliderView.isErrorLoad()) {
+                        headerImages.setVisibility(View.GONE);
+                    }else {
+                        headerImages.setVisibility(View.VISIBLE);
+                    }
+                }else {
                     Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);
                 }
@@ -306,7 +355,7 @@ public class MainActivity extends BaseActivity
 
                 break;
             case R.id.nav_print:
- 
+                PrintDemo.start(MainActivity.this);
                 break;
         }
 
@@ -341,15 +390,6 @@ public class MainActivity extends BaseActivity
 
             }
         });
-    }
-
-    // TODO : if this not set, after app resume always set to false. must fix latter
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Eztytopup.setIsUserReseller(PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
-                ? Boolean.FALSE : Boolean.TRUE);
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,8 +52,14 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
 
     private void setChangepassword(String token, String newPassword, String oldPassword,
                                    String confirmPassword){
+        HashMap<String, String> data = new HashMap<>();
+        data.put("pass_lama", oldPassword);
+        data.put("pass_baru1", newPassword);
+        data.put("pass_baru2", confirmPassword);
+        data.put("token", token);
+
         Call<ChangepasswordResponse> changePassword = Eztytopup.getsAPIService()
-                .setChangePassword(token, token, newPassword, confirmPassword, oldPassword);
+                .setChangePassword(data);
         changePassword.enqueue(new Callback<ChangepasswordResponse>() {
             @Override
             public void onResponse(Call<ChangepasswordResponse> call,

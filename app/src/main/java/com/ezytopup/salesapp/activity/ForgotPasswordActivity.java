@@ -2,6 +2,7 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.EzytopupAPI;
 import com.ezytopup.salesapp.api.ForgotpasswordResponse;
+import com.ezytopup.salesapp.utility.Helper;
 import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 import java.net.HttpURLConnection;
@@ -26,6 +28,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
     private EditText mEmailView, mPhoneView;
     private Button mGetYourPasswordButton, mBackButton;
+    private ConstraintLayout container_forgotpassword;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ForgotPasswordActivity.class);
@@ -42,6 +45,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
         mGetYourPasswordButton = (Button) findViewById(R.id.btnGetyourpassword);
         mBackButton = (Button) findViewById(R.id.btnBack);
+        container_forgotpassword = (ConstraintLayout) findViewById(R.id.container_forgotpassword);
 
         mGetYourPasswordButton.setOnClickListener(this);
         mBackButton.setOnClickListener(this);
@@ -80,12 +84,14 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
             case R.id.btnGetyourpassword:
                 if (mEmailView.getText().toString().isEmpty() ||
                         mPhoneView.getText().toString().isEmpty()){
-                    Toast.makeText(this, R.string.forgot_password, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.forgot_password,
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
                 setForgotpassword(mEmailView.getText().toString(), mPhoneView.getText().toString());
                 break;
             case R.id.btnBack:
+                Helper.hideSoftKeyboard(container_forgotpassword);
                 finish();
                 break;
         }

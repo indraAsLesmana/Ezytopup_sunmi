@@ -175,7 +175,6 @@ public class BitmapUtils {
     	Log.i(TAG, "width = " + width + " , " + "height = " + height);
     	Bitmap bitmap = null;
     	try {
-    		// TODO: Take max pixels allowed into account for calculation to avoid possible OOM.
 //    		Rect bounds = getBitmapBounds(is, false);
     		int sampleSize = Math.max(bounds.width() / width, bounds.height() / height);
     		sampleSize = Math.min(sampleSize,
@@ -225,7 +224,6 @@ public class BitmapUtils {
     	Log.i(TAG, "width = " + width + " , " + "height = " + height);
         Bitmap bitmap = null;
         try {
-            // TODO: Take max pixels allowed into account for calculation to avoid possible OOM.
             Rect bounds = getBitmapBounds(data);
             int sampleSize = Math.max(bounds.width() / width, bounds.height() / height);
             sampleSize = Math.min(sampleSize,
@@ -277,7 +275,6 @@ public class BitmapUtils {
         Bitmap bitmap = null;
 
         try {
-            // TODO: Take max pixels allowed into account for calculation to avoid possible OOM.
             Rect bounds = getBitmapBounds(uri);
             int sampleSize = Math.max(bounds.width() / width, bounds.height() / height);
             sampleSize = Math.min(sampleSize,

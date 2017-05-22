@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
@@ -18,7 +19,9 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -155,8 +158,19 @@ public class Helper {
         });
         snackbar.show();
     }
+    public static void snacbarError(int message, View view){
+        Helper.log(TAG, "onFailure: " + message, null);
+        final Snackbar snackbar = Snackbar.make(view, message,
+                Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
 
-    // TODO : Download manager need permission on > Marshollow
     public static void downloadFile(Context context, String uRl) {
         File direct = new File(Environment.getExternalStorageDirectory()
                 + "/Ezytopup");
@@ -186,4 +200,50 @@ public class Helper {
             mgr.enqueue(request);
         }
     }
+
+    public static boolean dateCheck(String tglCetak, String reprintTime, String serverTime){
+        SimpleDateFormat df = new SimpleDateFormat(getDefaultDisplayDateTimeFormat());
+        Date startDate = null, currentTime = null, endDate = null, tempDate;
+
+        try {
+            startDate = df.parse(tglCetak);
+            tempDate = startDate;
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(tempDate);
+            cal.add(Calendar.MINUTE, Integer.parseInt(reprintTime));
+            String tempDateupdate = df.format(cal.getTime());
+            endDate = df.parse(tempDateupdate);
+            currentTime = df.parse(serverTime);
+            Helper.log(TAG, "original   : " + tglCetak, null);
+            Helper.log(TAG, "validate   : " + tempDateupdate, null);
+            Helper.log(TAG, "now   : " + serverTime, null);
+            Helper.log(TAG, "isWithRage   : " + Helper.isWithinRange(currentTime,
+                    startDate, endDate), null);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return isWithinRange(currentTime, startDate, endDate);
+    }
+    private static boolean isWithinRange(Date currenTime, Date startDate, Date endDate) {
+        return !(currenTime.before(startDate) || currenTime.after(endDate));
+    }
+
+    /**
+     * Show soft keyboard for given view
+     */
+    public static void hideSoftKeyboard(View view) {
+        if(view == null) {
+            return;
+        }
+
+        InputMethodManager imm = (InputMethodManager)
+                view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private static String getDefaultDisplayDateTimeFormat() {
+        return "yyyy-MM-dd HH:mm:ss";
+    }
+
 }

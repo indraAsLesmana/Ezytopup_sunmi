@@ -3,6 +3,8 @@ package com.ezytopup.salesapp.api;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.utility.Constant;
 
+import java.util.HashMap;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -79,7 +81,7 @@ public interface EzytopupAPI {
     Call<ListCategoryResponse> getListCategory();
 
     @GET("WGS_API_get_order_transaction_history.php?" + API_URL_GENERALUSAGE)
-    Call<TransactionHistoryResponse> getHistory(@Header("Authorize") String token, @Query("customerId") int customerId);
+    Call<TransactionHistoryResponse> getHistory(@Header("Authorize") String token, @Query("customerId") String customerId);
     /**
      * this API i implement with object PaymentResponse have no object data, just get Message for checking result 200 or not
      * */
@@ -132,11 +134,7 @@ public interface EzytopupAPI {
     Call<WalletbalanceResponse> getWalletbalance(@Header("Authorize") String headerToken);
 
     @POST("WGS_API_change_password.php?" + API_URL_GENERALUSAGE)
-    Call<ChangepasswordResponse> setChangePassword(@Header("Authorize") String headerToken,
-                                                   @Query("token") String token,
-                                                   @Query("pass_baru1") String newPassword,
-                                                   @Query("pass_baru2") String confirmPassword,
-                                                   @Query("pass_lama") String oldPassword);
+    Call<ChangepasswordResponse> setChangePassword(@Body HashMap<String, String> userProfile);
 
     @POST("WGS_API_forget_password.php?" + API_URL_GENERALUSAGE)
     Call<ForgotpasswordResponse> setForgotpassword(@Header("Authorize") String headerToken,
@@ -144,5 +142,12 @@ public interface EzytopupAPI {
                                                    @Query("phone") String phone);
 
     @POST("WGS_API_buyNow_reseller.php?" + API_URL_GENERALUSAGE)
-    Call<BuynowReseller> getBuyreseller(@Body BuynowReseller buynowReseller);
+    Call<VoucherprintResponse> getBuyreseller(@Body HashMap<String, String> data);
+
+    @GET("WGS_API_getHeaderImages_reseller.php?" + API_URL_GENERALUSAGE)
+    Call<HeaderimageResponse> getImageHeaderReseller();
+
+    @GET("WGS_API_server_time.php?" + API_URL_GENERALUSAGE)
+    Call<ServertimeResponse> getServertime();
+
 }
