@@ -1,14 +1,17 @@
 package com.ezytopup.salesapp.utility;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 
 import com.ezytopup.salesapp.Eztytopup;
@@ -240,6 +243,39 @@ public class Helper {
         InputMethodManager imm = (InputMethodManager)
                 view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static void enableImmersiveMode(View view) {
+        int systemUiVisibility = view.getSystemUiVisibility();
+        int flags = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        systemUiVisibility |= flags;
+        view.setSystemUiVisibility(systemUiVisibility);
+    }
+
+    /**
+     * this tricky to get is keyboard hide or not.
+     * and if keybord is hide, rerun again immersive mode
+     * */
+    public static void setImmersivebyKeyboard(final View rootView){
+        rootView.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
+
+                        if (heightDiff > 100) {
+                            Helper.log(TAG, "keyboard opened", null);
+                        } else {
+                            Helper.log(TAG, "keyboard closed", null);
+                            Helper.enableImmersiveMode(rootView);
+                        }
+                    }
+                });
     }
 
     private static String getDefaultDisplayDateTimeFormat() {

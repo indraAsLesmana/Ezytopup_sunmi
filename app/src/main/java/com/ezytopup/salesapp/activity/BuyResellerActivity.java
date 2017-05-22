@@ -181,6 +181,9 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         mSubtotal.setText(productPrice);
 
         getDetailProduct();
+        if (Eztytopup.getSunmiDevice()){
+            Helper.setImmersivebyKeyboard(containerResellerbuy);
+        }
     }
 
     private void buyNowReseller(){

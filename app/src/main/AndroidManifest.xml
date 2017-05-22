@@ -90,16 +90,21 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.ProfileActivity" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.ChangePasswordActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity android:name=".activity.DeviceListActivity"
+        <activity
+            android:name=".activity.DeviceListActivity"
             android:label="@string/select_device"
             android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".activity.PrintDemo"/>
