@@ -4,14 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -74,6 +72,12 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
 
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
+
+    private static BuynowInterface listener ;
+
+    public static void buynowListener(BuynowInterface listener) {
+        BuyResellerActivity.listener = listener;
+    }
 
     public static void start(Activity caller, String id, String name, String image, String bg,
                              String price) {
@@ -226,6 +230,10 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                                    Response<VoucherprintResponse> response) {
                 if (response.isSuccessful() && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
+
+                    // inform history fragment, to call getHistory API
+                    listener.buyNowClick();
+
                     if (!Eztytopup.getSunmiDevice()){
                         bluetoothPrint(response);
                     }else {
@@ -584,5 +592,9 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         if (!validatePrint(response.body().result.baris34)) return;
         if (!validatePrint(response.body().result.baris35)) ;
 
+    }
+
+    public interface BuynowInterface {
+        void buyNowClick();
     }
 }

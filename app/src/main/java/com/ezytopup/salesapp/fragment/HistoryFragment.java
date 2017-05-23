@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.activity.BuyResellerActivity;
 import com.ezytopup.salesapp.activity.DeviceListActivity;
 import com.ezytopup.salesapp.adapter.Recyclerlist_HistoryAdapter;
 import com.ezytopup.salesapp.api.ServertimeResponse;
@@ -44,7 +45,7 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class HistoryFragment extends Fragment implements
-        Recyclerlist_HistoryAdapter.Recyclerlist_HistoryAdapterlistener{
+        Recyclerlist_HistoryAdapter.Recyclerlist_HistoryAdapterlistener, BuyResellerActivity.BuynowInterface {
 
     private ArrayList<TransactionHistoryResponse.Result> Allhistory;
     private ArrayList<TransactionHistoryResponse.Result> tempHistory;
@@ -88,22 +89,8 @@ public class HistoryFragment extends Fragment implements
         if (!uid.equals(Constant.PREF_NULL) && !token.equals(Constant.PREF_NULL))
             getHistory(token, uid);
 
-        return  rootView;
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (Eztytopup.getIsUserReseller()){
-            if (isVisibleToUser
-                    && rootView != null
-                    && PreferenceUtils.getLastProduct() != null
-                    && Allhistory.size() != successHistoryCount){
-
-                getHistory(token, uid);
-                successHistoryCount = Allhistory.size();
-            }
-        }
+        BuyResellerActivity.buynowListener(this);
+        return rootView;
     }
 
     private void getHistory(String token, String customerId) {
@@ -120,7 +107,6 @@ public class HistoryFragment extends Fragment implements
                     Allhistory.clear();
                     Allhistory.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
-
                 }else {
                     Toast.makeText(getContext(), response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -406,5 +392,10 @@ public class HistoryFragment extends Fragment implements
                 return  Boolean.TRUE;
             }
         }
+    }
+
+    @Override
+    public void buyNowClick() {
+        getHistory(token, uid);
     }
 }
