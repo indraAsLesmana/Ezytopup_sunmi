@@ -17,7 +17,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
@@ -26,7 +25,6 @@ import com.ezytopup.salesapp.activity.DeviceListActivity;
 import com.ezytopup.salesapp.adapter.Recyclerlist_HistoryAdapter;
 import com.ezytopup.salesapp.api.ServertimeResponse;
 import com.ezytopup.salesapp.api.TransactionHistoryResponse;
-import com.ezytopup.salesapp.api.VoucherprintResponse;
 import com.ezytopup.salesapp.printhelper.ThreadPoolManager;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
@@ -49,12 +47,14 @@ public class HistoryFragment extends Fragment implements
         Recyclerlist_HistoryAdapter.Recyclerlist_HistoryAdapterlistener{
 
     private ArrayList<TransactionHistoryResponse.Result> Allhistory;
+    private ArrayList<TransactionHistoryResponse.Result> tempHistory;
     private Recyclerlist_HistoryAdapter adapter;
     private static final String TAG = "FavoriteFragment";
     private View rootView;
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
     private String uid, token;
+    private int successHistoryCount;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -64,6 +64,7 @@ public class HistoryFragment extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Allhistory = new ArrayList<>();
+        successHistoryCount = Allhistory.size();
     }
 
     @Override
@@ -75,8 +76,10 @@ public class HistoryFragment extends Fragment implements
         recycler_view.setHasFixedSize(true);
         recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
+
         adapter = new Recyclerlist_HistoryAdapter(getContext(), Allhistory, HistoryFragment.this);
         recycler_view.setAdapter(adapter);
+
         uid = PreferenceUtils.getSinglePrefrenceString(getContext(),
                 R.string.settings_def_uid_key);
         token = PreferenceUtils.getSinglePrefrenceString(getContext(),
@@ -92,8 +95,13 @@ public class HistoryFragment extends Fragment implements
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (Eztytopup.getIsUserReseller()){
-            if (PreferenceUtils.getLastProduct() != null){
+            if (isVisibleToUser
+                    && rootView != null
+                    && PreferenceUtils.getLastProduct() != null
+                    && Allhistory.size() != successHistoryCount){
+
                 getHistory(token, uid);
+                successHistoryCount = Allhistory.size();
             }
         }
     }
@@ -108,6 +116,8 @@ public class HistoryFragment extends Fragment implements
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+
+                    Allhistory.clear();
                     Allhistory.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
 
