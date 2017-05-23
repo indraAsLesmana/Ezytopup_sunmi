@@ -3,6 +3,7 @@ package com.ezytopup.salesapp.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -64,6 +65,8 @@ public class MainActivity extends BaseActivity
     private ArrayList<TutorialResponse.Result> tutorialImage;
     private DrawerLayout drawer;
 
+    private ProgressDialog progressDialog;
+
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
         caller.startActivity(intent);
@@ -77,6 +80,10 @@ public class MainActivity extends BaseActivity
         actionBar.setDisplayShowTitleEnabled(false);
         headerImage = new ArrayList<>();
         tutorialImage = new ArrayList<>();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading . . . ");
+        progressDialog.setCancelable(false);
 
         if (PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
                 R.string.settings_def_storeaccess_token_key).equals(Constant.PREF_NULL)
@@ -160,6 +167,9 @@ public class MainActivity extends BaseActivity
     }
 
     private void getImageHeader() {
+        coordinatorLayout.setVisibility(View.GONE);
+        progressDialog.show();
+
         Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeader();
         call.enqueue(new Callback<HeaderimageResponse>() {
             @Override
@@ -183,6 +193,8 @@ public class MainActivity extends BaseActivity
                     } else {
                         headerImages.setVisibility(View.VISIBLE);
                     }
+                    coordinatorLayout.setVisibility(View.VISIBLE);
+                    progressDialog.dismiss();
                 } else {
                     Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);
