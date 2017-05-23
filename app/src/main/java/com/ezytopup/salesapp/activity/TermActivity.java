@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ public class TermActivity extends BaseActivity {
 
     private RecyclerList_TermAdapter adapter;
     private ArrayList<TermResponse.Result> results;
+    private LinearLayout loadingBar;
+    private RecyclerView recyclerView;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, TermActivity.class);
@@ -37,11 +40,13 @@ public class TermActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        loadingBar = (LinearLayout) findViewById(R.id.loadingBar);
+
         TextView titleText = (TextView) findViewById(R.id.faq_titlequetion);
         titleText.setVisibility(View.GONE);
 
         results = new ArrayList<>();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
+        recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
@@ -63,6 +68,9 @@ public class TermActivity extends BaseActivity {
     }
 
     private void getTerm() {
+        loadingBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+
         Call<TermResponse> term = Eztytopup.getsAPIService().getTerm();
         term.enqueue(new Callback<TermResponse>() {
             @Override
@@ -72,15 +80,22 @@ public class TermActivity extends BaseActivity {
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
                     results.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
+
+                    loadingBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }else {
                     Toast.makeText(TermActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
+
+                    loadingBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<TermResponse> call, Throwable t) {
-
+                loadingBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
     }

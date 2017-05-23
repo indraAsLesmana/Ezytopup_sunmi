@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class FaqActivity extends BaseActivity {
     private ArrayList<FaqResponse.Result> results;
     private static final String TAG = "FaqActivity";
     private ConstraintLayout container_layout;
+    private LinearLayout loadingBar;
+    private RecyclerView recyclerView;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, FaqActivity.class);
@@ -42,11 +45,13 @@ public class FaqActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        loadingBar = (LinearLayout) findViewById(R.id.loadingBar);
+
         TextView titleText = (TextView) findViewById(R.id.faq_titlequetion);
         titleText.setVisibility(View.VISIBLE);
         container_layout = (ConstraintLayout) findViewById(R.id.container_layout);
         results = new ArrayList<>();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
+        recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
@@ -58,7 +63,7 @@ public class FaqActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -68,24 +73,33 @@ public class FaqActivity extends BaseActivity {
     }
 
     private void getQuestion() {
+        loadingBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+
         Call<FaqResponse> faq = Eztytopup.getsAPIService().getFaq();
         faq.enqueue(new Callback<FaqResponse>() {
             @Override
             public void onResponse(Call<FaqResponse> call, Response<FaqResponse> response) {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
-                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
                     results.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
-                }else {
+                    loadingBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                } else {
                     Toast.makeText(FaqActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
+                    loadingBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<FaqResponse> call, Throwable t) {
                 Helper.apiSnacbarError(FaqActivity.this, t, container_layout);
+                loadingBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
     }

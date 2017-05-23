@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,9 @@ public class ContactUsActivity extends BaseActivity {
     private String token, yourName, yourEmail, yourPhone, yourSubject, yourMessage;
     private static final String TAG = "ContactUsActivity";
 
+    private LinearLayout loadingBar;
+    private ScrollView contentLayout;
+
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ContactUsActivity.class);
         caller.startActivity(intent);
@@ -43,6 +48,8 @@ public class ContactUsActivity extends BaseActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         container_layout = (RelativeLayout) findViewById(R.id.container_contactus_layout);
+        loadingBar = (LinearLayout) findViewById(R.id.loadingBar);
+        contentLayout = (ScrollView) findViewById(R.id.contentLayout);
 
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvAddress = (TextView) findViewById(R.id.tvAddress);
@@ -91,6 +98,9 @@ public class ContactUsActivity extends BaseActivity {
     }
 
     public void getContactUs() {
+        loadingBar.setVisibility(View.VISIBLE);
+        contentLayout.setVisibility(View.GONE);
+
         Call<ContactUsResponse> contactUsResponseCall = Eztytopup.getsAPIService().getContactUs();
         contactUsResponseCall.enqueue(new Callback<ContactUsResponse>() {
             @Override
@@ -113,15 +123,24 @@ public class ContactUsActivity extends BaseActivity {
                     tvPhone.setText(response.body().support.telp);
 
                     tvMessage.setText(response.body().pesanku);
+
+                    loadingBar.setVisibility(View.GONE);
+                    contentLayout.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(ContactUsActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
+
+                    loadingBar.setVisibility(View.GONE);
+                    contentLayout.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<ContactUsResponse> call, Throwable t) {
                 Helper.apiSnacbarError(ContactUsActivity.this, t, container_layout);
+
+                loadingBar.setVisibility(View.GONE);
+                contentLayout.setVisibility(View.VISIBLE);
             }
         });
     }
