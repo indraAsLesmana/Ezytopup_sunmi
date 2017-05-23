@@ -118,10 +118,9 @@ public class Eztytopup extends Application {
                 R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
                 ? Boolean.FALSE : Boolean.TRUE;
 
-        if (!isUserReseller){
-            loadPaymentInfo();
-            loadGiftTamplte();
-        }
+        // TODO : need refactor this, and load from mainactivity
+        loadPaymentInfo();
+        loadGiftTamplte();
 
         Helper.log(TAG, isUserReseller.toString(), null);
 
@@ -288,10 +287,12 @@ public class Eztytopup extends Application {
     private void getLoadActivePayment(String id) {
         switch (id) {
             case Constant.INTERNET_BANK:
+
                 Call<PaymentResponse> payInternet = Eztytopup.getsAPIService().getPaymentInetBanking();
                 payInternet.enqueue(new Callback<PaymentResponse>() {
                     @Override
-                    public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                    public void onResponse(Call<PaymentResponse> call,
+                                           retrofit2.Response<PaymentResponse> response) {
                         if (response.isSuccessful() &&
                                 response.body().status.getCode()
                                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
@@ -311,10 +312,12 @@ public class Eztytopup extends Application {
 
                 break;
             case Constant.BANK_TRANSFER:
+
                 Call<PaymentResponse> payTransfer = Eztytopup.getsAPIService().getPaymentBankTransfer();
                 payTransfer.enqueue(new Callback<PaymentResponse>() {
                     @Override
-                    public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                    public void onResponse(Call<PaymentResponse> call,
+                                           retrofit2.Response<PaymentResponse> response) {
                         if (response.isSuccessful() &&
                                 response.body().status.getCode()
                                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
@@ -334,10 +337,12 @@ public class Eztytopup extends Application {
 
                 break;
             case Constant.CREADIT_CARD:
+
                 Call<PaymentResponse> payCredit = Eztytopup.getsAPIService().getPaymentCreditcard();
                 payCredit.enqueue(new Callback<PaymentResponse>() {
                     @Override
-                    public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                    public void onResponse(Call<PaymentResponse> call,
+                                           retrofit2.Response<PaymentResponse> response) {
                         if (response.isSuccessful() &&
                                 response.body().status.getCode()
                                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
@@ -357,10 +362,12 @@ public class Eztytopup extends Application {
 
                 break;
             case Constant.EZYTOPUP_WALLET:
+
                 Call<PaymentResponse> payWallet = Eztytopup.getsAPIService().getPaymentEzyWallet();
                 payWallet.enqueue(new Callback<PaymentResponse>() {
                     @Override
-                    public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                    public void onResponse(Call<PaymentResponse> call,
+                                           retrofit2.Response<PaymentResponse> response) {
                         if (response.isSuccessful() &&
                                 response.body().status.getCode()
                                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
