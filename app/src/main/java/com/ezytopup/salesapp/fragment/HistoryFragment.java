@@ -54,6 +54,7 @@ public class HistoryFragment extends Fragment implements
     private View rootView;
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
+    private String uid, token;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -76,13 +77,25 @@ public class HistoryFragment extends Fragment implements
                 LinearLayoutManager.VERTICAL, false));
         adapter = new Recyclerlist_HistoryAdapter(getContext(), Allhistory, HistoryFragment.this);
         recycler_view.setAdapter(adapter);
-        String uid = PreferenceUtils.getSinglePrefrenceString(getContext(),
+        uid = PreferenceUtils.getSinglePrefrenceString(getContext(),
                 R.string.settings_def_uid_key);
-        String token = PreferenceUtils.getSinglePrefrenceString(getContext(),
+        token = PreferenceUtils.getSinglePrefrenceString(getContext(),
                 R.string.settings_def_storeaccess_token_key);
+
         if (!uid.equals(Constant.PREF_NULL) && !token.equals(Constant.PREF_NULL))
             getHistory(token, uid);
+
         return  rootView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (Eztytopup.getIsUserReseller()){
+            if (PreferenceUtils.getLastProduct() != null){
+                getHistory(token, uid);
+            }
+        }
     }
 
     private void getHistory(String token, String customerId) {

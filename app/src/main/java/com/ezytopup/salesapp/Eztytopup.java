@@ -113,12 +113,15 @@ public class Eztytopup extends Application {
         paymentCredit = new ArrayList<>();
         paymentWallet = new ArrayList<>();
         tamplateActive = new ArrayList<>();
-        loadPaymentInfo();
-        loadGiftTamplte();
 
         isUserReseller = PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
                 ? Boolean.FALSE : Boolean.TRUE;
+
+        if (!isUserReseller){
+            loadPaymentInfo();
+            loadGiftTamplte();
+        }
 
         Helper.log(TAG, isUserReseller.toString(), null);
 
