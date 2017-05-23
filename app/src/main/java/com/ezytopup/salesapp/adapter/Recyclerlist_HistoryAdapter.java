@@ -64,7 +64,8 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
                         .into(holder.hist_image);
             }
         }
-        if (position == 0 && result != null
+        if (position == 0
+                && result != null
                 && Eztytopup.getIsUserReseller()
                 && PreferenceUtils.getLastProduct() != null){
             holder.reprint.setVisibility(View.VISIBLE);

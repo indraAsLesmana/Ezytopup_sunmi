@@ -48,14 +48,12 @@ public class HistoryFragment extends Fragment implements
         Recyclerlist_HistoryAdapter.Recyclerlist_HistoryAdapterlistener, BuyResellerActivity.BuynowInterface {
 
     private ArrayList<TransactionHistoryResponse.Result> Allhistory;
-    private ArrayList<TransactionHistoryResponse.Result> tempHistory;
     private Recyclerlist_HistoryAdapter adapter;
     private static final String TAG = "FavoriteFragment";
     private View rootView;
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
     private String uid, token;
-    private int successHistoryCount;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -65,7 +63,6 @@ public class HistoryFragment extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Allhistory = new ArrayList<>();
-        successHistoryCount = Allhistory.size();
     }
 
     @Override
@@ -104,9 +101,17 @@ public class HistoryFragment extends Fragment implements
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
 
-                    Allhistory.clear();
-                    Allhistory.addAll(response.body().result);
-                    adapter.notifyDataSetChanged();
+                    // TODO : need to check, is notifyItemInserted is working
+
+                    if (Allhistory.size() == 0){
+                        Allhistory.addAll(response.body().result);
+                        adapter.notifyDataSetChanged();
+                    }else{
+                        Allhistory.add(
+                                response.body().result.get(
+                                        response.body().result.size() -1));
+                        adapter.notifyDataSetChanged();
+                    }
                 }else {
                     Toast.makeText(getContext(), response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
