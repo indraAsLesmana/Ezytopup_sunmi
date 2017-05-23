@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ezytopup.salesapp.BuildConfig;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.Authrequest;
@@ -120,6 +121,8 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         container_login = (ConstraintLayout) findViewById(R.id.container_login);
+        TextView version = (TextView)findViewById(R.id.version_code);
+
 
         if (!PermissionHelper.isPermissionGranted(Login.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -129,6 +132,12 @@ public class Login extends BaseActivity implements LoaderCallbacks<Cursor> {
 
         if (Eztytopup.getSunmiDevice()){
             Helper.setImmersivebyKeyboard(container_login);
+        }
+
+        if(version != null) {
+            String versionStr = BuildConfig.VERSION_NAME;
+            versionStr += "-" + BuildConfig.BUILD_TYPE;
+            version.setText(String.format("%s: %s", getString(R.string.code_version), versionStr));
         }
     }
 

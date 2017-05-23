@@ -234,6 +234,7 @@
     <string name="reprint_timeout">Out of reprint validity</string>
     <string name="cant_getlastproduct">Can\'t get last product buy</string>
     <string name="done">Done</string>
+    <string name="code_version">Build version</string>
 
     <string-array name="dummy_data">
         <item>One</item>

@@ -1,15 +1,13 @@
 package com.ezytopup.salesapp.activity;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.ezytopup.salesapp.BuildConfig;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.api.TokencheckResponse;
@@ -39,6 +37,7 @@ public class IntroActivityLaucher extends AppCompatActivity{
         intro_container = (ConstraintLayout) findViewById(R.id.container_intro);
         intro_errorcontainer = (ConstraintLayout) findViewById(R.id.container_introerror);
         mProgressBar = findViewById(R.id.intro_progress_bar);
+        TextView version = (TextView)findViewById(R.id.version_code);
         final String lastToken = PreferenceUtils.getSinglePrefrenceString(IntroActivityLaucher.this,
                 R.string.settings_def_storeaccess_token_key);
 
@@ -49,6 +48,12 @@ public class IntroActivityLaucher extends AppCompatActivity{
                 tokenCheck(lastToken);
             }
         });
+
+        if(version != null) {
+            String versionStr = Integer.toString(BuildConfig.VERSION_CODE);
+            versionStr += "-" + BuildConfig.BUILD_TYPE;
+            version.setText(String.format("%s: %s", getString(R.string.code_version), versionStr));
+        }
     }
 
     private void tokenCheck(String lastToken){
