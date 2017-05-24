@@ -126,6 +126,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
                 changePassword();
                 break;
             case R.id.btnCancel:
+                finish();
                 break;
         }
     }
