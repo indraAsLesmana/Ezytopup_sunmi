@@ -236,6 +236,7 @@
     <string name="done">Done</string>
     <string name="code_version">Build version</string>
     <string name="result_null">Result null</string>
+    <string name="please_fill">Send feedback is failed, please fill your</string>
 
     <string-array name="dummy_data">
         <item>One</item>

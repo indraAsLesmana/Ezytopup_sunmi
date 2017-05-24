@@ -29,7 +29,10 @@ import retrofit2.Response;
 
 public class ContactUsActivity extends BaseActivity {
 
-    private TextView tvTitle, tvAddress, tvCity, tvCountry, tvFacebook, tvTwitter, tvInstagram, tvWeb, tvEmail, tvPhone, tvMessage, tvYourName, tvYourEmail, tvYourPhone, tvYourSubject, tvYourMessage;
+    private TextView tvTitle, tvAddress, tvCity, tvCountry, tvFacebook,
+            tvTwitter, tvInstagram, tvWeb, tvEmail, tvPhone, tvMessage,
+            tvYourName, tvYourEmail, tvYourPhone, tvYourSubject, tvYourMessage;
+
     private RelativeLayout container_layout;
     private String token, yourName, yourEmail, yourPhone, yourSubject, yourMessage;
     private static final String TAG = "ContactUsActivity";
@@ -50,22 +53,17 @@ public class ContactUsActivity extends BaseActivity {
         container_layout = (RelativeLayout) findViewById(R.id.container_contactus_layout);
         loadingBar = (LinearLayout) findViewById(R.id.loadingBar);
         contentLayout = (ScrollView) findViewById(R.id.contentLayout);
-
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvAddress = (TextView) findViewById(R.id.tvAddress);
         tvCity = (TextView) findViewById(R.id.tvCity);
         tvCountry = (TextView) findViewById(R.id.tvCountry);
-
         tvFacebook = (TextView) findViewById(R.id.tvFacebook);
         tvTwitter = (TextView) findViewById(R.id.tvTwitter);
         tvInstagram = (TextView) findViewById(R.id.tvInstagram);
-
         tvWeb = (TextView) findViewById(R.id.tvWeb);
         tvEmail = (TextView) findViewById(R.id.tvEmail);
         tvPhone = (TextView) findViewById(R.id.tvPhone);
-
         tvMessage = (TextView) findViewById(R.id.tvMessage);
-
         tvYourName = (TextView) findViewById(R.id.tvYourName);
         tvYourEmail = (TextView) findViewById(R.id.tvYourEmail);
         tvYourPhone = (TextView) findViewById(R.id.tvYourPhone);
@@ -77,15 +75,28 @@ public class ContactUsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (tvYourName.getText().toString().equals("")) {
-                    Toast.makeText(v.getContext(), "Send feedback is failed, please fill your name", Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(v.getContext(), String.format("%d name", R.string.please_fill),
+                            Toast.LENGTH_LONG).show();
+
                 } else if (tvYourEmail.getText().toString().equals("")) {
-                    Toast.makeText(v.getContext(), "Send feedback is failed, please fill your email", Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(v.getContext(), String.format("%d email", R.string.please_fill),
+                            Toast.LENGTH_LONG).show();
+
                 } else if (tvYourPhone.getText().toString().equals("")) {
-                    Toast.makeText(v.getContext(), "Send feedback is failed, please fill your phone", Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(v.getContext(), String.format("%d phone", R.string.please_fill),
+                            Toast.LENGTH_LONG).show();
+
                 }else if (tvYourSubject.getText().toString().equals("")) {
-                    Toast.makeText(v.getContext(), "Send feedback is failed, please fill your subject", Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(v.getContext(), String.format("%d subject", R.string.please_fill),
+                            Toast.LENGTH_LONG).show();
+
                 }else if (tvYourMessage.getText().toString().equals("")) {
-                    Toast.makeText(v.getContext(), "Send feedback is failed, please fill your message", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), String.format("%d message", R.string.please_fill),
+                            Toast.LENGTH_LONG).show();
                 }
                 else {
                     feedBack();
@@ -160,9 +171,12 @@ public class ContactUsActivity extends BaseActivity {
         
     }
 
-    private void sendFeedback(String token, String yourName, String yourEmail, String yourPhone, String yourSubject, String yourMessage) {
+    private void sendFeedback(String token, String yourName, String yourEmail,
+                              String yourPhone, String yourSubject, String yourMessage) {
         Call<SendFeedBackResponse> changePassword = Eztytopup.getsAPIService()
-                .sendFeedBack(token, token, yourName, yourEmail, yourPhone, yourSubject, yourMessage);
+                .sendFeedBack(
+                        token, token, yourName, yourEmail, yourPhone, yourSubject, yourMessage);
+
         changePassword.enqueue(new Callback<SendFeedBackResponse>() {
             @Override
             public void onResponse(Call<SendFeedBackResponse> call,
@@ -170,6 +184,7 @@ public class ContactUsActivity extends BaseActivity {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+
                     Toast.makeText(ContactUsActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }else {
@@ -180,7 +195,7 @@ public class ContactUsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<SendFeedBackResponse> call, Throwable t) {
-
+                Helper.apiSnacbarError(ContactUsActivity.this, t, container_layout);
             }
         });
     }

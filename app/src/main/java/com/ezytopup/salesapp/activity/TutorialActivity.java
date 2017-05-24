@@ -70,10 +70,12 @@ public class TutorialActivity extends BaseActivity {
         Call<TutorialStepResponse> tutorial = Eztytopup.getsAPIService().getTutorialStep();
         tutorial.enqueue(new Callback<TutorialStepResponse>() {
             @Override
-            public void onResponse(Call<TutorialStepResponse> call, Response<TutorialStepResponse> response) {
+            public void onResponse(Call<TutorialStepResponse> call,
+                                   Response<TutorialStepResponse> response) {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
+
                     results.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
 
