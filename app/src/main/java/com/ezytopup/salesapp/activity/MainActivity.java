@@ -64,9 +64,6 @@ public class MainActivity extends BaseActivity
     private DrawerLayout drawer;
     private File file = new File(Constant.DEF_PATH_IMAGEPRINT);
 
-
-    private ProgressDialog progressDialog;
-
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
         caller.startActivity(intent);
@@ -80,10 +77,6 @@ public class MainActivity extends BaseActivity
         actionBar.setDisplayShowTitleEnabled(false);
         headerImage = new ArrayList<>();
         tutorialImage = new ArrayList<>();
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading . . . ");
-        progressDialog.setCancelable(false);
 
         if (PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
                 R.string.settings_def_storeaccess_token_key).equals(Constant.PREF_NULL)
@@ -185,8 +178,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void getImageHeader() {
-        coordinatorLayout.setVisibility(View.GONE);
-        progressDialog.show();
+        Helper.showProgressDialog(this, R.string.progress_title_default);
 
         Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeader();
         call.enqueue(new Callback<HeaderimageResponse>() {
@@ -214,9 +206,8 @@ public class MainActivity extends BaseActivity
                     } else {
                         headerImages.setVisibility(View.VISIBLE);
                     }
-                    
-                    coordinatorLayout.setVisibility(View.VISIBLE);
-                    progressDialog.dismiss();
+
+                    Helper.hideProgressDialog();
                 } else {
                     Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);

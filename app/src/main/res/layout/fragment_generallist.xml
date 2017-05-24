@@ -8,12 +8,6 @@
     android:focusableInTouchMode="true"
     tools:context="com.ezytopup.salesapp.fragment.HomeFragment">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="5dp"
-        app:cardUseCompatPadding="true">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -79,7 +73,5 @@
                     android:scrollbars="none" />
             </android.support.v7.widget.CardView>
         </LinearLayout>
-
-    </android.support.v7.widget.CardView>
 
 </FrameLayout>
