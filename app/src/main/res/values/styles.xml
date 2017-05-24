@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionButtonStyle">@style/AppTheme.Widget.ActionButton</item>
+        <item name="android:windowBackground">@drawable/bg_design</item>
     </style>
 
     <style name="AppTheme.Widget.ActionButton" parent="@style/Widget.AppCompat.ActionButton">
