@@ -9,11 +9,6 @@
 
     <include layout="@layout/inc_devider_date" />
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp">
-
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -62,6 +57,5 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/include3" />
         </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
 
 </LinearLayout>

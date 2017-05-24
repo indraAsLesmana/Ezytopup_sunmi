@@ -119,7 +119,7 @@ public class ContactUsActivity extends BaseActivity {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
-                    
+
                     tvTitle.setText(response.body().alamat.nama);
                     tvAddress.setText(response.body().alamat.alamat);
                     tvCity.setText(response.body().alamat.kota);
