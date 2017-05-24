@@ -45,7 +45,8 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class HistoryFragment extends Fragment implements
-        Recyclerlist_HistoryAdapter.Recyclerlist_HistoryAdapterlistener, BuyResellerActivity.BuynowInterface {
+        Recyclerlist_HistoryAdapter.Recyclerlist_HistoryAdapterlistener,
+        BuyResellerActivity.BuynowInterface {
 
     private ArrayList<TransactionHistoryResponse.Result> Allhistory;
     private Recyclerlist_HistoryAdapter adapter;
@@ -390,10 +391,12 @@ public class HistoryFragment extends Fragment implements
                 pg.drawImage(100, 0, Constant.DEF_PATH_IMAGEPRINT);
                 sendData = pg.printDraw();
                 Eztytopup.getmBTprintService().write(sendData);
+
                 return Boolean.TRUE;
             }else {
                 Bitmap bitmap = BitmapFactory.decodeFile(Constant.DEF_PATH_IMAGEPRINT);
                 Eztytopup.setmBitmap(bitmap);
+
                 return  Boolean.TRUE;
             }
         }

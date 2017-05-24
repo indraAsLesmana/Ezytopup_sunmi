@@ -96,14 +96,20 @@ public class IntroActivity extends AppCompatActivity{
                         && response.body().status.getCode()
                         .equals(String.valueOf(HttpURLConnection.HTTP_OK))
                         && response.body().tokenValidity == Boolean.TRUE) {
+
                     mProgressBar.setVisibility(View.GONE);
                     MainActivity.start(IntroActivity.this);
                     finish();
+
                 } else {
+
                     Helper.log(TAG, String.format("onResponse: %s",
                             response.body().status.getMessage()), null);
+
+                    Helper.snacbarError(response.body().status.getMessage(), intro_container);
                     mProgressBar.setVisibility(View.GONE);
                     PreferenceUtils.destroyUserSession(IntroActivity.this);
+
                     Login.start(IntroActivity.this);
                     finish();
                 }
@@ -111,6 +117,8 @@ public class IntroActivity extends AppCompatActivity{
 
             @Override
             public void onFailure(Call<TokencheckResponse> call, Throwable t) {
+
+                Helper.apiSnacbarError(IntroActivity.this, t, intro_container);
                 mProgressBar.setVisibility(View.GONE);
                 intro_errorcontainer.setVisibility(View.VISIBLE);
             }

@@ -184,8 +184,10 @@ public class MainActivity extends BaseActivity
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
+
                     headerImage.addAll(response.body().result);
                     TextSliderView textSliderView = null;
+
                     for (int i = 0; i < headerImage.size(); i++) {
                         textSliderView = new TextSliderView(MainActivity.this);
                         textSliderView
@@ -194,11 +196,13 @@ public class MainActivity extends BaseActivity
                                 .setScaleType(BaseSliderView.ScaleType.Fit);
                         headerImages.addSlider(textSliderView);
                     }
+
                     if (textSliderView != null && textSliderView.isErrorLoad()) {
                         headerImages.setVisibility(View.GONE);
                     } else {
                         headerImages.setVisibility(View.VISIBLE);
                     }
+
                 } else {
                     Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);
@@ -255,15 +259,14 @@ public class MainActivity extends BaseActivity
 
     private void initTabMenu() {
         final CustomViewPager mMain_Pagger = (CustomViewPager) findViewById(R.id.main_pagger);
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
         RegisterFragment_Adapter adapter = new RegisterFragment_Adapter(
                 getSupportFragmentManager(), this);
+
         mMain_Pagger.setOffscreenPageLimit(4);
         mMain_Pagger.setAdapter(adapter);
         tabLayout.setupWithViewPager(mMain_Pagger);
-
     }
 
     @Override

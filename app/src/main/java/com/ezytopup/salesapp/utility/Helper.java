@@ -151,6 +151,9 @@ public class Helper {
         if (t.getMessage().contains("Use JsonReader.setLenient")){
             message = context.getResources().getString(R.string.response_error);
         }
+        if (t.getMessage().contains("Expected BEGIN")){
+            message = context.getResources().getString(R.string.response_error);
+        }
         final Snackbar snackbar = Snackbar.make(view, message,
                 Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
@@ -161,7 +164,21 @@ public class Helper {
         });
         snackbar.show();
     }
+
     public static void snacbarError(int message, View view){
+        Helper.log(TAG, "onFailure: " + message, null);
+        final Snackbar snackbar = Snackbar.make(view, message,
+                Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
+
+    public static void snacbarError(String message, View view){
         Helper.log(TAG, "onFailure: " + message, null);
         final Snackbar snackbar = Snackbar.make(view, message,
                 Snackbar.LENGTH_INDEFINITE);

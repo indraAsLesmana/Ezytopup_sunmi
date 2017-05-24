@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/container_list"
+    android:focusableInTouchMode="true"
     tools:context="com.ezytopup.salesapp.fragment.HomeFragment">
 
     <LinearLayout

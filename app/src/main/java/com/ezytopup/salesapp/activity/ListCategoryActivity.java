@@ -3,6 +3,7 @@ package com.ezytopup.salesapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RecyclerList_ListCategoryAdapter;
 import com.ezytopup.salesapp.api.ListCategoryResponse;
+import com.ezytopup.salesapp.utility.Helper;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class ListCategoryActivity extends BaseActivity implements
     private ArrayList<ListCategoryResponse.Category> allCategoryProduct;
     private RecyclerList_ListCategoryAdapter adapter;
     private static final String TAG = "HomeFragment";
+    private ConstraintLayout container_layout;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ListCategoryActivity.class);
@@ -37,13 +40,21 @@ public class ListCategoryActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         allCategoryProduct = new ArrayList<>();
-        RecyclerView list_recyclerview = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
+
+        RecyclerView list_recyclerview = (RecyclerView)
+                findViewById(R.id.activity_generalmainrecycler);
+        container_layout = (ConstraintLayout)
+                findViewById(R.id.container_layout);
+
         list_recyclerview.setHasFixedSize(true);
         list_recyclerview.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
-        adapter = new RecyclerList_ListCategoryAdapter(ListCategoryActivity.this, allCategoryProduct, this);
+        adapter = new RecyclerList_ListCategoryAdapter(ListCategoryActivity.this,
+                allCategoryProduct, this);
         list_recyclerview.setAdapter(adapter);
+
         getlistCategory();
     }
 
@@ -66,6 +77,7 @@ public class ListCategoryActivity extends BaseActivity implements
             @Override
             public void onFailure(Call<ListCategoryResponse> call, Throwable t) {
                 Log.i(TAG, "onFailure: " + t.getMessage());
+                Helper.apiSnacbarError(ListCategoryActivity.this, t, container_layout);
             }
         });
     }

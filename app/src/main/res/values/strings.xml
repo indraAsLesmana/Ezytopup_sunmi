@@ -235,6 +235,7 @@
     <string name="cant_getlastproduct">Can\'t get last product buy</string>
     <string name="done">Done</string>
     <string name="code_version">Build version</string>
+    <string name="result_null">Result null</string>
 
     <string-array name="dummy_data">
         <item>One</item>

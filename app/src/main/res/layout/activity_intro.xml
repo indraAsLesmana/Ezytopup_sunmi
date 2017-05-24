@@ -76,7 +76,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/response_error"
+            android:text="@string/cantreachserver"
             android:textColor="@color/primary_text"
             android:textSize="18sp"
             android:textStyle="bold"

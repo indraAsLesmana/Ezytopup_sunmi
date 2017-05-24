@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class SearchFragment extends Fragment implements
     private ArrayList<BestSellerResponse.Product> AllFavoritedata;
     private RecyclerList_searchAdapter adapter;
     private static final String TAG = "SearchFragment";
+    private FrameLayout container_list;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -56,27 +58,37 @@ public class SearchFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_generallist, container, false);
+
         AllFavoritedata = new ArrayList<>();
+
         LinearLayout searchBar = (LinearLayout) rootView.findViewById(R.id.search_field);
-        searchBar.setVisibility(View.VISIBLE);
         RecyclerView recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
+        container_list = (FrameLayout) rootView.findViewById(R.id.container_list);
+
+        searchBar.setVisibility(View.VISIBLE);
         recycler_view.setHasFixedSize(true);
         recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
         adapter = new RecyclerList_searchAdapter(getContext(), AllFavoritedata, this);
+
         recycler_view.setAdapter(adapter);
         final EditText seachBar = (EditText) rootView.findViewById(R.id.text_search);
+
         seachBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
                     String productSearch = seachBar.getText().toString();
                     getSearchProduct(productSearch);
+
+                    Helper.hideSoftKeyboard(container_list);
                     return true;
                 }
                 return false;
             }
         });
+
         if (Eztytopup.getSunmiDevice()){
             Helper.setImmersivebyKeyboard(rootView);
         }
@@ -88,13 +100,19 @@ public class SearchFragment extends Fragment implements
         searchResult.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                if (response.isSuccessful() &&
-                        response.body().status.getCode()
+                if (response.isSuccessful()
+                        && response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+
+                    if (response.body().products.size() == 0){
+                        Helper.snacbarError(R.string.result_null, container_list);
+                        return;
+                    }
+
                     AllFavoritedata.clear();
                     AllFavoritedata.addAll(response.body().products);
                     adapter.notifyDataSetChanged();
-                }else {
+                } else {
                     Toast.makeText(getContext(), response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
@@ -102,7 +120,7 @@ public class SearchFragment extends Fragment implements
 
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
-
+                Helper.apiSnacbarError(getContext(), t, container_list);
             }
         });
     }

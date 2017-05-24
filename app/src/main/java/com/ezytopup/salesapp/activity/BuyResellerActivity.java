@@ -186,6 +186,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         mSubtotal.setText(productPrice);
 
         getDetailProduct();
+
         if (Eztytopup.getSunmiDevice()){
             Helper.setImmersivebyKeyboard(containerResellerbuy);
         }
@@ -207,6 +208,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
         String sellerKasirName = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
                 R.string.settings_def_sellerkasirname_key);
         String password = resellerPassword.getText().toString();
+
         if (password.isEmpty() || password.equals("")){
             Helper.snacbarError(R.string.please_fill_password, containerResellerbuy);
             return;
@@ -296,8 +298,8 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<VoucherprintResponse> call, Throwable t) {
                 Helper.log(TAG, t.getMessage(), null);
-                Toast.makeText(BuyResellerActivity.this, t.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                Helper.apiSnacbarError(BuyResellerActivity.this, t, containerResellerbuy);
+
             }
         });
     }
@@ -313,12 +315,14 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+
                     results.addAll(response.body().result);
                     DetailProductResponse.Result r = results.get(0);
                     info1.setText(r.getInfo1());
                     info2.setText(r.getInfo2());
                     info3.setText(r.getInfo3());
                     buy_desc.setText(r.getDescription());
+
                 }else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -326,6 +330,7 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
             }
             @Override
             public void onFailure(Call<DetailProductResponse> call, Throwable t) {
+                Helper.apiSnacbarError(BuyResellerActivity.this, t, containerResellerbuy);
                 Helper.log(TAG, t.getMessage(), t);
             }
         });
