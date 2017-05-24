@@ -55,7 +55,7 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
             holder.hist_date.setText(result.getCreatedDate());
             holder.hist_delivery.setText(result.getStatusDelivery());
             holder.hist_deliverydate.setText(result.getDeliveryTime());
-            holder.hist_email.setText(result.getProductName());
+            holder.hist_email.setText(result.getEmail());
             if (result.getReviewUrl() != null) {
                 Glide.with(mContext)
                         .load(result.getReviewUrl()).centerCrop()
