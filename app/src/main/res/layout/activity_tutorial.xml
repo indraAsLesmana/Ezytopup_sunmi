@@ -3,11 +3,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container_layout"
+    android:id="@+id/container_tutorial_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_design"
-    tools:context="com.ezytopup.salesapp.activity.FaqActivity">
+    tools:context="com.ezytopup.salesapp.activity.TutorialActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -38,17 +38,17 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/faq_titlequetion"
-                android:visibility="gone"
+                android:id="@+id/tutorial_titlequetion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/faq_1"
+                android:layout_marginBottom="16dp"
+                android:text="@string/tutorial"
                 android:textColor="@color/primary_text"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="visible" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -77,13 +77,14 @@
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/activity_generalmainrecycler"
+                android:id="@+id/activity_tutorialrecycler"
                 android:layout_width="match_parent"
-                android:visibility="visible"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/tutorial_titlequetion" />
 
             <TextView
-                android:id="@+id/general_emptylist"
+                android:id="@+id/tutorial_emptylist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

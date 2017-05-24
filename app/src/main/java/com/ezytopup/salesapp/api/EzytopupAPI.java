@@ -23,17 +23,16 @@ public interface EzytopupAPI {
 
     /**
      * Apiary Documentation for ezytoptup
-     *
-     * */
+     */
     @POST("/v1/auth/login")
-    Call<Authrequest> login_request1 (@Body Authrequest authrequest);
+    Call<Authrequest> login_request1(@Body Authrequest authrequest);
 
     /**
      * Live version
-     * */
+     */
 
     @POST("WGS_API_login.php?" + API_URL_GENERALUSAGE)
-    Call<Authrequest> login_request (@Body Authrequest authrequest);
+    Call<Authrequest> login_request(@Body Authrequest authrequest);
 
     @GET("WGS_API_products.php?" + API_URL_GENERALUSAGE)
     Call<ProductResponse> getProduct();
@@ -53,8 +52,14 @@ public interface EzytopupAPI {
     @GET("WGS_API_panduan_awal.php?" + API_URL_GENERALUSAGE)
     Call<TutorialResponse> getTutorial();
 
+    @GET("WGS_API_getTutorial.php?" + API_URL_GENERALUSAGE)
+    Call<TutorialStepResponse> getTutorialStep();
+
     @GET("WGS_API_getFaq.php?" + API_URL_GENERALUSAGE)
     Call<FaqResponse> getFaq();
+
+    @GET("WGS_API_contact_us.php?" + API_URL_GENERALUSAGE)
+    Call<ContactUsResponse> getContactUs();
 
     @GET("WGS_API_getTerm.php?" + API_URL_GENERALUSAGE)
     Call<TermResponse> getTerm();
@@ -84,7 +89,7 @@ public interface EzytopupAPI {
     Call<TransactionHistoryResponse> getHistory(@Header("Authorize") String token, @Query("customerId") String customerId);
     /**
      * this API i implement with object PaymentResponse have no object data, just get Message for checking result 200 or not
-     * */
+     */
     @POST("WGS_API_abuyNow.php?" + API_URL_GENERALUSAGE)
     Call<PaymentResponse> buyNow(@Header("Authorize") String token,
                                  @Query("id") String id,
@@ -117,13 +122,13 @@ public interface EzytopupAPI {
 
     @POST("WGS_API_signup_tanpa_login.php?" + API_URL_GENERALUSAGE)
     Call<Authrequest> setLoginskip(@Query("provider") String provider,
-                                    @Query("reg_gcm_id") String regfcmid,
-                                    @Query("device_id") String deviceid);
+                                   @Query("reg_gcm_id") String regfcmid,
+                                   @Query("device_id") String deviceid);
 
     @POST("WGS_API_login_reg_gcm_id.php?" + API_URL_GENERALUSAGE)
     Call<RegfcmResponse> setRegFcm(@Query("provider") String provider,
-                                    @Query("reg_gcm_id") String regfcmid,
-                                    @Query("device_id") String deviceid);
+                                   @Query("reg_gcm_id") String regfcmid,
+                                   @Query("device_id") String deviceid);
 
     @POST("WGS_API_logout.php?" + API_URL_GENERALUSAGE)
     Call<TokencheckResponse> setLogout(@Header("Authorize") String headerToken,
@@ -135,6 +140,15 @@ public interface EzytopupAPI {
 
     @POST("WGS_API_change_password.php?" + API_URL_GENERALUSAGE)
     Call<ChangepasswordResponse> setChangePassword(@Body HashMap<String, String> userProfile);
+
+    @POST("WGS_API_feedback_form.php?" + API_URL_GENERALUSAGE)
+    Call<SendFeedBackResponse> sendFeedBack(@Header("Authorize") String headerToken,
+                                            @Query("token") String token,
+                                            @Query("name") String name,
+                                            @Query("email") String email,
+                                            @Query("phone") String phone,
+                                            @Query("subject") String subject,
+                                            @Query("message") String message);
 
     @POST("WGS_API_forget_password.php?" + API_URL_GENERALUSAGE)
     Call<ForgotpasswordResponse> setForgotpassword(@Header("Authorize") String headerToken,

@@ -3,6 +3,9 @@ package com.ezytopup.salesapp.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -62,6 +65,8 @@ public class MainActivity extends BaseActivity
     private File file = new File(Constant.DEF_PATH_IMAGEPRINT);
 
 
+    private ProgressDialog progressDialog;
+
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, MainActivity.class);
         caller.startActivity(intent);
@@ -75,6 +80,10 @@ public class MainActivity extends BaseActivity
         actionBar.setDisplayShowTitleEnabled(false);
         headerImage = new ArrayList<>();
         tutorialImage = new ArrayList<>();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading . . . ");
+        progressDialog.setCancelable(false);
 
         if (PreferenceUtils.getSinglePrefrenceString(MainActivity.this,
                 R.string.settings_def_storeaccess_token_key).equals(Constant.PREF_NULL)
@@ -139,7 +148,7 @@ public class MainActivity extends BaseActivity
             nav_user_name.setText(firstName + " " + lastName);
             nav_user_email.setText(userMail);
 
-            if(imageUrl != null){
+            if (imageUrl != null) {
                 Glide.with(this)
                         .load(imageUrl)
                         .centerCrop()
@@ -176,6 +185,9 @@ public class MainActivity extends BaseActivity
     }
 
     private void getImageHeader() {
+        coordinatorLayout.setVisibility(View.GONE);
+        progressDialog.show();
+
         Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeader();
         call.enqueue(new Callback<HeaderimageResponse>() {
             @Override
@@ -202,7 +214,9 @@ public class MainActivity extends BaseActivity
                     } else {
                         headerImages.setVisibility(View.VISIBLE);
                     }
-
+                    
+                    coordinatorLayout.setVisibility(View.VISIBLE);
+                    progressDialog.dismiss();
                 } else {
                     Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);
@@ -339,6 +353,12 @@ public class MainActivity extends BaseActivity
             case R.id.nav_faq:
                 FaqActivity.start(MainActivity.this);
 
+                break;
+            case R.id.nav_contactus:
+                ContactUsActivity.start(MainActivity.this);
+                break;
+            case R.id.nav_tutorial:
+                TutorialActivity.start(MainActivity.this);
                 break;
             case R.id.nav_term:
                 TermActivity.start(MainActivity.this);

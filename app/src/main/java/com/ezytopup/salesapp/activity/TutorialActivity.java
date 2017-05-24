@@ -2,6 +2,8 @@ package com.ezytopup.salesapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.constraint.ConstraintLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +15,10 @@ import android.widget.Toast;
 
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
-import com.ezytopup.salesapp.adapter.RecyclerList_TermAdapter;
-import com.ezytopup.salesapp.api.TermResponse;
+import com.ezytopup.salesapp.adapter.RecyclerList_TutorialAdapter;
+import com.ezytopup.salesapp.api.FaqResponse;
+import com.ezytopup.salesapp.api.TutorialStepResponse;
+import com.ezytopup.salesapp.utility.Helper;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -23,15 +27,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TermActivity extends BaseActivity {
+public class TutorialActivity extends BaseActivity {
 
-    private RecyclerList_TermAdapter adapter;
-    private ArrayList<TermResponse.Result> results;
+    private RecyclerList_TutorialAdapter adapter;
+    private ArrayList<TutorialStepResponse.Result> results;
+    private static final String TAG = "TutorialActivity";
+    private ConstraintLayout container_layout;
     private LinearLayout loadingBar;
     private RecyclerView recyclerView;
 
     public static void start(Activity caller) {
-        Intent intent = new Intent(caller, TermActivity.class);
+        Intent intent = new Intent(caller, TutorialActivity.class);
         caller.startActivity(intent);
     }
 
@@ -42,62 +48,64 @@ public class TermActivity extends BaseActivity {
 
         loadingBar = (LinearLayout) findViewById(R.id.loadingBar);
 
-        TextView titleText = (TextView) findViewById(R.id.faq_titlequetion);
-        titleText.setVisibility(View.GONE);
-
+        TextView titleText = (TextView) findViewById(R.id.tutorial_titlequetion);
+        titleText.setVisibility(View.VISIBLE);
+        container_layout = (ConstraintLayout) findViewById(R.id.container_tutorial_layout);
         results = new ArrayList<>();
-        recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
+        recyclerView = (RecyclerView) findViewById(R.id.activity_tutorialrecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-        adapter = new RecyclerList_TermAdapter(TermActivity.this, results);
+        adapter = new RecyclerList_TutorialAdapter(TutorialActivity.this, results);
         recyclerView.setAdapter(adapter);
 
-        if (results.isEmpty() || results.size() == 0) getTerm();
+        if (results.isEmpty() || results.size() == 0) getTutorial();
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void getTerm() {
+    private void getTutorial() {
         loadingBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
 
-        Call<TermResponse> term = Eztytopup.getsAPIService().getTerm();
-        term.enqueue(new Callback<TermResponse>() {
+        Call<TutorialStepResponse> tutorial = Eztytopup.getsAPIService().getTutorialStep();
+        tutorial.enqueue(new Callback<TutorialStepResponse>() {
             @Override
-            public void onResponse(Call<TermResponse> call, Response<TermResponse> response) {
+            public void onResponse(Call<TutorialStepResponse> call, Response<TutorialStepResponse> response) {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
-                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
                     results.addAll(response.body().result);
                     adapter.notifyDataSetChanged();
 
                     loadingBar.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
-                }else {
-                    Toast.makeText(TermActivity.this, response.body().status.getMessage(),
+                } else {
+                    Toast.makeText(TutorialActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
-
                     loadingBar.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onFailure(Call<TermResponse> call, Throwable t) {
+            public void onFailure(Call<TutorialStepResponse> call, Throwable t) {
+                Helper.apiSnacbarError(TutorialActivity.this, t, container_layout);
                 loadingBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
         });
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -107,6 +115,8 @@ public class TermActivity extends BaseActivity {
 
     @Override
     public int getLayout() {
-        return R.layout.activity_generallist;
+        return R.layout.activity_tutorial;
     }
+
+
 }
