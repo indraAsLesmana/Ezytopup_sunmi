@@ -193,20 +193,21 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void buyNowReseller(){
-        String deviceId = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
-                R.string.settings_def_storeidevice_key);
-        String email = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
-                R.string.settings_def_storeemail_key);
-        String customerId = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
-                R.string.settings_def_uid_key);
-        String token = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
-                R.string.settings_def_storeaccess_token_key);
-        String sellerId = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
-                R.string.settings_def_sellerid_key);
-        String sellerShopName = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
-                R.string.settings_def_sellershopname_key);
-        String sellerKasirName = PreferenceUtils.getSinglePrefrenceString(BuyResellerActivity.this,
-                R.string.settings_def_sellerkasirname_key);
+        String deviceId = PreferenceUtils
+                .getSinglePrefrenceString(BuyResellerActivity.this, R.string.settings_def_storeidevice_key);
+        String email = PreferenceUtils
+                .getSinglePrefrenceString(BuyResellerActivity.this, R.string.settings_def_storeemail_key);
+        String customerId = PreferenceUtils
+                .getSinglePrefrenceString(BuyResellerActivity.this, R.string.settings_def_uid_key);
+        String token = PreferenceUtils
+                .getSinglePrefrenceString(BuyResellerActivity.this, R.string.settings_def_storeaccess_token_key);
+        String sellerId = PreferenceUtils
+                .getSinglePrefrenceString(BuyResellerActivity.this, R.string.settings_def_sellerid_key);
+        String sellerShopName = PreferenceUtils
+                .getSinglePrefrenceString(BuyResellerActivity.this, R.string.settings_def_sellershopname_key);
+        String sellerKasirName = PreferenceUtils
+                .getSinglePrefrenceString(BuyResellerActivity.this, R.string.settings_def_sellerkasirname_key);
+        
         String password = resellerPassword.getText().toString();
 
         if (password.isEmpty() || password.equals("")){
@@ -354,15 +355,23 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
             case R.id.btnBuyNow:
                 if (!Eztytopup.getSunmiDevice()) {
                     if (!Eztytopup.getmBTprintService().isAvailable()) {
+
                         Toast.makeText(BuyResellerActivity.this, R.string.bluetooth_notfound,
                                 Toast.LENGTH_SHORT).show();
-                    }else if (!Eztytopup.getmBTprintService().isBTopen()) { // is blutooth Enable on that device?
+
+                    }else if (!Eztytopup.getmBTprintService().isBTopen()) {
+
+                        // is blutooth Enable on that device?
                         Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                         startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-                    } else if (!Eztytopup.getIsPrinterConnected()) {  // is bluetooth connected to printer?
+
+                    } else if (!Eztytopup.getIsPrinterConnected()) {
+
+                        // is bluetooth connected to printer?
                         Intent serverIntent = new Intent(BuyResellerActivity.this,
                                 DeviceListActivity.class);
                         startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+
                     } else {
                         buyNowReseller();
                     }
@@ -380,15 +389,20 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
     @SuppressLint("SdCardPath")
     private Boolean printImage() {
         File file = new File(Constant.DEF_PATH_IMAGEPRINT);
-        if (!file.exists() && !PreferenceUtils.getSinglePrefrenceString(this,
-                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL) &&
-                PermissionHelper.isPermissionGranted(BuyResellerActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+        if (!file.exists()
+                && !PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerprintlogo_key).equals(Constant.PREF_NULL)
+                && PermissionHelper.isPermissionGranted(
+                        BuyResellerActivity.this, new String[]
+                        {Manifest.permission.READ_EXTERNAL_STORAGE,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
+
             Helper.downloadFile(this, PreferenceUtils.getSinglePrefrenceString(this,
                     R.string.settings_def_sellerprintlogo_key));
+
             Toast.makeText(this, R.string.please_wait_imageprint,
                     Toast.LENGTH_SHORT).show();
+
             return Boolean.FALSE;
         } else {
             if (!Eztytopup.getSunmiDevice()){
@@ -399,11 +413,13 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                 pg.drawImage(100, 0, Constant.DEF_PATH_IMAGEPRINT);
                 sendData = pg.printDraw();
                 Eztytopup.getmBTprintService().write(sendData);
+
                 return Boolean.TRUE;
 
             }else {
                 Bitmap bitmap = BitmapFactory.decodeFile(Constant.DEF_PATH_IMAGEPRINT);
                 Eztytopup.setmBitmap(bitmap);
+
                 return  Boolean.TRUE;
             }
         }
