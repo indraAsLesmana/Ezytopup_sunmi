@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:id="@+id/container_list"
     android:focusableInTouchMode="true"
+    android:background="@drawable/bg_design"
     tools:context="com.ezytopup.salesapp.fragment.HomeFragment">
 
         <LinearLayout
