@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_changepassword).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
 
-            if (!Eztytopup.getIsUserReseller()){
+            if (!Eztytopup.getIsUserReseller()) {
                 navigationView.getMenu().findItem(R.id.nav_inbox).setVisible(true);
             }
 
@@ -150,6 +150,13 @@ public class MainActivity extends BaseActivity
                         .skipMemoryCache(true)
                         .into(nav_image_view);
             }
+
+            nav_image_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ProfileActivity.start(MainActivity.this);
+                }
+            });
         }
 
         if (!file.exists() &&
@@ -163,10 +170,10 @@ public class MainActivity extends BaseActivity
                     R.string.settings_def_sellerprintlogo_key));
         }
 
-        if (Eztytopup.getIsUserReseller()){
+        if (Eztytopup.getIsUserReseller()) {
             Helper.log(TAG, "user reseller", null);
             getImageHeaderReseller();
-        }else {
+        } else {
             Helper.log(TAG, "end user", null);
             getImageHeader();
             navigationView.getMenu().findItem(R.id.nav_print).setVisible(false);
@@ -222,6 +229,7 @@ public class MainActivity extends BaseActivity
             }
         });
     }
+
     private void getImageHeaderReseller() {
         Call<HeaderimageResponse> call = Eztytopup.getsAPIService().getImageHeaderReseller();
         call.enqueue(new Callback<HeaderimageResponse>() {
@@ -230,7 +238,7 @@ public class MainActivity extends BaseActivity
                                    Response<HeaderimageResponse> response) {
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
-                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
                     headerImage.addAll(response.body().result);
                     TextSliderView textSliderView = null;
                     for (int i = 0; i < headerImage.size(); i++) {
@@ -243,10 +251,10 @@ public class MainActivity extends BaseActivity
                     }
                     if (textSliderView != null && textSliderView.isErrorLoad()) {
                         headerImages.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         headerImages.setVisibility(View.VISIBLE);
                     }
-                }else {
+                } else {
                     Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);
                 }
