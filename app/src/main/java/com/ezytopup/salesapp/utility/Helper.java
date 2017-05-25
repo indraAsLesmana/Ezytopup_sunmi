@@ -149,12 +149,16 @@ public class Helper {
     public static void apiSnacbarError(Context context, Throwable t, View view){
         Helper.log(TAG, "onFailure: " + t.getMessage(), null);
         String message = t.getMessage();
-        if (t.getMessage().contains("Use JsonReader.setLenient")){
+        if (t.getMessage().contains("Use JsonReader.setLenient")) {
             message = context.getResources().getString(R.string.response_error);
         }
-        if (t.getMessage().contains("Expected BEGIN")){
+        if (t.getMessage().contains("Expected BEGIN")) {
             message = context.getResources().getString(R.string.response_error);
         }
+        if (t.getMessage().contains("Unable to resolve host")) {
+            message = context.getResources().getString(R.string.cantreachserver);
+        }
+
         final Snackbar snackbar = Snackbar.make(view, message,
                 Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction(R.string.dismiss, new View.OnClickListener() {

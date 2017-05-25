@@ -20,7 +20,7 @@
         android:layout_marginRight="8dp"
         android:gravity="center"
         android:textColor="@color/colorPrimary"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:visibility="visible"
         tools:text="@string/dummy_date" />
 
