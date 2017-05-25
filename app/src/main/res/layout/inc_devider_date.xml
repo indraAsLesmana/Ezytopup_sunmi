@@ -10,7 +10,7 @@
         android:layout_height="@dimen/devider_height_general"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="@color/divider" />
+        android:background="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/devider_date"
@@ -19,7 +19,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
-        android:textColor="@color/divider"
+        android:textColor="@color/colorPrimary"
         android:textSize="12sp"
         android:visibility="visible"
         tools:text="@string/dummy_date" />
@@ -29,6 +29,6 @@
         android:layout_height="@dimen/devider_height_general"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="@color/divider" />
+        android:background="@color/colorPrimary" />
 
 </LinearLayout>
