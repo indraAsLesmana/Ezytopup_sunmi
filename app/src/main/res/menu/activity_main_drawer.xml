@@ -54,6 +54,7 @@
         <item
             android:id="@+id/nav_print"
             android:title="@string/print"
+            android:visible="false"
             />
 
     </group>

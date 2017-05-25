@@ -116,8 +116,8 @@ public class MainActivity extends BaseActivity
             navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_inbox).setVisible(false);
 
-            nav_user_name.setText("Welcome, Guest");
-            nav_user_email.setText("Your Email Here");
+            nav_user_name.setText(R.string.welcome_guest);
+            nav_user_email.setText(R.string.your_email_here);
         } else {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_signup).setVisible(false);
@@ -166,10 +166,10 @@ public class MainActivity extends BaseActivity
         if (Eztytopup.getIsUserReseller()){
             Helper.log(TAG, "user reseller", null);
             getImageHeaderReseller();
+            navigationView.getMenu().findItem(R.id.nav_print).setVisible(true);
         }else {
             Helper.log(TAG, "end user", null);
             getImageHeader();
-            navigationView.getMenu().findItem(R.id.nav_print).setVisible(false);
         }
 
         initTabMenu();
@@ -209,6 +209,7 @@ public class MainActivity extends BaseActivity
 
                     Helper.hideProgressDialog();
                 } else {
+                    Helper.hideProgressDialog();
                     Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);
                 }
@@ -217,6 +218,7 @@ public class MainActivity extends BaseActivity
 
             @Override
             public void onFailure(Call<HeaderimageResponse> call, Throwable t) {
+                Helper.hideProgressDialog();
                 Helper.log(TAG, "onResponse: " + t.getMessage(), null);
                 headerImages.setVisibility(View.GONE);
             }
@@ -231,6 +233,7 @@ public class MainActivity extends BaseActivity
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+
                     headerImage.addAll(response.body().result);
                     TextSliderView textSliderView = null;
                     for (int i = 0; i < headerImage.size(); i++) {
@@ -241,12 +244,16 @@ public class MainActivity extends BaseActivity
                                 .setScaleType(BaseSliderView.ScaleType.Fit);
                         headerImages.addSlider(textSliderView);
                     }
+
                     if (textSliderView != null && textSliderView.isErrorLoad()) {
                         headerImages.setVisibility(View.GONE);
                     }else {
                         headerImages.setVisibility(View.VISIBLE);
                     }
+
+                    Helper.hideProgressDialog();
                 }else {
+                    Helper.hideProgressDialog();
                     Helper.log(TAG, "onResponse: " + response.body().status.getMessage(), null);
                     headerImages.setVisibility(View.GONE);
                 }
@@ -255,6 +262,7 @@ public class MainActivity extends BaseActivity
 
             @Override
             public void onFailure(Call<HeaderimageResponse> call, Throwable t) {
+                Helper.hideProgressDialog();
                 Helper.log(TAG, "onResponse: " + t.getMessage(), null);
                 headerImages.setVisibility(View.GONE);
             }
@@ -343,17 +351,18 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.nav_faq:
                 FaqActivity.start(MainActivity.this);
-
                 break;
+
             case R.id.nav_contactus:
                 ContactUsActivity.start(MainActivity.this);
                 break;
+
             case R.id.nav_tutorial:
                 TutorialActivity.start(MainActivity.this);
                 break;
+
             case R.id.nav_term:
                 TermActivity.start(MainActivity.this);
-
                 break;
             case R.id.nav_login:
                 Login.start(MainActivity.this);
