@@ -42,7 +42,7 @@ public class Helper {
     private static ProgressDialog sProgressDialog;
     private static final String TAG = "Helper";
     /**
-     * this method require to complete API parameter, from another developer
+     * this method require to complete API parameter, from last developer
      * */
     public static String deviceId(){
         //register device_id

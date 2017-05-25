@@ -20,6 +20,7 @@
         android:layout_height="0dp"
         android:layout_margin="8dp"
         android:orientation="vertical"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -88,7 +89,15 @@
                 android:visibility="gone" />
         </android.support.v7.widget.CardView>
 
-
     </LinearLayout>
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/view_nodatafound"
+        layout="@layout/inc_nodatafound"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.ezytopup.salesapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -14,6 +15,8 @@ import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.adapter.RecyclerList_CategoryAdapter;
 import com.ezytopup.salesapp.api.CategoryResponse;
+import com.ezytopup.salesapp.utility.AnimationHelper;
+import com.ezytopup.salesapp.utility.Helper;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -33,6 +36,8 @@ public class CategoryActivity extends BaseActivity implements
     private static final String TAG = "CategoryActivity";
     private String mCategoryId;
     private TextView mGeneral_list;
+    private ConstraintLayout container_layout;
+    private View view_nodatafound;
 
     public static void start(Activity caller, String categoryName, String categoryId) {
         Intent intent = new Intent(caller, CategoryActivity.class);
@@ -50,14 +55,17 @@ public class CategoryActivity extends BaseActivity implements
             Toast.makeText(this, "Caetgory id is null", Toast.LENGTH_SHORT).show();
             return;
         }
+        results = new ArrayList<>();
+
         String mCategoryName = getIntent().getStringExtra(CategoryActivity.CATEGORY_NAME);
         mCategoryId = getIntent().getStringExtra(CategoryActivity.CATEGORY_ID);
         mGeneral_list = (TextView) findViewById(R.id.general_emptylist);
         TextView categoryTitle = (TextView) findViewById(R.id.faq_titlequetion);
-        categoryTitle.setText(String.format("%s: %s", getString(R.string.category), mCategoryName));
-
-        results = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
+        container_layout = (ConstraintLayout) findViewById(R.id.container_layout);
+        view_nodatafound = findViewById(R.id.view_nodatafound);
+
+        categoryTitle.setText(String.format("%s: %s", getString(R.string.category), mCategoryName));
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
@@ -86,9 +94,11 @@ public class CategoryActivity extends BaseActivity implements
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+
                     results.addAll(response.body().products);
-                    if (results.size() == 0) mGeneral_list.setVisibility(View.VISIBLE);
+                    if (results.size() == 0) view_nodatafound.setVisibility(View.VISIBLE);
                     adapter.notifyDataSetChanged();
+
                 }else {
                     Toast.makeText(CategoryActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
