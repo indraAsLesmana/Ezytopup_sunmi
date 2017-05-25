@@ -13,10 +13,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
@@ -34,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "ProfileActivity";
     private EditText mSaldo, mName, mPhone, mEmail;
@@ -44,6 +47,8 @@ public class ProfileActivity extends BaseActivity {
     private ImageCropper mImageCropper;
     private File mCurrentSelectFile;
     public Bitmap bitmap;
+
+    private Button mUpdateButton, mCancelButton;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ProfileActivity.class);
@@ -61,6 +66,12 @@ public class ProfileActivity extends BaseActivity {
         mEmail = (EditText) findViewById(R.id.ed_profile_email);
         mImageprofile = (ImageView) findViewById(R.id.im_profile_image);
         container_view = (ConstraintLayout) findViewById(R.id.container_profileactivity);
+
+        mUpdateButton = (Button) findViewById(R.id.btnprofileUpdate);
+        mCancelButton = (Button) findViewById(R.id.btnprofileCancel);
+
+        mUpdateButton.setOnClickListener(this);
+        mCancelButton.setOnClickListener(this);
 
         String userName = PreferenceUtils.getSinglePrefrenceString
                 (ProfileActivity.this, R.string.settings_def_storefirst_name_key);
@@ -91,7 +102,7 @@ public class ProfileActivity extends BaseActivity {
             getBalance();
         }
 
-        if (Eztytopup.getSunmiDevice()){
+        if (Eztytopup.getSunmiDevice()) {
             Helper.setImmersivebyKeyboard(container_view);
         }
 
@@ -137,8 +148,8 @@ public class ProfileActivity extends BaseActivity {
                     @Override
                     public void run() {
                         mImageprofile.setImageBitmap(bitmap);
-                        mImageprofile.getLayoutParams().width=500;
-                        mImageprofile.getLayoutParams().height=500;
+                        mImageprofile.getLayoutParams().width = 500;
+                        mImageprofile.getLayoutParams().height = 500;
 
                         if (mCurrentSelectFile != null) {
                             mImageCropper.setOutPut(500, 500);
@@ -156,7 +167,8 @@ public class ProfileActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mImageFileSelector.onActivityResult(requestCode, resultCode, data);
-        mImageCropper.onActivityResult(requestCode, resultCode, data);    }
+        mImageCropper.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -245,5 +257,16 @@ public class ProfileActivity extends BaseActivity {
     @Override
     public int getLayout() {
         return R.layout.activity_profile;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnprofileUpdate:
+                break;
+            case R.id.btnprofileCancel:
+                finish();
+                break;
+        }
     }
 }
