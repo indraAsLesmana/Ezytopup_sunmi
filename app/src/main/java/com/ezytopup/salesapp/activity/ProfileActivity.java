@@ -148,11 +148,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void run() {
                         mImageprofile.setImageBitmap(bitmap);
-                        mImageprofile.getLayoutParams().width = 500;
-                        mImageprofile.getLayoutParams().height = 500;
+                        mImageprofile.getLayoutParams().width = mImageprofile.getWidth();
+                        mImageprofile.getLayoutParams().height = mImageprofile.getHeight();
 
                         if (mCurrentSelectFile != null) {
-                            mImageCropper.setOutPut(500, 500);
+                            mImageCropper.setOutPut(mImageprofile.getWidth(), mImageprofile.getHeight());
                             mImageCropper.setOutPutAspect(1, 1);
                             mImageCropper.cropImage(mCurrentSelectFile);
                         }
