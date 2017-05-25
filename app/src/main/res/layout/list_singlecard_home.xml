@@ -8,22 +8,16 @@
     app:cardUseCompatPadding="true"
     android:clickable="true">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/cn_cardview">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/cn_cardview"
+       android:orientation="vertical">
 
         <ImageView
             android:id="@+id/item_image"
             android:layout_width="@dimen/image_contenthwidth"
             android:layout_height="@dimen/image_contenthigh"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="0dp"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
         <TextView
@@ -36,12 +30,9 @@
             android:maxLines="@string/max_lines_item_titles"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:layout_gravity="center"
             android:textColor="@color/primary_text"
-            app:layout_constraintLeft_toLeftOf="@id/item_image"
-            app:layout_constraintRight_toRightOf="@id/item_image"
-            app:layout_constraintTop_toBottomOf="@id/item_image"
-            tools:text="@string/dummy_titlecard"
-            app:layout_constraintHorizontal_bias="0.5" />
+            tools:text="@string/dummy_titlecard" />
 
         <TextView
             android:id="@+id/item_price"
@@ -51,13 +42,10 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:textSize="12sp"
+            android:layout_gravity="center"
             android:textColor="@color/secondary_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@+id/item_title"
-            app:layout_constraintRight_toRightOf="@+id/item_title"
-            app:layout_constraintTop_toBottomOf="@+id/item_title"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="@string/dummy_price1"
-            app:layout_constraintHorizontal_bias="0.508" />
-    </android.support.constraint.ConstraintLayout>
+            tools:text="@string/dummy_price1" />
+
+   </LinearLayout>
+
 </android.support.v7.widget.CardView>
