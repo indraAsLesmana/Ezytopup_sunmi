@@ -155,6 +155,13 @@ public interface EzytopupAPI {
                                                    @Query("email") String email,
                                                    @Query("phone") String phone);
 
+    @POST("WGS_API_edit_current_user_profile.php?" + API_URL_GENERALUSAGE)
+    Call<UpdateProfileResponse> setUpdateProfile(@Header("Authorize") String headerToken,
+                                                 @Query("name") String name,
+                                                 @Query("email") String email,
+                                                 @Query("phone") String phone,
+                                                 @Query("image") String image);
+
     @POST("WGS_API_buyNow_reseller.php?" + API_URL_GENERALUSAGE)
     Call<VoucherprintResponse> getBuyreseller(@Body HashMap<String, String> data);
 
