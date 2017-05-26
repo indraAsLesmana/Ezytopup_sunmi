@@ -42,6 +42,7 @@ public class TermActivity extends BaseActivity {
 
         loadingBar = (LinearLayout) findViewById(R.id.loadingBar);
         TextView titleText = (TextView) findViewById(R.id.faq_titlequetion);
+        titleText.setVisibility(View.VISIBLE);
         titleText.setText(R.string.term_and_condition);
 
         results = new ArrayList<>();
