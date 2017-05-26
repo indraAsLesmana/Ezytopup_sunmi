@@ -103,12 +103,14 @@ public class ProfileActivity extends BaseActivity {
                     loadImage(file);
                     mCurrentSelectFile = new File(file);
                 } else
-                    Toast.makeText(ProfileActivity.this, "select image file error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ProfileActivity.this, R.string.select_imageerror,
+                            Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onError() {
-                Toast.makeText(ProfileActivity.this, "select image file error", Toast.LENGTH_LONG).show();
+                Toast.makeText(ProfileActivity.this, R.string.select_imageerror,
+                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -120,12 +122,16 @@ public class ProfileActivity extends BaseActivity {
                 if (result == ImageCropper.CropperResult.success) {
                     loadImage(outFile.getPath());
                 } else if (result == ImageCropper.CropperResult.error_illegal_input_file) {
-                    Toast.makeText(ProfileActivity.this, "input file error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ProfileActivity.this, R.string.input_fileerror, Toast.LENGTH_LONG).show();
                 } else if (result == ImageCropper.CropperResult.error_illegal_out_file) {
-                    Toast.makeText(ProfileActivity.this, "output file error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ProfileActivity.this, R.string.output_fileerror, Toast.LENGTH_LONG).show();
                 }
             }
         });
+
+        if (Eztytopup.getSunmiDevice()){
+            Helper.setImmersivebyKeyboard(container_view);
+        }
     }
 
     private void loadImage(final String file) {

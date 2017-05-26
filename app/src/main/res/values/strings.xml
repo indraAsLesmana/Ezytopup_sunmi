@@ -240,6 +240,9 @@
     <string name="welcome_guest">Welcome, Guest</string>
     <string name="your_email_here">Your Email Here</string>
     <string name="no_datafound">No data found</string>
+    <string name="input_fileerror">Input file error</string>
+    <string name="output_fileerror">Output file error</string>
+    <string name="select_imageerror">select image file error</string>
 
     <string-array name="dummy_data">
         <item>One</item>
