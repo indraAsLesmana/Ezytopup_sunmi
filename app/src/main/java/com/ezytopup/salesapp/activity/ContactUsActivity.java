@@ -106,6 +106,10 @@ public class ContactUsActivity extends BaseActivity {
         });
 
         getContactUs();
+
+        if (Eztytopup.getSunmiDevice()){
+            Helper.setImmersivebyKeyboard(container_layout);
+        }
     }
 
     public void getContactUs() {

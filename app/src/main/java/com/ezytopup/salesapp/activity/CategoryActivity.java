@@ -35,8 +35,6 @@ public class CategoryActivity extends BaseActivity implements
     private ArrayList<CategoryResponse.Product> results;
     private static final String TAG = "CategoryActivity";
     private String mCategoryId;
-    private TextView mGeneral_list;
-    private ConstraintLayout container_layout;
     private View view_nodatafound;
 
     public static void start(Activity caller, String categoryName, String categoryId) {
@@ -59,10 +57,8 @@ public class CategoryActivity extends BaseActivity implements
 
         String mCategoryName = getIntent().getStringExtra(CategoryActivity.CATEGORY_NAME);
         mCategoryId = getIntent().getStringExtra(CategoryActivity.CATEGORY_ID);
-        mGeneral_list = (TextView) findViewById(R.id.general_emptylist);
         TextView categoryTitle = (TextView) findViewById(R.id.faq_titlequetion);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);
-        container_layout = (ConstraintLayout) findViewById(R.id.container_layout);
         view_nodatafound = findViewById(R.id.view_nodatafound);
 
         categoryTitle.setText(String.format("%s: %s", getString(R.string.category), mCategoryName));

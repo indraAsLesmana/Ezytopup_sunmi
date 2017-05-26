@@ -55,6 +55,7 @@ public class HistoryFragment extends Fragment implements
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
     private String uid, token;
+    private View view_nodatafound;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -71,6 +72,7 @@ public class HistoryFragment extends Fragment implements
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_generallist, container, false);
 
+        view_nodatafound = rootView.findViewById(R.id.view_nodatafound);
         RecyclerView recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         recycler_view.setHasFixedSize(true);
         recycler_view.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -102,9 +104,16 @@ public class HistoryFragment extends Fragment implements
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
 
-                    Allhistory.clear();
-                    Allhistory.addAll(response.body().result);
-                    adapter.notifyDataSetChanged();
+                    if (response.body().result.size() == 0){
+                        Allhistory.clear();
+                        adapter.notifyDataSetChanged();
+                        view_nodatafound.setVisibility(View.VISIBLE);
+                    }else {
+                        view_nodatafound.setVisibility(View.GONE);
+                        Allhistory.clear();
+                        Allhistory.addAll(response.body().result);
+                        adapter.notifyDataSetChanged();
+                    }
                 }else {
                     Toast.makeText(getContext(), response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();

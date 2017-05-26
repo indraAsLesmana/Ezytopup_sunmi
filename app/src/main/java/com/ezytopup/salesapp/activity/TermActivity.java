@@ -41,9 +41,8 @@ public class TermActivity extends BaseActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         loadingBar = (LinearLayout) findViewById(R.id.loadingBar);
-
         TextView titleText = (TextView) findViewById(R.id.faq_titlequetion);
-        titleText.setVisibility(View.GONE);
+        titleText.setText(R.string.term_and_condition);
 
         results = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.activity_generalmainrecycler);

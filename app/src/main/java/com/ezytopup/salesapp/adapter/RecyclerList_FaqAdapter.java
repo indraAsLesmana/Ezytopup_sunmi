@@ -31,16 +31,17 @@ public class RecyclerList_FaqAdapter extends RecyclerView.Adapter
 
     @Override
     public QuestionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_faq, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_faq, parent, false);
         return new QuestionHolder(v);
     }
 
     @Override
     public void onBindViewHolder(QuestionHolder holder, int position) {
-        holder.quetionTitle.setVisibility(View.VISIBLE);
-
-        holder.quetionTitle.setText(dataList.get(position).question);
-        holder.quetionAnswer.setText(dataList.get(position).answer);
+        if (dataList != null){
+            holder.quetionTitle.setText(dataList.get(position).question);
+            holder.quetionAnswer.setText(dataList.get(position).answer);
+        }
     }
 
     @Override

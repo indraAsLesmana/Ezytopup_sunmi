@@ -232,6 +232,9 @@ public class ProfileActivity extends BaseActivity {
                 initImageFileSelector();
                 mImageFileSelector.selectImage(this);
                 break;
+            case R.id.btnprofileCancel:
+                finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

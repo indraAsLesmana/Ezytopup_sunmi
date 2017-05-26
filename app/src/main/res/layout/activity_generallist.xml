@@ -32,18 +32,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/faq_titlequetion"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/faq_1"
-                android:textColor="@color/primary_text"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/faq_titlequetion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/faq_1"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/activity_generalmainrecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible" />
+            </LinearLayout>
+
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -70,31 +82,14 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/activity_generalmainrecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/general_emptylist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_error_loadimage"
-                android:gravity="center"
-                android:text="@string/listempty"
-                android:textColor="@color/primary_text"
-                android:textSize="24sp"
-                android:visibility="gone" />
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
 
     <include
-        android:visibility="gone"
         android:id="@+id/view_nodatafound"
         layout="@layout/inc_nodatafound"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -50,6 +50,10 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
         mGetYourPasswordButton.setOnClickListener(this);
         mBackButton.setOnClickListener(this);
 
+        if (Eztytopup.getSunmiDevice()){
+            Helper.setImmersivebyKeyboard(container_forgotpassword);
+        }
+
     }
 
     private void setForgotpassword(String email, String phone){

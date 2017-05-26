@@ -37,8 +37,9 @@ public class RecyclerList_TermAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(QuestionHolder holder, int position) {
-        holder.quetionTitle.setVisibility(View.GONE);
-        holder.quetionAnswer.setText(dataList.get(position).term);
+        if (dataList != null){
+            holder.quetionAnswer.setText(dataList.get(position).term);
+        }
     }
 
     @Override
