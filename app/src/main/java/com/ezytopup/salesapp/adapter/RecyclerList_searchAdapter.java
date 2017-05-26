@@ -2,6 +2,7 @@ package com.ezytopup.salesapp.adapter;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,8 @@ public class RecyclerList_searchAdapter extends RecyclerView.Adapter
 
     @Override
     public SingleItemFavHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_singlecard_favorite, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.list_singlecard_favorite, parent, false);
         return new SingleItemFavHolder(v);
     }
 
@@ -61,6 +63,13 @@ public class RecyclerList_searchAdapter extends RecyclerView.Adapter
                     mListener.onCardclick(singleItem);
                 }
             });
+
+            if (position == itemList.size() - 1) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)
+                        holder.card_view.getLayoutParams();
+                params.bottomMargin = 0;
+                holder.card_view.setLayoutParams(params);
+            }
         }
     }
 
@@ -74,6 +83,7 @@ public class RecyclerList_searchAdapter extends RecyclerView.Adapter
         private TextView fav_title, fav_category_value, fav_price_value;
         private ImageView fav_image;
         private ConstraintLayout card_container;
+        private CardView card_view;
 
         public SingleItemFavHolder(View itemView) {
             super(itemView);
@@ -82,6 +92,8 @@ public class RecyclerList_searchAdapter extends RecyclerView.Adapter
             fav_price_value = (TextView) itemView.findViewById(R.id.fav_price_value);
             fav_image = (ImageView) itemView.findViewById(R.id.fav_image);
             card_container = (ConstraintLayout) itemView.findViewById(R.id.fav_cardcontainer);
+            card_view = (CardView) itemView.findViewById(R.id.cardview_listfavorite);
+
         }
     }
 

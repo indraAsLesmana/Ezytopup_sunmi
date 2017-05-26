@@ -102,17 +102,9 @@ public class HistoryFragment extends Fragment implements
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
 
-                    // TODO : need to check, is notifyItemInserted is working
-
-                    if (Allhistory.size() == 0){
-                        Allhistory.addAll(response.body().result);
-                        adapter.notifyDataSetChanged();
-                    }else{
-                        Allhistory.add(
-                                response.body().result.get(
-                                        response.body().result.size() -1));
-                        adapter.notifyDataSetChanged();
-                    }
+                    Allhistory.clear();
+                    Allhistory.addAll(response.body().result);
+                    adapter.notifyDataSetChanged();
                 }else {
                     Toast.makeText(getContext(), response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();

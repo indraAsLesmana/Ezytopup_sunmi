@@ -38,7 +38,8 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
 
     @Override
     public SingleItemFavHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_itemhistory, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_itemhistory, parent, false);
         return new SingleItemFavHolder(v);
     }
 
@@ -65,9 +66,9 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
             }
         }
         if (position == 0
-                && result != null
-                && Eztytopup.getIsUserReseller()
-                && PreferenceUtils.getLastProduct() != null){
+                && PreferenceUtils.getLastProduct() != null
+                && Eztytopup.getIsUserReseller()) {
+
             holder.reprint.setVisibility(View.VISIBLE);
             holder.reprint.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,6 +78,9 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
                     holder.reprint.setVisibility(View.INVISIBLE);
                 }
             });
+
+        }else {
+            holder.reprint.setVisibility(View.INVISIBLE);
         }
     }
 

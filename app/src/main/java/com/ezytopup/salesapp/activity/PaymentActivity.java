@@ -11,6 +11,7 @@ import android.webkit.WebViewClient;
 
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.utility.Constant;
+import com.ezytopup.salesapp.utility.PreferenceUtils;
 
 public class PaymentActivity extends BaseActivity {
 
@@ -20,6 +21,7 @@ public class PaymentActivity extends BaseActivity {
     private static final String PAYMENT_EMAIL = "PaymentActivity::email";
     private static final String PAYMENT_DEVICEID = "PaymentActivity::deviceid";
     private static final String PAYMENT_URL = "PaymentActivity::paymentdetail";
+    private String token;
 
     public static void start(Activity caller, String email, String deviceid, String paymentUrl) {
         Intent intent = new Intent(caller, PaymentActivity.class);
@@ -50,6 +52,9 @@ public class PaymentActivity extends BaseActivity {
         device_id = getIntent().getStringExtra(PaymentActivity.PAYMENT_DEVICEID);
         email = getIntent().getStringExtra(PaymentActivity.PAYMENT_EMAIL);
         paymentUrl = getIntent().getStringExtra(PaymentActivity.PAYMENT_URL);
+        // TODO : if i use this token, payment not work. for now just use temporary token
+        token = PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_storeaccess_token_key);
 
         webview = (WebView) findViewById(R.id.pay_webview);
         webview.getSettings().setJavaScriptEnabled(true);

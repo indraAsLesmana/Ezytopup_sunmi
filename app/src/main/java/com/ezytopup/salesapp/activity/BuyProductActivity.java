@@ -417,93 +417,9 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnBuyNow:
-                if (!Eztytopup.getSunmiDevice()){
-                    if (Eztytopup.getmBTprintService().isAvailable()){              // is blutooth exist on that device?
-                        if (!Eztytopup.getmBTprintService().isBTopen()){            // is blutooth Enable on that device?
-                            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-                        }else if (!Eztytopup.getIsPrinterConnected()){              // is bluetooth connected to printer?
-                            Intent serverIntent = new Intent(BuyProductActivity.this,
-                                    DeviceListActivity.class);
-                            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-                        }else {
-                            String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
-                            if (!printImage()){ // logo print
-                                return;
-                            }
-                            byte[] cmd = new byte[5];
-                            cmd[0] = 0x1b;
-                            cmd[1] = 0x21;
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService().sendMessage("Jl. Pangeran Jayakarta No. 129 \n"
-                                    + "     Jakarta Pusat - 10730  \n", "GBK");
-
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService().sendMessage(productName + "\n", "GBK");
-
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService()
-                                    .sendMessage("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
-                                            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n", "GBK");
-
-                            cmd[2] &= 0xEF;
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService().sendMessage("Your Voucher code is : \n","GBK");
-                            cmd[2] = 0x10;
-                            cmd[3] = 0x20;
-                            Eztytopup.getmBTprintService().write(cmd);
-                            Eztytopup.getmBTprintService().sendMessage(Helper.printTextCenter(code) +
-                                    "\n", "GBK");
-                        }
-                    }else {
-                        Toast.makeText(this, R.string.bluetooth_notfound, Toast.LENGTH_LONG).show();
-                    }
-                }else {
-                    ThreadPoolManager.getInstance().executeTask(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                String code = "JJ4A1 - L120O - 1IG6S - B0O6S";
-                                /*logo*/
-                                if (printImage()){
-                                    Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                                    Eztytopup.getWoyouService().printBitmap(Eztytopup.getmBitmap(),
-                                            Eztytopup.getCallback());
-                                 /* make space*/
-                                    Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                                }
-
-                                Eztytopup.getWoyouService().setFontSize(24, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printText("Jl. Pangeran Jayakarta No. 129 \n"
-                                        + "Jakarta Pusat - 10730", Eztytopup.getCallback());
-                                 /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(2, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().setAlignment(0, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printOriginalText("  Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
-                                        "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n",
-                                        Eztytopup.getCallback());
-                                 /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().setAlignment(1, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printOriginalText("Your Voucher code is : \n",
-                                        Eztytopup.getCallback());
-                                 /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(1, Eztytopup.getCallback());
-                                Eztytopup.getWoyouService().printTextWithFont(code
-                                        ,"gh", 32, Eztytopup.getCallback());
-
-                                /* make space*/
-                                Eztytopup.getWoyouService().lineWrap(4, Eztytopup.getCallback());
-
-                            } catch (RemoteException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                }
-
+                buyforEndUser();
                 break;
             case R.id.btnCancel:
                 break;
@@ -619,6 +535,7 @@ public class BuyProductActivity extends BaseActivity implements View.OnClickList
                     public void onResponse(Call<PaymentResponse> call, Response<PaymentResponse> response) {
                         if (response.isSuccessful() && response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+
                             Log.i(TAG, String.format("onResponse: %s %s", response.body().status.getCode(),
                                     response.body().status.getMessage()));
 

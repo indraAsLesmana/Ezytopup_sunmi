@@ -124,15 +124,12 @@ public class ContactUsActivity extends BaseActivity {
                     tvAddress.setText(response.body().alamat.alamat);
                     tvCity.setText(response.body().alamat.kota);
                     tvCountry.setText(response.body().alamat.negara);
-
                     tvFacebook.setText(response.body().sosmed.fb);
                     tvTwitter.setText(response.body().sosmed.twitter);
                     tvInstagram.setText(response.body().sosmed.instagram);
-
                     tvWeb.setText(response.body().support.web);
                     tvEmail.setText(response.body().support.email);
                     tvPhone.setText(response.body().support.telp);
-
                     tvMessage.setText(response.body().pesanku);
 
                     loadingBar.setVisibility(View.GONE);

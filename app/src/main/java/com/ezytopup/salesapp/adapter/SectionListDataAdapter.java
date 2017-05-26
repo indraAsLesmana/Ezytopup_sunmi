@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,14 +76,14 @@ public class SectionListDataAdapter extends RecyclerView.Adapter
     class SingleItemHolder extends RecyclerView.ViewHolder {
         private ImageView itemImage;
         private TextView itemTitle, itemPrice;
-        private ConstraintLayout container_card;
+        private LinearLayout container_card;
 
         public SingleItemHolder(View itemView) {
             super(itemView);
             itemImage = (ImageView) itemView.findViewById(R.id.item_image);
             itemTitle = (TextView) itemView.findViewById(R.id.item_title);
             itemPrice = (TextView) itemView.findViewById(R.id.item_price);
-            container_card = (ConstraintLayout) itemView.findViewById(R.id.cn_cardview);
+            container_card = (LinearLayout) itemView.findViewById(R.id.cn_cardview);
         }
     }
     public interface SectionListDataAdapterListener{

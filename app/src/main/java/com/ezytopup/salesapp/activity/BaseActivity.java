@@ -31,7 +31,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         configureToolbar();
-        if (Eztytopup.getSunmiDevice()){
+
+        if (Eztytopup.getSunmiDevice()) {
             enableImmersiveMode(getWindow().getDecorView());
         }
     }

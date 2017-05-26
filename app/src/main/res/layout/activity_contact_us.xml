@@ -6,7 +6,6 @@
     android:id="@+id/container_contactus_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_design"
     tools:context="com.ezytopup.salesapp.activity.ContactUsActivity">
 
     <include

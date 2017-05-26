@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:id="@+id/container_list"
     android:focusableInTouchMode="true"
-    android:background="@drawable/bg_design"
     tools:context="com.ezytopup.salesapp.fragment.HomeFragment">
 
         <LinearLayout
@@ -31,7 +30,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/keyword"
-                    android:textColor="?attr/colorPrimary"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -41,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:layout_weight="5"
-                    android:background="@drawable/button_email_gift">
+                    android:background="@drawable/keyword_border">
 
                     <EditText
                         android:id="@+id/text_search"
@@ -54,8 +53,8 @@
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:textColor="@color/primary_text"
-                        android:textColorHint="?attr/colorPrimary"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
                         android:textSize="14sp" />
                 </RelativeLayout>
 
@@ -74,5 +73,10 @@
                     android:scrollbars="none" />
             </android.support.v7.widget.CardView>
         </LinearLayout>
+
+    <include
+        android:id="@+id/view_nodatafound"
+        android:visibility="invisible"
+        layout="@layout/inc_nodatafound" />
 
 </FrameLayout>

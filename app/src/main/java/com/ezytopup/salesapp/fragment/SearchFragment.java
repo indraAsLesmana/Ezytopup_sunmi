@@ -24,6 +24,7 @@ import com.ezytopup.salesapp.activity.BuyResellerActivity;
 import com.ezytopup.salesapp.adapter.RecyclerList_searchAdapter;
 import com.ezytopup.salesapp.api.BestSellerResponse;
 import com.ezytopup.salesapp.api.SearchResponse;
+import com.ezytopup.salesapp.utility.AnimationHelper;
 import com.ezytopup.salesapp.utility.Helper;
 
 import java.net.HttpURLConnection;
@@ -43,6 +44,7 @@ public class SearchFragment extends Fragment implements
     private RecyclerList_searchAdapter adapter;
     private static final String TAG = "SearchFragment";
     private FrameLayout container_list;
+    private View view_nodatafound;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -64,6 +66,7 @@ public class SearchFragment extends Fragment implements
         LinearLayout searchBar = (LinearLayout) rootView.findViewById(R.id.search_field);
         RecyclerView recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recylerview);
         container_list = (FrameLayout) rootView.findViewById(R.id.container_list);
+        view_nodatafound = rootView.findViewById(R.id.view_nodatafound);
 
         searchBar.setVisibility(View.VISIBLE);
         recycler_view.setHasFixedSize(true);
@@ -105,13 +108,16 @@ public class SearchFragment extends Fragment implements
                                 .equals(String.valueOf(HttpURLConnection.HTTP_OK))){
 
                     if (response.body().products.size() == 0){
-                        Helper.snacbarError(R.string.result_null, container_list);
-                        return;
+                        AllFavoritedata.clear();
+                        adapter.notifyDataSetChanged();
+                        view_nodatafound.setVisibility(View.VISIBLE);
+                    }else {
+                        view_nodatafound.setVisibility(View.GONE);
+                        AllFavoritedata.clear();
+                        AllFavoritedata.addAll(response.body().products);
+                        adapter.notifyDataSetChanged();
                     }
 
-                    AllFavoritedata.clear();
-                    AllFavoritedata.addAll(response.body().products);
-                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();

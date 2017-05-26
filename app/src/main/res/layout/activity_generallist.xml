@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_design"
     tools:context="com.ezytopup.salesapp.activity.FaqActivity">
 
     <include
@@ -16,15 +14,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:id="@+id/bg_cardviewlist"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -32,14 +28,12 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/faq_titlequetion"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -48,16 +42,17 @@
                 android:text="@string/faq_1"
                 android:textColor="@color/primary_text"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/loadingBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_horizontal|center_vertical"
                 android:layout_margin="20dp"
-                android:id="@+id/loadingBar"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical"
                 android:visibility="gone">
 
                 <ProgressBar
@@ -65,22 +60,21 @@
                     style="?android:attr/progressBarStyleLargeInverse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical">
-                </ProgressBar>
+                    android:layout_gravity="center_horizontal|center_vertical" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:text="Loading..."
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:text="@string/loading" />
 
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/activity_generalmainrecycler"
                 android:layout_width="match_parent"
-                android:visibility="visible"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/general_emptylist"
@@ -93,9 +87,17 @@
                 android:textColor="@color/primary_text"
                 android:textSize="24sp"
                 android:visibility="gone" />
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
+    </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    <include
+        android:visibility="gone"
+        android:id="@+id/view_nodatafound"
+        layout="@layout/inc_nodatafound"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

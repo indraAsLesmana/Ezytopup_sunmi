@@ -1,6 +1,7 @@
 package com.ezytopup.salesapp.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,13 @@ public class RecyclerList_ListCategoryAdapter extends RecyclerView.Adapter
                 }
             });
 
+            if (position == itemList.size() - 1) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)
+                        holder.card_view.getLayoutParams();
+                params.bottomMargin = 0;
+                holder.card_view.setLayoutParams(params);
+            }
+
         }
     }
 
@@ -75,12 +83,14 @@ public class RecyclerList_ListCategoryAdapter extends RecyclerView.Adapter
         private TextView card_categoryname;
         private ImageView itemImage;
         private LinearLayout singleCard;
+        private CardView card_view;
 
         public ItemProductHolder(View itemView) {
             super(itemView);
             card_categoryname = (TextView) itemView.findViewById(R.id.listcat_title);
             singleCard = (LinearLayout) itemView.findViewById(R.id.listcat_container);
             itemImage = (ImageView) itemView.findViewById(R.id.listcat_image);
+            card_view = (CardView) itemView.findViewById(R.id.cardview_listCategory);
         }
     }
 
