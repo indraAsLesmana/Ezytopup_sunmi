@@ -42,17 +42,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             actionBar = getSupportActionBar();
-            if (actionBar != null){
+            if (actionBar != null) {
                 actionBar.setDisplayShowTitleEnabled(false);
                 toolbar_centerImage = (ImageView) findViewById(R.id.toolbar_centered_logo);
                 if (PreferenceUtils.getSinglePrefrenceString(this,
-                        R.string.settings_def_sellerlogo_key).equals(Constant.PREF_NULL)){
+                        R.string.settings_def_sellerlogo_key).equals(Constant.PREF_NULL)) {
                     Glide.with(this)
                             .load(PreferenceUtils.getSinglePrefrenceString(this,
                                     R.string.settings_def_storelogo_key))
                             .crossFade()
                             .into(toolbar_centerImage);
-                }else {
+                } else {
                     toolbar_centerImage.setBackgroundResource(0);
                     Glide.with(this)
                             .load(PreferenceUtils.getSinglePrefrenceString(this,

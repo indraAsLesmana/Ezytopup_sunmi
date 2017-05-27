@@ -162,10 +162,12 @@ public class HistoryFragment extends Fragment implements
                             if (!Eztytopup.getmBTprintService().isAvailable()){
                                 Toast.makeText(getContext(), R.string.bluetooth_notfound,
                                         Toast.LENGTH_SHORT).show();
-                            } else if (!Eztytopup.getmBTprintService().isBTopen()) { // is blutooth Enable on that device?
+                            } else if (!Eztytopup.getmBTprintService().isBTopen()) {
+                                // is blutooth Enable on that device?
                                 Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                                 startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-                            } else if (!Eztytopup.getIsPrinterConnected()) {  // is bluetooth connected to printer?
+                            } else if (!Eztytopup.getIsPrinterConnected()) {
+                                // is bluetooth connected to printer?
                                 Intent serverIntent = new Intent(getContext(),
                                         DeviceListActivity.class);
                                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
