@@ -8,7 +8,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -41,20 +43,6 @@ public class Helper {
 
     private static ProgressDialog sProgressDialog;
     private static final String TAG = "Helper";
-    /**
-     * this method require to complete API parameter, from last developer
-     * */
-    public static String deviceId(){
-        //register device_id
-        DateFormat dateFormatter = new SimpleDateFormat("yyyyMMddhhmmss");
-        dateFormatter.setLenient(false);
-        Date today = new Date();
-        String getDeviceDate = dateFormatter.format(today);
-
-        Random r = new Random();
-        int getDeviceNum = r.nextInt(99999999 - 10000000) + 10000000;
-        return getDeviceDate + String.valueOf(getDeviceNum);
-    }
 
     /**
      * Show progress dialog, can only be called once per tier (show-hide)

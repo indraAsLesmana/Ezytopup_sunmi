@@ -1,5 +1,6 @@
 package com.ezytopup.salesapp;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
@@ -14,6 +15,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -211,8 +213,16 @@ public class Eztytopup extends Application {
     private void setDeviceId() {
         if (PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeidevice_key).equals(Constant.PREF_NULL)){
-            PreferenceUtils.setDeviceId(this, Helper.deviceId());
+            PreferenceUtils.setDeviceId(this, getDeviceimei());
+            Helper.log(TAG, "Deviceid --> " + getDeviceimei(), null );
         }
+    }
+
+    private String getDeviceimei(){
+        TelephonyManager tManager = (TelephonyManager) getBaseContext()
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        @SuppressLint("HardwareIds") String deviceIMEI = tManager.getDeviceId();
+        return deviceIMEI;
     }
 
 

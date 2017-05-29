@@ -6,20 +6,20 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ezytopup.salesapp.Eztytopup;
 import com.ezytopup.salesapp.R;
+import com.ezytopup.salesapp.api.UpdateProfileResponse;
 import com.ezytopup.salesapp.api.WalletbalanceResponse;
 import com.ezytopup.salesapp.utility.Constant;
 import com.ezytopup.salesapp.utility.Helper;
@@ -34,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String TAG = "ProfileActivity";
     private EditText mSaldo, mName, mPhone, mEmail;
@@ -43,7 +43,8 @@ public class ProfileActivity extends BaseActivity {
     private ImageFileSelector mImageFileSelector;
     private ImageCropper mImageCropper;
     private File mCurrentSelectFile;
-    public Bitmap bitmap;
+    private Bitmap bitmap;
+    private Button btnprofileUpdate, btnprofileCancel;
 
     public static void start(Activity caller) {
         Intent intent = new Intent(caller, ProfileActivity.class);
@@ -61,6 +62,8 @@ public class ProfileActivity extends BaseActivity {
         mEmail = (EditText) findViewById(R.id.ed_profile_email);
         mImageprofile = (ImageView) findViewById(R.id.im_profile_image);
         container_view = (ConstraintLayout) findViewById(R.id.container_profileactivity);
+        btnprofileUpdate = (Button) findViewById(R.id.btnprofileUpdate);
+        btnprofileCancel = (Button) findViewById(R.id.btnprofileCancel);
 
         String userName = PreferenceUtils.getSinglePrefrenceString
                 (ProfileActivity.this, R.string.settings_def_storefirst_name_key);
@@ -209,8 +212,6 @@ public class ProfileActivity extends BaseActivity {
         });
     }
 
-    ;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -254,5 +255,48 @@ public class ProfileActivity extends BaseActivity {
     @Override
     public int getLayout() {
         return R.layout.activity_profile;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnprofileUpdate:
+                updateProfile();
+                break;
+            case R.id.btnprofileCancel:
+                finish();
+                break;
+        }
+    }
+
+    private void updateProfile() {
+        UpdateProfileResponse updateProfile =
+                new UpdateProfileResponse(
+                        mName.getText().toString()
+                        , ""          //lastName
+                        , ""          //Avatar
+                        , mPhone.getText().toString());
+        /**
+         * from where i get password.? UI not evailuabe.
+         * */
+        // TODO : must complate!!
+        Call<UpdateProfileResponse> setUpdateProfile = Eztytopup.getsAPIService()
+                .setUpdateProfile(updateProfile);
+        setUpdateProfile.enqueue(new Callback<UpdateProfileResponse>() {
+            @Override
+            public void onResponse(Call<UpdateProfileResponse> call,
+                                   Response<UpdateProfileResponse> response) {
+
+                if (response.isSuccessful() && response.body()
+                        .status.getCode().equals(String.valueOf(HttpURLConnection.HTTP_OK))){
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateProfileResponse> call, Throwable t) {
+
+            }
+        });
     }
 }

@@ -10,7 +10,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 import static com.ezytopup.salesapp.utility.Constant.API_URL_GENERALUSAGE;
@@ -163,5 +165,8 @@ public interface EzytopupAPI {
 
     @GET("WGS_API_server_time.php?" + API_URL_GENERALUSAGE)
     Call<ServertimeResponse> getServertime();
+
+    @POST("WGS_API_edit_current_user_profile.php?" + API_URL_GENERALUSAGE)
+    Call<UpdateProfileResponse> setUpdateProfile(@Body UpdateProfileResponse updateProfile);
 
 }
