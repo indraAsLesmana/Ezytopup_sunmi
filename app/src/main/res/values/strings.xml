@@ -36,6 +36,25 @@
     <string name="action_cancel">Cancel</string>
     <string name="title_change_password">Change Password</string>
 
+    <!--Strings related to contact us-->
+    <string name="title_title">Title</string>
+    <string name="title_address">Address</string>
+    <string name="title_social_media">Social Media</string>
+    <string name="sub_title_facebook">Facebook</string>
+    <string name="sub_title_twitter">Twitter</string>
+    <string name="sub_title_instagram">Instagram</string>
+    <string name="title_support">Support</string>
+    <string name="sub_title_web">Web</string>
+    <string name="sub_title_email">Email</string>
+    <string name="sub_title_phone">Phone</string>
+    <string name="title_feedback_form">Feedback Form</string>
+    <string name="action_send_feedback">Send Feedback</string>
+    <string name="prompt_your_name">Your Name</string>
+    <string name="prompt_your_email">Your Email</string>
+    <string name="prompt_your_phone">Your Phone</string>
+    <string name="prompt_subject">Subject</string>
+    <string name="prompt_messages">Messages</string>
+
     <!--Strings related to forgot password-->
     <string name="title_fill_the_information">Please fill the Information</string>
     <string name="prompt_email_address">Email Address</string>
