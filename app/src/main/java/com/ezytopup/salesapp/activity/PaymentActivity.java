@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.utility.Constant;
@@ -45,16 +47,21 @@ public class PaymentActivity extends BaseActivity {
 
         if (getIntent().getStringExtra(PaymentActivity.PAYMENT_EMAIL) == null ||
                 getIntent().getStringExtra(PaymentActivity.PAYMENT_DEVICEID) == null ||
-                getIntent().getStringExtra(PaymentActivity.PAYMENT_URL) == null){
+                getIntent().getStringExtra(PaymentActivity.PAYMENT_URL) == null) {
             finish();
             return;
         }
         device_id = getIntent().getStringExtra(PaymentActivity.PAYMENT_DEVICEID);
         email = getIntent().getStringExtra(PaymentActivity.PAYMENT_EMAIL);
         paymentUrl = getIntent().getStringExtra(PaymentActivity.PAYMENT_URL);
-        // TODO : if i use this token, payment not work. for now just use temporary token
+        // TODO : if i use this token, payment not work. for now just use temporary token (DONE)
         token = PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeaccess_token_key);
+
+        if (!token.equals(Constant.PREF_NULL)) {
+            Toast.makeText(this, "Cannot Access", Toast.LENGTH_LONG).show();
+            finish();
+        }
 
         webview = (WebView) findViewById(R.id.pay_webview);
         webview.getSettings().setJavaScriptEnabled(true);
