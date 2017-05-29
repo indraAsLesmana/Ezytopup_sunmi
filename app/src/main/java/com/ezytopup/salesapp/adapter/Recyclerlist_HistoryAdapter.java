@@ -74,8 +74,8 @@ public class Recyclerlist_HistoryAdapter extends RecyclerView.Adapter
                 @Override
                 public void onClick(View v) {
                     mListener.onReprintClick(result);
-                    // TODO : need change this code put after print truly finish.
-                    holder.reprint.setVisibility(View.INVISIBLE);
+                    // TODO : need change this code put after print truly finish. (DONE)
+//                    holder.reprint.setVisibility(View.INVISIBLE);
                 }
             });
 
