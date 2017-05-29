@@ -1,12 +1,15 @@
 package com.ezytopup.salesapp.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.text.Spannable;
 import android.text.SpannableString;
 
+import com.bumptech.glide.load.engine.Resource;
+import com.ezytopup.salesapp.R;
 import com.ezytopup.salesapp.fragment.FavoriteFragment;
 import com.ezytopup.salesapp.fragment.HistoryFragment;
 import com.ezytopup.salesapp.fragment.HomeFragment;
@@ -19,8 +22,8 @@ import com.ezytopup.salesapp.fragment.SearchFragment;
 
 public class RegisterFragment_Adapter extends FragmentPagerAdapter {
     private static final int PAGE_COUNT = 4;
-    private String tabTitles[] = new String[]{"Home", "Popular", "History", "Search"}; //TODO temporary hardcode
     private Context mContext;
+    private String[] tabTitles; //TODO temporary hardcode
 
     private static final int HOME = 0;
     private static final int POPULAR = 1;
@@ -30,6 +33,12 @@ public class RegisterFragment_Adapter extends FragmentPagerAdapter {
     public RegisterFragment_Adapter(FragmentManager fm, Context context) {
         super(fm);
         mContext = context;
+
+        tabTitles = new String[]{mContext.getString(R.string.tab_home),
+                mContext.getString(R.string.tab_popular),
+                mContext.getString(R.string.tab_history),
+                mContext.getString(R.string.tab_search)
+        };
     }
 
     @Override

@@ -5,6 +5,12 @@
     <string name="facebook_app_id" translatable="false">1116354245082432</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb1116354245082432</string>
 
+    <!-- TabLayout -->
+    <string name="tab_home">Home</string>
+    <string name="tab_popular">Popular</string>
+    <string name="tab_history">History</string>
+    <string name="tab_search">Search</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
