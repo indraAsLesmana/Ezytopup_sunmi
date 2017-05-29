@@ -76,6 +76,7 @@ public class Eztytopup extends Application {
 
     @Override
     public void onCreate() {
+
         super.onCreate();
         sPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
@@ -118,9 +119,9 @@ public class Eztytopup extends Application {
                 R.string.settings_def_sellerid_key).equals(Constant.PREF_NULL)
                 ? Boolean.FALSE : Boolean.TRUE;
 
-        // TODO : need refactor this, and load from mainactivity
-        loadPaymentInfo();
-        loadGiftTamplte();
+        // TODO : need refactor this, and load from mainactivity (DONE)
+//        loadPaymentInfo(mContext);
+//        loadGiftTamplte();
 
         Helper.log(TAG, isUserReseller.toString(), null);
 
@@ -183,7 +184,7 @@ public class Eztytopup extends Application {
 
     };
 
-    private void loadGiftTamplte() {
+    public static void loadGiftTamplte(final Context context) {
         Call<TamplateResponse> tamplate = Eztytopup.getsAPIService().getTamplateGift();
         tamplate.enqueue(new Callback<TamplateResponse>() {
             @Override
@@ -195,7 +196,7 @@ public class Eztytopup extends Application {
                         tamplateActive.addAll(response.body().result);
 
                 }else {
-                    Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                    Toast.makeText(context, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
 
@@ -216,7 +217,7 @@ public class Eztytopup extends Application {
     }
 
 
-    private void loadPaymentInfo() {
+    public static void loadPaymentInfo(final Context context) {
         Call<PaymentResponse> payment = Eztytopup.getsAPIService().getCheckactivePayment();
         payment.enqueue(new Callback<PaymentResponse>() {
             @Override
@@ -228,10 +229,10 @@ public class Eztytopup extends Application {
                     paymentActive.addAll(response.body().paymentMethods);
                     for (PaymentResponse.PaymentMethod activePayment : paymentActive){
                         paymentActiveInfo.add(activePayment.getId());
-                        getLoadActivePayment(activePayment.getId());
+                        getLoadActivePayment(activePayment.getId(), context);
                     }
                 }else {
-                    Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                    Toast.makeText(context, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -284,7 +285,7 @@ public class Eztytopup extends Application {
         bindService(intent, connService, Context.BIND_AUTO_CREATE);
     }
 
-    private void getLoadActivePayment(String id) {
+    public static void getLoadActivePayment(String id, final Context context) {
         switch (id) {
             case Constant.INTERNET_BANK:
 
@@ -299,7 +300,7 @@ public class Eztytopup extends Application {
                             paymentInternet.clear();
                             paymentInternet.addAll(response.body().paymentMethods);
                         }else {
-                            Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                            Toast.makeText(context, response.body().status.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -324,7 +325,7 @@ public class Eztytopup extends Application {
                             paymentTransfer.clear();
                             paymentTransfer.addAll(response.body().paymentMethods);
                         }else {
-                            Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                            Toast.makeText(context, response.body().status.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -349,7 +350,7 @@ public class Eztytopup extends Application {
                             paymentCredit.clear();
                             paymentCredit.addAll(response.body().paymentMethods);
                         }else {
-                            Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                            Toast.makeText(context, response.body().status.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -374,7 +375,7 @@ public class Eztytopup extends Application {
                             paymentWallet.clear();
                             paymentWallet.addAll(response.body().paymentMethods);
                         }else {
-                            Toast.makeText(Eztytopup.this, response.body().status.getMessage(),
+                            Toast.makeText(context, response.body().status.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

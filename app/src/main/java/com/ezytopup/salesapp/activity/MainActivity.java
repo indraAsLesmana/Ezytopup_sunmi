@@ -182,6 +182,9 @@ public class MainActivity extends BaseActivity
         initTabMenu();
         Helper.log(TAG, "setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeidevice_key), null);
+
+        Eztytopup.loadPaymentInfo(this);
+        Eztytopup.loadGiftTamplte(this);
     }
 
     private void getImageHeader() {
@@ -383,6 +386,9 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.nav_print:
                 PrintDemo.start(MainActivity.this);
+                break;
+            case R.id.nav_signup:
+                SignUpActivity.start(MainActivity.this);
                 break;
         }
 
