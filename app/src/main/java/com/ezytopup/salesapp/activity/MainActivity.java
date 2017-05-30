@@ -145,7 +145,7 @@ public class MainActivity extends BaseActivity
                 Glide.with(this)
                         .load(imageUrl)
                         .centerCrop()
-                        .error(R.drawable.ic_launcher)
+                        .error(R.drawable.ic_error_loadimage)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(nav_image_view);
