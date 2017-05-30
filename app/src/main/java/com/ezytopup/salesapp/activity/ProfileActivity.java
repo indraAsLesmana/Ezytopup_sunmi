@@ -83,7 +83,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         ImageFileSelector.setDebug(true);
 
-        if (imageUrl != null) {
+        if (!imageUrl.equals(Constant.PREF_NULL)) {
             Glide.with(ProfileActivity.this)
                     .load(imageUrl).centerCrop()
                     .error(R.drawable.ic_error_loadimage)

@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity
             nav_user_name.setText(firstName + " " + lastName);
             nav_user_email.setText(userMail);
 
-            if (imageUrl != null) {
+            if (!imageUrl.equals(Constant.PREF_NULL)) {
                 Glide.with(this)
                         .load(imageUrl)
                         .centerCrop()

@@ -53,7 +53,7 @@
                     app:riv_corner_radius="5dp"
                     app:riv_mutate_background="true"
                     app:riv_oval="true"
-                    tools:src="@drawable/logo_ezytopupcopy" />
+                    android:background="@drawable/ic_user_image_null" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
