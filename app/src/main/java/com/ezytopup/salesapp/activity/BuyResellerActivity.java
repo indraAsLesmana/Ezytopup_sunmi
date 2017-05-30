@@ -290,6 +290,12 @@ public class BuyResellerActivity extends BaseActivity implements View.OnClickLis
                     resellerPassword.getText().clear();
                     buynowButton.setVisibility(View.GONE);
                     cancelButton.setText(R.string.done);
+
+                } else if (response.isSuccessful() && response.body().status.getCode()
+                        .equals(String.valueOf(HttpURLConnection.HTTP_MOVED_PERM))) {
+
+                        Helper.snacbarError(response.body().status.getMessage(),
+                                containerResellerbuy);
                 } else {
                     Toast.makeText(BuyResellerActivity.this, response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();

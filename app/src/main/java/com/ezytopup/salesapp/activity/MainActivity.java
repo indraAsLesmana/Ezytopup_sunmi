@@ -173,8 +173,18 @@ public class MainActivity extends BaseActivity
         }
 
         initTabMenu();
+
+        Helper.log(TAG, "token: " + PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_storeaccess_token_key), null);
         Helper.log(TAG, "setDeviceId: " + PreferenceUtils.getSinglePrefrenceString(this,
                 R.string.settings_def_storeidevice_key), null);
+        Helper.log(TAG, "sellerId: " + PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_sellerid_key), null);
+        Helper.log(TAG, "shopName: " + PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_storeidevice_key), null);
+        Helper.log(TAG, "customerId: " + PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_uid_key), null);
+
     }
 
     private void getImageHeader() {
