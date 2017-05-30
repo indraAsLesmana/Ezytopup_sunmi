@@ -167,6 +167,7 @@ public interface EzytopupAPI {
     Call<ServertimeResponse> getServertime();
 
     @POST("WGS_API_edit_current_user_profile.php?" + API_URL_GENERALUSAGE)
-    Call<UpdateProfileResponse> setUpdateProfile(@Body UpdateProfileResponse updateProfile);
+    Call<UpdateProfileResponse> setUpdateProfile(@Header("Authorize") String token,
+                                                 @Body UpdateProfileResponse updateProfile);
 
 }

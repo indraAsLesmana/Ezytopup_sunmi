@@ -13,12 +13,15 @@ public class UpdateProfileResponse {
     private String lastName;
     private String avatar;
     private String phone;
+    private String email;
 
-    public UpdateProfileResponse(String firstName, String lastName, String avatar, String phone) {
+    public UpdateProfileResponse(String firstName, String lastName,
+                                 String avatar, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.avatar = avatar;
         this.phone = phone;
+        this.email = email;
     }
 
     @SerializedName("user")

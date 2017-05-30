@@ -1,16 +1,12 @@
 package com.ezytopup.salesapp.utility;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.provider.Settings;
 import android.support.design.widget.Snackbar;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -24,13 +20,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.File;
 import java.net.HttpURLConnection;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,6 +76,7 @@ public class Helper {
                     Helper.log(TAG, String.format("userToken %s",
                             response.body().getUser().getAccessToken()), null);
                     PreferenceUtils.setStoreDetail(context,
+
                             response.body().getUser().getId(),
                             response.body().getUser().getFirstName(),
                             response.body().getUser().getLastName(),

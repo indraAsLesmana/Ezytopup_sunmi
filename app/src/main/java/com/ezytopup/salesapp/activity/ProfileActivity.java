@@ -65,6 +65,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnprofileUpdate = (Button) findViewById(R.id.btnprofileUpdate);
         btnprofileCancel = (Button) findViewById(R.id.btnprofileCancel);
 
+        btnprofileUpdate.setOnClickListener(this);
+        btnprofileCancel.setOnClickListener(this);
+
         String userName = PreferenceUtils.getSinglePrefrenceString
                 (ProfileActivity.this, R.string.settings_def_storefirst_name_key);
         String userPhone = PreferenceUtils.getSinglePrefrenceString
@@ -135,6 +138,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         if (Eztytopup.getSunmiDevice()){
             Helper.setImmersivebyKeyboard(container_view);
         }
+
     }
 
     private void loadImage(final String file) {
@@ -270,26 +274,32 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void updateProfile() {
+        String token = PreferenceUtils
+                .getSinglePrefrenceString(this, R.string.settings_def_storeaccess_token_key);
+        String name = mName.getText().toString();
+        String phone = mPhone.getText().toString();
+        String email = PreferenceUtils.getSinglePrefrenceString(this,
+                R.string.settings_def_storeemail_key);
+
         UpdateProfileResponse updateProfile =
                 new UpdateProfileResponse(
-                        mName.getText().toString()
+                        name
                         , ""          //lastName
                         , ""          //Avatar
-                        , mPhone.getText().toString());
-        /**
-         * from where i get password.? UI not evailuabe.
-         * */
-        // TODO : must complate!!
+                        , phone
+                        , email);
+
         Call<UpdateProfileResponse> setUpdateProfile = Eztytopup.getsAPIService()
-                .setUpdateProfile(updateProfile);
+                .setUpdateProfile(token, updateProfile);
         setUpdateProfile.enqueue(new Callback<UpdateProfileResponse>() {
             @Override
             public void onResponse(Call<UpdateProfileResponse> call,
                                    Response<UpdateProfileResponse> response) {
 
                 if (response.isSuccessful() && response.body()
-                        .status.getCode().equals(String.valueOf(HttpURLConnection.HTTP_OK))){
-
+                        .status.getCode().equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
+                        Helper.log(TAG, "Success profile", null);
+//                    UpdateProfileResponse berhasil = response.body()
                 }
             }
 
