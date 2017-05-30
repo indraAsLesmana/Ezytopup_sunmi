@@ -94,7 +94,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 getSinglePrefrenceString(ProfileActivity.this, R.string.settings_def_storeemail_key);
         if (!checkEmail.startsWith("autoemail") && !checkEmail.endsWith("@mail.com")
                 || checkEmail.equals(Constant.PREF_NULL)) {
-            getBalance();
+
+            if (Eztytopup.getIsUserReseller()){
+                getBalanceReseller();
+            }else {
+                getBalance();
+            }
         }
 
         if (Eztytopup.getSunmiDevice()){
@@ -203,7 +208,34 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 if (response.isSuccessful() &&
                         response.body().status.getCode()
                                 .equals(String.valueOf(HttpURLConnection.HTTP_CREATED))) {
-                    mSaldo.setText(response.body().getBalance().toString());
+
+                    mSaldo.setText(Helper.formatCurrency(response.body().getBalance().toString()));
+                } else {
+                    Log.i(TAG, "onResponse: " + response.body().status.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WalletbalanceResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getBalanceReseller() {
+        String token = PreferenceUtils.getSinglePrefrenceString(ProfileActivity.this,
+                R.string.settings_def_storeaccess_token_key);
+        Call<WalletbalanceResponse> getBalace =
+                Eztytopup.getsAPIService().getWalletResellerbalance(token);
+        getBalace.enqueue(new Callback<WalletbalanceResponse>() {
+            @Override
+            public void onResponse(Call<WalletbalanceResponse> call,
+                                   Response<WalletbalanceResponse> response) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_CREATED))) {
+
+                    mSaldo.setText(Helper.formatCurrency(response.body().getBalance().toString()));
                 } else {
                     Log.i(TAG, "onResponse: " + response.body().status.getMessage());
                 }
@@ -299,7 +331,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 if (response.isSuccessful() && response.body()
                         .status.getCode().equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
                         Helper.log(TAG, "Success profile", null);
-//                    UpdateProfileResponse berhasil = response.body()
                 }
             }
 

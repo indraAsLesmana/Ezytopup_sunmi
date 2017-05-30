@@ -20,6 +20,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.File;
 import java.net.HttpURLConnection;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -280,6 +282,18 @@ public class Helper {
                         }
                     }
                 });
+    }
+
+    public static String formatCurrency(String value) {
+        DecimalFormat kursIna = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
+
+        formatRp.setCurrencySymbol("Rp. ");
+        formatRp.setMonetaryDecimalSeparator(',');
+        formatRp.setGroupingSeparator('.');
+
+        kursIna.setDecimalFormatSymbols(formatRp);
+        return kursIna.format(Double.parseDouble(value));
     }
 
     private static String getDefaultDisplayDateTimeFormat() {

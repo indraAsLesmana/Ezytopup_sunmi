@@ -170,4 +170,11 @@ public interface EzytopupAPI {
     Call<UpdateProfileResponse> setUpdateProfile(@Header("Authorize") String token,
                                                  @Body UpdateProfileResponse updateProfile);
 
+    @GET("WGS_API_get_current_user_wallet_reseller.php?" + API_URL_GENERALUSAGE)
+    Call<WalletbalanceResponse> getWalletResellerbalance(@Header("Authorize") String headerToken);
+
+    @GET("WGS_API_get_order_transaction_history_reseller.php?" + API_URL_GENERALUSAGE)
+    Call<TransactionHistoryResponse> getHistoryReseller(@Header("Authorize") String token,
+                                                        @Query("customerId") String customerId);
+
 }

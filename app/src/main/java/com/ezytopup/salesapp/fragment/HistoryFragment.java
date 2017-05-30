@@ -86,8 +86,13 @@ public class HistoryFragment extends Fragment implements
         token = PreferenceUtils.getSinglePrefrenceString(getContext(),
                 R.string.settings_def_storeaccess_token_key);
 
-        if (!uid.equals(Constant.PREF_NULL) && !token.equals(Constant.PREF_NULL))
-            getHistory(token, uid);
+        if (!uid.equals(Constant.PREF_NULL) && !token.equals(Constant.PREF_NULL)){
+            if (Eztytopup.getIsUserReseller()) {
+                getHistoryreseller(token, uid);
+            } else {
+                getHistory(token, uid);
+            }
+        }
 
         BuyResellerActivity.buynowListener(this);
         return rootView;
@@ -115,6 +120,41 @@ public class HistoryFragment extends Fragment implements
                         adapter.notifyDataSetChanged();
                     }
                 }else {
+                    Toast.makeText(getContext(), response.body().status.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransactionHistoryResponse> call, Throwable t) {
+                Helper.apiSnacbarError(getContext(), t, rootView);
+            }
+        });
+    }
+
+    private void getHistoryreseller(String token, String customerId) {
+        Call<TransactionHistoryResponse> history =
+                Eztytopup.getsAPIService().getHistoryReseller(token, customerId);
+
+        history.enqueue(new Callback<TransactionHistoryResponse>() {
+            @Override
+            public void onResponse(Call<TransactionHistoryResponse> call,
+                                   Response<TransactionHistoryResponse> response) {
+                if (response.isSuccessful() &&
+                        response.body().status.getCode()
+                                .equals(String.valueOf(HttpURLConnection.HTTP_OK))) {
+
+                    if (response.body().result.size() == 0) {
+                        Allhistory.clear();
+                        adapter.notifyDataSetChanged();
+                        view_nodatafound.setVisibility(View.VISIBLE);
+                    } else {
+                        view_nodatafound.setVisibility(View.GONE);
+                        Allhistory.clear();
+                        Allhistory.addAll(response.body().result);
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
                     Toast.makeText(getContext(), response.body().status.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
@@ -407,6 +447,11 @@ public class HistoryFragment extends Fragment implements
 
     @Override
     public void buyNowClick() {
-        getHistory(token, uid);
+
+        if (Eztytopup.getIsUserReseller()){
+            getHistoryreseller(token, uid);
+        }else {
+            getHistory(token, uid);
+        }
     }
 }
